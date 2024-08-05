@@ -1,4 +1,4 @@
-import "./sidebar.scss";
+import "./sidebar.css";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -15,7 +15,7 @@ const Sidebar = () => {
     return (<div className="sidebar">
         <div className="top">
             <Link to="/" style={{textDecoration: "none"}}>
-                <span className="logo">lamadminm</span>
+                <span className="logo">SmartQuiz</span>
             </Link>
         </div>
         <hr/>
