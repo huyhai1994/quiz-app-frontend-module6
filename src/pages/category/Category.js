@@ -1,3 +1,4 @@
+import "./category.css"
 import React from 'react'
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -12,10 +13,10 @@ const Category = () => {
     return (
         <>
             <div className="single">
-                <Navbar/>
+                <Sidebar/>
                 <div className="singleContainer">
-                    <Sidebar/>
-                    <div className="table">
+                    <Navbar/>
+                    <div className="table" style={{marginTop:"150px"}}>
                         <table>
                             <thead>
                             <tr>
