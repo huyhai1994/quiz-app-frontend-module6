@@ -18,9 +18,24 @@ const TeacherList = () => {
 
     return (<div>
         <h1>Teacher List</h1>
-        <ul>
-            {teachers.map(teacher => (<li key={teacher.id}>{teacher.name}</li>))}
-        </ul>
+        <table className="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Registered At</th>
+                <th>Last Login</th>
+            </tr>
+            </thead>
+            <tbody>
+            {teachers.map(teacher => (<tr key={teacher.id}>
+                <td>{teacher.name}</td>
+                <td>{teacher.email}</td>
+                <td>{teacher.registeredAt}</td>
+                <td>{teacher.lastLogin}</td>
+            </tr>))}
+            </tbody>
+        </table>
     </div>);
 };
 
