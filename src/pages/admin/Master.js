@@ -1,41 +1,37 @@
-import React, {useState} from 'react'
-import {Outlet} from "react-router-dom";
-import {Breadcrumb, Layout, Menu, theme} from "antd";
-import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
-import Header from "../../components/header/Header";
-
+import React, {useState} from 'react';
+import {Link, Outlet} from 'react-router-dom';
+import {Breadcrumb, Layout, Menu, theme} from 'antd';
+import {DesktopOutlined, PieChartOutlined, UserOutlined} from '@ant-design/icons';
+import Header from '../../components/header/Header';
 
 const {Content, Footer, Sider} = Layout;
 
-function getItem(label, key, icon, children) {
+function getItem(label, key, icon, children, link) {
     return {
         key,
         icon,
         children,
-        label,
+        label: link ? <Link to={link}>{label}</Link> : label,
     };
 }
-
 
 const items = [
     getItem('Option 1', '1', <PieChartOutlined/>),
     getItem('Option 2', '2', <DesktopOutlined/>),
-    getItem('User', 'sub1', <UserOutlined/>, [
-        getItem('Tom', '3'),
-        getItem('Bill', '4'),
-        getItem('Alex', '5'),
+    getItem('Danh Sách', 'sub1', <UserOutlined/>, [
+        getItem('Giáo viên', '3', null, null, '/admin/teacher-list'), // Link TeacherList component
+        getItem('Chờ duyệt', '4'),
+        getItem('Danh Mục Câu Hỏi ', '5'),
     ]),
-    getItem('Team', 'sub2', <TeamOutlined/>, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    getItem('Files', '9', <FileOutlined/>),
 ];
-
 
 const Master = () => {
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: {colorBgContainer, borderRadiusLG},
     } = theme.useToken();
-    return (<div>
+
+    return (
         <Layout
             style={{
                 minHeight: '100vh',
@@ -48,7 +44,8 @@ const Master = () => {
             <Layout>
                 <Header
                     style={{
-                        padding: 0, background: colorBgContainer,
+                        padding: 0,
+                        background: colorBgContainer,
                     }}
                 />
                 <Content
@@ -66,7 +63,10 @@ const Master = () => {
                     </Breadcrumb>
                     <div
                         style={{
-                            padding: 24, minHeight: 360, background: colorBgContainer, borderRadius: borderRadiusLG,
+                            padding: 24,
+                            minHeight: 360,
+                            background: colorBgContainer,
+                            borderRadius: borderRadiusLG,
                         }}
                     >
                         <Outlet/>
@@ -81,6 +81,7 @@ const Master = () => {
                 </Footer>
             </Layout>
         </Layout>
-    </div>)
-}
-export default Master
+    );
+};
+
+export default Master;
