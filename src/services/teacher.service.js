@@ -10,6 +10,11 @@ class TeacherService {
     static async getPendingTeachers() {
         return await axios.get(API_USER_URL + '/approval-pending');
     }
+
+    static async approveTeacher(teacherId) {
+        return await axios.put(API_USER_URL + '/approval/' + teacherId);
+
+    }
 }
 
 export default TeacherService;
