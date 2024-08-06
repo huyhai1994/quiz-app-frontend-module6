@@ -1,6 +1,9 @@
+import "./category.css"
 import React from 'react'
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
+import {Button} from "@mui/material";
+import {Link} from "react-router-dom";
 
 
 const rows = [
@@ -12,29 +15,67 @@ const Category = () => {
     return (
         <>
             <div className="single">
-                <Navbar/>
+                <Sidebar/>
                 <div className="singleContainer">
-                    <Sidebar/>
-                    <div className="table">
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {rows.map((row) => (
-                                <tr key={row.id}>
-                                    <td>{row.id}</td>
-                                    <td>{row.title}</td>
-                                    <td>{row.description}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
+                    <Navbar/><h1>Category</h1>
+                    <div className="row mb-4">
+                        <form className="d-flex col-12" role="search">
+                            <div className="col-2">
+                                <span>Danh sách từ</span>
+                                <input
+                                    className="form-control me-2"
+                                    type="date"
+                                    placeholder="Search"
+                                    aria-label="Search"
+                                />
+                            </div>
+                            <div className="col-2">
+                                <span>đến</span>
+                                <input
+                                    className="form-control me-2"
+                                    type="date"
+                                    placeholder="Search"
+                                    aria-label="Search"
+                                />
+                            </div>
+                            <button className="btn btn-outline-danger" type="submit">
+                                Xem
+                            </button>
+                        </form>
                     </div>
+                    <table className="table table-hover table-bordered" style={{textAlign: "center"}}>
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Ten danh muc</th>
+                            <th>Mo ta</th>
+                            <th>hanh dong</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <Button>Sua</Button>
+                                <Button>Xoa</Button>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                        <tr>
+                            <td colSpan={8}></td>
+                            <td>
+                                <Link to={"/"}>
+                                    <button className="btn btn-outline-info mb-2">Thêm đơn hàng</button>
+                                </Link>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
