@@ -1,9 +1,10 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import './Register.css';
 
 const Register = () => {
-    return (<div className="container mt-5 col-lg-6">
-        <form action="" className='border p-5 shadow'>
+    return (<div className="container mt-3 col-lg-6">
+        <form action="" className=' p-5 register-form '>
             <div className="form-group mb-3">
                 <h2 className="text-center">Đăng kí</h2>
                 <label htmlFor="fullname">Tên đầy đủ *</label>
@@ -29,7 +30,7 @@ const Register = () => {
                 </select>
             </div>
             <div className="form-group">
-                <button type="submit" className="btn btn-primary w-100">Đăng ký</button>
+                <button type="submit" className="btn  w-100 register-submit-button">Đăng ký</button>
             </div>
             <div className="form-group">
                 <Link className="text-center" to={"/login"}>Đã có tài khoản? Đăng nhập.</Link>

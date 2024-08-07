@@ -12,6 +12,7 @@ import heroImage from '../../asset/teacher.png'
 import {ShieldOutlined} from '@mui/icons-material' // Ensure the path is correct
 import '../../styles/vars.css'
 import './Login.css'
+import {Link} from "react-router-dom";
 
 const {Content} = Layout
 
@@ -53,15 +54,16 @@ const Login = () => {
                                         icon={<MailOutlined/>}
                                         className='login-button-account'
                                     >
-                                        Sử dụng tài khoản Email
+                                        <Link to="/admin" style={{color: 'inherit', textDecoration: 'none'}}>
+                                            Sử dụng tài khoản Email
+                                        </Link>
                                     </Button>
                                 </Form.Item>
                                 <Form.Item>
                                     <Button
                                         type="default"
                                         icon={<FacebookOutlined/>}
-                                        className='login-button-account'
-                                    >
+                                        className='login-button-account'>
                                         Sử dụng tài khoản Facebook
                                     </Button>
                                 </Form.Item>
@@ -96,7 +98,7 @@ const Login = () => {
                                 </Form.Item>
                             </Form>
                             <div style={{textAlign: 'center'}}>
-                                Bạn chưa có tài khoản? <a href="#sign-up">Đăng kí ngay thôi!!</a>
+                                Bạn chưa có tài khoản? <Link to="/register">Đăng kí ngay thôi!!</Link>
                             </div>
                         </div>
                     </Card>

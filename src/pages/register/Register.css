@@ -1,0 +1,35 @@
+@import '../../styles/vars.css';
+
+body {
+    background-color: var(--color-primary);
+}
+
+.register-form {
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--color-bg);
+    border-radius: 5px;
+}
+
+label {
+    color: var(--color-text);
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: var(--color-text);
+    margin-bottom: 20px;
+}
+
+.register-submit-button {
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 20px;
+}
