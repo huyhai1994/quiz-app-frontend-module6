@@ -23,7 +23,7 @@ const QuestionList = () => {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            e.preventDefault(); // Prevent the default form submission behavior
+            e.preventDefault();
             if (searchButtonRef.current) {
                 searchButtonRef.current.click();
             }

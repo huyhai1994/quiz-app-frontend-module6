@@ -12,10 +12,10 @@ function ApprovedApprovalsList() {
     const [searchUserName, setSearchUserName] = useState("");
     const [searchUserEmail, setSearchUserEmail] = useState("");
     const [pageSize] = useState(5);
-    const searchButtonRef = useRef(null); // Create a ref for the search button
+    const searchButtonRef = useRef(null);
 
     useEffect(() => {
-        dispatch(listApprovedApprovals()); // Fetch all data initially
+        dispatch(listApprovedApprovals());
     }, [dispatch]);
 
     useEffect(() => {
@@ -30,9 +30,9 @@ function ApprovedApprovalsList() {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            e.preventDefault(); // Prevent the default form submission behavior
+            e.preventDefault();
             if (searchButtonRef.current) {
-                searchButtonRef.current.click(); // Programmatically click the search button
+                searchButtonRef.current.click();
             }
         }
     };
@@ -62,7 +62,7 @@ function ApprovedApprovalsList() {
                         type="text"
                         value={searchUserName}
                         onChange={(e) => setSearchUserName(e.target.value)}
-                        onKeyDown={handleKeyDown} // Add the keydown event handler
+                        onKeyDown={handleKeyDown}
                         placeholder="Tìm kiếm theo tên"
                         className="form-control"
                     />
@@ -72,7 +72,7 @@ function ApprovedApprovalsList() {
                         type="text"
                         value={searchUserEmail}
                         onChange={(e) => setSearchUserEmail(e.target.value)}
-                        onKeyDown={handleKeyDown} // Add the keydown event handler
+                        onKeyDown={handleKeyDown}
                         placeholder="Tìm kiếm theo email"
                         className="form-control"
                     />
@@ -80,7 +80,7 @@ function ApprovedApprovalsList() {
                 <button
                     className="btn btn-primary"
                     onClick={handleSearch}
-                    ref={searchButtonRef} // Attach the ref to the button
+                    ref={searchButtonRef}
                 >
                     Tìm kiếm
                 </button>
