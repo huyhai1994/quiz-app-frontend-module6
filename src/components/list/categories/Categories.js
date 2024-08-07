@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Button} from "antd";
+import {Breadcrumb, Button} from "antd";
 import CategoryService from "../../../services/category.service";
 import {Link} from "react-router-dom";
 import Swal from "sweetalert2";
@@ -64,6 +64,47 @@ const Categories = () => {
         setItemsPerPage(newItemsPerPage);
     };
 
+    return (<div>
+        <Breadcrumb
+            style={{
+                margin: '16px 0',
+            }}
+        >
+            <Breadcrumb.Item>Danh Sách</Breadcrumb.Item>
+            <Breadcrumb.Item>Danh mục câu hỏi </Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="title col-md-12">
+            <div className="row">
+                <div className="col-md-6">
+                    <h2>Danh mục câu hỏi</h2>
+                </div>
+                <div className="col-md-6 justify-content-end">
+                    <Button type="primary"> Thêm danh mục</Button>
+                </div>
+            </div>
+        </div>
+        <table className="table table-striped">
+            <thead>
+            <tr>
+                <th>Tiêu đề</th>
+                <th>Mô tả</th>
+                <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            {currentCategories.map(category => (<tr key={category.id}>
+                <td>{category.name}</td>
+                <td>{category.description}</td>
+                <td>
+                    <Button type="primary">Sửa</Button>
+                    <Button type="primary" danger>Xóa</Button>
+                </td>
+            </tr>))}
+            </tbody>
+        </table>
+        <div>
+            {Array.from({length: Math.ceil(categories.length / itemsPerPage)}, (_, index) => index + 1).map(page => (
+                <button key={page} onClick={() => paginate(page)}>{page}</button>))}
     return (<div>
         <div className="title col-md-12">
             <div className="row">
