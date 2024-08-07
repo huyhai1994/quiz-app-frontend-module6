@@ -3,7 +3,6 @@ import axios from "axios";
 
 const ApiURL = "http://localhost:8080/teacher-approvals";
 
-// Thunk để lấy danh sách tất cả các teacher approvals
 export const listTeacherApprovals = createAsyncThunk(
     'teacherApproval/listTeacherApprovals',
     async () => {
@@ -16,7 +15,7 @@ export const listTeacherApprovals = createAsyncThunk(
     }
 );
 
-// Thunk để lấy danh sách tất cả các pending approvals
+
 export const listPendingApprovals = createAsyncThunk(
     'teacherApproval/listPendingApprovals',
     async () => {
@@ -29,7 +28,6 @@ export const listPendingApprovals = createAsyncThunk(
     }
 );
 
-// Thunk để lấy danh sách tất cả các approved approvals
 export const listApprovedApprovals = createAsyncThunk(
     'teacherApproval/listApprovedApprovals',
     async () => {
@@ -42,7 +40,6 @@ export const listApprovedApprovals = createAsyncThunk(
     }
 );
 
-// Thunk để tìm kiếm approved approvals theo tên và email
 export const searchApprovedApprovals = createAsyncThunk(
     'teacherApproval/searchApprovedApprovals',
     async ({ userName, userEmail }) => {

@@ -14,7 +14,6 @@ const teacherApprovalSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // Xử lý các trạng thái của listTeacherApprovals
         builder
             .addCase(listTeacherApprovals.pending, (state) => {
                 state.loading = true;
@@ -29,7 +28,7 @@ const teacherApprovalSlice = createSlice({
                 state.error = action.error.message;
             })
 
-            // Xử lý các trạng thái của listPendingApprovals
+
             .addCase(listPendingApprovals.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -43,7 +42,7 @@ const teacherApprovalSlice = createSlice({
                 state.error = action.error.message;
             })
 
-            // Xử lý các trạng thái của listApprovedApprovals
+
             .addCase(listApprovedApprovals.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -57,7 +56,7 @@ const teacherApprovalSlice = createSlice({
                 state.error = action.error.message;
             })
 
-            // Xử lý các trạng thái của searchApprovedApprovals
+
             .addCase(searchApprovedApprovals.pending, (state) => {
                 state.loading = true;
                 state.error = null;
