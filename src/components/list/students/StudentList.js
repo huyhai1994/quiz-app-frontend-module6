@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import StudentService from '../../../services/student.service';
 import {useFormik} from "formik";
+import {Breadcrumb} from "antd";
 
 const StudentList = () => {
     const [students, setStudents] = useState([]);
@@ -30,7 +31,14 @@ const StudentList = () => {
         }
     }, []);
 
-    return (<div>
+    return (<div><Breadcrumb
+        style={{
+            margin: '16px 0',
+        }}
+    >
+        <Breadcrumb.Item>Danh Sách</Breadcrumb.Item>
+        <Breadcrumb.Item>Học Viên </Breadcrumb.Item>
+    </Breadcrumb>
         <h1 className='d-flex align-items-between justify-content-between'>Danh sách Học Viên
             <form
                 className="d-flex mx-1 my-2" role="search"
@@ -54,10 +62,10 @@ const StudentList = () => {
         <table className="table table-striped">
             <thead>
             <tr>
-                <th>Name</th>
+                <th>Tên</th>
                 <th>Email</th>
-                <th>Registered At</th>
-                <th>Last Login</th>
+                <th>Ngày đăng kí</th>
+                <th>Lần cuối truy cập</th>
             </tr>
             </thead>
             <tbody>

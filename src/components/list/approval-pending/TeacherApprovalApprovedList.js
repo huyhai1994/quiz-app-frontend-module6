@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { listApprovedApprovals } from '../../../store/teacherApprovalStore/TeacherApprovalAxios';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {listApprovedApprovals} from '../../../store/teacherApprovalStore/TeacherApprovalAxios';
 import Swal from 'sweetalert2';
-import { format } from 'date-fns';
+import {format} from 'date-fns';
 import Page from "../../pages/Page";
+import {Breadcrumb} from "antd";
 
 function ApprovedApprovalsList() {
     const dispatch = useDispatch();
-    const { approvedApprovals, loading, error } = useSelector((state) => state.teacherApprovals);
+    const {approvedApprovals, loading, error} = useSelector((state) => state.teacherApprovals);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
     const totalPages = Math.ceil(approvedApprovals.length / pageSize);
@@ -38,8 +39,15 @@ function ApprovedApprovalsList() {
 
     const currentData = getCurrentPageData();
 
-    return (
-        <div>
+    return (<div>
+            <Breadcrumb
+                style={{
+                    margin: '16px 0',
+                }}
+            >
+                <Breadcrumb.Item>Danh Sách</Breadcrumb.Item>
+                <Breadcrumb.Item>Đã duyệt</Breadcrumb.Item>
+            </Breadcrumb>
             <h1>Danh Sách Giáo Viên Được Chấp Thuận</h1>
             <table className="table table-striped">
                 <thead>
@@ -52,21 +60,15 @@ function ApprovedApprovalsList() {
                 </tr>
                 </thead>
                 <tbody>
-                {currentData.length > 0 ? (
-                    currentData.map((approval) => (
-                        <tr key={approval.idTeacherApprovals}>
+                {currentData.length > 0 ? (currentData.map((approval) => (<tr key={approval.idTeacherApprovals}>
                             <td>{approval.idTeacherApprovals}</td>
                             <td>{approval.userName}</td>
                             <td>{approval.userEmail}</td>
                             <td>{approval.teacherApprovalsStatus}</td>
                             <td>{format(new Date(approval.approvedAt), 'dd-MM-yyyy - HH:mm:ss')}</td>
-                        </tr>
-                    ))
-                ) : (
-                    <tr>
+                        </tr>))) : (<tr>
                         <td colSpan="5">Không có dữ liệu</td>
-                    </tr>
-                )}
+                    </tr>)}
                 </tbody>
             </table>
             <Page
@@ -74,8 +76,7 @@ function ApprovedApprovalsList() {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-        </div>
-    );
+        </div>);
 }
 
 export default ApprovedApprovalsList;
