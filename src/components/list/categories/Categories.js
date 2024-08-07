@@ -35,8 +35,8 @@ const Categories = () => {
                     <div className="col-md-6">
                         <h2>Danh mục câu hỏi</h2>
                     </div>
-                    <div className="col-md-6 justify-content-end">
-                        <Link to="/admin/add-category"><Button className="text-bg-success ju" type="primary"> Thêm danh mục</Button> </Link>
+                    <div className="col-md-6">
+                        <Link to="/admin/add-category"><Button className="text-bg-success justify-content-end" type="primary"> Thêm danh mục</Button> </Link>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@ const Categories = () => {
                             <td>{category.name}</td>
                             <td>{category.description}</td>
                             <td>
-                                <Button type="primary">Sửa</Button>
+                                <Button type="primary" >Sửa</Button>
                                 <Button type="primary" danger>Xóa</Button>
                             </td>
                         </tr>
