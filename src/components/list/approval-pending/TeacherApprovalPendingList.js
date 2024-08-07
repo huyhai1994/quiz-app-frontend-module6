@@ -22,17 +22,17 @@ const TeacherApprovalPendingList = () => {
             console.log(`Teacher with ID ${teacherId} approved successfully.`);
 
             // Update the teacher's status in the local state
-            const updatedTeachers = teachers.map(teacher =>
-                teacher.id === teacherId ? {...teacher, status: 'approved'} : teacher
-            );
+            const updatedTeachers = teachers.map(teacher => teacher.id === teacherId ? {
+                ...teacher,
+                status: 'approved'
+            } : teacher);
             setTeachers(updatedTeachers);
         } catch (error) {
             console.error('Error approving teacher:', error);
         }
     };
 
-    return (
-        <div>
+    return (<div>
             <h1>Danh sách chờ duyệt</h1>
             <table className="table table-striped">
                 <thead>
@@ -45,8 +45,7 @@ const TeacherApprovalPendingList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {teachers.map(teacher => (
-                    <tr key={teacher.id}>
+                {teachers.map(teacher => (<tr key={teacher.id}>
                         <td>{teacher.name}</td>
                         <td>{teacher.email}</td>
                         <td>{teacher.registeredAt}</td>
@@ -60,12 +59,10 @@ const TeacherApprovalPendingList = () => {
                                 {teacher.status === 'approved' ? 'Approved' : 'Approval'}
                             </button>
                         </td>
-                    </tr>
-                ))}
+                    </tr>))}
                 </tbody>
             </table>
-        </div>
-    );
+        </div>);
 };
 
 export default TeacherApprovalPendingList;
