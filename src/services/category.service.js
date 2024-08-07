@@ -1,5 +1,4 @@
 import axios from "axios";
-import {API_USER_URL} from "../configs/backend.configs";
 
 class CategoryService {
     static async getAllCategories() {

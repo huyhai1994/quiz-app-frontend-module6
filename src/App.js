@@ -12,6 +12,7 @@ import Categories from "./components/list/categories/Categories";
 import TeacherApprovalApprovedList from "./components/list/approval-pending/TeacherApprovalApprovedList";
 import QuestionList from "./components/list/question/QuestionList";
 import QuizList from "./components/list/quiz/QuizList";
+import StudentList from "./components/list/students/StudentList";
 
 
 function App() {
@@ -20,13 +21,14 @@ function App() {
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
-            <Route path={"/abcde"} element={<TeacherApprovalApprovedList/>}></Route>
-            <Route path={"/tien"} element={<QuestionList/>}></Route>
-            <Route path={"/hai"} element={<QuizList/>}></Route>
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
+                <Route path={"question"} element={<QuestionList/>}></Route>
+                <Route path={"quiz"} element={<QuizList/>}></Route>
+                <Route path={"teacher/approved"} element={<TeacherApprovalApprovedList/>}></Route>
                 <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>
                 <Route path="teacher-list" element={<TeacherList/>}/>
+                <Route path="student-list" element={<StudentList/>}/>
             </Route>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
