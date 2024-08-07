@@ -35,12 +35,21 @@ const Categories = () => {
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "Xóa",
+                cancelButtonText: "Hủy"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Đã xóa!", icon: "success"
-                    });
+                    try {
+                        Swal.fire({
+                            title: "Đã xóa!", icon: "success"
+                        });
+                    }catch {
+                        Swal.fire({
+                            title: "Không thể xóa!",
+                            text: "Danh mục này đang có câu hỏi, bạn không thể xóa danh mục này.",
+                            icon: "error"
+                        });
+                    }
                 }
             });
             setLoading(!loading);
