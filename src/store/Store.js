@@ -13,7 +13,7 @@ const store = configureStore({
         category: categoryReducer,
         options: optionReducer,
         questions: questionReducer,
-        quiz: quizReducer,
+        quizzes: quizReducer,
         results: resultReducer,
         roles: roleReducer,
         teacherApprovals: teacherApprovalReducer,

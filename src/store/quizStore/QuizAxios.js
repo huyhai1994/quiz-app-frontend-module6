@@ -1,7 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 
-const ApiURL = "http://localhost:3000/quiz";
+const ApiURL = "http://localhost:8080/quiz";
 
 export const ListQuiz = createAsyncThunk('listQuiz', async () => {
     const response = await axios.get(ApiURL + "/list");

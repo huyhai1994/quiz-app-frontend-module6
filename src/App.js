@@ -9,6 +9,9 @@ import TeacherApprovalPendingList from "./components/list/approval-pending/Teach
 import React from "react";
 import TeacherList from "./components/list/teachers/TeacherList";
 import Categories from "./components/list/categories/Categories";
+import TeacherApprovalApprovedList from "./components/list/approval-pending/TeacherApprovalApprovedList";
+import QuestionList from "./components/list/question/QuestionList";
+import QuizList from "./components/list/quiz/QuizList";
 
 
 function App() {
@@ -17,6 +20,9 @@ function App() {
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
+            <Route path={"/abcde"} element={<TeacherApprovalApprovedList/>}></Route>
+            <Route path={"/tien"} element={<QuestionList/>}></Route>
+            <Route path={"/hai"} element={<QuizList/>}></Route>
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
                 <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>

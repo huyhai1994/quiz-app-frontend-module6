@@ -1,7 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 
-const ApiURL = "http://localhost:3000/user";
+const ApiURL = "http://localhost:8080/user";
 
 export const deleteUser = createAsyncThunk('deleteUser', async (id) => {
     await axios.delete(`${ApiURL}/delete/${id}`);
