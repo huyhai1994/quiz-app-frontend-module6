@@ -12,11 +12,15 @@ class CategoryService {
         return await axios.post(API_ADD_CATEGORY_URL, data);
     }
 
-    static async updateCategory(categoryId) {
-        return await axios.put(`${API_UPDATE_CATEGORY_URL}/${categoryId}`);
+    static async updateCategory(categoryId ,data) {
+        return await axios.put(`${API_UPDATE_CATEGORY_URL}/${categoryId}`, data);
     }
+
     static async findCategoryById(categoryId) {
         return await axios.get(`${API_CATEGORIES_URL}/${categoryId}`);
+    }
+    static async destroyCategory(categoryId) {
+        return await axios.delete(`${API_CATEGORIES_URL}/${categoryId}`);
     }
 
 

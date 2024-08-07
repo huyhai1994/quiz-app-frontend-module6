@@ -26,6 +26,7 @@ const EditCategory = () => {
         },
         onSubmit: (values) => {
             CategoryService.updateCategory(id, values).then(res => {
+                console.log(values)
                 Swal.fire('Success', 'Category updated successfully', 'success')
                 console.log("a")
                 navigate("/admin/categories")
