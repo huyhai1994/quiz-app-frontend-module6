@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Button} from "antd";
 import CategoryService from "../../../services/category.service";
+import {Link} from "react-router-dom";
 
 const Categories = () => {
     const [categories, setCategories] = useState([]);
@@ -35,7 +36,7 @@ const Categories = () => {
                         <h2>Danh mục câu hỏi</h2>
                     </div>
                     <div className="col-md-6 justify-content-end">
-                        <Button type="primary"> Thêm danh mục</Button>
+                        <Link to="/admin/add-category"><Button className="text-bg-success ju" type="primary"> Thêm danh mục</Button> </Link>
                     </div>
                 </div>
             </div>
