@@ -5,10 +5,13 @@ import Register from "./pages/register/Register";
 import Home from "./pages/home/Home";
 import Master from "./pages/admin/Master";
 import NotFound from "./pages/notfound/NotFound";
-import Category from "./pages/category/Category";
 import TeacherApprovalPendingList from "./components/list/approval-pending/TeacherApprovalPendingList";
 import React from "react";
 import TeacherList from "./components/list/teachers/TeacherList";
+import Categories from "./components/list/categories/Categories";
+import TeacherApprovalApprovedList from "./components/list/approval-pending/TeacherApprovalApprovedList";
+import QuestionList from "./components/list/question/QuestionList";
+import QuizList from "./components/list/quiz/QuizList";
 
 
 function App() {
@@ -18,7 +21,10 @@ function App() {
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/admin" element={<Master/>}>
-                <Route path="category" element={<Category/>}/>
+                <Route path="categories" element={<Categories/>}/>
+                <Route path={"question"} element={<QuestionList/>}></Route>
+                <Route path={"quiz"} element={<QuizList/>}></Route>
+                <Route path={"teacher/approved"} element={<TeacherApprovalApprovedList/>}></Route>
                 <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>
                 <Route path="teacher-list" element={<TeacherList/>}/>
             </Route>
