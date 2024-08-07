@@ -1,6 +1,6 @@
 import axios from "axios";
 import {
-    API_ADD_CATEGORY_URL, API_CATEGORIES_URL, API_UPDATE_CATEGORY_URL
+    API_ADD_CATEGORY_URL, API_CATEGORIES_URL, API_DELETE_CATEGORY_URL, API_UPDATE_CATEGORY_URL
 } from "../configs/backend.configs";
 
 class CategoryService {
@@ -20,7 +20,7 @@ class CategoryService {
         return await axios.get(`${API_CATEGORIES_URL}/${categoryId}`);
     }
     static async destroyCategory(categoryId) {
-        return await axios.delete(`${API_CATEGORIES_URL}/${categoryId}`);
+        return await axios.delete(`${API_DELETE_CATEGORY_URL}/${categoryId}`);
     }
 
 

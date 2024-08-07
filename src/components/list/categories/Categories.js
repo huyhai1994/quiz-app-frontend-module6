@@ -4,9 +4,14 @@ import CategoryService from "../../../services/category.service";
 import {Link} from "react-router-dom";
 
 const Categories = () => {
+    const [process, setProcess] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(20);
+    const indexOfLastCategory = currentPage * itemsPerPage;
+    const indexOfFirstCategory = indexOfLastCategory - itemsPerPage;
+    const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -21,9 +26,18 @@ const Categories = () => {
         fetchCategories();
     }, []);
 
-    const indexOfLastCategory = currentPage * itemsPerPage;
-    const indexOfFirstCategory = indexOfLastCategory - itemsPerPage;
-    const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
+    const deleteCategory = (id) => {
+        if (window.confirm('Are you sure you want to delete')){
+            setProcess(true)
+            CategoryService.destroyCategory(id).then(() =>{
+                setLoading(!loading);
+                console.log('deleted')
+                alert('deleted');
+            } )
+        }
+    }
+
+
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -55,7 +69,7 @@ const Categories = () => {
                         <td>{category.description}</td>
                         <td>
                             <Link to={"/admin/edit/" + category.id}><Button type="primary">Sửa</Button></Link>
-                            <Button type="primary" danger>Xóa</Button>
+                            <Button type="primary" onClick={() => deleteCategory(category.id)} danger>Xóa</Button>
                         </td>
                     </tr>))}
                 </tbody>
