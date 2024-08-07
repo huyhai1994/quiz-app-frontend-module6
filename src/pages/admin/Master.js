@@ -20,8 +20,9 @@ const items = [
     getItem('Option 2', '2', <DesktopOutlined/>),
     getItem('Danh Sách', 'sub1', <UserOutlined/>, [
         getItem('Giáo viên', '3', null, null, '/admin/teacher-list'), // Link TeacherList component
-        getItem('Chờ duyệt', '4', null, null, '/admin/pending-list'), // Link PendingQuestions component
-        getItem('Danh Mục Câu Hỏi ', '5', null, null, '/admin/categories'), // Link Categories component
+        getItem('Học Viên', '4', null, null, '/admin/student-list'),
+        getItem('Chờ duyệt', '5', null, null, '/admin/pending-list'), // Link PendingQuestions component
+        getItem('Danh Mục Câu Hỏi ', '6', null, null, '/admin/categories'), // Link Categories component
     ]),
 ];
 
