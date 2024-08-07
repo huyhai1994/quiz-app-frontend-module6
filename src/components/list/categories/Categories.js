@@ -54,7 +54,7 @@ const Categories = () => {
                         <td>{category.name}</td>
                         <td>{category.description}</td>
                         <td>
-                            <Link to={"/admin/edit-category/" + category.id}><Button type="primary">Sửa</Button></Link>
+                            <Link to={"/admin/edit/" + category.id}><Button type="primary">Sửa</Button></Link>
                             <Button type="primary" danger>Xóa</Button>
                         </td>
                     </tr>))}

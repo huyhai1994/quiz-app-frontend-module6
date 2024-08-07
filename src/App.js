@@ -9,8 +9,8 @@ import TeacherApprovalPendingList from "./components/list/approval-pending/Teach
 import React from "react";
 import TeacherList from "./components/list/teachers/TeacherList";
 import Categories from "./components/list/categories/Categories";
-import AddCategory from "./components/list/categories/AddCategory";
 import EditCategory from "./components/list/categories/EditCategory";
+import AddCategory from "./components/list/categories/AddCategory";
 
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
                 <Route path="add-category" element={<AddCategory/>}/>
-                <Route path=":id/edit" element={<EditCategory/>}/>
+                <Route path="edit/:id" element={<EditCategory/>}/>
                 <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>
                 <Route path="teacher-list" element={<TeacherList/>}/>
             </Route>

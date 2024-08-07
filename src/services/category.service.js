@@ -15,6 +15,9 @@ class CategoryService {
     static async updateCategory(categoryId) {
         return await axios.put(`${API_UPDATE_CATEGORY_URL}/${categoryId}`);
     }
+    static async findCategoryById(categoryId) {
+        return await axios.get(`${API_CATEGORIES_URL}/${categoryId}`);
+    }
 
 
 }
