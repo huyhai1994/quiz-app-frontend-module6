@@ -9,6 +9,8 @@ import TeacherApprovalPendingList from "./components/list/approval-pending/Teach
 import React from "react";
 import TeacherList from "./components/list/teachers/TeacherList";
 import Categories from "./components/list/categories/Categories";
+import EditCategory from "./components/list/categories/EditCategory";
+import AddCategory from "./components/list/categories/AddCategory";
 import TeacherApprovalApprovedList from "./components/list/approval-pending/TeacherApprovalApprovedList";
 import QuestionList from "./components/list/question/QuestionList";
 import QuizList from "./components/list/quiz/QuizList";
@@ -23,6 +25,8 @@ function App() {
             <Route path="/register" element={<Register/>}/>
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
+                <Route path="add-category" element={<AddCategory/>}/>
+                <Route path="edit/:id" element={<EditCategory/>}/>
                 <Route path={"question"} element={<QuestionList/>}></Route>
                 <Route path={"quiz"} element={<QuizList/>}></Route>
                 <Route path={"teacher/approved"} element={<TeacherApprovalApprovedList/>}></Route>
