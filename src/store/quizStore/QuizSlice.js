@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {CreateQuiz, DeleteQuiz, ListQuiz, UpdateQuiz} from "./QuizAxios";
+import {CreateQuiz, DeleteQuiz, ListQuiz, ListTeacherQuizzes, UpdateQuiz} from "./QuizAxios";
 
 
 const initialState = {
@@ -37,6 +37,17 @@ const quizSlice = createSlice({
             })
             .addCase(DeleteQuiz.fulfilled, (state, action) => {
                 state.quizzes = state.quizzes.filter(q => q.id !== action.payload);
+            })
+            .addCase(ListTeacherQuizzes.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(ListTeacherQuizzes.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.quizzes = action.payload;
+            })
+            .addCase(ListTeacherQuizzes.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
             });
     },
 });

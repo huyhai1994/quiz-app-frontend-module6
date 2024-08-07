@@ -1,17 +1,19 @@
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Page from '../../pages/Page';
 import { format } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { ListQuiz } from "../../../store/quizStore/QuizAxios";
-import Page from "../../pages/Page"; // Import component phân trang
+import {ListTeacherQuizzes} from "../../../store/quizStore/QuizAxios";
 
-const QuizList = () => {
+
+const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
     const { quizzes, loading, error } = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
 
     useEffect(() => {
-        dispatch(ListQuiz());
+        const userId = 1;
+        dispatch(ListTeacherQuizzes(userId));
     }, [dispatch]);
 
     if (loading) {
@@ -38,7 +40,7 @@ const QuizList = () => {
 
     return (
         <div>
-            <h2>Quiz List</h2>
+            <h2>Teacher Quiz List</h2>
             <table className="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -46,25 +48,23 @@ const QuizList = () => {
                     <th>Tiêu đề</th>
                     <th>Mô tả</th>
                     <th>Người tạo</th>
-                    <th>Email người tạo</th>
                     <th>Thời gian tạo</th>
                 </tr>
                 </thead>
                 <tbody>
                 {currentData.length > 0 ? (
-                    currentData.map((quiz , index) => (
+                    currentData.map((quiz, index) => (
                         <tr key={quiz.quizzesId}>
-                            <td>{index + 1}</td>
+                            <td>{(currentPage - 1) * pageSize + index + 1}</td>
                             <td>{quiz.quizzesTitle}</td>
                             <td>{quiz.quizzesDescription}</td>
                             <td>{quiz.usersName}</td>
-                            <td>{quiz.userEmail}</td>
                             <td>{format(new Date(quiz.quizzesTimeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
                         </tr>
                     ))
                 ) : (
                     <tr>
-                        <td colSpan="6">Không có dữ liệu</td>
+                        <td colSpan="5">Không có dữ liệu</td>
                     </tr>
                 )}
                 </tbody>
@@ -78,4 +78,4 @@ const QuizList = () => {
     );
 };
 
-export default QuizList;
+export default ListTeacherQuizzesComponent;

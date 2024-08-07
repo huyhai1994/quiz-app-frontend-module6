@@ -22,3 +22,8 @@ export const DeleteQuiz = createAsyncThunk('deleteQuiz', async (id) => {
     await axios.delete(ApiURL + "/delete/" + id);
     return id;
 });
+
+export const ListTeacherQuizzes = createAsyncThunk('teacherQuiz/list', async (userId) => {
+    const response = await axios.get(`${ApiURL}/list-teacher/${userId}`);
+    return response.data;
+});

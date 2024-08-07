@@ -17,3 +17,8 @@ export const SearchQuestions = createAsyncThunk('searchQuestions', async({ categ
     const response = await axios.get(`${ApiURL}/search/questions?categoryName=${category}&questionName=${question}`);
     return response.data;
 })
+
+export const ListTeacherQuestion = createAsyncThunk('teacherQuestion/list', async (userId) => {
+    const response = await axios.get(`${ApiURL}/list-teacher/${userId}`);
+    return response.data;
+});

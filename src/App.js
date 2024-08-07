@@ -12,6 +12,8 @@ import Categories from "./components/list/categories/Categories";
 import TeacherApprovalApprovedList from "./components/list/approval-pending/TeacherApprovalApprovedList";
 import QuestionList from "./components/list/question/QuestionList";
 import QuizList from "./components/list/quiz/QuizList";
+import QuizTeacherList from "./components/ListTeacher/QuizTeacher/QuizTeacherList";
+import ListTeacherQuestions from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
 
 
 function App() {
@@ -20,7 +22,10 @@ function App() {
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
+            <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
+            <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
             <Route path="/admin" element={<Master/>}>
+
                 <Route path="categories" element={<Categories/>}/>
                 <Route path={"question"} element={<QuestionList/>}></Route>
                 <Route path={"quiz"} element={<QuizList/>}></Route>

@@ -88,7 +88,7 @@ function ApprovedApprovalsList() {
             <table className="table table-striped">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>STT</th>
                     <th>Tên</th>
                     <th>Email</th>
                     <th>Trạng Thái</th>
@@ -97,9 +97,9 @@ function ApprovedApprovalsList() {
                 </thead>
                 <tbody>
                 {currentData.length > 0 ? (
-                    currentData.map((approval) => (
+                    currentData.map((approval , index) => (
                         <tr key={approval.idTeacherApprovals}>
-                            <td>{approval.idTeacherApprovals}</td>
+                            <td>{index + 1}</td>
                             <td>{approval.userName}</td>
                             <td>{approval.userEmail}</td>
                             <td>{approval.teacherApprovalsStatus}</td>

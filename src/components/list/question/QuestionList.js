@@ -79,7 +79,7 @@ const QuestionList = () => {
             <table className="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>STT</th>
                     <th>Câu hỏi</th>
                     <th>Danh mục</th>
                     <th>Loại</th>
@@ -88,9 +88,9 @@ const QuestionList = () => {
                 </thead>
                 <tbody>
                 {currentData.length > 0 ? (
-                    currentData.map((question) => (
+                    currentData.map((question , index) => (
                         <tr key={question.questionId}>
-                            <td>{question.questionId}</td>
+                            <td>{index + 1}</td>
                             <td>{question.questionText}</td>
                             <td>{question.categoryName}</td>
                             <td>{question.typeName}</td>
