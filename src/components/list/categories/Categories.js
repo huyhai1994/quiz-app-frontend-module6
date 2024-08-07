@@ -41,23 +41,23 @@ const Categories = () => {
             </div>
             <table className="table table-striped">
                 <thead>
-                    <tr>
-                        <th>Tiêu đề</th>
-                        <th>Mô tả</th>
-                        <th>Thao tác</th>
-                    </tr>
+                <tr>
+                    <th>Tiêu đề</th>
+                    <th>Mô tả</th>
+                    <th>Thao tác</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {currentCategories.map(category => (
-                        <tr key={category.id}>
-                            <td>{category.name}</td>
-                            <td>{category.description}</td>
-                            <td>
-                                <Button type="primary">Sửa</Button>
-                                <Button type="primary" danger>Xóa</Button>
-                            </td>
-                        </tr>
-                    ))}
+                {currentCategories.map(category => (
+                    <tr key={category.id}>
+                        <td>{category.name}</td>
+                        <td>{category.description}</td>
+                        <td>
+                            <Button type="primary">Sửa</Button>
+                            <Button type="primary" danger>Xóa</Button>
+                        </td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
             <div>
