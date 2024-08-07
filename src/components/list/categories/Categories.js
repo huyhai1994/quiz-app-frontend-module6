@@ -22,6 +22,7 @@ const Categories = () => {
             } catch (err) {
                 console.error('Error fetching Categories list: ', err);
             }
+
         };
         fetchCategories();
     }, []);
