@@ -12,6 +12,7 @@ const Categories = () => {
         const fetchCategories = async () => {
             try {
                 const response = await CategoryService.getAllCategories();
+                console.log(response);
                 setCategories(response.data);
             } catch (err) {
                 console.error('Error fetching Categories list: ', err);
@@ -28,46 +29,42 @@ const Categories = () => {
         setCurrentPage(pageNumber);
     };
 
-    return (
-        <div>
+    return (<div>
             <div className="title col-md-12">
                 <div className="row">
                     <div className="col-md-6">
                         <h2>Danh mục câu hỏi</h2>
                     </div>
                     <div className="col-md-6">
-                        <Link to="/admin/add-category"><Button className="text-bg-success justify-content-end" type="primary"> Thêm danh mục</Button> </Link>
+                        <Link to="/admin/add-category"><Button className="text-bg-success justify-content-end"
+                                                               type="primary"> Thêm danh mục</Button> </Link>
                     </div>
                 </div>
             </div>
             <table className="table table-striped">
                 <thead>
-                    <tr>
-                        <th>Tiêu đề</th>
-                        <th>Mô tả</th>
-                        <th>Thao tác</th>
-                    </tr>
+                <tr>
+                    <th>Tiêu đề</th>
+                    <th>Mô tả</th>
+                    <th>Thao tác</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {currentCategories.map(category => (
-                        <tr key={category.id}>
-                            <td>{category.name}</td>
-                            <td>{category.description}</td>
-                            <td>
-                                <Button type="primary" >Sửa</Button>
-                                <Button type="primary" danger>Xóa</Button>
-                            </td>
-                        </tr>
-                    ))}
+                {currentCategories.map(category => (<tr key={category.id}>
+                        <td>{category.name}</td>
+                        <td>{category.description}</td>
+                        <td>
+                            <Link to={"/admin/edit-category/" + category.id}><Button type="primary">Sửa</Button></Link>
+                            <Button type="primary" danger>Xóa</Button>
+                        </td>
+                    </tr>))}
                 </tbody>
             </table>
             <div>
                 {Array.from({length: Math.ceil(categories.length / itemsPerPage)}, (_, index) => index + 1).map(page => (
-                    <button key={page} onClick={() => paginate(page)}>{page}</button>
-                ))}
+                    <button key={page} onClick={() => paginate(page)}>{page}</button>))}
             </div>
-        </div>
-    );
+        </div>);
 };
 
 export default Categories;

@@ -13,7 +13,7 @@ const AddCategory = () => {
                 text: "Danh mục mới đã được tạo",
                 icon: "success"
             });
-            console.log('tahnh cong')
+
             navigate("/admin/categories")
         }).catch(err => {
             console.log("that bai")
