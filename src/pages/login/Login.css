@@ -1,0 +1,68 @@
+@import '../../styles/vars.css';
+
+.logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.ant-layout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #5a2c82 !important;
+}
+
+.ant-layout-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #5a2c82;
+}
+
+.ant-card {
+    width: 50%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.ant-card .ant-card-body {
+    padding: 20px;
+}
+
+.ant-card-body .ant-btn {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.ant-card-body .ant-btn:last-child {
+    margin-bottom: 20px;
+}
+
+.ant-card-body .ant-form-item {
+    margin-bottom: 0;
+}
+
+.ant-card-body .ant-form-item .ant-btn {
+    margin-right: 4%;
+    width: 22%;
+}
+
+.ant-card-body .ant-form-item .ant-btn:last-child {
+    margin-right: 0;
+}
+
+.ant-card-footer {
+    background-color: #5a2c82;
+    color: white;
+}
+
+a {
+    color: #5a2c82;
+}
+
+a:hover {
+    color: #7a3c9a;
+}
