@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {CreateQuestion, ListQuestion} from "./QuestionAxios";
+import {CreateQuestion, ListQuestion, SearchCategoryName, SearchQuestionName, SearchQuestions} from "./QuestionAxios";
 
 const initialState = {
     questions: [],
@@ -16,7 +16,10 @@ const questionSlice = createSlice({
             })
             .addCase(CreateQuestion.fulfilled, (state, action) => {
                 state.questions.push(action.payload);
-            });
+            })
+            .addCase(SearchQuestions.fulfilled , (state, action) => {
+                state.questions = action.payload;
+            })
     },
 });
 

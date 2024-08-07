@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { listApprovedApprovals } from '../../../store/teacherApprovalStore/TeacherApprovalAxios';
+import { listApprovedApprovals, searchApprovedApprovals } from '../../../store/teacherApprovalStore/TeacherApprovalAxios';
 import Swal from 'sweetalert2';
 import { format } from 'date-fns';
 import Page from "../../pages/Page";
@@ -9,11 +9,13 @@ function ApprovedApprovalsList() {
     const dispatch = useDispatch();
     const { approvedApprovals, loading, error } = useSelector((state) => state.teacherApprovals);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 5;
-    const totalPages = Math.ceil(approvedApprovals.length / pageSize);
+    const [searchUserName, setSearchUserName] = useState("");
+    const [searchUserEmail, setSearchUserEmail] = useState("");
+    const [pageSize] = useState(5);
+    const searchButtonRef = useRef(null); // Create a ref for the search button
 
     useEffect(() => {
-        dispatch(listApprovedApprovals());
+        dispatch(listApprovedApprovals()); // Fetch all data initially
     }, [dispatch]);
 
     useEffect(() => {
@@ -21,6 +23,19 @@ function ApprovedApprovalsList() {
             Swal.fire('Lỗi', error, 'error');
         }
     }, [error]);
+
+    const handleSearch = () => {
+        dispatch(searchApprovedApprovals({ userName: searchUserName, userEmail: searchUserEmail }));
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent the default form submission behavior
+            if (searchButtonRef.current) {
+                searchButtonRef.current.click(); // Programmatically click the search button
+            }
+        }
+    };
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -41,6 +56,35 @@ function ApprovedApprovalsList() {
     return (
         <div>
             <h1>Danh Sách Giáo Viên Được Chấp Thuận</h1>
+            <div className="mb-3 d-flex">
+                <div className="me-2 flex-grow-1">
+                    <input
+                        type="text"
+                        value={searchUserName}
+                        onChange={(e) => setSearchUserName(e.target.value)}
+                        onKeyDown={handleKeyDown} // Add the keydown event handler
+                        placeholder="Tìm kiếm theo tên"
+                        className="form-control"
+                    />
+                </div>
+                <div className="me-2 flex-grow-1">
+                    <input
+                        type="text"
+                        value={searchUserEmail}
+                        onChange={(e) => setSearchUserEmail(e.target.value)}
+                        onKeyDown={handleKeyDown} // Add the keydown event handler
+                        placeholder="Tìm kiếm theo email"
+                        className="form-control"
+                    />
+                </div>
+                <button
+                    className="btn btn-primary"
+                    onClick={handleSearch}
+                    ref={searchButtonRef} // Attach the ref to the button
+                >
+                    Tìm kiếm
+                </button>
+            </div>
             <table className="table table-striped">
                 <thead>
                 <tr>
@@ -71,7 +115,7 @@ function ApprovedApprovalsList() {
             </table>
             <Page
                 currentPage={currentPage}
-                totalPages={totalPages}
+                totalPages={Math.ceil(approvedApprovals.length / pageSize)}
                 onPageChange={handlePageChange}
             />
         </div>

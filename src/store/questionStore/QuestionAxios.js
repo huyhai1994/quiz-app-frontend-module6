@@ -12,3 +12,8 @@ export const CreateQuestion = createAsyncThunk('createQuestion', async (question
     const response = await axios.post(ApiURL + "/create", question);
     return response.data;
 });
+
+export const SearchQuestions = createAsyncThunk('searchQuestions', async({ category, question }) => {
+    const response = await axios.get(`${ApiURL}/search/questions?categoryName=${category}&questionName=${question}`);
+    return response.data;
+})
