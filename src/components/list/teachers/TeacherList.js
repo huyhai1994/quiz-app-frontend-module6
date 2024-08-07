@@ -1,5 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import TeacherService from '../../../services/teacher.service';
+import {Input} from 'antd';
+
+const {Search} = Input;
+const onSearch = (value, _e, info) => console.log(info?.source, value);
 
 const TeacherList = () => {
     const [teachers, setTeachers] = useState([]);
@@ -28,7 +32,16 @@ const TeacherList = () => {
     };
 
     return (<div>
-        <h1>Teacher List</h1>
+        <h1 className='d-flex align-items-between justify-content-between'>Teacher List <Search
+            placeholder="input search text"
+            allowClear
+            style={{
+                width: 400,
+            }}
+            enterButton="Search"
+            size="large"
+            onSearch={onSearch}
+        /></h1>
         <table className="table table-striped">
             <thead>
             <tr>
