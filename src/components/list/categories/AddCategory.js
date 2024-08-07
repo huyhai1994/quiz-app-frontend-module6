@@ -9,24 +9,18 @@ const AddCategory = () => {
     const onFinish = (values: any) => {
         CategoryService.addCategory(values).then(res => {
             Swal.fire({
-                name: "Thành công",
-                text: "Danh mục mới đã được tạo",
-                icon: "success"
+                name: "Thành công", text: "Danh mục mới đã được tạo", icon: "success"
             });
-            console.log('tahnh cong')
             navigate("/admin/categories")
         }).catch(err => {
             console.log("that bai")
             Swal.fire({
-                name: "Lỗi",
-                text: "Đã xảy ra lỗi khi tạo danh mục",
-                icon: "error"
+                name: "Lỗi", text: "Đã xảy ra lỗi khi tạo danh mục", icon: "error"
             });
         })
     }
-    
-    return (
-        <div>
+
+    return (<div>
             <h1>Tạo danh mục</h1>
             <Form name="wrap" labelCol={{flex: '110px'}} labelAlign="left" labelWrap wrapperCol={{flex: 1}}
                   colon={false} style={{maxWidth: 600}} onFinish={onFinish}>
@@ -47,7 +41,6 @@ const AddCategory = () => {
                     </Button></Link>
                 </Form.Item>
             </Form>
-        </div>
-    )
+        </div>)
 }
 export default AddCategory

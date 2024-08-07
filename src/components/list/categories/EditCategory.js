@@ -13,18 +13,15 @@ const EditCategory = () => {
     useEffect(() => {
         CategoryService.findCategoryById(id).then((res) => {
             formEditCategory.setValues({
-                name: res.data.name,
-                description: res.data.description
+                name: res.data.name, description: res.data.description
             })
         })
-    }, []);
+    },);
 
     const formEditCategory = useFormik({
         initialValues: {
-            name: '',
-            description: ''
-        },
-        onSubmit: (values) => {
+            name: '', description: ''
+        }, onSubmit: (values) => {
             CategoryService.updateCategory(id, values).then(res => {
                 console.log(values)
                 Swal.fire('Success', 'Category updated successfully', 'success')
@@ -37,8 +34,7 @@ const EditCategory = () => {
         }
     })
 
-    return (
-        <div>
+    return (<div>
             <div className="card"><h1>Edit Category</h1>
                 <form onSubmit={formEditCategory.handleSubmit}>
                     <div>
@@ -58,8 +54,7 @@ const EditCategory = () => {
                     </div>
                 </form>
             </div>
-        </div>
-    )
+        </div>)
 }
 
 export default EditCategory

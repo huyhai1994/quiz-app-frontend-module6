@@ -49,8 +49,9 @@ const Categories = () => {
     }
 
 
-    const paginate = (pageNumber) => {
+    const paginate = (pageNumber,  newItemsPerPage) => {
         setCurrentPage(pageNumber);
+        setItemsPerPage(newItemsPerPage);
     };
 
     return (<div>
@@ -86,7 +87,7 @@ const Categories = () => {
         </table>
         <div>
             {Array.from({length: Math.ceil(categories.length / itemsPerPage)}, (_, index) => index + 1).map(page => (
-                <button key={page} onClick={() => paginate(page)}>{page}</button>))}
+                <button key={page} onClick={() => paginate(page, 10)}>{page}</button>))}
         </div>
     </div>);
 };
