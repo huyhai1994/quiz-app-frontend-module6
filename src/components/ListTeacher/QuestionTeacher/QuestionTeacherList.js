@@ -1,22 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { listApprovedApprovals, searchApprovedApprovals } from '../../../store/teacherApprovalStore/TeacherApprovalAxios';
-import Swal from 'sweetalert2';
-import { format } from 'date-fns';
+import { format } from "date-fns";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import Page from "../../pages/Page";
-import { TailSpin } from 'react-loader-spinner';
+import { ListTeacherQuestion } from "../../../store/questionStore/QuestionAxios";
+import Swal from "sweetalert2";
+import { TailSpin } from "react-loader-spinner";
 
-function ApprovedApprovalsList() {
+const ListTeacherQuestions = () => {
     const dispatch = useDispatch();
-    const { approvedApprovals, loading, error } = useSelector((state) => state.teacherApprovals);
+    const { questions, loading, error } = useSelector((state) => state.questions);
     const [currentPage, setCurrentPage] = useState(1);
-    const [searchUserName, setSearchUserName] = useState("");
-    const [searchUserEmail, setSearchUserEmail] = useState("");
-    const [pageSize] = useState(5);
-    const searchButtonRef = useRef(null);
+    const pageSize = 5;
 
     useEffect(() => {
-        dispatch(listApprovedApprovals());
+        const userId = 2;
+        dispatch(ListTeacherQuestion(userId));
     }, [dispatch]);
 
     useEffect(() => {
@@ -24,29 +22,6 @@ function ApprovedApprovalsList() {
             Swal.fire('Lỗi', error, 'error');
         }
     }, [error]);
-
-    const handleSearch = () => {
-        dispatch(searchApprovedApprovals({ userName: searchUserName, userEmail: searchUserEmail }));
-    };
-
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            if (searchButtonRef.current) {
-                searchButtonRef.current.click();
-            }
-        }
-    };
-
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-    const getCurrentPageData = () => {
-        const startIndex = (currentPage - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        return approvedApprovals.slice(startIndex, endIndex);
-    };
 
     if (loading) {
         return (
@@ -56,59 +31,42 @@ function ApprovedApprovalsList() {
         );
     }
 
+    const totalPages = Math.ceil(questions.length / pageSize);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const getCurrentPageData = () => {
+        const startIndex = (currentPage - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        return questions.slice(startIndex, endIndex);
+    };
+
     const currentData = getCurrentPageData();
 
     return (
         <div>
-            <h1>Danh Sách Giáo Viên Được Chấp Thuận</h1>
-            <div className="mb-3 d-flex">
-                <div className="me-2 flex-grow-1">
-                    <input
-                        type="text"
-                        value={searchUserName}
-                        onChange={(e) => setSearchUserName(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Tìm kiếm theo tên"
-                        className="form-control"
-                    />
-                </div>
-                <div className="me-2 flex-grow-1">
-                    <input
-                        type="text"
-                        value={searchUserEmail}
-                        onChange={(e) => setSearchUserEmail(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Tìm kiếm theo email"
-                        className="form-control"
-                    />
-                </div>
-                <button
-                    className="btn btn-primary"
-                    onClick={handleSearch}
-                    ref={searchButtonRef}
-                >
-                    Tìm kiếm
-                </button>
-            </div>
-            <table className="table table-striped">
+            <h2>Danh sách câu hỏi của giáo viên</h2>
+            <table className="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>STT</th>
-                    <th>Tên</th>
-                    <th>Email</th>
-                    <th>Trạng Thái</th>
-                    <th>Ngày Chấp Thuận</th>
+                    <th>Câu hỏi</th>
+                    <th>Danh mục</th>
+                    <th>Loại</th>
+                    <th>Thời gian tạo</th>
                 </tr>
                 </thead>
                 <tbody>
                 {currentData.length > 0 ? (
-                    currentData.map((approval, index) => (
-                        <tr key={approval.idTeacherApprovals}>
+                    currentData.map((question, index) => (
+                        <tr key={question.questionId}>
                             <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                            <td>{approval.userName}</td>
-                            <td>{approval.userEmail}</td>
-                            <td>{approval.teacherApprovalsStatus}</td>
-                            <td>{format(new Date(approval.approvedAt), 'dd-MM-yyyy - HH:mm:ss')}</td>
+                            <td>{question.questionText}</td>
+                            <td>{question.categoryName}</td>
+                            <td>{question.typeName}</td>
+                            <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
                         </tr>
                     ))
                 ) : (
@@ -120,11 +78,11 @@ function ApprovedApprovalsList() {
             </table>
             <Page
                 currentPage={currentPage}
-                totalPages={Math.ceil(approvedApprovals.length / pageSize)}
+                totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
         </div>
     );
-}
+};
 
-export default ApprovedApprovalsList;
+export default ListTeacherQuestions;

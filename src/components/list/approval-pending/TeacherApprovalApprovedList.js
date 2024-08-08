@@ -4,6 +4,7 @@ import { listApprovedApprovals, searchApprovedApprovals } from '../../../store/t
 import Swal from 'sweetalert2';
 import { format } from 'date-fns';
 import Page from "../../pages/Page";
+import { TailSpin } from 'react-loader-spinner';
 
 function ApprovedApprovalsList() {
     const dispatch = useDispatch();
@@ -48,7 +49,11 @@ function ApprovedApprovalsList() {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <TailSpin color="#00BFFF" height={80} width={80} />
+            </div>
+        );
     }
 
     const currentData = getCurrentPageData();
@@ -97,9 +102,9 @@ function ApprovedApprovalsList() {
                 </thead>
                 <tbody>
                 {currentData.length > 0 ? (
-                    currentData.map((approval , index) => (
+                    currentData.map((approval, index) => (
                         <tr key={approval.idTeacherApprovals}>
-                            <td>{index + 1}</td>
+                            <td>{(currentPage - 1) * pageSize + index + 1}</td>
                             <td>{approval.userName}</td>
                             <td>{approval.userEmail}</td>
                             <td>{approval.teacherApprovalsStatus}</td>
