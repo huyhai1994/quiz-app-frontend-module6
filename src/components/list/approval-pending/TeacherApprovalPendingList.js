@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import TeacherService from '../../../services/teacher.service';
 import {Breadcrumb} from "antd";
+import Swal from "sweetalert2";
 
 const TeacherApprovalPendingList = () => {
     const [teachers, setTeachers] = useState([]);
@@ -20,12 +21,13 @@ const TeacherApprovalPendingList = () => {
     const approveTeacher = async (teacherId) => {
         try {
             await TeacherService.approveTeacher(teacherId);
-            console.log(`Teacher with ID ${teacherId} approved successfully.`);
+            await Swal.fire({
+                title: " Duyệt tài khoản !", text: "Đã thành công", icon: "success"
+            });
 
             // Update the teacher's status in the local state
             const updatedTeachers = teachers.map(teacher => teacher.id === teacherId ? {
-                ...teacher,
-                status: 'approved'
+                ...teacher, status: 'approved'
             } : teacher);
             setTeachers(updatedTeachers);
         } catch (error) {
