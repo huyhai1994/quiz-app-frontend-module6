@@ -13,28 +13,10 @@ import TeacherApprovalApprovedList from "./components/list/approval-pending/Teac
 import QuestionList from "./components/list/question/QuestionList";
 import QuizList from "./components/list/quiz/QuizList";
 import StudentList from "./components/list/students/StudentList";
-<<<<<<< HEAD
 import AuthLayout from "./components/auth/AuthLayout";
 import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
-
-function App() {
-    return (
-            <Routes>
-                <Route path="/" element={<Home />}/>
-                <Route path="/login" element={
-                    <AuthLayout title="Login">
-                        <LoginForm />
-                    </AuthLayout>
-                } />
-                <Route path="/register" element={
-                    <AuthLayout title="Register">
-                        <RegisterForm />
-                    </AuthLayout>
-                } />
-=======
 import {ConfigProvider, theme} from "antd";
-
 
 function App() {
     return (
@@ -73,32 +55,27 @@ function App() {
         }}>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/register" element={<Register/>}/>
->>>>>>> c74bb760074fe99da274d2bae9ed70ea6aae1bea
+                <Route path="/login" element={<AuthLayout title="Login">
+                    <LoginForm/>
+                </AuthLayout>}/>
+                <Route path="/register" element={<AuthLayout title="Register">
+                    <RegisterForm/>
+                </AuthLayout>}/>
                 <Route path="/admin" element={<Master/>}>
                     <Route path="categories" element={<Categories/>}/>
                     <Route path="add-category" element={<AddCategory/>}/>
                     <Route path="edit/:id" element={<EditCategory/>}/>
-                    <Route path={"question"} element={<QuestionList/>}></Route>
-                    <Route path={"quiz"} element={<QuizList/>}></Route>
-                    <Route path={"teacher/approved"} element={<TeacherApprovalApprovedList/>}></Route>
+                    <Route path="question" element={<QuestionList/>}/>
+                    <Route path="quiz" element={<QuizList/>}/>
+                    <Route path="teacher/approved" element={<TeacherApprovalApprovedList/>}/>
                     <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>
                     <Route path="teacher-list" element={<TeacherList/>}/>
                     <Route path="student-list" element={<StudentList/>}/>
                 </Route>
-<<<<<<< HEAD
-                <Route path="*" element={<NotFound/>} />
-            </Routes>
-    );
-=======
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
-
         </ConfigProvider>
     )
-        ;
->>>>>>> c74bb760074fe99da274d2bae9ed70ea6aae1bea
 }
 
 export default App;
