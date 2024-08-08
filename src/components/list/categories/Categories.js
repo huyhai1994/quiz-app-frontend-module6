@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Breadcrumb, Button} from "antd";
+import {Button} from "antd";
 import CategoryService from "../../../services/category.service";
 import {Link} from "react-router-dom";
 import Swal from "sweetalert2";
@@ -44,7 +44,7 @@ const Categories = () => {
                         Swal.fire({
                             title: "Đã xóa!", icon: "success"
                         });
-                    }catch {
+                    } catch {
                         Swal.fire({
                             title: "Không thể xóa!",
                             text: "Danh mục này đang có câu hỏi, bạn không thể xóa danh mục này.",
@@ -59,7 +59,7 @@ const Categories = () => {
     }
 
 
-    const paginate = (pageNumber,  newItemsPerPage) => {
+    const paginate = (pageNumber, newItemsPerPage) => {
         setCurrentPage(pageNumber);
         setItemsPerPage(newItemsPerPage);
     };
