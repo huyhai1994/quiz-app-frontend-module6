@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { ListQuestion } from "../../../store/questionStore/QuestionAxios";
-import { format } from "date-fns";
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {Breadcrumb} from "antd";
+import {ListQuestion} from "../../../store/questionStore/QuestionAxios";
+import {format} from "date-fns";
 import Page from "../../pages/Page"; // Import component phân trang
 
 const QuestionList = () => {
@@ -9,6 +10,7 @@ const QuestionList = () => {
     const questions = useSelector((state) => state.questions.questions);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
+
     useEffect(() => {
         dispatch(ListQuestion());
     }, [dispatch]);
@@ -28,41 +30,54 @@ const QuestionList = () => {
     const currentData = getCurrentPageData();
 
     return (
-        <div className="container mt-5">
-            <h2>Questions List</h2>
-            <table className="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Question</th>
-                    <th>Category</th>
-                    <th>Type</th>
-                    <th>Time Created</th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentData.length > 0 ? (
-                    currentData.map((question) => (
-                        <tr key={question.questionId}>
-                            <td>{question.questionId}</td>
-                            <td>{question.questionText}</td>
-                            <td>{question.categoryName}</td>
-                            <td>{question.typeName}</td>
-                            <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
-                        </tr>
-                    ))
-                ) : (
+        <div>
+            <Breadcrumb
+                style={{
+                    margin: '16px 0',
+                }}
+            >
+                <Breadcrumb.Item>Danh Sách</Breadcrumb.Item>
+                <Breadcrumb.Item>Câu hỏi</Breadcrumb.Item>
+            </Breadcrumb>
+            <div className="container-fluid mt-5">
+                <h1>Danh Sách Câu Hỏi</h1>
+                <table className="table table-bordered table-striped">
+                    <thead>
                     <tr>
-                        <td colSpan="5">No data available</td>
+                        <th>#</th>
+                        <th>Câu Hỏi</th>
+                        <th>Danh Mục Câu Hỏi</th>
+                        <th>Lựa Chọn (số lượng)</th>
+                        <th>Thời gian tạo</th>
                     </tr>
-                )}
-                </tbody>
-            </table>
-            <Page
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
+                    </thead>
+                    <tbody>
+                    {currentData.length > 0 ? (
+                        currentData.map((question, index) => (
+                            <tr key={question.questionId}>
+                                <td>{index + 1 + (currentPage - 1) * pageSize}</td>
+                                <td>{question.questionText}</td>
+                                <td>{question.categoryName}</td>
+                                <td>{question.typeName}</td>
+                                <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="5">No data available</td>
+                        </tr>
+                    )}
+                    </tbody>
+                </table>
+
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                    <Page
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                </div>
+            </div>
         </div>
     );
 };
