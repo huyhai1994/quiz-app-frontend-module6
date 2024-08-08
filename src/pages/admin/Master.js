@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link, Outlet, useNavigate} from 'react-router-dom';
 import {Layout, Menu, theme} from 'antd';
-import {DesktopOutlined, PieChartOutlined, UserOutlined} from '@ant-design/icons';
+import {UserOutlined} from '@ant-design/icons';
 import Header from '../../components/header/Header';
 import '../../styles/vars.css';
 
@@ -13,8 +13,7 @@ function getItem(label, key, icon, children, link) {
     };
 }
 
-const items = [getItem('Option 1', '1', <PieChartOutlined/>), getItem('Option 2', '2',
-    <DesktopOutlined/>), getItem('Danh Sách', 'sub1',
+const items = [getItem('Danh Sách', 'sub1',
     <UserOutlined/>, [getItem('Giáo viên', '3', null, null, '/admin/teacher-list'), getItem('Học Viên', '4', null, null, '/admin/student-list'), getItem('Chờ duyệt', '5', null, null, '/admin/pending-list'), getItem('đã duyệt ', '6', null, null, '/admin/teacher/approved'), getItem('Danh Mục Câu Hỏi ', '7', null, null, '/admin/categories'), getItem('Danh sách  Câu Hỏi ', '8', null, null, '/admin/question')]),];
 
 

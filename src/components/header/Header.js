@@ -1,17 +1,9 @@
 import React, {useState} from 'react';
-import {MailOutlined} from '@ant-design/icons';
 import {Menu} from 'antd';
 import {useNavigate} from "react-router-dom";
 
-const items = [{
-    label: 'Navigation One', key: 'mail', icon: <MailOutlined/>,
-},
-
+const items = [
     {
-        key: 'alipay', label: (<a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-            Navigation Four - Link
-        </a>),
-    }, {
         label: 'Welcome Admin', key: 'admin',
     }, {
         key: 'logout', label: <span className="logout-button">Logout</span>,

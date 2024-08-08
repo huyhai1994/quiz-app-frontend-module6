@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 const AddCategory = () => {
     const navigate = useNavigate();
-    const onFinish = (values: any) => {
+    const onFinish = (values) => {
         CategoryService.addCategory(values).then(res => {
             Swal.fire({
                 name: "Thành công", text: "Danh mục mới đã được tạo", icon: "success"
@@ -21,26 +21,26 @@ const AddCategory = () => {
     }
 
     return (<div>
-            <h1>Tạo danh mục</h1>
-            <Form name="wrap" labelCol={{flex: '110px'}} labelAlign="left" labelWrap wrapperCol={{flex: 1}}
-                  colon={false} style={{maxWidth: 600}} onFinish={onFinish}>
-                <Form.Item label="Tiêu đề" name="name" rules={[{required: true}]}>
-                    <Input/>
-                </Form.Item>
+        <h1>Tạo danh mục</h1>
+        <Form name="wrap" labelCol={{flex: '110px'}} labelAlign="left" labelWrap wrapperCol={{flex: 1}}
+              colon={false} style={{maxWidth: 600}} onFinish={onFinish}>
+            <Form.Item label="Tiêu đề" name="name" rules={[{required: true}]}>
+                <Input/>
+            </Form.Item>
 
-                <Form.Item label="Mô tả" name="description" rules={[{required: true}]}>
-                    <Input/>
-                </Form.Item>
+            <Form.Item label="Mô tả" name="description" rules={[{required: true}]}>
+                <Input/>
+            </Form.Item>
 
-                <Form.Item label=" ">
-                    <Button type="primary" htmlType="submit" style={{marginRight: "8px"}}>
-                        Xác nhận
-                    </Button>
-                    <Link to={"/admin/categories"}><Button type="primary" htmlType="submit" danger>
-                        Hủy
-                    </Button></Link>
-                </Form.Item>
-            </Form>
-        </div>)
+            <Form.Item label=" ">
+                <Button type="primary" htmlType="submit" style={{marginRight: "8px"}}>
+                    Xác nhận
+                </Button>
+                <Link to={"/admin/categories"}><Button type="primary" htmlType="submit" danger>
+                    Hủy
+                </Button></Link>
+            </Form.Item>
+        </Form>
+    </div>)
 }
 export default AddCategory
