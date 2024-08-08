@@ -6,6 +6,7 @@ const initialState = {
     quizzes: [],
     loading: false,
     error: null,
+    status: 'idle',
 };
 
 const quizSlice = createSlice({

@@ -8,8 +8,10 @@ export const ListQuiz = createAsyncThunk('listQuiz', async () => {
     return response.data;
 });
 
-export const CreateQuiz = createAsyncThunk('createQuiz', async (quiz) => {
-    const response = await axios.post(ApiURL + "/create", quiz);
+export const CreateQuiz = createAsyncThunk('createQuiz', async ({ quiz, userId }) => {
+    const response = await axios.post(`${ApiURL}/create`, quiz, {
+        params: { userId }
+    });
     return response.data;
 });
 

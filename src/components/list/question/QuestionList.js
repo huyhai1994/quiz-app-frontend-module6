@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListQuestion, SearchQuestions } from "../../../store/questionStore/QuestionAxios";
 import { format } from "date-fns";
@@ -8,25 +8,21 @@ const QuestionList = () => {
     const dispatch = useDispatch();
     const questions = useSelector((state) => state.questions.questions);
     const [currentPage, setCurrentPage] = useState(1);
-    const [searchCategory, setSearchCategory] = useState("");
-    const [searchQuestion, setSearchQuestion] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
     const pageSize = 5;
-    const searchButtonRef = useRef(null);
 
     useEffect(() => {
         dispatch(ListQuestion());
     }, [dispatch]);
 
     const handleSearch = () => {
-        dispatch(SearchQuestions({ category: searchCategory, question: searchQuestion }));
+        dispatch(SearchQuestions(searchTerm));
     };
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            if (searchButtonRef.current) {
-                searchButtonRef.current.click();
-            }
+            handleSearch();
         }
     };
 
@@ -48,30 +44,19 @@ const QuestionList = () => {
         <div className="container mt-5">
             <h2>Danh sách câu hỏi</h2>
             <div className="mb-3 d-flex">
-                <div className="me-2 flex-grow-1">
+                <div className="flex-grow-1">
                     <input
                         type="text"
-                        value={searchQuestion}
-                        onChange={(e) => setSearchQuestion(e.target.value)}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder="Tìm kiếm theo câu hỏi"
-                        className="form-control"
-                    />
-                </div>
-                <div className="me-2 flex-grow-1">
-                    <input
-                        type="text"
-                        value={searchCategory}
-                        onChange={(e) => setSearchCategory(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Tìm kiếm theo danh mục"
+                        placeholder="Tìm kiếm theo danh mục hoặc câu hỏi"
                         className="form-control"
                     />
                 </div>
                 <button
-                    className="btn btn-primary"
+                    className="btn btn-primary ms-2"
                     onClick={handleSearch}
-                    ref={searchButtonRef}
                 >
                     Tìm kiếm
                 </button>
@@ -88,7 +73,7 @@ const QuestionList = () => {
                 </thead>
                 <tbody>
                 {currentData.length > 0 ? (
-                    currentData.map((question , index) => (
+                    currentData.map((question, index) => (
                         <tr key={question.questionId}>
                             <td>{index + 1}</td>
                             <td>{question.questionText}</td>

@@ -14,6 +14,7 @@ import QuestionList from "./components/list/question/QuestionList";
 import QuizList from "./components/list/quiz/QuizList";
 import QuizTeacherList from "./components/ListTeacher/QuizTeacher/QuizTeacherList";
 import ListTeacherQuestions from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
+import QuizTeacherAdd from "./components/ListTeacher/QuizTeacher/QuizTeacherAdd";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
+            <Route path={"/quiz/create"} element={<QuizTeacherAdd/>}></Route>
             <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
             <Route path="/admin" element={<Master/>}>
 

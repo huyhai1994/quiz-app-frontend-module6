@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Page from '../../pages/Page';
-import { format } from "date-fns";
+import { format } from 'date-fns';
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {ListTeacherQuizzes} from "../../../store/quizStore/QuizAxios";
-
+import Page from "../../pages/Page";
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
@@ -12,7 +11,7 @@ const ListTeacherQuizzesComponent = () => {
     const pageSize = 5;
 
     useEffect(() => {
-        const userId = 1;
+        const userId = 2;
         dispatch(ListTeacherQuizzes(userId));
     }, [dispatch]);
 
@@ -53,15 +52,19 @@ const ListTeacherQuizzesComponent = () => {
                 </thead>
                 <tbody>
                 {currentData.length > 0 ? (
-                    currentData.map((quiz, index) => (
-                        <tr key={quiz.quizzesId}>
-                            <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                            <td>{quiz.quizzesTitle}</td>
-                            <td>{quiz.quizzesDescription}</td>
-                            <td>{quiz.usersName}</td>
-                            <td>{format(new Date(quiz.quizzesTimeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
-                        </tr>
-                    ))
+                    currentData.map((quiz, index) => {
+                        const timeCreate = new Date(quiz.quizzesTimeCreate);
+                        const formattedDate = isNaN(timeCreate.getTime()) ? 'N/A' : format(timeCreate, 'dd-MM-yyyy - HH:mm:ss');
+                        return (
+                            <tr key={quiz.quizzesId}>
+                                <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                                <td>{quiz.quizzesTitle}</td>
+                                <td>{quiz.quizzesDescription}</td>
+                                <td>{quiz.usersName}</td>
+                                <td>{formattedDate}</td>
+                            </tr>
+                        );
+                    })
                 ) : (
                     <tr>
                         <td colSpan="5">Không có dữ liệu</td>
