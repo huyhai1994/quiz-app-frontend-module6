@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ListQuestion, SearchQuestions } from "../../../store/questionStore/QuestionAxios";
 import { format } from "date-fns";
 import Page from "../../pages/Page";
+import { TailSpin } from 'react-loader-spinner';
+import Swal from 'sweetalert2';
 
 const QuestionList = () => {
     const dispatch = useDispatch();
-    const questions = useSelector((state) => state.questions.questions);
+    const { questions, loading, error } = useSelector((state) => state.questions);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
     const pageSize = 5;
@@ -14,6 +16,17 @@ const QuestionList = () => {
     useEffect(() => {
         dispatch(ListQuestion());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Đã có lỗi xảy ra!',
+                footer: `<p>${error}</p>`
+            });
+        }
+    }, [error]);
 
     const handleSearch = () => {
         dispatch(SearchQuestions(searchTerm));
@@ -39,6 +52,14 @@ const QuestionList = () => {
     };
 
     const currentData = getCurrentPageData();
+
+    if (loading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <TailSpin color="#00BFFF" height={80} width={80} />
+            </div>
+        );
+    }
 
     return (
         <div className="container mt-5">
@@ -75,7 +96,7 @@ const QuestionList = () => {
                 {currentData.length > 0 ? (
                     currentData.map((question, index) => (
                         <tr key={question.questionId}>
-                            <td>{index + 1}</td>
+                            <td>{(currentPage - 1) * pageSize + index + 1}</td>
                             <td>{question.questionText}</td>
                             <td>{question.categoryName}</td>
                             <td>{question.typeName}</td>
