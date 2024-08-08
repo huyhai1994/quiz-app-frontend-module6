@@ -1,7 +1,7 @@
 import {ComponentPreview, Previews} from '@react-buddy/ide-toolbox'
 import {PaletteTree} from './palette'
-import RegisterhtmlForm from "../pages/register/Register";
-import Register from "../pages/register/Register";
+import RegisterhtmlForm from "../components/auth/RegisterForm";
+import Register from "../components/auth/RegisterForm";
 
 const ComponentPreviews = () => {
     return (
