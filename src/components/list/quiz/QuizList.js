@@ -1,12 +1,12 @@
-import { format } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { ListQuiz } from "../../../store/quizStore/QuizAxios";
+import {format} from "date-fns";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import {ListQuiz} from "../../../store/quizStore/QuizAxios";
 import Page from "../../pages/Page"; // Import component phân trang
 
 const QuizList = () => {
     const dispatch = useDispatch();
-    const { quizzes, loading, error } = useSelector((state) => state.quizzes);
+    const {quizzes, loading, error} = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
 
@@ -69,11 +69,14 @@ const QuizList = () => {
                 )}
                 </tbody>
             </table>
-            <Page
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
+
+            <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                <Page
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            </div>
         </div>
     );
 };
