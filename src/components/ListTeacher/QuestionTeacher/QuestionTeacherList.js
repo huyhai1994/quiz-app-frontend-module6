@@ -1,29 +1,42 @@
-import { format } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { listApprovedApprovals, searchApprovedApprovals } from '../../../store/teacherApprovalStore/TeacherApprovalAxios';
+import Swal from 'sweetalert2';
+import { format } from 'date-fns';
 import Page from "../../pages/Page";
-import {ListTeacherQuestion} from "../../../store/questionStore/QuestionAxios";
+import { TailSpin } from 'react-loader-spinner';
 
-const ListTeacherQuestions = () => {
+function ApprovedApprovalsList() {
     const dispatch = useDispatch();
-    const { questions, loading, error } = useSelector((state) => state.questions);
+    const { approvedApprovals, loading, error } = useSelector((state) => state.teacherApprovals);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 5;
+    const [searchUserName, setSearchUserName] = useState("");
+    const [searchUserEmail, setSearchUserEmail] = useState("");
+    const [pageSize] = useState(5);
+    const searchButtonRef = useRef(null);
 
     useEffect(() => {
-        const userId = 2;
-        dispatch(ListTeacherQuestion(userId));
+        dispatch(listApprovedApprovals());
     }, [dispatch]);
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    useEffect(() => {
+        if (error) {
+            Swal.fire('Lỗi', error, 'error');
+        }
+    }, [error]);
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    const handleSearch = () => {
+        dispatch(searchApprovedApprovals({ userName: searchUserName, userEmail: searchUserEmail }));
+    };
 
-    const totalPages = Math.ceil(questions.length / pageSize);
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (searchButtonRef.current) {
+                searchButtonRef.current.click();
+            }
+        }
+    };
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -32,33 +45,70 @@ const ListTeacherQuestions = () => {
     const getCurrentPageData = () => {
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
-        return questions.slice(startIndex, endIndex);
+        return approvedApprovals.slice(startIndex, endIndex);
     };
+
+    if (loading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <TailSpin color="#00BFFF" height={80} width={80} />
+            </div>
+        );
+    }
 
     const currentData = getCurrentPageData();
 
     return (
         <div>
-            <h2>Teacher Questions List</h2>
-            <table className="table table-bordered table-striped">
+            <h1>Danh Sách Giáo Viên Được Chấp Thuận</h1>
+            <div className="mb-3 d-flex">
+                <div className="me-2 flex-grow-1">
+                    <input
+                        type="text"
+                        value={searchUserName}
+                        onChange={(e) => setSearchUserName(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Tìm kiếm theo tên"
+                        className="form-control"
+                    />
+                </div>
+                <div className="me-2 flex-grow-1">
+                    <input
+                        type="text"
+                        value={searchUserEmail}
+                        onChange={(e) => setSearchUserEmail(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Tìm kiếm theo email"
+                        className="form-control"
+                    />
+                </div>
+                <button
+                    className="btn btn-primary"
+                    onClick={handleSearch}
+                    ref={searchButtonRef}
+                >
+                    Tìm kiếm
+                </button>
+            </div>
+            <table className="table table-striped">
                 <thead>
                 <tr>
                     <th>STT</th>
-                    <th>Câu hỏi</th>
-                    <th>Danh mục</th>
-                    <th>Loại</th>
-                    <th>Thời gian tạo</th>
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>Trạng Thái</th>
+                    <th>Ngày Chấp Thuận</th>
                 </tr>
                 </thead>
                 <tbody>
                 {currentData.length > 0 ? (
-                    currentData.map((question, index) => (
-                        <tr key={question.questionId}>
+                    currentData.map((approval, index) => (
+                        <tr key={approval.idTeacherApprovals}>
                             <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                            <td>{question.questionText}</td>
-                            <td>{question.categoryName}</td>
-                            <td>{question.typeName}</td>
-                            <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
+                            <td>{approval.userName}</td>
+                            <td>{approval.userEmail}</td>
+                            <td>{approval.teacherApprovalsStatus}</td>
+                            <td>{format(new Date(approval.approvedAt), 'dd-MM-yyyy - HH:mm:ss')}</td>
                         </tr>
                     ))
                 ) : (
@@ -70,11 +120,11 @@ const ListTeacherQuestions = () => {
             </table>
             <Page
                 currentPage={currentPage}
-                totalPages={totalPages}
+                totalPages={Math.ceil(approvedApprovals.length / pageSize)}
                 onPageChange={handlePageChange}
             />
         </div>
     );
-};
+}
 
-export default ListTeacherQuestions;
+export default ApprovedApprovalsList;
