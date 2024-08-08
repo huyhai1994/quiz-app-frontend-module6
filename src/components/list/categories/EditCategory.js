@@ -18,13 +18,13 @@ const EditCategory = () => {
                 name: res.data.name, description: res.data.description
             })
         })
-    },);
+    },[id]);
 
     const formEditCategory = useFormik({
         initialValues: {
             name: '', description: ''
         }, onSubmit: (values) => {
-            CategoryService.updateCategory(id, values).then(res => {
+            CategoryService.updateCategory(id ,values).then(res => {
                 console.log(values)
                 Swal.fire('Success', 'Category updated successfully', 'success')
                 console.log("a")
