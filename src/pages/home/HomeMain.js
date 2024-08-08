@@ -5,7 +5,7 @@ import heroImage from '../../asset/img.png';
 const Main = () => {
     return (<main>
         <section className="hero">
-            <div className="hero-text">
+            <div className="hero-text text-center">
                 <h1>Con người biết nhiều hơn những gì mình hiểu.
                 </h1>
                 <p>
