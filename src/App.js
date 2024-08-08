@@ -1,7 +1,5 @@
 import './App.css';
 import {Route, Routes} from "react-router-dom";
-import Login from "./pages/login/Login";
-import Register from "./pages/register/Register";
 import Home from "./pages/home/Home";
 import Master from "./pages/admin/Master";
 import NotFound from "./pages/notfound/NotFound";
@@ -15,6 +13,26 @@ import TeacherApprovalApprovedList from "./components/list/approval-pending/Teac
 import QuestionList from "./components/list/question/QuestionList";
 import QuizList from "./components/list/quiz/QuizList";
 import StudentList from "./components/list/students/StudentList";
+<<<<<<< HEAD
+import AuthLayout from "./components/auth/AuthLayout";
+import LoginForm from "./components/auth/LoginForm";
+import RegisterForm from "./components/auth/RegisterForm";
+
+function App() {
+    return (
+            <Routes>
+                <Route path="/" element={<Home />}/>
+                <Route path="/login" element={
+                    <AuthLayout title="Login">
+                        <LoginForm />
+                    </AuthLayout>
+                } />
+                <Route path="/register" element={
+                    <AuthLayout title="Register">
+                        <RegisterForm />
+                    </AuthLayout>
+                } />
+=======
 import {ConfigProvider, theme} from "antd";
 
 
@@ -57,6 +75,7 @@ function App() {
                 <Route path="/" element={<Home/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>
+>>>>>>> c74bb760074fe99da274d2bae9ed70ea6aae1bea
                 <Route path="/admin" element={<Master/>}>
                     <Route path="categories" element={<Categories/>}/>
                     <Route path="add-category" element={<AddCategory/>}/>
@@ -68,12 +87,18 @@ function App() {
                     <Route path="teacher-list" element={<TeacherList/>}/>
                     <Route path="student-list" element={<StudentList/>}/>
                 </Route>
+<<<<<<< HEAD
+                <Route path="*" element={<NotFound/>} />
+            </Routes>
+    );
+=======
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
 
         </ConfigProvider>
     )
         ;
+>>>>>>> c74bb760074fe99da274d2bae9ed70ea6aae1bea
 }
 
 export default App;
