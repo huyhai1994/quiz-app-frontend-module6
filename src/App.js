@@ -13,6 +13,7 @@ import TeacherApprovalApprovedList from "./components/list/approval-pending/Teac
 import QuestionList from "./components/list/question/QuestionList";
 import QuizList from "./components/list/quiz/QuizList";
 import StudentList from "./components/list/students/StudentList";
+<<<<<<< HEAD
 import AuthLayout from "./components/auth/AuthLayout";
 import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
@@ -31,6 +32,50 @@ function App() {
                         <RegisterForm />
                     </AuthLayout>
                 } />
+=======
+import {ConfigProvider, theme} from "antd";
+
+
+function App() {
+    return (
+        <ConfigProvider theme={{
+            algorithm: [theme.defaultAlgorithm],
+            cssVar: true,
+            token: {
+                // Seed Token
+                // colorPrimary: '#00b96b',
+                // borderRadius: 2,
+
+                // Alias Token
+                // colorBgContainer: '#f6ffed',
+                // colorPrimaryBg: '#e6f7ff',
+                // colorLink: '#1890ff',
+                // headerBg: '#5a2c82',
+            },
+            components: {
+                Layout: {
+                    lightTriggerBg: '#48216b',
+                    lightTriggerColor: '#fff',
+                    lightSiderBg: '#5a2c82',
+                },
+                Menu: {
+                    itemBg: '#5a2c82',
+                    itemColor: '#ddd',
+                    itemHoverColor: '#fff',
+                    itemSelectedBg: '#48216b',
+                    itemActiveBg: '#48216b',
+                    itemSelectedColor: '#e6f4ff',
+                },
+                Dropdown: {
+                    background: '#5a2c82',
+                },
+            },
+        }}>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/register" element={<Register/>}/>
+>>>>>>> c74bb760074fe99da274d2bae9ed70ea6aae1bea
                 <Route path="/admin" element={<Master/>}>
                     <Route path="categories" element={<Categories/>}/>
                     <Route path="add-category" element={<AddCategory/>}/>
@@ -42,9 +87,18 @@ function App() {
                     <Route path="teacher-list" element={<TeacherList/>}/>
                     <Route path="student-list" element={<StudentList/>}/>
                 </Route>
+<<<<<<< HEAD
                 <Route path="*" element={<NotFound/>} />
             </Routes>
     );
+=======
+                <Route path="*" element={<NotFound/>}/>
+            </Routes>
+
+        </ConfigProvider>
+    )
+        ;
+>>>>>>> c74bb760074fe99da274d2bae9ed70ea6aae1bea
 }
 
 export default App;

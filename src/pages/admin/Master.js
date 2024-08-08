@@ -33,10 +33,20 @@ const Master = () => {
             minHeight: '100vh',
         }}
     >
-        <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-            <div className="demo-logo-vertical"/>
-            <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={items}
-                  style={{background: 'var(--color-primary)', height: '100vh', color: 'var(--color-bg)'}}/>
+        <Sider
+            // style={{
+            //     backgroundColor: '#5a2c82'
+            // }}
+            collapsible
+            collapsed={collapsed}
+            onCollapse={(value) => setCollapsed(value)}
+            width={250}
+            theme={'light'}
+        >
+            <Menu
+                defaultSelectedKeys={['1']}
+                mode="inline"
+                items={items}/>
         </Sider>
         <Layout>
             <Header
