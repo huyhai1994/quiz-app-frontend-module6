@@ -8,8 +8,14 @@ import { CreateQuiz } from "../../../store/quizStore/QuizAxios";
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Tiêu đề là bắt buộc'),
     description: Yup.string().required('Mô tả là bắt buộc'),
-    quizTime: Yup.number().required('Thời gian thi là bắt buộc').positive('Thời gian thi phải lớn hơn 0'),
-    quantity: Yup.number().required('Số lượng câu hỏi là bắt buộc').integer('Số lượng câu hỏi phải là số nguyên').positive('Số lượng câu hỏi phải lớn hơn 0')
+    quizTime: Yup.number()
+        .required('Thời gian thi là bắt buộc')
+        .integer('Thời gian thi phải là số nguyên')
+        .min(0, 'Thời gian thi không được nhỏ hơn 0'),
+    quantity: Yup.number()
+        .required('Số lượng câu hỏi là bắt buộc')
+        .integer('Số lượng câu hỏi phải là số nguyên')
+        .min(0, 'Số lượng câu hỏi không được nhỏ hơn 0')
 });
 
 function QuizTeacherAdd() {
