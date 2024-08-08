@@ -71,65 +71,61 @@ const Categories = () => {
 
     const currentCategories = getCurrentPageData();
 
-    return (
-        <div>
-            <Breadcrumb
-                style={{
-                    margin: '16px 0',
-                }}
-            >
-                <Breadcrumb.Item>Danh Sách</Breadcrumb.Item>
-                <Breadcrumb.Item>Danh mục câu hỏi</Breadcrumb.Item>
-            </Breadcrumb>
-            <div className="title col-md-12">
-                <div className="row">
-                    <div className="col-md-6">
-                        <h1>Danh mục câu hỏi</h1>
-                    </div>
-                    <div className="col-md-6">
-                        <Link to="/admin/add-category">
-                            <Button className="text-bg-success" type="primary"> Thêm danh mục</Button>
-                        </Link>
-                    </div>
+    return (<div>
+        <Breadcrumb
+            style={{
+                margin: '16px 0',
+            }}
+        >
+            <Breadcrumb.Item>Danh Sách</Breadcrumb.Item>
+            <Breadcrumb.Item>Danh mục câu hỏi</Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="title col-md-12">
+            <div className="row">
+                <div className="col-md-6">
+                    <h1>Danh mục câu hỏi</h1>
+                </div>
+                <div className="col-md-6">
+                    <Link to="/admin/add-category">
+                        <Button className="text-bg-success" type="primary"> Thêm danh mục</Button>
+                    </Link>
                 </div>
             </div>
-            <table className="table table-striped">
-                <thead>
-                <tr>
-                    <th>Tiêu đề</th>
-                    <th>Mô tả</th>
-                    <th>Thao tác</th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentCategories.map((category, index) => (
-                    <tr key={category.id}>
-                        <td>{category.name}</td>
-                        <td>{category.description}</td>
-                        <td>
-                            <Link to={"/admin/edit/" + category.id}>
-                                <Button type="primary">
-                                    <FontAwesomeIcon icon={faPen}/>
-                                </Button>
-                            </Link>
-                            <Button type="primary" onClick={() => deleteCategory(category.id)} danger>
-                                <FontAwesomeIcon icon={faTrash}/>
-                            </Button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-
-            <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                <Page
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                />
-            </div>
         </div>
-    );
+        <table className="table table-striped">
+            <thead>
+            <tr>
+                <th>Tiêu đề</th>
+                <th>Mô tả</th>
+                <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            {currentCategories.map((category, index) => (<tr key={category.id}>
+                <td>{category.name}</td>
+                <td>{category.description}</td>
+                <td>
+                    <Link to={"/admin/edit/" + category.id}>
+                        <Button type="primary">
+                            <FontAwesomeIcon icon={faPen}/>
+                        </Button>
+                    </Link>
+                    <Button type="primary" onClick={() => deleteCategory(category.id)} danger>
+                        <FontAwesomeIcon icon={faTrash}/>
+                    </Button>
+                </td>
+            </tr>))}
+            </tbody>
+        </table>
+
+        <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+            <Page
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
+        </div>
+    </div>);
 };
 
 export default Categories;

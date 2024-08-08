@@ -6,7 +6,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'react-toastify'
 import 'antd/dist/antd';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import {ConfigProvider} from 'antd';
+import {ConfigProvider, theme} from 'antd';
 import variables from './styles/variables.less'
 
 import App from './App';
@@ -17,11 +17,9 @@ import store from "./store/Store";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<React.StrictMode>
     <Provider store={store}>
-        <ConfigProvider theme={variables}>
-            <BrowserRouter>
-                <App/>
-            </BrowserRouter>
-        </ConfigProvider>
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
     </Provider>
 </React.StrictMode>);
 

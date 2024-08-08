@@ -15,27 +15,63 @@ import TeacherApprovalApprovedList from "./components/list/approval-pending/Teac
 import QuestionList from "./components/list/question/QuestionList";
 import QuizList from "./components/list/quiz/QuizList";
 import StudentList from "./components/list/students/StudentList";
+import {ConfigProvider, theme} from "antd";
 
 
 function App() {
     return (
-        <Routes>
-            <Route path="/" element={<Home/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/register" element={<Register/>}/>
-            <Route path="/admin" element={<Master/>}>
-                <Route path="categories" element={<Categories/>}/>
-                <Route path="add-category" element={<AddCategory/>}/>
-                <Route path="edit/:id" element={<EditCategory/>}/>
-                <Route path={"question"} element={<QuestionList/>}></Route>
-                <Route path={"quiz"} element={<QuizList/>}></Route>
-                <Route path={"teacher/approved"} element={<TeacherApprovalApprovedList/>}></Route>
-                <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>
-                <Route path="teacher-list" element={<TeacherList/>}/>
-                <Route path="student-list" element={<StudentList/>}/>
-            </Route>
-            <Route path="*" element={<NotFound/>}/>
-        </Routes>
+        <ConfigProvider theme={{
+            algorithm: [theme.defaultAlgorithm],
+            cssVar: true,
+            token: {
+                // Seed Token
+                // colorPrimary: '#00b96b',
+                // borderRadius: 2,
+
+                // Alias Token
+                // colorBgContainer: '#f6ffed',
+                // colorPrimaryBg: '#e6f7ff',
+                // colorLink: '#1890ff',
+                // headerBg: '#5a2c82',
+            },
+            components: {
+                Layout: {
+                    lightTriggerBg: '#48216b',
+                    lightTriggerColor: '#fff',
+                    lightSiderBg: '#5a2c82',
+                },
+                Menu: {
+                    itemBg: '#5a2c82',
+                    itemColor: '#ddd',
+                    itemHoverColor: '#fff',
+                    itemSelectedBg: '#48216b',
+                    itemActiveBg: '#48216b',
+                    itemSelectedColor: '#e6f4ff',
+                },
+                Dropdown: {
+                    background: '#5a2c82',
+                },
+            },
+        }}>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/register" element={<Register/>}/>
+                <Route path="/admin" element={<Master/>}>
+                    <Route path="categories" element={<Categories/>}/>
+                    <Route path="add-category" element={<AddCategory/>}/>
+                    <Route path="edit/:id" element={<EditCategory/>}/>
+                    <Route path={"question"} element={<QuestionList/>}></Route>
+                    <Route path={"quiz"} element={<QuizList/>}></Route>
+                    <Route path={"teacher/approved"} element={<TeacherApprovalApprovedList/>}></Route>
+                    <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>
+                    <Route path="teacher-list" element={<TeacherList/>}/>
+                    <Route path="student-list" element={<StudentList/>}/>
+                </Route>
+                <Route path="*" element={<NotFound/>}/>
+            </Routes>
+
+        </ConfigProvider>
     )
         ;
 }
