@@ -1,8 +1,10 @@
 import { format } from 'date-fns';
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {ListTeacherQuizzes} from "../../../store/quizStore/QuizAxios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ListTeacherQuizzes } from "../../../store/quizStore/QuizAxios";
 import Page from "../../pages/Page";
+import Swal from "sweetalert2";
+import { TailSpin } from "react-loader-spinner";
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
@@ -15,12 +17,18 @@ const ListTeacherQuizzesComponent = () => {
         dispatch(ListTeacherQuizzes(userId));
     }, [dispatch]);
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    useEffect(() => {
+        if (error) {
+            Swal.fire('Lỗi', error, 'error');
+        }
+    }, [error]);
 
-    if (error) {
-        return <div>Error: {error}</div>;
+    if (loading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <TailSpin color="#00BFFF" height={80} width={80} />
+            </div>
+        );
     }
 
     const totalPages = Math.ceil(quizzes.length / pageSize);
@@ -39,7 +47,7 @@ const ListTeacherQuizzesComponent = () => {
 
     return (
         <div>
-            <h2>Teacher Quiz List</h2>
+            <h2>Danh sách bài kiểm tra của giáo viên</h2>
             <table className="table table-bordered table-striped">
                 <thead>
                 <tr>
