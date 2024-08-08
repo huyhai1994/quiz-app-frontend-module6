@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Swal from 'sweetalert2';
 import { ListQuiz } from "../../../store/quizStore/QuizAxios";
-import Page from "../../pages/Page"; // Import component phân trang
+import Page from "../../pages/Page";
+import { TailSpin } from 'react-loader-spinner';
 
 const QuizList = () => {
     const dispatch = useDispatch();
@@ -27,7 +28,11 @@ const QuizList = () => {
     }, [error]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <TailSpin color="#00BFFF" height={80} width={80} />
+            </div>
+        );
     }
 
     const totalPages = Math.ceil(quizzes.length / pageSize);
