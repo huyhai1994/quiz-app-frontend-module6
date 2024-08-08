@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import Swal from 'sweetalert2';
 import { ListQuiz } from "../../../store/quizStore/QuizAxios";
 import Page from "../../pages/Page"; // Import component phân trang
 
@@ -14,12 +15,19 @@ const QuizList = () => {
         dispatch(ListQuiz());
     }, [dispatch]);
 
+    useEffect(() => {
+        if (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Đã có lỗi xảy ra!',
+                footer: `<p>${error}</p>`
+            });
+        }
+    }, [error]);
+
     if (loading) {
         return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>Error: {error}</div>;
     }
 
     const totalPages = Math.ceil(quizzes.length / pageSize);
@@ -54,7 +62,7 @@ const QuizList = () => {
                 {currentData.length > 0 ? (
                     currentData.map((quiz , index) => (
                         <tr key={quiz.quizzesId}>
-                            <td>{index + 1}</td>
+                            <td>{(currentPage - 1) * pageSize + index + 1}</td>
                             <td>{quiz.quizzesTitle}</td>
                             <td>{quiz.quizzesDescription}</td>
                             <td>{quiz.usersName}</td>
