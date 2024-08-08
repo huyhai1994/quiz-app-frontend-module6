@@ -7,3 +7,6 @@
     --color-bg: #e4e7eb;
     --color-error: #f44336;
 }
+a {
+    text-decoration: none;
+}

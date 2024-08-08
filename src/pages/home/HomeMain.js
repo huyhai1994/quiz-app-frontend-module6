@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom"; // Ensure the path is correct
-import heroImage from '../../asset/img.png';
+import heroImage from '../../asset/teacher.png';
+
 
 const Main = () => {
     return (<main>
