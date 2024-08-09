@@ -100,7 +100,7 @@ const StudentList = () => {
                     <p style={{fontSize: '18px', color: 'red'}}>Không có dữ liệu!!!</p>
                 </div>
             ) : (
-                <div className="content">
+                <div className="content table-responsive">
                     <table className="table table-striped">
                         <thead>
                         <tr>

@@ -96,7 +96,7 @@ const TeacherList = () => {
             <p style={{fontSize: '18px', color: 'red'}}>Không có dữ liệu!!!</p>
         </div>) : (<>
             <div className="table-responsive">
-                <table className="table table-striped">
+                <table className="table ">
                     <thead>
                     <tr>
                         <th>Tên</th>
