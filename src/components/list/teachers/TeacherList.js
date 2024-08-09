@@ -1,39 +1,49 @@
 import React, {useEffect, useState} from 'react';
-import TeacherService from '../../../services/teacher.service';
 import {useFormik} from "formik";
 import {Breadcrumb} from "antd";
+import StudentService from '../../../services/student.service'; // Assuming you have a StudentService similar to TeacherService
 import Page from "../../pages/Page"; // Import the pagination component
 
-const TeacherList = () => {
-    const [teachers, setTeachers] = useState([]);
+const StudentList = () => {
+    const [students, setStudents] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
-    const totalPages = Math.ceil(teachers.length / itemsPerPage);
+    const [isDataFetched, setIsDataFetched] = useState(false); // State to track if data has been fetched
+    const totalPages = Math.ceil(students.length / itemsPerPage);
 
     const formik = useFormik({
         initialValues: {
             name: '', email: '',
         }, onSubmit: async (values) => {
             try {
-                const response = await TeacherService.getTeacherByNameAndEmail(values.name, values.email);
-                setTeachers(response.data);
+                const response = await StudentService.getStudentByNameAndEmail(values.name, values.email);
+                setStudents(response.data);
             } catch (error) {
-                console.error('Error fetching teachers by name and email:', error);
-                setTeachers([]);
+                console.error('Error fetching students by name and email:', error);
+                setStudents([]);
+            } finally {
+                setIsDataFetched(true); // Set data fetched to true after the request is complete
             }
         },
     });
 
     useEffect(() => {
-        if (formik.values.name || formik.values.email) {
-            TeacherService.getTeacherByNameAndEmail(formik.values.name, formik.values.email).then((response) => {
-                setTeachers(response.data);
-            })
-        } else {
-            TeacherService.getAllTeachers().then((response) => {
-                setTeachers(response.data);
-            })
-        }
+        const fetchStudents = async () => {
+            try {
+                if (formik.values.name || formik.values.email) {
+                    const response = await StudentService.getStudentByNameAndEmail(formik.values.name, formik.values.email);
+                    setStudents(response.data);
+                } else {
+                    const response = await StudentService.getAllStudents();
+                    setStudents(response.data);
+                }
+            } catch (error) {
+                console.error('Error fetching students:', error);
+            } finally {
+                setIsDataFetched(true); // Set data fetched to true after the request is complete
+            }
+        };
+        fetchStudents();
     }, [formik.values.name, formik.values.email]);
 
     const handlePageChange = (pageNumber) => {
@@ -43,10 +53,10 @@ const TeacherList = () => {
     const getCurrentPageData = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
-        return teachers.slice(startIndex, endIndex);
+        return students.slice(startIndex, endIndex);
     };
 
-    const currentTeachers = getCurrentPageData();
+    const currentStudents = getCurrentPageData();
 
     return (
         <div>
@@ -56,9 +66,9 @@ const TeacherList = () => {
                 }}
             >
                 <Breadcrumb.Item>Danh Sách</Breadcrumb.Item>
-                <Breadcrumb.Item>Giáo Viên</Breadcrumb.Item>
+                <Breadcrumb.Item>Sinh Viên</Breadcrumb.Item>
             </Breadcrumb>
-            <h1 className='d-flex align-items-between justify-content-between'>Danh Sách Giáo Viên <form
+            <h1 className='d-flex align-items-between justify-content-between'>Danh Sách Sinh Viên <form
                 className="d-flex mx-1 my-2" role="search"
                 onSubmit={formik.handleSubmit}
             >
@@ -77,33 +87,41 @@ const TeacherList = () => {
                 <button className="btn btn-outline-success" type="submit">Search</button>
             </form>
             </h1>
-            <table className="table table-striped">
-                <thead>
-                <tr>
-                    <th>Tên</th>
-                    <th>Email</th>
-                    <th>Ngày đăng kí</th>
-                    <th>Lần cuối truy cập</th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentTeachers.map(teacher => (<tr key={teacher.id}>
-                    <td>{teacher.name}</td>
-                    <td>{teacher.email}</td>
-                    <td>{teacher.registeredAt}</td>
-                    <td>{teacher.lastLogin}</td>
-                </tr>))}
-                </tbody>
-            </table>
-            <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                <Page
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                />
-            </div>
+            {isDataFetched && students.length === 0 ? (
+                <p>Data not found</p>
+            ) : (
+                <>
+                    <table className="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Tên</th>
+                            <th>Email</th>
+                            <th>Ngày đăng kí</th>
+                            <th>Lần cuối truy cập</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {currentStudents.map(student => (
+                            <tr key={student.id}>
+                                <td>{student.name}</td>
+                                <td>{student.email}</td>
+                                <td>{student.registeredAt}</td>
+                                <td>{student.lastLogin}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                        <Page
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 };
 
-export default TeacherList;
+export default StudentList;
