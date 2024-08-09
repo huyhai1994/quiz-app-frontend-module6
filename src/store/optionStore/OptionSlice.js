@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { CreateOption } from "./OptionAxios";
+import {createSlice} from "@reduxjs/toolkit";
+import {CreateOption} from "./OptionAxios";
 
 const initialState = {
     options: [],

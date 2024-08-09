@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link từ react-router-dom
+import {Link} from 'react-router-dom'; // Import Link từ react-router-dom
 import 'bootstrap/dist/css/bootstrap.min.css'; // Đảm bảo rằng Bootstrap được import
 
 function NotFound() {
@@ -13,7 +13,7 @@ function NotFound() {
                                 src="https://png.pngtree.com/png-clipart/20220303/original/pngtree-error-404-under-construction-sign-3d-icon-website-banner-concept-png-image_7382631.png"
                                 alt="icon"
                                 className="img-fluid mb-4" // Sử dụng img-fluid để ảnh phản hồi kích thước màn hình
-                                style={{ maxWidth: '300px' }} // Đặt kích thước tối đa của ảnh
+                                style={{maxWidth: '300px'}} // Đặt kích thước tối đa của ảnh
                             />
                             <h1 className="fw-700 text-grey-900 display3-size display4-md-size">
                                 Rất tiếc! Có vẻ như bạn đã bị lạc.

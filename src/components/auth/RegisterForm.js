@@ -1,9 +1,9 @@
 import React from 'react';
 import * as Yup from 'yup';
-import {TextField, Button, Typography, Box} from '@mui/material'
+import {Box, Button, TextField, Typography} from '@mui/material'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
-import {Formik, Form, Field} from 'formik'
+import {Field, Form, Formik} from 'formik'
 
 const RegisterSchema = Yup.object().shape({
     name: Yup.string().required('Username is required'),
@@ -15,7 +15,7 @@ const RegisterSchema = Yup.object().shape({
 const RegisterForm = () => {
     const navigate = useNavigate();
 
-    const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+    const handleSubmit = async (values, {setSubmitting, setErrors}) => {
         const formData = new FormData()
         formData.append('name', values.name)
         formData.append('email', values.email)
@@ -33,7 +33,7 @@ const RegisterForm = () => {
             navigate('/login')
         } catch (error) {
             // console.log(error.response.data)
-            setErrors({ submit: error.response.data.message });
+            setErrors({submit: error.response.data.message});
         } finally {
             setSubmitting(false)
         }
@@ -45,7 +45,7 @@ const RegisterForm = () => {
                 Register
             </Typography>
             <Formik
-                initialValues={{username: '' ,email: '', password: '', avatar: null}}
+                initialValues={{username: '', email: '', password: '', avatar: null}}
                 validationSchema={RegisterSchema}
                 onSubmit={handleSubmit}
             >

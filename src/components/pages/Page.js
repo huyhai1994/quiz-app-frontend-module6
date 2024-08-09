@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Page = ({ currentPage, totalPages, onPageChange }) => {
+const Page = ({currentPage, totalPages, onPageChange}) => {
     const getPageNumbers = () => {
         const pageNumbers = [];
         const maxPagesToShow = 3;
