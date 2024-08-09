@@ -53,7 +53,7 @@ function ApprovedApprovalsList() {
             </Breadcrumb>
             <h1>Danh Sách Giáo Viên Được Chấp Thuận</h1>
             <div className="table-responsive">
-                <table className="table table-bordered table-striped">
+                <table className="table table-bordered ">
                     <thead>
                     <tr>
                         <th>ID</th>

@@ -48,7 +48,7 @@ const QuestionList = () => {
             <div className="container-fluid mt-5">
                 <h1>Danh Sách Câu Hỏi</h1>
                 <div className="table-responsive">
-                    <table className="table table-bordered table-striped">
+                    <table className="table table-bordered">
                         <thead>
                         <tr>
                             <th>#</th>
