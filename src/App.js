@@ -17,6 +17,7 @@ import AuthLayout from "./components/auth/AuthLayout";
 import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
+import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -57,6 +58,7 @@ function App() {
             </AuthLayout>}/>
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
+                <Route path="update-info" element={<AdminEdit/>}/>
                 <Route path="add-category" element={<AddCategory/>}/>
                 <Route path="edit/:id" element={<EditCategory/>}/>
                 <Route path="question" element={<QuestionList/>}/>

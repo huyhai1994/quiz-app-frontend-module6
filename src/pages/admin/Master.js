@@ -14,10 +14,19 @@ function getItem(label, key, icon, children, link) {
     };
 }
 
-const items = [getItem('Danh Sách', 'sub1',
-    <ViewListIcon/>, [getItem('Giáo viên', '3', null, null, '/admin/teacher-list'), getItem('Học Viên', '4', null, null, '/admin/student-list'), getItem('Chờ duyệt', '5', null, null, '/admin/pending-list'), getItem('đã duyệt ', '6', null, null, '/admin/teacher/approved'), getItem('Danh Mục Câu Hỏi ', '7', null, null, '/admin/categories'), getItem('Danh sách  Câu Hỏi ', '8', null, null, '/admin/question')]), getItem('Cài đặt', 'sub1',
-    <SettingsIcon/>, [])
-
+const items = [
+    getItem('Danh Sách', 'sub1',
+        <ViewListIcon/>, [
+            getItem('Giáo viên', '3', null, null, '/admin/teacher-list'),
+            getItem('Học Viên', '4', null, null, '/admin/student-list'),
+            getItem('Chờ duyệt', '5', null, null, '/admin/pending-list'),
+            getItem('đã duyệt ', '6', null, null, '/admin/teacher/approved'),
+            getItem('Danh Mục Câu Hỏi ', '7', null, null, '/admin/categories'),
+            getItem('Danh sách  Câu Hỏi ', '8', null, null, '/admin/question')
+        ]),
+    getItem('Cài đặt', 'sub1',
+        <SettingsIcon/>, [
+            getItem('Thông tin cá nhân', '9', null, null, '/admin/update-info')])
 ];
 
 
