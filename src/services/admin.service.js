@@ -9,7 +9,7 @@ class AdminService {
     }
 
     static async findAdmin() {
-        return await axios.get(`${API_USER_URL}/get-admin-info`);
+        return await axios.get(`${API_USER_URL}/admin-info`);
     }
 }
 

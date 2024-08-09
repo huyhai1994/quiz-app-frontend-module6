@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 
 const AdminEdit = () => {
     const validationSchema = Yup.object().shape({
-        username: Yup.string().required('Username is required'),
+        name: Yup.string().required('Name is required'),
         email: Yup.string().email('Invalid email').required('Email is required'),
         oldPassword: Yup.string().required('Old password is required'),
         newPassword: Yup.string().required('New password is required'),
@@ -18,7 +18,7 @@ const AdminEdit = () => {
 
     const formEditAdmin = useFormik({
         initialValues: {
-            username: '',
+            name: '',
             email: '',
             oldPassword: '',
             newPassword: '',
@@ -40,9 +40,9 @@ const AdminEdit = () => {
     useEffect(() => {
         AdminService.findAdmin()
             .then(response => {
-                const {username, email, avatar} = response.data;
+                const {name, email, avatar} = response.data;
                 formEditAdmin.setValues({
-                    username: username,
+                    name: name,
                     email: email,
                     oldPassword: '',
                     newPassword: '',
@@ -80,14 +80,14 @@ const AdminEdit = () => {
                         <Typography color="error">{formEditAdmin.errors.avatar}</Typography>}
                 </label>
                 <TextField
-                    name="username"
-                    label="Username"
+                    name="name"
+                    label="Name"
                     fullWidth
                     margin="normal"
-                    value={formEditAdmin.values.username}
+                    value={formEditAdmin.values.name}
                     onChange={formEditAdmin.handleChange}
-                    error={formEditAdmin.touched.username && Boolean(formEditAdmin.errors.username)}
-                    helperText={formEditAdmin.touched.username && formEditAdmin.errors.username}
+                    error={formEditAdmin.touched.name && Boolean(formEditAdmin.errors.name)}
+                    helperText={formEditAdmin.touched.name && formEditAdmin.errors.name}
                 />
                 <TextField
                     name="email"
