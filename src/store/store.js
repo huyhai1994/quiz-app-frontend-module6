@@ -1,4 +1,5 @@
 import {configureStore} from "@reduxjs/toolkit";
+import authReducer from '../features/authSlice'
 import categoryReducer from "./categoryStore/CategoryService";
 import optionReducer from "./optionStore/OptionSlice";
 import questionReducer from "./questionStore/QuestionSlice";
@@ -10,6 +11,7 @@ import userReducer from "./userStore/UserSlice";
 
 const store = configureStore({
     reducer: {
+        auth: authReducer,
         category: categoryReducer,
         options: optionReducer,
         questions: questionReducer,
