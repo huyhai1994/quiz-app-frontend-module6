@@ -3,7 +3,7 @@ import {useFormik} from "formik";
 import {Breadcrumb} from "antd";
 import TeacherService from '../../../services/teacher.service';
 import Page from "../../pages/Page";
-import {FaExclamationTriangle, FaSearch} from "react-icons/fa";
+import {FaExclamationTriangle, FaSearch, FaTrash} from "react-icons/fa"; // Import the delete icon from react-icons
 import './TeacherList.css';
 
 const TeacherList = () => {
@@ -58,72 +58,88 @@ const TeacherList = () => {
         return teachers.slice(startIndex, endIndex);
     };
 
+    const handleDelete = async (teacherId) => {
+        try {
+            await TeacherService.deleteTeacher(teacherId);
+            setTeachers(teachers.filter(teacher => teacher.id !== teacherId));
+        } catch (error) {
+            console.error('Error deleting teacher:', error);
+        }
+    };
+
     const currentTeachers = getCurrentPageData();
 
     return (<div className='teacher-list'>
-        <div style={{backgroundColor: 'var(--color-secondary)', padding: '2px', borderRadius: '8px'}}>
-            <form
-                className="d-flex mx-1 my-2" role="search"
-                onSubmit={formik.handleSubmit}
-            >
-                <input className="form-control me-2" type="search" placeholder="Tìm kiếm bằng tên hoặc email"
-                       style={{
-                           backgroundColor: 'var(--color-bg)', borderRadius: '8px', padding: '5px 10px'
-                       }}
-                       aria-label="Search"
-                       name="email"
-                       value={formik.values.email}
-                       onChange={formik.handleChange}
-                />
-                <button className="btn" type="submit">
-                    <FaSearch/>
-                </button>
-            </form>
-        </div>
+            <div style={{backgroundColor: 'var(--color-secondary)', padding: '2px', borderRadius: '8px'}}>
+                <form
+                    className="d-flex mx-1 my-2" role="search"
+                    onSubmit={formik.handleSubmit}
+                >
+                    <input className="form-control me-2" type="search" placeholder="Tìm kiếm bằng tên hoặc email"
+                           style={{
+                               backgroundColor: 'var(--color-bg)', borderRadius: '8px', padding: '5px 10px'
+                           }}
+                           aria-label="Search"
+                           name="email"
+                           value={formik.values.email}
+                           onChange={formik.handleChange}
+                    />
+                    <button className="btn" type="submit">
+                        <FaSearch/>
+                    </button>
+                </form>
+            </div>
 
-        <Breadcrumb
-            style={{
-                margin: '16px 0',
-            }}
-        >
-            <Breadcrumb.Item>Danh Sách</Breadcrumb.Item>
-            <Breadcrumb.Item>Giáo Viên</Breadcrumb.Item>
-        </Breadcrumb>
-        <h1 className='d-flex align-items-between justify-content-between'>Danh Sách Giáo Viên
-        </h1>
-        {isDataFetched && teachers.length === 0 ? (<div style={{textAlign: 'center', marginTop: '20px'}}>
-            <FaExclamationTriangle size={50} color="red"/>
-            <p style={{fontSize: '18px', color: 'red'}}>Không có dữ liệu!!!</p>
-        </div>) : (<>
-            <div className="table-responsive">
-                <table className="table ">
-                    <thead>
-                    <tr>
-                        <th>Tên</th>
-                        <th>Email</th>
-                        <th>Ngày đăng kí</th>
-                        <th>Lần cuối truy cập</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {currentTeachers.map(teacher => (<tr key={teacher.id}>
-                        <td>{teacher.name}</td>
-                        <td>{teacher.email}</td>
-                        <td>{teacher.registeredAt}</td>
-                        <td>{teacher.lastLogin}</td>
-                    </tr>))}
-                    </tbody>
-                </table>
-            </div>
-            <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                <Page
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                />
-            </div>
-        </>)}
-    </div>);
+            <Breadcrumb
+                style={{
+                    margin: '16px 0',
+                }}
+            >
+                <Breadcrumb.Item>Danh Sách</Breadcrumb.Item>
+                <Breadcrumb.Item>Giáo Viên</Breadcrumb.Item>
+            </Breadcrumb>
+            <h1 className='d-flex align-items-between justify-content-between'>Danh Sách Giáo Viên
+            </h1>
+            {isDataFetched && teachers.length === 0 ? (<div style={{textAlign: 'center', marginTop: '20px'}}>
+                    <FaExclamationTriangle size={50} color="red"/>
+                    <p style={{fontSize: '18px', color: 'red'}}>Không có dữ liệu!!!</p>
+                </div>) : (<>
+                    <div className="table-responsive">
+                        <table className="table ">
+                            <thead>
+                            <tr>
+                                <th>Tên</th>
+                                <th>Email</th>
+                                <th>Ngày đăng kí</th>
+                                <th>Lần cuối truy cập</th>
+                                <th>Hành động</th>
+                                {/* Add a new column for actions */}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {currentTeachers.map(teacher => (<tr key={teacher.id}>
+                                    <td>{teacher.name}</td>
+                                    <td>{teacher.email}</td>
+                                    <td>{teacher.registeredAt}</td>
+                                    <td>{teacher.lastLogin}</td>
+                                    <td className='text-center'>
+                                        <button className="btn btn-danger" onClick={() => handleDelete(teacher.id)}>
+                                            <FaTrash/>
+                                        </button>
+                                    </td>
+                                </tr>))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                        <Page
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    </div>
+                </>)}
+        </div>);
 };
 
 export default TeacherList;
