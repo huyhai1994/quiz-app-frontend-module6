@@ -1,11 +1,10 @@
 import React from 'react';
 import * as Yup from 'yup';
 import {TextField, Button, Typography, Box} from '@mui/material'
-// import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {Formik, Form, Field} from 'formik'
 import {useDispatch, useSelector} from 'react-redux'
-import {login, register} from '../../features/authSlice'
+import {register} from '../../features/authSlice'
 
 const RegisterSchema = Yup.object().shape({
     name: Yup.string().required('Username is required'),
@@ -38,22 +37,8 @@ const RegisterForm = () => {
         }
     }
 
-    //     try {
-    //         const resultAction = await dispatch(register(values));
-    //         if (register.fulfilled.match(resultAction)) {
-    //             navigate('/login');
-    //         } else {
-    //             setErrors({ general: resultAction.error.message });
-    //         }
-    //     } catch (error) {
-    //         console.error('Registration error:', error);
-    //     } finally {
-    //         setSubmitting(false);
-    //     }
-    // };
-
     return (
-        <Box sx={{maxWidth: 400, margin: 'Auto', mt: 4}}>
+        <Box sx={{maxWidth: 400, margin: 'auto', mt: 4}}>
             <Typography variant="h4" component="h1" gutterBottom>
                 Register
             </Typography>
@@ -110,16 +95,16 @@ const RegisterForm = () => {
                         >
                             {loading ? 'Registering...' : 'Register'}
                         </Button>
-                        {/*{error && (*/}
-                        {/*    // <Typography color="error" variant="body2" sx={{mt: 2}}>*/}
-                        {/*    //     {typeof error === 'string' ? error : JSON.stringify(error, null, 2)}*/}
-                        {/*    // </Typography>*/}
-                        {/*)}*/}
-                        {/*{errors.general && (*/}
-                        {/*    <Typography color="error" variant="body2" sx={{mt: 2}}>*/}
-                        {/*        {errors.general}*/}
-                        {/*    </Typography>*/}
-                        {/*)}*/}
+                        {error && (
+                            <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+                                {typeof error === 'string' ? error : JSON.stringify(error, null, 2)}
+                            </Typography>
+                        )}
+                        {errors.general && (
+                            <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+                                {errors.general}
+                            </Typography>
+                        )}
                     </Form>
                 )}
             </Formik>

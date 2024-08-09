@@ -1,7 +1,6 @@
 import React from 'react';
 import * as Yup from 'yup';
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
 import {Box, Typography, TextField, Button} from "@mui/material";
 import {Formik, Form, Field} from "formik";
 import {useDispatch, useSelector} from "react-redux";
@@ -23,13 +22,14 @@ const LoginForm = () => {
             navigate('/');
         } catch (error) {
             // Error is handled by the Redux slice
+            setErrors({ general: 'Login failed' });
         } finally {
             setSubmitting(false);
         }
     }
 
     return (
-        <Box sx={{maxWidth: 400, margin: 'Auto', mt: 4}}>
+        <Box sx={{maxWidth: 400, margin: 'auto', mt: 4}}>
             <Typography variant="h4" component="h1" gutterBottom>
                 Login
             </Typography>
@@ -46,7 +46,7 @@ const LoginForm = () => {
                             label="Email"
                             fullWidth
                             margin="normal"
-                            error={touched.email && errors.email}
+                            error={touched.email && Boolean(errors.email)}
                             helperText={touched.email && errors.email}
                         />
                         <Field
@@ -56,7 +56,7 @@ const LoginForm = () => {
                             type="password"
                             fullWidth
                             margin="normal"
-                            error={touched.password && errors.password}
+                            error={touched.password && Boolean(errors.password)}
                             helperText={touched.password && errors.password}
                         />
                         <Button
