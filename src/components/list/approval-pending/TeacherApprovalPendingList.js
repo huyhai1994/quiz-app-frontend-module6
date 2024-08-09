@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Breadcrumb, Button} from "antd";
 import Swal from "sweetalert2";
 import TeacherService from '../../../services/teacher.service';
-import Page from "../../pages/Page"; // Import the pagination component
+import Page from "../../pages/Page";
+import {FaExclamationTriangle} from "react-icons/fa"; // Import the pagination component
 
 const TeacherApprovalPendingList = () => {
     const [teachers, setTeachers] = useState([]);
@@ -68,7 +69,10 @@ const TeacherApprovalPendingList = () => {
             </Breadcrumb>
             <h1>Danh sách chờ duyệt</h1>
             {isDataFetched && teachers.length === 0 ? (
-                <p>Data not found</p>
+                <div style={{textAlign: 'center', marginTop: '20px'}}>
+                    <FaExclamationTriangle size={50} color="red"/>
+                    <p style={{fontSize: '18px', color: 'red'}}>Không có dữ liệu!!!</p>
+                </div>
             ) : (
                 <>
                     <table className="table table-striped">

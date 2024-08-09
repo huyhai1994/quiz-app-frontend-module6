@@ -19,63 +19,56 @@ import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
 
 function App() {
-    return (
-        <ConfigProvider theme={{
-            algorithm: [theme.defaultAlgorithm],
-            cssVar: true,
-            token: {
-                // Seed Token
-                // colorPrimary: '#00b96b',
-                // borderRadius: 2,
+    return (<ConfigProvider theme={{
+        algorithm: [theme.defaultAlgorithm], cssVar: true, token: {
+            // Seed Token
+            // colorPrimary: '#00b96b',
+            // borderRadius: 2,
 
-                // Alias Token
-                // colorBgContainer: '#f6ffed',
-                // colorPrimaryBg: '#e6f7ff',
-                // colorLink: '#1890ff',
-                // headerBg: '#5a2c82',
+            // Alias Token
+            // colorBgContainer: '#f6ffed',
+            // colorPrimaryBg: '#e6f7ff',
+            // colorLink: '#1890ff',
+            // headerBg: '#5a2c82',
+        }, components: {
+            Layout: {
+                lightTriggerBg: 'var(--color-bg)',
+                lightTriggerColor: 'var(--color-primary)',
+                lightSiderBg: 'var(--color-bg)',
+            }, Menu: {
+                itemBg: 'var(--color-bg)',
+                itemColor: 'var(--color-primary)',
+                itemHoverColor: 'var(--color-primary)',
+                itemSelectedBg: 'var(--color-secondary)',
+                itemActiveBg: 'var(--color-bg)',
+                itemSelectedColor: 'var(--color-bg)',
+            }, Dropdown: {
+                background: 'var(--color-bg)',
             },
-            components: {
-                Layout: {
-                    lightTriggerBg: '#48216b',
-                    lightTriggerColor: '#fff',
-                    lightSiderBg: '#5a2c82',
-                },
-                Menu: {
-                    itemBg: '#5a2c82',
-                    itemColor: '#ddd',
-                    itemHoverColor: '#fff',
-                    itemSelectedBg: '#48216b',
-                    itemActiveBg: '#48216b',
-                    itemSelectedColor: '#e6f4ff',
-                },
-                Dropdown: {
-                    background: '#5a2c82',
-                },
-            },
-        }}>
-            <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/login" element={<AuthLayout title="Login">
-                    <LoginForm/>
-                </AuthLayout>}/>
-                <Route path="/register" element={<AuthLayout title="Register">
-                    <RegisterForm/>
-                </AuthLayout>}/>
-                <Route path="/admin" element={<Master/>}>
-                    <Route path="categories" element={<Categories/>}/>
-                    <Route path="add-category" element={<AddCategory/>}/>
-                    <Route path="edit/:id" element={<EditCategory/>}/>
-                    <Route path="question" element={<QuestionList/>}/>
-                    <Route path="quiz" element={<QuizList/>}/>
-                    <Route path="teacher/approved" element={<TeacherApprovalApprovedList/>}/>
-                    <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>
-                    <Route path="teacher-list" element={<TeacherList/>}/>
-                    <Route path="student-list" element={<StudentList/>}/>
-                </Route>
-                <Route path="*" element={<NotFound/>}/>
-            </Routes>
-        </ConfigProvider>
-    )
+        },
+    }}>
+        <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/login" element={<AuthLayout title="Login">
+                <LoginForm/>
+            </AuthLayout>}/>
+            <Route path="/register" element={<AuthLayout title="Register">
+                <RegisterForm/>
+            </AuthLayout>}/>
+            <Route path="/admin" element={<Master/>}>
+                <Route path="categories" element={<Categories/>}/>
+                <Route path="add-category" element={<AddCategory/>}/>
+                <Route path="edit/:id" element={<EditCategory/>}/>
+                <Route path="question" element={<QuestionList/>}/>
+                <Route path="quiz" element={<QuizList/>}/>
+                <Route path="teacher/approved" element={<TeacherApprovalApprovedList/>}/>
+                <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>
+                <Route path="teacher-list" element={<TeacherList/>}/>
+                <Route path="student-list" element={<StudentList/>}/>
+            </Route>
+            <Route path="*" element={<NotFound/>}/>
+        </Routes>
+    </ConfigProvider>)
 }
 
 export default App;

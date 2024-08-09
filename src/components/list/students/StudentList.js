@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useFormik} from "formik";
 import {Breadcrumb} from "antd";
+import {FaExclamationTriangle} from 'react-icons/fa'; // Import an icon from react-icons
 import StudentService from '../../../services/student.service'; // Assuming you have a StudentService similar to TeacherService
 import Page from "../../pages/Page"; // Import the pagination component
 
@@ -88,7 +89,10 @@ const StudentList = () => {
             </form>
             </h1>
             {isDataFetched && students.length === 0 ? (
-                <p>Data not found</p>
+                <div style={{textAlign: 'center', marginTop: '20px'}}>
+                    <FaExclamationTriangle size={50} color="red"/>
+                    <p style={{fontSize: '18px', color: 'red'}}>Không có dữ liệu!!!</p>
+                </div>
             ) : (
                 <>
                     <table className="table table-striped">
