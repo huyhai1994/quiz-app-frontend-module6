@@ -4,6 +4,7 @@ import {Breadcrumb} from "antd";
 import {ListQuestion} from "../../../store/questionStore/QuestionAxios";
 import {format} from "date-fns";
 import Page from "../../pages/Page"; // Import component phân trang
+import './QuestionList.css'; // Import the CSS file
 
 const QuestionList = () => {
     const dispatch = useDispatch();
@@ -27,6 +28,11 @@ const QuestionList = () => {
         return questions.slice(startIndex, endIndex);
     };
 
+    const handleDelete = (questionId) => {
+        // Implement the delete logic here
+        console.log(`Delete question with ID: ${questionId}`);
+    };
+
     const currentData = getCurrentPageData();
 
     return (
@@ -41,35 +47,45 @@ const QuestionList = () => {
             </Breadcrumb>
             <div className="container-fluid mt-5">
                 <h1>Danh Sách Câu Hỏi</h1>
-                <table className="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Câu Hỏi</th>
-                        <th>Danh Mục Câu Hỏi</th>
-                        <th>Lựa Chọn (số lượng)</th>
-                        <th>Thời gian tạo</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {currentData.length > 0 ? (
-                        currentData.map((question, index) => (
-                            <tr key={question.questionId}>
-                                <td>{index + 1 + (currentPage - 1) * pageSize}</td>
-                                <td>{question.questionText}</td>
-                                <td>{question.categoryName}</td>
-                                <td>{question.typeName}</td>
-                                <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
-                            </tr>
-                        ))
-                    ) : (
+                <div className="table-responsive">
+                    <table className="table table-bordered table-striped">
+                        <thead>
                         <tr>
-                            <td colSpan="5">No data available</td>
+                            <th>#</th>
+                            <th>Câu Hỏi</th>
+                            <th>Danh Mục Câu Hỏi</th>
+                            <th>Lựa Chọn (số lượng)</th>
+                            <th>Thời gian tạo</th>
+                            <th>Hành động</th>
                         </tr>
-                    )}
-                    </tbody>
-                </table>
-
+                        </thead>
+                        <tbody>
+                        {currentData.length > 0 ? (
+                            currentData.map((question, index) => (
+                                <tr key={question.questionId}>
+                                    <td>{index + 1 + (currentPage - 1) * pageSize}</td>
+                                    <td>{question.questionText}</td>
+                                    <td>{question.categoryName}</td>
+                                    <td>{question.typeName}</td>
+                                    <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
+                                    <td>
+                                        <button
+                                            className="btn btn-danger"
+                                            onClick={() => handleDelete(question.questionId)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="6">No data available</td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
+                </div>
                 <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
                     <Page
                         currentPage={currentPage}
