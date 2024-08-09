@@ -2,9 +2,9 @@
     /* Colours */
     --color-text: #8F61C0;
     --color-primary: #431D3E;
-    --color-secondary: #D9CAEA;
+    --color-secondary: rgba(217, 202, 234, 0.82);
     --color-dark: #696F79;
-    --color-bg: #FFFF;
+    --color-bg: rgba(255, 255, 255, 0.61);
     --color-error: #f44336;
 }
 

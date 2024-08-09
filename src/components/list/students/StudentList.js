@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {useFormik} from "formik";
 import {Breadcrumb} from "antd";
-import {FaExclamationTriangle} from 'react-icons/fa'; // Import an icon from react-icons
+import {FaExclamationTriangle, FaSearch} from 'react-icons/fa'; // Import an icon from react-icons
 import StudentService from '../../../services/student.service'; // Assuming you have a StudentService similar to TeacherService
 import Page from "../../pages/Page"; // Import the pagination component
+import './StudentList.css';
 
 const StudentList = () => {
     const [students, setStudents] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [isDataFetched, setIsDataFetched] = useState(false); // State to track if data has been fetched
+    const [isInputFocused, setIsInputFocused] = useState(false); // State to track if the input is focused
     const totalPages = Math.ceil(students.length / itemsPerPage);
 
     const formik = useFormik({
@@ -23,7 +25,7 @@ const StudentList = () => {
                 console.error('Error fetching students by name and email:', error);
                 setStudents([]);
             } finally {
-                setIsDataFetched(true); // Set data fetched to true after the request is complete
+                setIsDataFetched(true);
             }
         },
     });
@@ -41,7 +43,7 @@ const StudentList = () => {
             } catch (error) {
                 console.error('Error fetching students:', error);
             } finally {
-                setIsDataFetched(true); // Set data fetched to true after the request is complete
+                setIsDataFetched(true);
             }
         };
         fetchStudents();
@@ -60,7 +62,28 @@ const StudentList = () => {
     const currentStudents = getCurrentPageData();
 
     return (
-        <div>
+        <div className='student-list'>
+            <div style={{backgroundColor: 'var(--color-secondary)', padding: '2px', borderRadius: '8px'}}>
+                <form
+                    className="d-flex mx-1 my-2" role="search"
+                    onSubmit={formik.handleSubmit}
+                >
+                    <input className="form-control me-2" type="search" placeholder="Tìm kiếm bằng tên hoặc email"
+                           style={{
+                               backgroundColor: 'var(--color-bg)',
+                               borderRadius: '8px',
+                               padding: '5px 10px'
+                           }}
+                           aria-label="Search"
+                           name="email"
+                           value={formik.values.email}
+                           onChange={formik.handleChange}
+                    />
+                    <button className="btn" type="submit">
+                        <FaSearch/>
+                    </button>
+                </form>
+            </div>
             <Breadcrumb
                 style={{
                     margin: '16px 0',
@@ -69,24 +92,7 @@ const StudentList = () => {
                 <Breadcrumb.Item>Danh Sách</Breadcrumb.Item>
                 <Breadcrumb.Item>Sinh Viên</Breadcrumb.Item>
             </Breadcrumb>
-            <h1 className='d-flex align-items-between justify-content-between'>Danh Sách Sinh Viên <form
-                className="d-flex mx-1 my-2" role="search"
-                onSubmit={formik.handleSubmit}
-            >
-                <input className="form-control me-2" type="search" placeholder="name"
-                       aria-label="Search"
-                       name="name"
-                       value={formik.values.name}
-                       onChange={formik.handleChange}
-                />
-                <input className="form-control me-2" type="search" placeholder="email"
-                       aria-label="Search"
-                       name="email"
-                       value={formik.values.email}
-                       onChange={formik.handleChange}
-                />
-                <button className="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            <h1 className='d-flex align-items-between justify-content-between'>Danh Sách Sinh Viên
             </h1>
             {isDataFetched && students.length === 0 ? (
                 <div style={{textAlign: 'center', marginTop: '20px'}}>
@@ -94,7 +100,7 @@ const StudentList = () => {
                     <p style={{fontSize: '18px', color: 'red'}}>Không có dữ liệu!!!</p>
                 </div>
             ) : (
-                <>
+                <div className="content">
                     <table className="table table-striped">
                         <thead>
                         <tr>
@@ -115,15 +121,15 @@ const StudentList = () => {
                         ))}
                         </tbody>
                     </table>
-                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                        <Page
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={handlePageChange}
-                        />
-                    </div>
-                </>
+                </div>
             )}
+            <div className="">
+                <Page
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            </div>
         </div>
     );
 };
