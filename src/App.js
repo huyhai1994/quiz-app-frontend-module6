@@ -41,7 +41,7 @@ function App() {
                 itemHoverColor: 'var(--color-primary)',
                 itemSelectedBg: 'var(--color-secondary)',
                 itemActiveBg: 'var(--color-bg)',
-                itemSelectedColor: 'var(--color-bg)',
+                itemSelectedColor: 'var(--color-dark)',
             }, Dropdown: {
                 background: 'var(--color-bg)',
             },

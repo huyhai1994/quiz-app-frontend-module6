@@ -1,12 +1,13 @@
 :root {
     /* Colours */
-    --color-text: #3c3b3b;
-    --color-primary: #5a2c82;
-    --color-secondary: #1565D8;
+    --color-text: #8F61C0;
+    --color-primary: #431D3E;
+    --color-secondary: #D9CAEA;
     --color-dark: #696F79;
-    --color-bg: #e4e7eb;
+    --color-bg: #FFFF;
     --color-error: #f44336;
 }
+
 a {
     text-decoration: none;
 }

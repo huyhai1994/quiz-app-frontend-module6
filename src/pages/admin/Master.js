@@ -4,6 +4,7 @@ import {Layout, Menu, theme} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 import Header from '../../components/header/Header';
 import '../../styles/vars.css';
+import './Master.css';
 
 const {Content, Footer, Sider} = Layout;
 
@@ -43,6 +44,9 @@ const Master = () => {
             width={250}
             theme={'light'}
         >
+            <div style={{padding: '16px', textAlign: 'center'}}>
+                <h1 className='logo'>QUIZZ</h1>
+            </div>
             <Menu
                 defaultSelectedKeys={['1']}
                 mode="inline"
