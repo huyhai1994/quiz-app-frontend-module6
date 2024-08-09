@@ -18,7 +18,6 @@ const LoginForm = () => {
     const {loading, error} = useSelector((state) => state.auth);
 
     const handleSubmit = async (values, { setSubmitting, setErrors }) => {
-
         try {
             await dispatch(login(values)).unwrap();
             navigate('/');

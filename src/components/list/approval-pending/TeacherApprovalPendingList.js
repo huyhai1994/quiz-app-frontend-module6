@@ -2,12 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Breadcrumb, Button} from "antd";
 import Swal from "sweetalert2";
 import TeacherService from '../../../services/teacher.service';
-import Page from "../../pages/Page"; // Import the pagination component
+import Page from "../../pages/Page";
+import {FaExclamationTriangle} from "react-icons/fa"; // Import the pagination component
 
 const TeacherApprovalPendingList = () => {
     const [teachers, setTeachers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [isDataFetched, setIsDataFetched] = useState(false); // State to track if data has been fetched
     const totalPages = Math.ceil(teachers.length / itemsPerPage);
 
     useEffect(() => {
@@ -17,6 +19,8 @@ const TeacherApprovalPendingList = () => {
                 setTeachers(response.data);
             } catch (error) {
                 console.error('Error fetching pending Teacher List:', error);
+            } finally {
+                setIsDataFetched(true); // Set data fetched to true after the request is complete
             }
         };
         fetchPendingTeachers();
@@ -64,45 +68,54 @@ const TeacherApprovalPendingList = () => {
                 <Breadcrumb.Item>Chờ duyệt</Breadcrumb.Item>
             </Breadcrumb>
             <h1>Danh sách chờ duyệt</h1>
-            <table className="table table-striped">
-                <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên</th>
-                    <th>Email</th>
-                    <th>Ngày đăng kí</th>
-                    <th>Lần cuối truy cập</th>
-                    <th>Thao tác</th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentTeachers.map((teacher, index) => (
-                    <tr key={teacher.id}>
-                        <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
-                        <td>{teacher.name}</td>
-                        <td>{teacher.email}</td>
-                        <td>{teacher.registeredAt}</td>
-                        <td>{teacher.lastLogin}</td>
-                        <td>
-                            <Button
-                                className="btn btn-primary"
-                                onClick={() => approveTeacher(teacher.id)}
-                                disabled={teacher.status === 'approved'}
-                            >
-                                {teacher.status === 'approved' ? 'Approved' : 'Approval'}
-                            </Button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                <Page
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                />
-            </div>
+            {isDataFetched && teachers.length === 0 ? (
+                <div style={{textAlign: 'center', marginTop: '20px'}}>
+                    <FaExclamationTriangle size={50} color="red"/>
+                    <p style={{fontSize: '18px', color: 'red'}}>Không có dữ liệu!!!</p>
+                </div>
+            ) : (
+                <>
+                    <table className="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên</th>
+                            <th>Email</th>
+                            <th>Ngày đăng kí</th>
+                            <th>Lần cuối truy cập</th>
+                            <th>Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {currentTeachers.map((teacher, index) => (
+                            <tr key={teacher.id}>
+                                <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                                <td>{teacher.name}</td>
+                                <td>{teacher.email}</td>
+                                <td>{teacher.registeredAt}</td>
+                                <td>{teacher.lastLogin}</td>
+                                <td>
+                                    <Button
+                                        className="btn btn-primary"
+                                        onClick={() => approveTeacher(teacher.id)}
+                                        disabled={teacher.status === 'approved'}
+                                    >
+                                        {teacher.status === 'approved' ? 'Approved' : 'Approval'}
+                                    </Button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                        <Page
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 };

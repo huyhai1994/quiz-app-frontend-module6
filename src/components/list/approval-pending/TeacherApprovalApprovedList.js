@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import {format} from 'date-fns';
 import Page from "../../pages/Page";
 import {Breadcrumb} from "antd";
+import {FaExclamationTriangle} from "react-icons/fa";
 
 function ApprovedApprovalsList() {
     const dispatch = useDispatch();
@@ -67,7 +68,12 @@ function ApprovedApprovalsList() {
                 <td>{approval.teacherApprovalsStatus}</td>
                 <td>{format(new Date(approval.approvedAt), 'dd-MM-yyyy - HH:mm:ss')}</td>
             </tr>))) : (<tr>
-                <td colSpan="5">Không có dữ liệu</td>
+                <td colSpan="5">
+                    <div style={{textAlign: 'center', marginTop: '20px'}}>
+                        <FaExclamationTriangle size={50} color="red"/>
+                        <p style={{fontSize: '18px', color: 'red'}}>Không có dữ liệu!!!</p>
+                    </div>
+                </td>
             </tr>)}
             </tbody>
         </table>
