@@ -4,6 +4,7 @@ import {Layout, Menu, theme} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 import Header from '../../components/header/Header';
 import '../../styles/vars.css';
+import HomeFooter from "../../components/footer/HomeFooter";
 
 const {Content, Footer, Sider} = Layout;
 
@@ -73,12 +74,8 @@ const Master = () => {
                     <Outlet/>
                 </div>
             </Content>
-            <Footer
-                style={{
-                    textAlign: 'center',
-                }}
-            >
-                Ant Design ©{new Date().getFullYear()} Created by Ant UED
+            <Footer style={{textAlign: 'center',}}>
+               <HomeFooter/>
             </Footer>
         </Layout>
     </Layout>);
