@@ -36,11 +36,7 @@ const UserProfile = () => {
             <Title level={2}>{user.name}</Title>
             <Text strong>Email:</Text> <Text>{user.email}</Text>
             <br />
-            <Text strong>Role:</Text> <Text>{
-                user.roleId === 2 ? 'Student' :
-                    user.roleId === 3 ? 'Teacher' :
-                        'Admin'
-            }</Text>
+            <Text strong>Role:</Text> <Text>{user.role ? user.role.name : 'Unknown'}</Text>
             <br />
             <Text strong>Registered at:</Text> <Text>{new Date(user.registeredAt).toLocaleString()}</Text>
         </Card>

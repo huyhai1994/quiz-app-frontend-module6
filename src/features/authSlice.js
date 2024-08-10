@@ -1,12 +1,11 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axiosInstance  from '../components/utils/axiosConfig'
-// import axios from "axios";
 
 export const login = createAsyncThunk(
     '/api/auth/login',
     async (credential, {rejectWithValue}) => {
         try {
-            const response = await axiosInstance.post('auth/login', credential)
+            const response = await axiosInstance.post('/api/auth/login', credential)
             localStorage.setItem('token', response.data)
             return response.data;
         } catch (error) {
@@ -19,7 +18,7 @@ export const register = createAsyncThunk(
     '/api/auth/register',
     async (userData, {rejectWithValue}) => {
         try {
-            const response = await axiosInstance.post('auth/register', userData, {
+            const response = await axiosInstance.post('/api/auth/register', userData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
