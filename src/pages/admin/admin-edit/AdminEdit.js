@@ -12,20 +12,22 @@ const AdminEdit = () => {
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Cần điền tên '),
         email: Yup.string().email('Invalid email').required('Cần điền email '),
-        oldPassword: Yup.string().required('Cần điền mật khẩu cũ '),
+        currentPassword: Yup.string().required('Cần điền mật khẩu cũ '),
         newPassword: Yup.string().required('Cần điền mật khẩu mới '),
     });
 
     const formEditAdmin = useFormik({
         initialValues: {
-            name: '', email: '', oldPassword: '', newPassword: '', avatar: null
+            id: '', name: '', email: '', currentPassword: '', newPassword: '', avatar: null
         }, validationSchema: validationSchema, onSubmit: (values) => {
+            console.log('Submitting values:', values); // Log the values being submitted
             AdminService.updateAdmin(values)
-                .then(r => {
+                .then(() => {
                     console.log(values);
                     Swal.fire('Success', ' updated successfully', 'success');
                 })
                 .catch(err => {
+                    console.log(values)
                     Swal.fire('Error', err.message, 'error');
                 });
         }
@@ -34,9 +36,9 @@ const AdminEdit = () => {
     useEffect(() => {
         AdminService.findAdmin()
             .then(response => {
-                const {name, email, avatar} = response.data;
+                const {id, name, email, avatar} = response.data;
                 formEditAdmin.setValues({
-                    name: name, email: email, oldPassword: '', newPassword: '', avatar: avatar
+                    id: id, name: name, email: email, currentPassword: '', newPassword: '', avatar: avatar
                 });
             })
             .catch(error => {
@@ -97,15 +99,15 @@ const AdminEdit = () => {
                 helperText={formEditAdmin.touched.email && formEditAdmin.errors.email}
             />
             <TextField
-                name="oldPassword"
-                label="mật khầu cũ "
+                name="currentPassword"
+                label="Mật khẩu cũ"
                 type="password"
                 fullWidth
                 margin="normal"
-                value={formEditAdmin.values.oldPassword}
+                value={formEditAdmin.values.currentPassword}
                 onChange={formEditAdmin.handleChange}
-                error={formEditAdmin.touched.oldPassword && Boolean(formEditAdmin.errors.oldPassword)}
-                helperText={formEditAdmin.touched.oldPassword && formEditAdmin.errors.oldPassword}
+                error={formEditAdmin.touched.currentPassword && Boolean(formEditAdmin.errors.currentPassword)}
+                helperText={formEditAdmin.touched.currentPassword && formEditAdmin.errors.currentPassword}
             />
             <TextField
                 name="newPassword"
