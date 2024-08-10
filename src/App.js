@@ -18,6 +18,8 @@ import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
 import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
+import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
+import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -68,8 +70,8 @@ function App() {
                 <Route path="teacher-list" element={<TeacherList/>}/>
                 <Route path="student-list" element={<StudentList/>}/>
             </Route>
-            <Route path="/teacher" element={<Home/>}>
-
+            <Route path="/teacher" element={<TeacherHome/>}>
+                <Route path="" element={<TeacherMain/>}/>
             </Route>
 
 

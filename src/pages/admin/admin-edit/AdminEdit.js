@@ -28,7 +28,7 @@ const AdminEdit = () => {
                     Swal.fire('Thay đổi thông tin', 'Tài khoản cập nhật thành công', 'success');
                 })
                 .catch(err => {
-                    Swal.fire('Error', err.message, 'error');
+                    Swal.fire('Thay đổi thông tin ', 'Lỗi! Xin vui lòng kiểm tra lại thông tin, hoặc password nhập sai', 'error');
                 });
         }
     });
