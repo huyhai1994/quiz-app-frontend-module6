@@ -1,12 +1,15 @@
 import {Card, Avatar, Typography, Spin} from 'antd'
-import axiosInstance from '../utils/axiosConfig'
+import axiosInstance from '../../utils/axiosConfig'
 import {useEffect, useState} from "react";
+import {Button} from 'antd'
+import {useNavigate} from "react-router-dom";
 
 const {Title, Text} = Typography
 
 const UserProfile = () => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -39,6 +42,10 @@ const UserProfile = () => {
             <Text strong>Role:</Text> <Text>{user.role ? user.role.name : 'Unknown'}</Text>
             <br />
             <Text strong>Registered at:</Text> <Text>{new Date(user.registeredAt).toLocaleString()}</Text>
+            <br />
+            <Button type="primary" onClick={() => navigate('/change-password')}>
+                Change password
+            </Button>
         </Card>
     )
 }

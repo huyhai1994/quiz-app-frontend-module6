@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import axiosInstance  from '../components/utils/axiosConfig'
+import axiosInstance  from '../utils/axiosConfig'
 
 export const login = createAsyncThunk(
     '/api/auth/login',
@@ -29,6 +29,19 @@ export const register = createAsyncThunk(
         }
     }
 )
+
+export const changePassword = createAsyncThunk(
+    '/users/change-password',
+    async (passwordData, {rejectWithValue}) => {
+        try {
+            const response = await axiosInstance.post('/users/change-password', passwordData);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'An error occurred');
+        }
+    }
+)
+
     const authSlice = createSlice({
         name: 'auth',
         initialState: {
@@ -73,6 +86,17 @@ export const register = createAsyncThunk(
                 .addCase(register.rejected, (state, action) => {
                     state.loading = false;
                     state.success = false;
+                    state.error = action.payload;
+                })
+                .addCase(changePassword.pending, (state) => {
+                    state.loading = true;
+                    state.error = null;
+                })
+                .addCase(changePassword.fulfilled, (state) => {
+                    state.loading = false;
+                })
+                .addCase(changePassword.rejected, (state, action) => {
+                    state.loading = false;
                     state.error = action.payload;
                 })
         }

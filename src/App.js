@@ -18,6 +18,7 @@ import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
 import UserProfile from "./components/user-service/UserProfile";
+import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -57,6 +58,9 @@ function App() {
                 <RegisterForm />
             </AuthLayout>} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/change-password" element={<AuthLayout title="Change Password">
+                <ChangePasswordForm />
+            </AuthLayout>} />
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
                 <Route path="add-category" element={<AddCategory/>}/>
