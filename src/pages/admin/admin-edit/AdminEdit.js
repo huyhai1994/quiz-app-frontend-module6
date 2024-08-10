@@ -1,14 +1,17 @@
-import React, {useEffect} from 'react';
-import {Avatar, Box, Button, IconButton, TextField, Typography} from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {Avatar, Box, Button, IconButton, InputAdornment, TextField, Typography} from '@mui/material';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import {PhotoCamera} from '@mui/icons-material';
+import {PhotoCamera, Visibility, VisibilityOff} from '@mui/icons-material';
 import './AdminEdit.css';
 import AdminService from "../../../services/admin.service";
 import Swal from "sweetalert2";
 import '../../../styles/vars.css';
 
 const AdminEdit = () => {
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Cần điền tên '),
         email: Yup.string().email('Invalid email').required('Cần điền email '),
@@ -20,14 +23,11 @@ const AdminEdit = () => {
         initialValues: {
             id: '', name: '', email: '', currentPassword: '', newPassword: '', avatar: null
         }, validationSchema: validationSchema, onSubmit: (values) => {
-            console.log('Submitting values:', values); // Log the values being submitted
             AdminService.updateAdmin(values)
                 .then(() => {
-                    console.log(values);
-                    Swal.fire('Success', ' updated successfully', 'success');
+                    Swal.fire('Thay đổi thông tin', 'Tài khoản cập nhật thành công', 'success');
                 })
                 .catch(err => {
-                    console.log(values)
                     Swal.fire('Error', err.message, 'error');
                 });
         }
@@ -101,24 +101,48 @@ const AdminEdit = () => {
             <TextField
                 name="currentPassword"
                 label="Mật khẩu cũ"
-                type="password"
+                type={showCurrentPassword ? 'text' : 'password'}
                 fullWidth
                 margin="normal"
                 value={formEditAdmin.values.currentPassword}
                 onChange={formEditAdmin.handleChange}
                 error={formEditAdmin.touched.currentPassword && Boolean(formEditAdmin.errors.currentPassword)}
                 helperText={formEditAdmin.touched.currentPassword && formEditAdmin.errors.currentPassword}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <IconButton
+                                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                edge="end"
+                            >
+                                {showCurrentPassword ? <VisibilityOff/> : <Visibility/>}
+                            </IconButton>
+                        </InputAdornment>
+                    ),
+                }}
             />
             <TextField
                 name="newPassword"
                 label="Mật khẩu mới"
-                type="password"
+                type={showNewPassword ? 'text' : 'password'}
                 fullWidth
                 margin="normal"
                 value={formEditAdmin.values.newPassword}
                 onChange={formEditAdmin.handleChange}
                 error={formEditAdmin.touched.newPassword && Boolean(formEditAdmin.errors.newPassword)}
                 helperText={formEditAdmin.touched.newPassword && formEditAdmin.errors.newPassword}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <IconButton
+                                onClick={() => setShowNewPassword(!showNewPassword)}
+                                edge="end"
+                            >
+                                {showNewPassword ? <VisibilityOff/> : <Visibility/>}
+                            </IconButton>
+                        </InputAdornment>
+                    ),
+                }}
             />
 
             <Button

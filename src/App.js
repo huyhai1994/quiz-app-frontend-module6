@@ -68,6 +68,11 @@ function App() {
                 <Route path="teacher-list" element={<TeacherList/>}/>
                 <Route path="student-list" element={<StudentList/>}/>
             </Route>
+            <Route path="/teacher" element={<Home/>}>
+
+            </Route>
+
+
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     </ConfigProvider>)
