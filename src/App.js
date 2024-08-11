@@ -61,11 +61,11 @@ function App() {
                 <LoginForm/>
             </AuthLayout>}/>
             <Route path="/register" element={<AuthLayout title="Register">
-                <RegisterForm />
-            </AuthLayout>} />
-            <Route path="/profile" element={<UserProfileLayout />}>
-                <Route index element={<UserProfile />} />
-                <Route path="change-password" element={<ChangePasswordForm />} />
+                <RegisterForm/>
+            </AuthLayout>}/>
+            <Route path="/profile" element={<UserProfileLayout/>}>
+                <Route index element={<UserProfile/>}/>
+                <Route path="change-password" element={<ChangePasswordForm/>}/>
             </Route>
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
@@ -81,9 +81,13 @@ function App() {
             </Route>
             <Route path="/teacher" element={<TeacherHome/>}>
                 <Route path="" element={<TeacherMain/>}/>
+                <Route path="profile" element={<UserProfile/>}/>
+                <Route path="change-password" element={<ChangePasswordForm/>}/>
             </Route>
             <Route path="/student" element={<StudentHome/>}>
                 <Route path="" element={<StudentMain/>}/>
+                <Route path="profile" element={<UserProfile/>}/>
+                <Route path="quiz" element={<QuizList/>}/>
             </Route>
             <Route path="*" element={<NotFound/>}/>
         </Routes>

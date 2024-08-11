@@ -14,9 +14,17 @@ function getItem(label, key, icon, children, link) {
     };
 }
 
-const items = [getItem('Trang chủ', '1', null, null, '/teacher/home'), getItem('Danh Sách', 'sub1',
-    <ViewListIcon/>, [getItem('Lớp học', '2', null, null, '/teacher/class-list'), getItem('Học sinh', '3', null, null, '/teacher/student-list'), getItem('Bài kiểm tra', '4', null, null, '/teacher/test-list'),]), getItem('Cài đặt', 'sub2',
-    <SettingsIcon/>, [getItem('Thông tin cá nhân', '5', null, null, '/teacher/update-info'),]),];
+const items = [
+    getItem('Trang chủ', '1', null, null, '/teacher/home'),
+    getItem('Danh Sách', 'sub1', <ViewListIcon/>, [
+            getItem('Lớp học', '2', null, null, '/teacher/class-list'),
+            getItem('Học sinh', '3', null, null, '/teacher/student-list'),
+            getItem('Bài kiểm tra', '4', null, null, '/teacher/test-list'),]),
+    getItem('Cài đặt', 'sub2', <SettingsIcon/>, [
+        getItem('Thông tin cá nhân', '5', null, null, '/teacher/profile'),
+        getItem('Thay đổi mật khẩu', '6', null, null, '/teacher/change-password'),
+
+    ]),];
 
 const TeacherHome = () => {
     const [collapsed, setCollapsed] = useState(false);

@@ -16,7 +16,10 @@ function getItem(label, key, icon, children, link) {
 
 const items = [getItem('Trang chủ', '1', null, null, '/student/home'), getItem('Danh Sách', 'sub1',
     <ViewListIcon/>, [getItem('Lớp học', '2', null, null, '/student/class-list'), getItem('Bài kiểm tra', '3', null, null, '/student/test-list'),]), getItem('Cài đặt', 'sub2',
-    <SettingsIcon/>, [getItem('Thông tin cá nhân', '4', null, null, '/student/update-info'),]),];
+    <SettingsIcon/>, [getItem('Thông tin cá nhân', '4', null, null, '/student/profile'), getItem('Thay đổi mật khẩu', '5', null, null, '/student/change-password'),],),
+
+
+];
 
 const StudentHome = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -45,10 +48,12 @@ const StudentHome = () => {
         <Layout>
             <Content
                 style={{
-                    margin: '0 16px', display: 'flex',                // Flexbox display for centering
-                    justifyContent: 'center',       // Centers horizontally
-                    height: '100vh',                // Full viewport height
-                    background: colorBgContainer, borderRadius: borderRadiusLG,
+                    margin: '0 16px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    height: '100vh',
+                    background: colorBgContainer,
+                    borderRadius: borderRadiusLG,
                 }}
             >
                 <div style={{padding: ' 5% 10%'}}>
