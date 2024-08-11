@@ -18,6 +18,7 @@ import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
 import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
+import PasswordReset from "./components/user-service/PasswordReset";
 import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
 import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
@@ -26,7 +27,6 @@ import UserProfileLayout from "./components/layout/UserProfileLayout";
 import StudentHome from "./pages/student/student-home/StudentHome";
 import StudentMain from "./pages/student/student-home/main/StudentMain";
 import QuizComponent from "./components/list/quiz-component/QuizComponent";
-import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -68,6 +68,7 @@ function App() {
             <Route path="/profile" element={<UserProfileLayout />}>
                 <Route index element={<UserProfile />} />
                 <Route path="change-password" element={<ChangePasswordForm />} />
+                <Route path="reset-password" element={<PasswordReset />} />
             </Route>
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
@@ -96,8 +97,6 @@ function App() {
             <Route path="/teacher" element={<Home/>}>
 
             </Route>
-
-
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     </ConfigProvider>)

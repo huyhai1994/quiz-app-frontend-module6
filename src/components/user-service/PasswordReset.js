@@ -55,7 +55,7 @@ const PasswordReset = () => {
                         rules={[{required: true, message: 'Vui lòng nhập email'}]}
                     >
                         <Input
-                            laceholder="Nhập email của bạn"
+                            placeholder="Nhập email của bạn"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                         />
@@ -99,7 +99,7 @@ const PasswordReset = () => {
                         rules={[{required: true, message: 'Vui lòng nhập mật khẩu mới'}]}
                     >
                         <Input.Password
-                            placehodler="Nhập mật khẩu mới"
+                            placeholder="Nhập mật khẩu mới"
                             value={newPassword}
                             onChange={e => setNewPassword(e.target.value)}
                         />
