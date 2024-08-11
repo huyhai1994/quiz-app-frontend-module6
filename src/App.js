@@ -21,6 +21,8 @@ import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
 import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
 import UserProfile from "./components/user-service/UserProfile";
+import StudentHome from "./pages/student/student-home/StudentHome";
+import StudentMain from "./pages/student/student-home/main/StudentMain";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -54,12 +56,12 @@ function App() {
         <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<AuthLayout title="Login">
-                <LoginForm />
-            </AuthLayout>} />
+                <LoginForm/>
+            </AuthLayout>}/>
             <Route path="/register" element={<AuthLayout title="Register">
-                <RegisterForm />
-            </AuthLayout>} />
-            <Route path="/profile" element={<UserProfile />} />
+                <RegisterForm/>
+            </AuthLayout>}/>
+            <Route path="/profile" element={<UserProfile/>}/>
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
                 <Route path="update-info" element={<AdminEdit/>}/>
@@ -75,8 +77,9 @@ function App() {
             <Route path="/teacher" element={<TeacherHome/>}>
                 <Route path="" element={<TeacherMain/>}/>
             </Route>
-
-
+            <Route path="/student" element={<StudentHome/>}>
+                <Route path="" element={<StudentMain/>}/>
+            </Route>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     </ConfigProvider>)

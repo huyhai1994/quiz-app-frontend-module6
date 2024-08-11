@@ -1,4 +1,4 @@
-import {Card, Avatar, Typography, Spin} from 'antd'
+import {Avatar, Card, Spin, Typography} from 'antd'
 import axiosInstance from '../utils/axiosConfig'
 import {useEffect, useState} from "react";
 
@@ -23,7 +23,7 @@ const UserProfile = () => {
     }, [])
 
     if (loading) {
-        return <Spin size="large" />
+        return <Spin size="large"/>
     }
 
     if (!user) {
@@ -31,17 +31,17 @@ const UserProfile = () => {
     }
 
     return (
-        <Card style={{ maxWidth: 600, margin: '0 auto' }}>
-            <Avatar size={64} src={user.avatar} />
+        <Card style={{maxWidth: 600, margin: '0 auto'}}>
+            <Avatar size={64} src={user.avatar}/>
             <Title level={2}>{user.name}</Title>
             <Text strong>Email:</Text> <Text>{user.email}</Text>
-            <br />
+            <br/>
             <Text strong>Role:</Text> <Text>{
-                user.roleId === 2 ? 'Student' :
-                    user.roleId === 3 ? 'Teacher' :
-                        'Admin'
-            }</Text>
-            <br />
+            user.roleId === 2 ? 'Student' :
+                user.roleId === 3 ? 'Teacher' :
+                    'Admin'
+        }</Text>
+            <br/>
             <Text strong>Registered at:</Text> <Text>{new Date(user.registeredAt).toLocaleString()}</Text>
         </Card>
     )
