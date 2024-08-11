@@ -1,50 +1,92 @@
-import {Card, Avatar, Typography, Spin} from 'antd'
-import axiosInstance from '../utils/axiosConfig'
-import {useEffect, useState} from "react";
-
-const {Title, Text} = Typography
+import React, { useEffect, useState } from 'react';
+import { Avatar, Box, Typography, TextField, Button } from '@mui/material';
+import { PhotoCamera } from '@mui/icons-material';
+import axiosInstance from '../../utils/axiosConfig';
+// import './UserProfile.css';
 
 const UserProfile = () => {
-    const [user, setUser] = useState(null)
-    const [loading, setLoading] = useState(true)
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const response = await axiosInstance.get('/users/profile')
-                setUser(response.data)
-                setLoading(false)
+                const response = await axiosInstance.get('/users/profile');
+                setUser(response.data);
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching user profile:', error);
-                setLoading(false)
+                setLoading(false);
             }
-        }
-        fetchUserProfile()
-    }, [])
+        };
+        fetchUserProfile();
+    }, []);
 
     if (loading) {
-        return <Spin size="large" />
+        return <Typography>Loading...</Typography>;
     }
 
     if (!user) {
-        return <Text>Failed to load user profile</Text>;
+        return <Typography>Failed to load user profile</Typography>;
     }
 
     return (
-        <Card style={{ maxWidth: 600, margin: '0 auto' }}>
-            <Avatar size={64} src={user.avatar} />
-            <Title level={2}>{user.name}</Title>
-            <Text strong>Email:</Text> <Text>{user.email}</Text>
-            <br />
-            <Text strong>Role:</Text> <Text>{
-                user.roleId === 2 ? 'Student' :
-                    user.roleId === 3 ? 'Teacher' :
-                        'Admin'
-            }</Text>
-            <br />
-            <Text strong>Registered at:</Text> <Text>{new Date(user.registeredAt).toLocaleString()}</Text>
-        </Card>
-    )
-}
+        <Box sx={{
+            maxWidth: 600,
+            margin: 'auto',
+            mt: 4,
+            border: '1px solid #ccc',
+            borderRadius: 4,
+            padding: 3,
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+        }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2, position: 'relative' }}>
+                <Avatar
+                    src={user.avatar || '/default-avatar.png'}
+                    sx={{ width: 100, height: 100 }}
+                />
+                <input
+                    accept="image/*"
+                    type="file"
+                    style={{ display: 'none' }}
+                    id="avatar-upload"
+                />
+                <label htmlFor="avatar-upload" style={{ position: 'absolute', bottom: 0, right: 'calc(50% - 4rem)' }}>
+                    <Button component="span" startIcon={<PhotoCamera />}>
+                        Upload
+                    </Button>
+                </label>
+            </Box>
+            <TextField
+                label="User Name"
+                fullWidth
+                margin="normal"
+                value={user.name}
+                InputProps={{ readOnly: true }}
+            />
+            <TextField
+                label="Email"
+                fullWidth
+                margin="normal"
+                value={user.email}
+                InputProps={{ readOnly: true }}
+            />
+            <TextField
+                label="Role"
+                fullWidth
+                margin="normal"
+                value={user.role ? user.role.name : 'Unknown'}
+                InputProps={{ readOnly: true }}
+            />
+            <TextField
+                label="Register at"
+                fullWidth
+                margin="normal"
+                value={new Date(user.registeredAt).toLocaleString()}
+                InputProps={{ readOnly: true }}
+            />
+        </Box>
+    );
+};
 
-export default UserProfile
+export default UserProfile;
