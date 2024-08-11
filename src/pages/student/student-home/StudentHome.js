@@ -56,7 +56,7 @@ const StudentHome = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     height: '100vh',
-                    background: colorBgContainer,
+                    background: 'var(--color-bg)',
                     borderRadius: borderRadiusLG,
                 }}
             >

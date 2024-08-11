@@ -25,6 +25,7 @@ import UserProfile from "./components/user-service/UserProfile";
 import UserProfileLayout from "./components/layout/UserProfileLayout";
 import StudentHome from "./pages/student/student-home/StudentHome";
 import StudentMain from "./pages/student/student-home/main/StudentMain";
+import QuizComponent from "./components/list/quiz-component/QuizComponent";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -89,6 +90,7 @@ function App() {
                 <Route path="profile" element={<UserProfile/>}/>
                 <Route path="change-password" element={<ChangePasswordForm/>}/>
                 <Route path="quiz" element={<QuizList/>}/>
+                <Route path="question" element={<QuizComponent/>}/>
             </Route>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
