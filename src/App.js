@@ -87,6 +87,7 @@ function App() {
             <Route path="/student" element={<StudentHome/>}>
                 <Route path="" element={<StudentMain/>}/>
                 <Route path="profile" element={<UserProfile/>}/>
+                <Route path="change-password" element={<ChangePasswordForm/>}/>
                 <Route path="quiz" element={<QuizList/>}/>
             </Route>
             <Route path="*" element={<NotFound/>}/>

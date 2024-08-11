@@ -14,9 +14,13 @@ function getItem(label, key, icon, children, link) {
     };
 }
 
-const items = [getItem('Trang chủ', '1', null, null, '/student/home'), getItem('Danh Sách', 'sub1',
-    <ViewListIcon/>, [getItem('Lớp học', '2', null, null, '/student/class-list'), getItem('Bài kiểm tra', '3', null, null, '/student/test-list'),]), getItem('Cài đặt', 'sub2',
-    <SettingsIcon/>, [getItem('Thông tin cá nhân', '4', null, null, '/student/profile'), getItem('Thay đổi mật khẩu', '5', null, null, '/student/change-password'),],),
+const items = [
+    getItem('Trang chủ', '1', null, null, '/student/home'),
+    getItem('Danh Sách', 'sub1',
+        <ViewListIcon/>, [
+            getItem('Lớp học', '2', null, null, '/student/class-list'), getItem('Bài kiểm tra', '3', null, null, '/student/test-list'),]), getItem('Cài đặt', 'sub2',
+        <SettingsIcon/>, [
+            getItem('Thông tin cá nhân', '4', null, null, '/student/profile'), getItem('Thay đổi mật khẩu', '5', null, null, '/student/change-password'),],),
 
 
 ];
