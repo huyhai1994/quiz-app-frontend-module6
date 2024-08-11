@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useFormik} from "formik";
 import {Breadcrumb} from "antd";
-import {FaExclamationTriangle, FaSearch} from 'react-icons/fa'; // Import an icon from react-icons
+import {FaExclamationTriangle, FaSearch, FaTrash} from 'react-icons/fa'; // Import the delete icon from react-icons
 import StudentService from '../../../services/student.service'; // Assuming you have a StudentService similar to TeacherService
 import Page from "../../pages/Page"; // Import the pagination component
 import './StudentList.css';
@@ -59,6 +59,18 @@ const StudentList = () => {
         return students.slice(startIndex, endIndex);
     };
 
+    const handleDelete = async (studentId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this student?");
+        if (confirmDelete) {
+            try {
+                await StudentService.deleteStudent(studentId);
+                setStudents(students.filter(student => student.id !== studentId));
+            } catch (error) {
+                console.error('Error deleting student:', error);
+            }
+        }
+    };
+
     const currentStudents = getCurrentPageData();
 
     return (
@@ -70,9 +82,7 @@ const StudentList = () => {
                 >
                     <input className="form-control me-2" type="search" placeholder="Tìm kiếm bằng tên hoặc email"
                            style={{
-                               backgroundColor: 'var(--color-bg)',
-                               borderRadius: '8px',
-                               padding: '5px 10px'
+                               backgroundColor: 'var(--color-bg)', borderRadius: '8px', padding: '5px 10px'
                            }}
                            aria-label="Search"
                            name="email"
@@ -108,6 +118,8 @@ const StudentList = () => {
                             <th>Email</th>
                             <th>Ngày đăng kí</th>
                             <th>Lần cuối truy cập</th>
+                            <th>Hành động</th>
+                            {/* Add a new column for actions */}
                         </tr>
                         </thead>
                         <tbody>
@@ -117,6 +129,11 @@ const StudentList = () => {
                                 <td>{student.email}</td>
                                 <td>{student.registeredAt}</td>
                                 <td>{student.lastLogin}</td>
+                                <td className='text-center'>
+                                    <button className="btn btn-danger" onClick={() => handleDelete(student.id)}>
+                                        <FaTrash/>
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                         </tbody>

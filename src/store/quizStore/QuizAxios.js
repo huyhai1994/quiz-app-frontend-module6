@@ -13,7 +13,7 @@ export const CreateQuiz = createAsyncThunk('createQuiz', async (quiz) => {
     return response.data;
 });
 
-export const UpdateQuiz = createAsyncThunk('updateQuiz', async ({ id, quiz }) => {
+export const UpdateQuiz = createAsyncThunk('updateQuiz', async ({id, quiz}) => {
     const response = await axios.put(ApiURL + "/update/" + id, quiz);
     return response.data;
 });

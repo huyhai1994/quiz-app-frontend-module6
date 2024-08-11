@@ -20,6 +20,7 @@ import {ConfigProvider, theme} from "antd";
 import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
 import UserProfile from "./components/user-service/UserProfile";
 import UserProfileLayout from "./components/layout/UserProfileLayout";
+import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -64,6 +65,7 @@ function App() {
             </Route>
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
+                <Route path="update-info" element={<AdminEdit/>}/>
                 <Route path="add-category" element={<AddCategory/>}/>
                 <Route path="edit/:id" element={<EditCategory/>}/>
                 <Route path="question" element={<QuestionList/>}/>
@@ -73,6 +75,11 @@ function App() {
                 <Route path="teacher-list" element={<TeacherList/>}/>
                 <Route path="student-list" element={<StudentList/>}/>
             </Route>
+            <Route path="/teacher" element={<Home/>}>
+
+            </Route>
+
+
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     </ConfigProvider>)

@@ -10,9 +10,7 @@ const initialState = {
 const userSlice = createSlice({
     name: 'users',
     initialState,
-    reducers: {
-
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(deleteUser.pending, (state) => {

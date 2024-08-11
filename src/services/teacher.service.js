@@ -11,6 +11,11 @@ class TeacherService {
         return await axios.get(API_USER_URL + '/approval-pending');
     }
 
+    static async deleteTeacher(teacherId) {
+        return await axios.delete(API_USER_URL + '/delete/' + teacherId);
+    }
+
+
     static async approveTeacher(teacherId) {
         return await axios.put(API_USER_URL + '/approval/' + teacherId);
     }

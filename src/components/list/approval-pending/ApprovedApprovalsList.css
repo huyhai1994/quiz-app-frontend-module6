@@ -1,0 +1,29 @@
+/* ApprovedApprovalsList.css */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+}
+
+.status-approved {
+    display: inline-block;
+    padding: 5px 10px;
+    color: #fff;
+    background-color: #28a745; /* Green background */
+    border-radius: 4px;
+    font-weight: bold;
+}
