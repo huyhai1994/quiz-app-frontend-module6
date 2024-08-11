@@ -18,8 +18,14 @@ import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
 import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
+import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
+import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
+import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
 import UserProfile from "./components/user-service/UserProfile";
 import UserProfileLayout from "./components/layout/UserProfileLayout";
+import StudentHome from "./pages/student/student-home/StudentHome";
+import StudentMain from "./pages/student/student-home/main/StudentMain";
+import QuizComponent from "./components/list/quiz-component/QuizComponent";
 import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 
 function App() {
@@ -74,6 +80,18 @@ function App() {
                 <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>
                 <Route path="teacher-list" element={<TeacherList/>}/>
                 <Route path="student-list" element={<StudentList/>}/>
+            </Route>
+            <Route path="/teacher" element={<TeacherHome/>}>
+                <Route path="" element={<TeacherMain/>}/>
+                <Route path="profile" element={<UserProfile/>}/>
+                <Route path="change-password" element={<ChangePasswordForm/>}/>
+            </Route>
+            <Route path="/student" element={<StudentHome/>}>
+                <Route path="" element={<StudentMain/>}/>
+                <Route path="profile" element={<UserProfile/>}/>
+                <Route path="change-password" element={<ChangePasswordForm/>}/>
+                <Route path="quiz" element={<QuizList/>}/>
+                <Route path="question" element={<QuizComponent/>}/>
             </Route>
             <Route path="/teacher" element={<Home/>}>
 

@@ -1,0 +1,22 @@
+/* src/index.css */
+@import '../../../styles/vars.css';
+
+.border {
+    border: 1px solid #dcdcdc;
+}
+
+h4 {
+    color: #333;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.m-2 {
+    margin: 0.5rem;
+}
+
+.bg-white {
+    background-color: var(--color-bg) !important;
+}
