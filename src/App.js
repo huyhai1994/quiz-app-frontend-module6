@@ -20,6 +20,7 @@ import {ConfigProvider, theme} from "antd";
 import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
 import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
+import UserProfile from "./components/user-service/UserProfile";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -53,11 +54,12 @@ function App() {
         <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<AuthLayout title="Login">
-                <LoginForm/>
-            </AuthLayout>}/>
+                <LoginForm />
+            </AuthLayout>} />
             <Route path="/register" element={<AuthLayout title="Register">
-                <RegisterForm/>
-            </AuthLayout>}/>
+                <RegisterForm />
+            </AuthLayout>} />
+            <Route path="/profile" element={<UserProfile />} />
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
                 <Route path="update-info" element={<AdminEdit/>}/>
