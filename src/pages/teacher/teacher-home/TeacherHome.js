@@ -21,7 +21,7 @@ function getItem(label, key, icon, children, link) {
 }
 
 const items = [
-    getItem('Trang chủ', '1', <HomeIcon/>, null, '/teacher/home'),
+    getItem('Trang chủ', '1', <HomeIcon/>, null, '/teacher/'),
     getItem('Tạo mới', '2', <AddBoxIcon/>, [
         getItem('Câu hỏi', '3', <QuestionMarkIcon/>, null, '/teacher/question/create')]),
     getItem('Danh Sách', 'sub1', <ViewListIcon/>, [
