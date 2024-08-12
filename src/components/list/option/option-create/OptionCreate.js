@@ -8,15 +8,18 @@ import {
     InputLabel,
     OutlinedInput,
     Radio,
-    RadioGroup
+    RadioGroup,
+    Typography
 } from '@mui/material';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import './OptionCreate.css';
 
 const OptionCreate = () => {
     const [options, setOptions] = useState([]);
     const [questionId, setQuestionId] = useState(null);
     const [questionType, setQuestionType] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const storedQuestionId = localStorage.getItem('questionId');
@@ -28,6 +31,7 @@ const OptionCreate = () => {
             setQuestionType(parseInt(storedQuestionType, 10));
             initializeOptions(parseInt(storedQuestionType, 10));
         }
+        setLoading(false);
     }, []);
 
     const initializeOptions = (type) => {
@@ -49,7 +53,6 @@ const OptionCreate = () => {
     };
 
     const handleOptionChange = (index, field, value) => {
-        /*TODO: Logic để ngăn không cho chọn nhiều câu trả lời đúng tùy thuộc loại câu hỏi */
         const newOptions = [...options];
         if (field === 'isCorrect' && value === true && (questionType === 1 || questionType === 3)) {
             newOptions.forEach((option, i) => {
@@ -82,6 +85,10 @@ const OptionCreate = () => {
         }
     };
 
+    if (loading) {
+        return <Typography>Loading...</Typography>;
+    }
+
     return (
         <Box sx={{
             maxWidth: 600,
@@ -97,7 +104,7 @@ const OptionCreate = () => {
                     <RadioGroup>
                         {options.map((option, index) => (
                             <FormControl fullWidth margin="normal" key={index}>
-                                <InputLabel shrink htmlFor={`option-${index}`}>Tùy chọn {index + 1}</InputLabel>
+                                <InputLabel htmlFor={`option-${index}`}>Tùy chọn {index + 1}</InputLabel>
                                 <OutlinedInput
                                     id={`option-${index}`}
                                     name={`option-${index}`}
@@ -119,7 +126,7 @@ const OptionCreate = () => {
                 {questionType === 2 && (
                     options.map((option, index) => (
                         <FormControl fullWidth margin="normal" key={index}>
-                            <InputLabel shrink htmlFor={`option-${index}`}>Tùy chọn {index + 1}</InputLabel>
+                            <InputLabel htmlFor={`option-${index}`}>Tùy chọn {index + 1}</InputLabel>
                             <OutlinedInput
                                 id={`option-${index}`}
                                 name={`option-${index}`}
@@ -152,7 +159,7 @@ const OptionCreate = () => {
                         ))}
                     </RadioGroup>
                 )}
-                <Button color="primary" variant="contained" fullWidth type="submit">
+                <Button className='option-submit-button' variant="contained" fullWidth type="submit">
                     Tạo tùy chọn
                 </Button>
             </form>

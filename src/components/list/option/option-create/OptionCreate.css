@@ -1,6 +1,6 @@
 @import '../../../../styles/vars.css';
 
-.question-submit-button {
+.option-submit-button {
     background-color: var(--color-primary) !important;
     color: var(--color-bg);
     border: none;
