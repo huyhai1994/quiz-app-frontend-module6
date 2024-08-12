@@ -6,13 +6,11 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'react-toastify'
 import 'antd/dist/antd';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import {ConfigProvider, theme} from 'antd';
-import variables from './styles/variables.less'
 
 import App from './App';
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
-import store from "./store/Store";
+import store from "./store/store";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<React.StrictMode>

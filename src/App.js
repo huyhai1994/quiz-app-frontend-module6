@@ -13,10 +13,13 @@ import TeacherApprovalApprovedList from "./components/list/approval-pending/Teac
 import QuestionList from "./components/list/question/QuestionList";
 import QuizList from "./components/list/quiz/QuizList";
 import StudentList from "./components/list/students/StudentList";
-import AuthLayout from "./components/auth/AuthLayout";
+import AuthLayout from "./components/layout/AuthLayout";
 import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
+import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
+import UserProfile from "./components/user-service/UserProfile";
+import UserProfileLayout from "./components/layout/UserProfileLayout";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -50,11 +53,15 @@ function App() {
         <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<AuthLayout title="Login">
-                <LoginForm/>
-            </AuthLayout>}/>
+                <LoginForm />
+            </AuthLayout>} />
             <Route path="/register" element={<AuthLayout title="Register">
-                <RegisterForm/>
-            </AuthLayout>}/>
+                <RegisterForm />
+            </AuthLayout>} />
+            <Route path="/profile" element={<UserProfileLayout />}>
+                <Route index element={<UserProfile />} />
+                <Route path="change-password" element={<ChangePasswordForm />} />
+            </Route>
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
                 <Route path="add-category" element={<AddCategory/>}/>
