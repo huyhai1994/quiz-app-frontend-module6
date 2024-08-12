@@ -59,6 +59,7 @@ const Master = () => {
                     margin: '0 16px',
                 }}
             >
+
                 <div
                     style={{
                         padding: 24, minHeight: 360, background: colorBgContainer, borderRadius: borderRadiusLG,
@@ -68,7 +69,8 @@ const Master = () => {
                 </div>
             </Content>
             <Footer style={{textAlign: 'center',}}>
-               <HomeFooter/>
+                Quiz App &copy; 2022 Created by Team 1 - CodeGym.
+
             </Footer>
         </Layout>
     </Layout>);
