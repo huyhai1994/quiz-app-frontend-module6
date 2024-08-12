@@ -4,24 +4,49 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 
 const OptionCreate = () => {
-    const [options, setOptions] = useState([
-        {optionText: '', isCorrect: false},
-        {optionText: '', isCorrect: false},
-        {optionText: '', isCorrect: false},
-        {optionText: '', isCorrect: false}
-    ]);
+    const [options, setOptions] = useState([]);
     const [questionId, setQuestionId] = useState(null);
+    const [questionType, setQuestionType] = useState(null);
 
     useEffect(() => {
         const storedQuestionId = localStorage.getItem('questionId');
+        const storedQuestionType = localStorage.getItem('questionType');
         if (storedQuestionId) {
             setQuestionId(parseInt(storedQuestionId, 10));
         }
+        if (storedQuestionType) {
+            setQuestionType(parseInt(storedQuestionType, 10));
+            initializeOptions(parseInt(storedQuestionType, 10));
+        }
     }, []);
+
+    const initializeOptions = (type) => {
+        let initialOptions = [];
+        if (type === 1 || type === 2) {
+            initialOptions = [
+                {optionText: '', isCorrect: false},
+                {optionText: '', isCorrect: false},
+                {optionText: '', isCorrect: false},
+                {optionText: '', isCorrect: false}
+            ];
+        } else if (type === 3) {
+            initialOptions = [
+                {optionText: 'True', isCorrect: false},
+                {optionText: 'False', isCorrect: false}
+            ];
+        }
+        setOptions(initialOptions);
+    };
 
     const handleOptionChange = (index, field, value) => {
         const newOptions = [...options];
-        newOptions[index][field] = value;
+        if (field === 'isCorrect' && value === true && (questionType === 1 || questionType === 3)) {
+            newOptions.forEach((option, i) => {
+                option.isCorrect = i === index;
+            });
+        } else {
+            newOptions[index][field] = value;
+        }
         setOptions(newOptions);
     };
 
@@ -36,10 +61,10 @@ const OptionCreate = () => {
         try {
             await axios.post(url, options);
             Swal.fire({
-                title: "Thành công",
-                text: "Tùy chọn đã được tạo",
-                icon: "success"
+                title: "Thành công", text: "Tùy chọn đã được tạo", icon: "success"
             });
+            localStorage.removeItem('questionId');
+            localStorage.removeItem('questionType');
         } catch (error) {
             Swal.fire('Thất bại', error.response?.data || 'Xin vui lòng kiểm tra lại thông tin vừa nhập!', 'error');
             console.error("Error creating option", error);
@@ -68,12 +93,10 @@ const OptionCreate = () => {
                             placeholder={`Nhập tùy chọn ${index + 1}`}
                         />
                         <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={option.isCorrect}
-                                    onChange={(e) => handleOptionChange(index, 'isCorrect', e.target.checked)}
-                                />
-                            }
+                            control={<Checkbox
+                                checked={option.isCorrect}
+                                onChange={(e) => handleOptionChange(index, 'isCorrect', e.target.checked)}
+                            />}
                             label="Đúng"
                         />
                     </FormControl>
