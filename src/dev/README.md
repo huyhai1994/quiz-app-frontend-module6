@@ -7,7 +7,8 @@ when an editor with React components is active. You can drag and drop items from
 JSX Outline. Alternatively, you can insert components from the palette using code generation
 action (`alt+insert` / `⌘ N`).
 
-Add components to the palette using `Add to React Palette` intention or via palette editor (look htmlFor the corresponding
+Add components to the palette using `Add to React Palette` intention or via palette editor (look htmlFor the
+corresponding
 link in `palette.tsx`). There are some ready-to-use palettes htmlFor popular React libraries which are published as npm
 packages and can be added as a dependency:
 

@@ -1,9 +1,9 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 
 const ApiURL = "http://localhost:8080/option";
 
-export const CreateOption = createAsyncThunk('listOption', async (option, { rejectWithValue }) => {
+export const CreateOption = createAsyncThunk('listOption', async (option, {rejectWithValue}) => {
     try {
         const response = await axios.post(ApiURL + "/create", option);
         return response.data;

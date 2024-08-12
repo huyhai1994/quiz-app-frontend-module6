@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
+
 import {Link, Outlet, useNavigate} from 'react-router-dom';
 import {Layout, Menu, theme} from 'antd';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import SettingsIcon from '@mui/icons-material/Settings';
-import '../../styles/vars.css';
-import './Master.css';
+import '../../../styles/vars.css';
 
 const {Content, Footer, Sider} = Layout;
 
@@ -15,22 +15,17 @@ function getItem(label, key, icon, children, link) {
 }
 
 const items = [
+    getItem('Trang chủ', '1', null, null, '/student/home'),
     getItem('Danh Sách', 'sub1',
         <ViewListIcon/>, [
-            getItem('Giáo viên', '3', null, null, '/admin/teacher-list'),
-            getItem('Học Viên', '4', null, null, '/admin/student-list'),
-            getItem('Chờ duyệt', '5', null, null, '/admin/pending-list'),
-            getItem('đã duyệt ', '6', null, null, '/admin/teacher/approved'),
-            getItem('Danh Mục Câu Hỏi ', '7', null, null, '/admin/categories'),
-            getItem('Danh sách  Câu Hỏi ', '8', null, null, '/admin/question')
-        ]),
-    getItem('Cài đặt', 'sub1',
+            getItem('Lớp học', '2', null, null, '/student/class-list'), getItem('Bài kiểm tra', '3', null, null, '/student/test-list'),]), getItem('Cài đặt', 'sub2',
         <SettingsIcon/>, [
-            getItem('Thông tin cá nhân', '9', null, null, '/admin/update-info')])
+            getItem('Thông tin cá nhân', '4', null, null, '/student/profile'), getItem('Thay đổi mật khẩu', '5', null, null, '/student/change-password'),],),
+
+
 ];
 
-
-const Master = () => {
+const StudentHome = () => {
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
     const {
@@ -41,11 +36,7 @@ const Master = () => {
         navigate('/login');
     };
 
-    return (<Layout
-        style={{
-            minHeight: '100vh',
-        }}
-    >
+    return (<Layout style={{minHeight: '100vh'}}>
         <Sider
             collapsible
             collapsed={collapsed}
@@ -56,34 +47,28 @@ const Master = () => {
             <div style={{padding: '16px', textAlign: 'center'}}>
                 <h1 className='logo'>QUIZZ</h1>
             </div>
-            <Menu
-                defaultSelectedKeys={['1']}
-                mode="inline"
-                items={items}/>
+            <Menu defaultSelectedKeys={['1']} mode="inline" items={items}/>
         </Sider>
         <Layout>
             <Content
                 style={{
                     margin: '0 16px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    height: '100vh',
+                    background: 'var(--color-bg)',
+                    borderRadius: borderRadiusLG,
                 }}
             >
-                <div
-                    style={{
-                        padding: 24, minHeight: 360, background: colorBgContainer, borderRadius: borderRadiusLG,
-                    }}
-                >
+                <div style={{padding: ' 5% 10%'}}>
                     <Outlet/>
                 </div>
             </Content>
-            <Footer
-                style={{
-                    textAlign: 'center',
-                }}
-            >
+            <Footer style={{textAlign: 'center'}}>
                 Ant Design ©{new Date().getFullYear()} Created by Ant UED
             </Footer>
         </Layout>
     </Layout>);
 };
 
-export default Master;
+export default StudentHome;

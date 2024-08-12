@@ -18,8 +18,14 @@ import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
 import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
+import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
+import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
+import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
 import UserProfile from "./components/user-service/UserProfile";
 import UserProfileLayout from "./components/layout/UserProfileLayout";
+import StudentHome from "./pages/student/student-home/StudentHome";
+import StudentMain from "./pages/student/student-home/main/StudentMain";
+import QuizComponent from "./components/list/quiz-component/QuizComponent";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -53,17 +59,18 @@ function App() {
         <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<AuthLayout title="Login">
-                <LoginForm />
-            </AuthLayout>} />
+                <LoginForm/>
+            </AuthLayout>}/>
             <Route path="/register" element={<AuthLayout title="Register">
-                <RegisterForm />
-            </AuthLayout>} />
-            <Route path="/profile" element={<UserProfileLayout />}>
-                <Route index element={<UserProfile />} />
-                <Route path="change-password" element={<ChangePasswordForm />} />
+                <RegisterForm/>
+            </AuthLayout>}/>
+            <Route path="/profile" element={<UserProfileLayout/>}>
+                <Route index element={<UserProfile/>}/>
+                <Route path="change-password" element={<ChangePasswordForm/>}/>
             </Route>
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
+                <Route path="update-info" element={<AdminEdit/>}/>
                 <Route path="add-category" element={<AddCategory/>}/>
                 <Route path="edit/:id" element={<EditCategory/>}/>
                 <Route path="question" element={<QuestionList/>}/>
@@ -72,6 +79,18 @@ function App() {
                 <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>
                 <Route path="teacher-list" element={<TeacherList/>}/>
                 <Route path="student-list" element={<StudentList/>}/>
+            </Route>
+            <Route path="/teacher" element={<TeacherHome/>}>
+                <Route path="" element={<TeacherMain/>}/>
+                <Route path="profile" element={<UserProfile/>}/>
+                <Route path="change-password" element={<ChangePasswordForm/>}/>
+            </Route>
+            <Route path="/student" element={<StudentHome/>}>
+                <Route path="" element={<StudentMain/>}/>
+                <Route path="profile" element={<UserProfile/>}/>
+                <Route path="change-password" element={<ChangePasswordForm/>}/>
+                <Route path="quiz" element={<QuizList/>}/>
+                <Route path="question" element={<QuizComponent/>}/>
             </Route>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
