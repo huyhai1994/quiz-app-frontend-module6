@@ -1,4 +1,4 @@
-import './App.css';
+    import './App.css';
 import {Route, Routes} from "react-router-dom";
 import Home from "./pages/home/Home";
 import Master from "./pages/admin/Master";
@@ -20,6 +20,7 @@ import {ConfigProvider, theme} from "antd";
 import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
 import UserProfile from "./components/user-service/UserProfile";
 import UserProfileLayout from "./components/layout/UserProfileLayout";
+    import HomePage from "./components/HomePage";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -73,6 +74,7 @@ function App() {
                 <Route path="teacher-list" element={<TeacherList/>}/>
                 <Route path="student-list" element={<StudentList/>}/>
             </Route>
+            <Route path="home" element={<HomePage/>}/>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     </ConfigProvider>)

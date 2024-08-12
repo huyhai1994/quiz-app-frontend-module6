@@ -5,7 +5,6 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import SettingsIcon from '@mui/icons-material/Settings';
 import '../../styles/vars.css';
 import './Master.css';
-import HomeFooter from "../../components/footer/HomeFooter";
 
 const {Content, Footer, Sider} = Layout;
 
