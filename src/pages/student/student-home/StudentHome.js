@@ -37,13 +37,7 @@ const StudentHome = () => {
     };
 
     return (<Layout style={{minHeight: '100vh'}}>
-        <Sider
-            collapsible
-            collapsed={collapsed}
-            onCollapse={(value) => setCollapsed(value)}
-            width={250}
-            theme={'light'}
-        >
+        <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} width={250} theme={'light'}>
             <div style={{padding: '16px', textAlign: 'center'}}>
                 <h1 className='logo'>QUIZZ</h1>
             </div>

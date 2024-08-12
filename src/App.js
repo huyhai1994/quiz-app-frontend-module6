@@ -27,7 +27,6 @@ import UserProfileLayout from "./components/layout/UserProfileLayout";
 import StudentHome from "./pages/student/student-home/StudentHome";
 import StudentMain from "./pages/student/student-home/main/StudentMain";
 import QuizComponent from "./components/list/quiz-component/QuizComponent";
-    import HomePage from "./components/HomePage";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -95,10 +94,8 @@ function App() {
                 <Route path="quiz" element={<QuizList/>}/>
                 <Route path="question" element={<QuizComponent/>}/>
             </Route>
-            <Route path="/teacher" element={<Home/>}>
-
-            </Route>
-            <Route path="home" element={<HomePage/>}/>
+            <Route path="/teacher" element={<Home/>}/>
+            <Route path={"/student"} element={<StudentHome/>}/>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     </ConfigProvider>)
