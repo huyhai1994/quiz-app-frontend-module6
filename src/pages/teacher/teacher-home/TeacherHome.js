@@ -3,6 +3,8 @@ import {Link, Outlet, useNavigate} from 'react-router-dom';
 import {Layout, Menu, theme} from 'antd';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import SettingsIcon from '@mui/icons-material/Settings';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import HomeIcon from '@mui/icons-material/Home';
 import '../../../styles/vars.css';
 import './TeacherHome.css';
 
@@ -15,16 +17,20 @@ function getItem(label, key, icon, children, link) {
 }
 
 const items = [
-    getItem('Trang chủ', '1', null, null, '/teacher/home'),
+    getItem('Trang chủ', '1', <HomeIcon/>, null, '/teacher/home'),
+    getItem('Tạo mới', '2', <AddBoxIcon/>, [
+        getItem('Câu hỏi', '3', null, null, '/teacher/question/create')
+    ]),
     getItem('Danh Sách', 'sub1', <ViewListIcon/>, [
-            getItem('Lớp học', '2', null, null, '/teacher/class-list'),
-            getItem('Học sinh', '3', null, null, '/teacher/student-list'),
-            getItem('Bài kiểm tra', '4', null, null, '/teacher/test-list'),]),
+        getItem('Lớp học', '5', null, null, '/teacher/class-list'),
+        getItem('Học sinh', '6', null, null, '/teacher/student-list'),
+        getItem('Bài kiểm tra', '7', null, null, '/teacher/test-list')
+    ]),
     getItem('Cài đặt', 'sub2', <SettingsIcon/>, [
-        getItem('Thông tin cá nhân', '5', null, null, '/teacher/profile'),
-        getItem('Thay đổi mật khẩu', '6', null, null, '/teacher/change-password'),
-
-    ]),];
+        getItem('Thông tin cá nhân', '8', null, null, '/teacher/profile'),
+        getItem('Thay đổi mật khẩu', '9', null, null, '/teacher/change-password')
+    ])
+];
 
 const TeacherHome = () => {
     const [collapsed, setCollapsed] = useState(false);
