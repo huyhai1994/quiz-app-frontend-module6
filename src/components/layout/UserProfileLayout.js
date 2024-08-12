@@ -1,13 +1,32 @@
-import {UserOutlined, LockOutlined, KeyOutlined} from '@ant-design/icons'
-import {Layout, Menu} from 'antd'
-import {Link, Outlet, useLocation} from 'react-router-dom'
+import {UserOutlined, LockOutlined, KeyOutlined, LogoutOutlined} from '@ant-design/icons'
+import {Layout, Menu, Modal} from 'antd'
+import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom'
 import React, {useState} from "react";
+import {useDispatch} from "react-redux";
+import {logout} from "../../features/authSlice";
 
 const {Sider, Content, Footer} = Layout
 
 const UserProfileLayout = () => {
     const [collapsed, setCollapsed] = useState(false)
+    const [logoutModalVisible, setLogoutModalVisible] = useState(false)
     const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const showLogoutModal = () => {
+        setLogoutModalVisible(true)
+    }
+
+    const handleLogout = async () => {
+        try {
+            await dispatch(logout()).unwrap();
+            setLogoutModalVisible(false)
+            navigate('/');
+        } catch (error) {
+            console.log('Logout failed: ' ,error)
+        }
+    }
 
     const items = [
         {
@@ -29,6 +48,12 @@ const UserProfileLayout = () => {
                     key: 'reset-password',
                     icon: <KeyOutlined />,
                     label: <Link to="/profile/reset-password">Forgot My Password</Link>,
+                },
+                {
+                    key: 'logout',
+                    icon: <LogoutOutlined />,
+                    label: 'Logout',
+                    onClick: showLogoutModal,
                 }
             ],
         },
@@ -69,6 +94,16 @@ const UserProfileLayout = () => {
                     Ant Design ©{new Date().getFullYear()} Created by Ant UED
                 </Footer>
             </Layout>
+            <Modal
+                title="Logout Confirmation"
+                visible={logoutModalVisible}
+                onOk={handleLogout}
+                onCancel={() => setLogoutModalVisible(false)}
+                okText="Yes"
+                cancelText="No"
+            >
+                <p>Are you sure you want to log out</p>
+            </Modal>
         </Layout>
     )
 }

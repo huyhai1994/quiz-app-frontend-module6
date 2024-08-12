@@ -42,6 +42,36 @@ export const changePassword = createAsyncThunk(
     }
 )
 
+export const updateUserProfile = createAsyncThunk(
+    '/users/profile',
+    async (profileData, {rejectWithValue}) => {
+        try {
+            const response = await axiosInstance.put('/users/profile', profileData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'multipart/form-data',
+                }
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'An error occurred');
+        }
+    }
+)
+
+export const logout = createAsyncThunk(
+    'api/auth/logout',
+    async (_, {rejectWithValue}) => {
+        try {
+            const response = await axiosInstance.post('/api/auth/logout');
+            localStorage.removeItem('token');
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'An error occurred')
+        }
+    }
+)
+
     const authSlice = createSlice({
         name: 'auth',
         initialState: {
@@ -50,14 +80,9 @@ export const changePassword = createAsyncThunk(
             loading: false,
             success: false,
             error: null,
+            user: null,
         },
-        reducers: {
-            logout: (state) => {
-                localStorage.removeItem('token')
-                state.token = null
-                state.isAuthenticated = false
-            }
-        },
+        reducers: {},
         extraReducers: (builder) => {
             builder
                 .addCase(login.pending, (state) => {
@@ -99,8 +124,32 @@ export const changePassword = createAsyncThunk(
                     state.loading = false;
                     state.error = action.payload;
                 })
+                .addCase(updateUserProfile.pending, (state) => {
+                    state.loading = true;
+                    state.error = null;
+                })
+                .addCase(updateUserProfile.fulfilled, (state, action) => {
+                    state.loading = false;
+                    state.user = action.payload;
+                })
+                .addCase(updateUserProfile.rejected, (state, action) => {
+                    state.loading = false;
+                    state.error = action.payload;
+                })
+                .addCase(logout.pending, (state) => {
+                    state.loading = true;
+                })
+                .addCase(logout.fulfilled, (state) => {
+                    state.loading = false;
+                    state.token = null;
+                    state.isAuthenticated = false;
+                    state.user = null;
+                })
+                .addCase(logout.rejected, (state, action) => {
+                    state.loading = false;
+                    state.error = action.payload;
+                })
         }
     })
 
-export const {logout} = authSlice.actions;
 export default authSlice.reducer
