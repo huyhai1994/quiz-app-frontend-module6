@@ -5,6 +5,10 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import HomeIcon from '@mui/icons-material/Home';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import PasswordIcon from '@mui/icons-material/Password';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import QuizIcon from '@mui/icons-material/Quiz';
 import '../../../styles/vars.css';
 import './TeacherHome.css';
 
@@ -19,18 +23,14 @@ function getItem(label, key, icon, children, link) {
 const items = [
     getItem('Trang chủ', '1', <HomeIcon/>, null, '/teacher/home'),
     getItem('Tạo mới', '2', <AddBoxIcon/>, [
-        getItem('Câu hỏi', '3', null, null, '/teacher/question/create')
-    ]),
+        getItem('Câu hỏi', '3', <QuestionMarkIcon/>, null, '/teacher/question/create')]),
     getItem('Danh Sách', 'sub1', <ViewListIcon/>, [
-        getItem('Lớp học', '5', null, null, '/teacher/class-list'),
-        getItem('Học sinh', '6', null, null, '/teacher/student-list'),
-        getItem('Bài kiểm tra', '7', null, null, '/teacher/test-list')
-    ]),
-    getItem('Cài đặt', 'sub2', <SettingsIcon/>, [
-        getItem('Thông tin cá nhân', '8', null, null, '/teacher/profile'),
-        getItem('Thay đổi mật khẩu', '9', null, null, '/teacher/change-password')
-    ])
-];
+        getItem('Câu Hỏi', '5', <QuestionMarkIcon/>, null, '/teacher/question'),
+        getItem('Bài kiểm tra', '6', <QuizIcon/>, null, '/teacher/test-list')]),
+    getItem('Cài đặt', 'sub2',
+        <SettingsIcon/>, [
+            getItem('Thông tin cá nhân', '7', <ManageAccountsIcon/>, null, '/teacher/profile'),
+            getItem('Thay đổi mật khẩu', '8', <PasswordIcon/>, null, '/teacher/change-password')])];
 
 const TeacherHome = () => {
     const [collapsed, setCollapsed] = useState(false);

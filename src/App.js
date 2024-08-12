@@ -85,6 +85,7 @@ function App() {
             <Route path="/teacher" element={<TeacherHome/>}>
                 <Route path="" element={<TeacherMain/>}/>
                 <Route path="profile" element={<UserProfile/>}/>
+                <Route path="question" element={<QuestionList/>}/>
                 <Route path="change-password" element={<ChangePasswordForm/>}/>
                 <Route path="question/create" element={<QuestionCreate/>}/>
                 <Route path="option-create" element={<OptionCreate/>}/>
