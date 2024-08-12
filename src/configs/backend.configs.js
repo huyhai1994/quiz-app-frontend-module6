@@ -7,3 +7,5 @@ export const API_DELETE_CATEGORY_URL = "http://localhost:8080/category/delete";
 export const API_QUESTION_URL = "http://localhost:8080/question";
 
 export const API_QUESTION_TYPE = "http://localhost:8080/question-type";
+
+export const API_OPTION_URL = "http://localhost:8080/option";
