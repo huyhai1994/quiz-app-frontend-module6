@@ -18,6 +18,7 @@ import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
 import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
+import PasswordReset from "./components/user-service/PasswordReset";
 import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
 import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
@@ -59,14 +60,15 @@ function App() {
         <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<AuthLayout title="Login">
-                <LoginForm/>
-            </AuthLayout>}/>
+                <LoginForm />
+            </AuthLayout>} />
             <Route path="/register" element={<AuthLayout title="Register">
-                <RegisterForm/>
-            </AuthLayout>}/>
-            <Route path="/profile" element={<UserProfileLayout/>}>
-                <Route index element={<UserProfile/>}/>
-                <Route path="change-password" element={<ChangePasswordForm/>}/>
+                <RegisterForm />
+            </AuthLayout>} />
+            <Route path="/profile" element={<UserProfileLayout />}>
+                <Route index element={<UserProfile />} />
+                <Route path="change-password" element={<ChangePasswordForm />} />
+                <Route path="reset-password" element={<PasswordReset />} />
             </Route>
             <Route path="/admin" element={<Master/>}>
                 <Route path="categories" element={<Categories/>}/>
@@ -91,6 +93,9 @@ function App() {
                 <Route path="change-password" element={<ChangePasswordForm/>}/>
                 <Route path="quiz" element={<QuizList/>}/>
                 <Route path="question" element={<QuizComponent/>}/>
+            </Route>
+            <Route path="/teacher" element={<Home/>}>
+
             </Route>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
