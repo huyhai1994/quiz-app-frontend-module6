@@ -3,7 +3,7 @@ import {useFormik} from "formik";
 import {Breadcrumb} from "antd";
 import TeacherService from '../../../services/teacher.service';
 import Page from "../../pages/Page";
-import {FaExclamationTriangle, FaSearch} from "react-icons/fa";
+import {FaExclamationTriangle, FaSearch, FaTrash} from "react-icons/fa"; // Import the delete icon from react-icons
 import './TeacherList.css';
 
 const TeacherList = () => {
@@ -58,6 +58,18 @@ const TeacherList = () => {
         return teachers.slice(startIndex, endIndex);
     };
 
+    const handleDelete = async (teacherId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this teacher?");
+        if (confirmDelete) {
+            try {
+                await TeacherService.deleteTeacher(teacherId);
+                setTeachers(teachers.filter(teacher => teacher.id !== teacherId));
+            } catch (error) {
+                console.error('Error deleting teacher:', error);
+            }
+        }
+    };
+
     const currentTeachers = getCurrentPageData();
 
     return (<div className='teacher-list'>
@@ -103,6 +115,8 @@ const TeacherList = () => {
                         <th>Email</th>
                         <th>Ngày đăng kí</th>
                         <th>Lần cuối truy cập</th>
+                        <th>Hành động</th>
+                        {/* Add a new column for actions */}
                     </tr>
                     </thead>
                     <tbody>
@@ -111,6 +125,11 @@ const TeacherList = () => {
                         <td>{teacher.email}</td>
                         <td>{teacher.registeredAt}</td>
                         <td>{teacher.lastLogin}</td>
+                        <td className='text-center'>
+                            <button className="btn btn-danger" onClick={() => handleDelete(teacher.id)}>
+                                <FaTrash/>
+                            </button>
+                        </td>
                     </tr>))}
                     </tbody>
                 </table>

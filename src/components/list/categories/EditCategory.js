@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react'
-import {Button,} from "antd";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import CategoryService from "../../../services/category.service";
 import Swal from "sweetalert2";
 import {useFormik} from "formik";
-import {TextField} from "@mui/material";
-
+import {Button, TextField} from "@mui/material";
+import './EditCategory.css'
 
 const EditCategory = () => {
 
@@ -18,13 +17,13 @@ const EditCategory = () => {
                 name: res.data.name, description: res.data.description
             })
         })
-    },[id]);
+    }, [id]);
 
     const formEditCategory = useFormik({
         initialValues: {
             name: '', description: ''
         }, onSubmit: (values) => {
-            CategoryService.updateCategory(id ,values).then(res => {
+            CategoryService.updateCategory(id, values).then(res => {
                 console.log(values)
                 Swal.fire('Success', 'Category updated successfully', 'success')
                 console.log("a")
@@ -36,28 +35,59 @@ const EditCategory = () => {
         }
     })
 
-    return (<div>
-            <div className="card px-2"><h1>Edit Category</h1>
-                <form onSubmit={formEditCategory.handleSubmit}>
-                    <div className="mb-2">
-                        <TextField id="outlined-basic" label="Tiêu đề" variant="outlined" name="name"
-                                   onChange={formEditCategory.handleChange('name')}/>
+    return (<div className='container d-flex justify-content-center'>
+        <div className="card  my-5 p-5" style={{width: '50%'}}><h1 className='text-center'>Sửa thông tin danh mục</h1>
+            <form onSubmit={formEditCategory.handleSubmit} className="text-center py-4">
+                <TextField
+                    id="outlined-basic"
+                    label="Tiêu đề"
+                    variant="outlined"
+                    name="name"
+                    className="form-control my-5"
+                    onChange={formEditCategory.handleChange}
+                    value={formEditCategory.values.name}
+                />
 
-                    </div>
-                    <div className="mb-2">
-                        <TextField id="outlined-basic" label="Mô tả" variant="outlined" name="description" onChange={formEditCategory.handleChange('description')}/>
+                <TextField
+                    id="outlined-basic"
+                    label="Mô tả"
+                    variant="outlined"
+                    name="description"
+                    className="form-control"
+                    onChange={formEditCategory.handleChange}
+                    value={formEditCategory.values.description}
+                />
+                <div className="py-3 d-flex  justify-content-md-around">
+                    <Button
+                        sx={{
+                            backgroundColor: 'var(--color-primary)',
+                            color: 'var(--color-bg)',
+                            width: '40%',
+                            borderRadius: '5px',
+                            '&:hover': {
+                                backgroundColor: 'var(--color-dark)',
+                            }
+                        }}
+                        type="submit"
+                    >
+                        Save
+                    </Button>
 
-                    </div>
-                    <div className="p-2" >
-                        <Button type="primary" htmlType="submit" style={{marginRight: "8px"}}>
-                            Save
-                        </Button>
-                        <Link to={"/admin/categories"}><Button type="primary" danger>Cancel
-                        </Button></Link>
-                    </div>
-                </form>
-            </div>
-        </div>)
+                    <Button sx={{
+                        backgroundColor: 'var(--color-secondary)',
+                        color: 'var(--color-bg)',
+                        width: '40%',
+                        borderRadius: '5px',
+                        '&:hover': {
+                            backgroundColor: 'var(--color-dark)',
+                        }
+                    }}
+                    >Cancel
+                    </Button>
+                </div>
+            </form>
+        </div>
+    </div>)
 }
 
 export default EditCategory

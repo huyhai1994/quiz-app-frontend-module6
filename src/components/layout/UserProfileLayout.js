@@ -1,4 +1,4 @@
-import {UserOutlined, LockOutlined } from '@ant-design/icons'
+import {UserOutlined, LockOutlined, KeyOutlined} from '@ant-design/icons'
 import {Layout, Menu} from 'antd'
 import {Link, Outlet, useLocation} from 'react-router-dom'
 import React, {useState} from "react";
@@ -25,17 +25,23 @@ const UserProfileLayout = () => {
                     icon: <LockOutlined />,
                     label: <Link to="/profile/change-password">Change Password</Link>,
                 },
+                {
+                    key: 'reset-password',
+                    icon: <KeyOutlined />,
+                    label: <Link to="/profile/reset-password">Forgot My Password</Link>,
+                }
             ],
         },
     ];
 
     return (
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout style={{ minHeight: '100vh'}}>
             <Sider
                 collapsible
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
                 theme={'light'}
+                width='300px'
             >
                 <div style={{padding: '16px', textAlign: 'center'}}>
                     <h1 className='logo'>QUIZZ</h1>
@@ -45,7 +51,8 @@ const UserProfileLayout = () => {
                     defaultSelectedKeys={['profile']}
                     mode="inline"
                     items={items}
-                    selectedKeys={[location.pathname === '/profile/change-password' ? 'change-password' : 'profile']}
+                    // selectedKeys={[location.pathname === '/profile/change-password' ? 'change-password' : 'profile']}
+                    selectedKeys={[location.pathname.split('/').pop()]}
                 />
             </Sider>
             <Layout className="site-layout">
