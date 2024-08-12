@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import Swal from "sweetalert2";
-import {Box, Button, FormControl, InputLabel, MenuItem, OutlinedInput, Select} from '@mui/material';
+import {Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography} from '@mui/material';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import axiosInstance from '../../../../utils/axiosConfig';
 import CategoryService from "../../../../services/category.service";
 import QuestionTypeService from "../../../../services/question-type.service";
 import QuestionService from "../../../../services/question.service";
+import './QuestionCreate.css';
 
 const QuestionCreate = () => {
     const navigate = useNavigate();
@@ -15,28 +16,28 @@ const QuestionCreate = () => {
     const [questionTypes, setQuestionTypes] = useState([]);
     const [teacherName, setTeacherName] = useState('');
     const [userId, setUserId] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        CategoryService.getAllCategories().then(res => {
-            setCategories(res.data);
-        }).catch(err => {
-            console.error("Error fetching categories", err);
-        });
+        const fetchData = async () => {
+            try {
+                const categoryRes = await CategoryService.getAllCategories();
+                setCategories(categoryRes.data);
 
-        QuestionTypeService.getAllQuestionTypes().then(res => {
-            setQuestionTypes(res.data);
-            console.log("Question types fetched successfully", res.data);
-        }).catch(err => {
-            console.error("Error fetching question types", err);
-        });
+                const questionTypeRes = await QuestionTypeService.getAllQuestionTypes();
+                setQuestionTypes(questionTypeRes.data);
 
-        axiosInstance.get('/users/profile').then(res => {
-            setTeacherName(res.data.name);
-            setUserId(res.data.id); // Set the user ID
-            localStorage.setItem('userId', res.data.id); // Save userId to localStorage
-        }).catch(err => {
-            console.error("Error fetching user profile", err);
-        });
+                const userRes = await axiosInstance.get('/users/profile');
+                setTeacherName(userRes.data.name);
+                setUserId(userRes.data.id);
+                localStorage.setItem('userId', userRes.data.id);
+                setLoading(false);
+            } catch (err) {
+                console.error("Error fetching data", err);
+                setLoading(false);
+            }
+        };
+        fetchData();
     }, []);
 
     const validationSchema = Yup.object().shape({
@@ -51,10 +52,10 @@ const QuestionCreate = () => {
             title: '', questionType: '', difficulty: '', category: '', createdBy: teacherName
         }, validationSchema: validationSchema, onSubmit: async (values) => {
             try {
-                localStorage.setItem('questionType', values.questionType); // Save questionType to localStorage
-                const response = await QuestionService.addQuestion(values, userId); // Pass userId as a parameter
-                const newQuestionId = response.data.id; // Assuming the response contains the new question ID
-                localStorage.setItem('questionId', newQuestionId); // Save questionId to localStorage
+                localStorage.setItem('questionType', values.questionType);
+                const response = await QuestionService.addQuestion(values, userId);
+                const newQuestionId = response.data.id;
+                localStorage.setItem('questionId', newQuestionId);
                 Swal.fire({
                     title: "Thành công", text: "Câu hỏi mới đã được tạo", icon: "success"
                 });
@@ -66,6 +67,10 @@ const QuestionCreate = () => {
         }
     });
 
+    if (loading) {
+        return <Typography>Loading...</Typography>;
+    }
+
     return (<Box sx={{
         maxWidth: 600,
         margin: 'auto',
@@ -76,19 +81,19 @@ const QuestionCreate = () => {
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
     }}>
         <form onSubmit={formik.handleSubmit}>
+            <TextField
+                label="Tiêu đề"
+                fullWidth
+                margin="normal"
+                id="title"
+                name="title"
+                value={formik.values.title}
+                onChange={formik.handleChange}
+                error={formik.touched.title && Boolean(formik.errors.title)}
+                helperText={formik.touched.title && formik.errors.title}
+            />
             <FormControl fullWidth margin="normal">
-                <InputLabel shrink htmlFor="title">Tiêu đề</InputLabel>
-                <OutlinedInput
-                    id="title"
-                    name="title"
-                    value={formik.values.title}
-                    onChange={formik.handleChange}
-                    placeholder="Nhập tiêu đề"
-                    error={formik.touched.title && Boolean(formik.errors.title)}
-                />
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-                <InputLabel shrink htmlFor="questionType">Loại câu hỏi</InputLabel>
+                <InputLabel htmlFor="questionType">Loại câu hỏi</InputLabel>
                 <Select
                     id="questionType"
                     name="questionType"
@@ -97,12 +102,12 @@ const QuestionCreate = () => {
                     error={formik.touched.questionType && Boolean(formik.errors.questionType)}
                 >
                     {questionTypes.map((type) => (<MenuItem key={type.id} value={type.id}>
-                        {type.typeName}
+                        {type.typeName === "ONE" ? "Một" : type.typeName === "MANY" ? "Nhiều" : "Đúng/sai"}
                     </MenuItem>))}
                 </Select>
             </FormControl>
             <FormControl fullWidth margin="normal">
-                <InputLabel shrink htmlFor="difficulty">Độ khó</InputLabel>
+                <InputLabel htmlFor="difficulty">Độ khó</InputLabel>
                 <Select
                     id="difficulty"
                     name="difficulty"
@@ -116,7 +121,7 @@ const QuestionCreate = () => {
                 </Select>
             </FormControl>
             <FormControl fullWidth margin="normal">
-                <InputLabel shrink htmlFor="category">Danh mục</InputLabel>
+                <InputLabel htmlFor="category">Danh mục</InputLabel>
                 <Select
                     id="category"
                     name="category"
@@ -129,18 +134,18 @@ const QuestionCreate = () => {
                     </MenuItem>))}
                 </Select>
             </FormControl>
-            <FormControl fullWidth margin="normal">
-                <InputLabel shrink htmlFor="createdBy">Người tạo</InputLabel>
-                <OutlinedInput
-                    id="createdBy"
-                    name="createdBy"
-                    value={formik.values.createdBy}
-                    onChange={formik.handleChange}
-                    placeholder={teacherName}
-                    readOnly
-                />
-            </FormControl>
-            <Button color="primary" variant="contained" fullWidth type="submit">
+            <TextField
+                label="Người tạo"
+                fullWidth
+                margin="normal"
+                id="createdBy"
+                name="createdBy"
+                value={formik.values.createdBy}
+                onChange={formik.handleChange}
+                placeholder={teacherName}
+                InputProps={{readOnly: true}}
+            />
+            <Button className='question-submit-button mt-3' variant="contained" fullWidth type="submit">
                 Tạo câu hỏi
             </Button>
         </form>
