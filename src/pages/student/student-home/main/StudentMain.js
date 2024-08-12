@@ -11,7 +11,19 @@ const StudentMain = () => {
         </Box>
 
         {/* Search Bar */}
-        <TextField fullWidth variant="outlined" placeholder="Search for any topic" sx={{marginTop: 2}}/>
+        <Grid container spacing={1} justifyContent="center" alignItems="center">
+            <Grid item xs={12} sm={8}>
+                <TextField fullWidth variant="outlined" placeholder="Search for any topic" sx={{ marginTop: 2 }} />
+            </Grid>
+            <Grid item xs={12} sm={2}>
+                <FaSearch size={24} color="gray" />
+            </Grid>
+        </Grid>
+        {/*<div className="row">*/}
+        {/*    <TextField fullWidth variant="outlined" placeholder="Search for any topic" sx={{marginTop: 2}}/>*/}
+        {/*    <FaSearch size={24} color="gray"/>*/}
+        {/*</div>*/}
+
 
         {/* Cards Grid */}
         <div className="p-3">
@@ -111,7 +123,7 @@ const StudentMain = () => {
             </Grid></div>
 
         <div className="p-3">
-            <h1>Khoa học</h1>
+            <h1>Kỹ thuật</h1>
             <Grid container spacing={3} sx={{marginTop: 1, height: '100%'}} justifyContent="center"
                   alignItems="center">{/* This ensures vertical centering*/}
                 <Grid item xs={12} sm={6} md={4}>
