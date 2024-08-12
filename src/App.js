@@ -28,6 +28,7 @@ import StudentMain from "./pages/student/student-home/main/StudentMain";
 import QuizComponent from "./components/list/quiz-component/QuizComponent";
 import QuestionCreate from "./components/list/question/question-create/QuestionCreate";
 import OptionCreate from "./components/list/option/option-create/OptionCreate";
+import QuizCreate from "./components/list/quiz/quiz-create/QuizzCreate";
 
 function App() {
     return (<ConfigProvider theme={{
@@ -89,6 +90,7 @@ function App() {
                 <Route path="change-password" element={<ChangePasswordForm/>}/>
                 <Route path="question/create" element={<QuestionCreate/>}/>
                 <Route path="option-create" element={<OptionCreate/>}/>
+                <Route path="quiz-create" element={<QuizCreate/>}/>
             </Route>
             <Route path="/student" element={<StudentHome/>}>
                 <Route path="" element={<StudentMain/>}/>
