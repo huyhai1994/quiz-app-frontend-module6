@@ -2,8 +2,22 @@ import React from 'react'
 import {Box, Card, CardContent, CardMedia, Grid, TextField, Typography} from "@mui/material";
 import defaultCardQuiz from '../../../../asset/default-card-quiz.png';
 import {FaSearch} from "react-icons/fa";
+import formik, {useFormik} from "formik";
+import async from "async";
+
 
 const StudentMain = () => {
+
+    const formik =useFormik({
+        initialValues: {
+            title: '',
+            category: ''
+        }, onSubmit : async (values) =>{
+            try {
+                const response = await QuizService.get
+            }
+        }
+    })
     return (<Box sx={{padding: '16px'}}>
         {/* Header */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -11,21 +25,15 @@ const StudentMain = () => {
         </Box>
 
         {/* Search Bar */}
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-            <Grid item xs={12} sm={8}>
-                <TextField fullWidth variant="outlined" placeholder="Search for any topic" sx={{ marginTop: 2 }} />
-            </Grid>
-            <Grid item xs={12} sm={2}>
-                <FaSearch size={24} color="gray" />
-            </Grid>
-        </Grid>
-        {/*<div className="row">*/}
-        {/*    <TextField fullWidth variant="outlined" placeholder="Search for any topic" sx={{marginTop: 2}}/>*/}
-        {/*    <FaSearch size={24} color="gray"/>*/}
-        {/*</div>*/}
-
-
-        {/* Cards Grid */}
+        <div style={{backgroundColor: 'var(--color-secondary)', padding: '2px', borderRadius: '8px'}}>
+            <form>
+                <input className="form-control me-2" type="search" placeholder="Tìm kiếm bằng tên hoặc email"
+                       style={{backgroundColor: 'var(--color-bg)', borderRadius: '8px', padding: '5px 10px'}}
+                       aria-label="Search"
+                       name="email"/>
+                <button className="btn" type="submit"><FaSearch/></button>
+            </form>
+        </div>
         <div className="p-3">
             <h1>Khoa học</h1>
             <Grid container spacing={3} sx={{marginTop: 1, height: '100%'}} justifyContent="center"
@@ -43,10 +51,10 @@ const StudentMain = () => {
                         />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
-                                Tiêu đề của bài kiểm tra
+                                Tiêu đề
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Mô tả về bài kiểm tra
+                                Mô tả
                             </Typography>
                             <Box display="flex" justifyContent="space-between">
                                 <Typography variant="body2" color="text.secondary">
