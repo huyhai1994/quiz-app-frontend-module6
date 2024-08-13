@@ -1,7 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 
-const ApiURL = "http://localhost:3000/category";
+const ApiURL = "http://localhost:8080/category";
 
 export const ListCategory = createAsyncThunk('listCategory', async () => {
     const response = await axios.get(ApiURL + "/list");
@@ -25,5 +25,15 @@ export const DeleteCategory = createAsyncThunk('deleteCategory', async (id) => {
 
 export const GetCategoryByName = createAsyncThunk('getCategoryByName', async (name) => {
     const response = await axios.get(ApiURL + "/search/" + name);
+    return response.data;
+});
+
+export const GetCategoriesByUserId = createAsyncThunk('getCategoriesByUserId', async (userId) => {
+    const response = await axios.get(`${ApiURL}/details/${userId}`, {
+        params: { userId },
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
     return response.data;
 });

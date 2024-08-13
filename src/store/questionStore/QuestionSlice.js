@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-    CreateQuestion,
+    CreateQuestion, GetQuestionsByCategoryName, getQuestionsByQuizId,
     ListQuestion,
     ListTeacherQuestion,
     SearchQuestions
@@ -8,6 +8,8 @@ import {
 
 const initialState = {
     questions: [],
+    status: 'idle',
+    error: null,
 };
 
 const questionSlice = createSlice({
@@ -27,6 +29,20 @@ const questionSlice = createSlice({
             })
             .addCase(ListTeacherQuestion.fulfilled, (state, action) => {
                 state.questions = action.payload;
+            })
+            .addCase(GetQuestionsByCategoryName.fulfilled, (state, action) => {
+                state.questions = action.payload;
+            })
+            .addCase(getQuestionsByQuizId.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(getQuestionsByQuizId.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.questions = action.payload;
+            })
+            .addCase(getQuestionsByQuizId.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
             });
     },
 });

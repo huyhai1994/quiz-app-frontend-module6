@@ -13,7 +13,7 @@ const ListTeacherQuizzesComponent = () => {
     const pageSize = 5;
 
     useEffect(() => {
-        const userId = 2;
+        const userId = 1;
         dispatch(ListTeacherQuizzes(userId));
     }, [dispatch]);
 

@@ -24,3 +24,18 @@ export const ListTeacherQuestion = createAsyncThunk('teacherQuestion/list', asyn
     const response = await axios.get(`${ApiURL}/list-teacher/${userId}`);
     return response.data;
 });
+
+export const GetQuestionsByCategoryName = createAsyncThunk('getQuestionsByCategoryName', async ({categoryName, userId}) => {
+    const response = await axios.get(`${ApiURL}/category/${categoryName}`, {
+        params: { userId }
+    });
+    return response.data;
+});
+
+export const getQuestionsByQuizId = createAsyncThunk(
+    'questions/getByQuizId',
+    async (quizId) => {
+        const response = await axios.get(`${ApiURL}/quiz/${quizId}`);
+        return response.data;
+    }
+);

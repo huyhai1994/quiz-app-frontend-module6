@@ -32,14 +32,18 @@ function QuizTeacherAdd() {
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
-                await dispatch(CreateQuiz({ quiz: values, userId: 1 })).unwrap();
+                console.log(values);
+                const result = await dispatch(CreateQuiz({ quiz: values, userId: 2 })).unwrap();
+                // Lưu quiz_id vào sessionStorage hoặc localStorage
+                sessionStorage.setItem('createdQuizId', result.quizId);
                 Swal.fire({
                     icon: 'success',
                     title: 'Tạo quiz thành công!',
                     showConfirmButton: false,
                     timer: 1500
                 });
-                navigate('/teacher-quizzes');
+                // Điều hướng sang trang danh mục
+                navigate('/quiz-add-into-category');
             } catch (error) {
                 Swal.fire({
                     icon: 'error',

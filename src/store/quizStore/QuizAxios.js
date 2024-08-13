@@ -29,3 +29,13 @@ export const ListTeacherQuizzes = createAsyncThunk('teacherQuiz/list', async (us
     const response = await axios.get(`${ApiURL}/list-teacher/${userId}`);
     return response.data;
 });
+
+export const AddQuestionsToQuiz = createAsyncThunk('addQuestionsToQuiz', async ({ quizId, questionIds }) => {
+    const response = await axios.post(`${ApiURL}/${quizId}/add-questions`, questionIds);
+    return response.data;
+});
+
+export const ListQuizStudent = createAsyncThunk('listQuizStudent', async () => {
+    const response = await axios.get(ApiURL + "/exam");
+    return response.data;
+});

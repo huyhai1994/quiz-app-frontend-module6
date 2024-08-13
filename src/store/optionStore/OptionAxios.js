@@ -15,3 +15,13 @@ export const CreateOption = createAsyncThunk('listOption', async (option, { reje
         }
     }
 });
+
+export const fetchOptionsByQuestionId = createAsyncThunk(
+    'options/fetchOptionsByQuestionId',
+    async (questionId) => {
+        const response = await axios.get(`${ApiURL}/question`, {
+            params: { questionId }
+        });
+        return response.data;
+    }
+);
