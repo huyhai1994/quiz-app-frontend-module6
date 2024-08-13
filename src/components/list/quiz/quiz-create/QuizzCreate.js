@@ -120,7 +120,7 @@ const QuizCreate = () => {
 
     return (
         <Box sx={{maxWidth: 1200, margin: 'auto', mt: 4, padding: 3}}>
-            <Grid container spacing={4}>
+            <Grid container spacing={4} justifyContent="center" alignItems="center">
                 <Grid item xs={12} md={6}>
                     <form onSubmit={formik.handleSubmit}>
                         <TextField
