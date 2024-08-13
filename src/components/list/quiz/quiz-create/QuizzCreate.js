@@ -25,6 +25,7 @@ const QuizCreate = () => {
     const [questions, setQuestions] = useState([]);
     const [selectedQuestions, setSelectedQuestions] = useState([]);
     const [quantity, setQuantity] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('');
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -100,24 +101,22 @@ const QuizCreate = () => {
         }
     };
 
-    const groupQuestionsByCategory = (questions) => {
-        return questions.reduce((acc, question) => {
-            const category = question.categoryName;
-            if (!acc[category]) {
-                acc[category] = [];
-            }
-            acc[category].push(question);
-            return acc;
-        }, {});
+    const handleCategoryChange = (event) => {
+        setSelectedCategory(event.target.value);
     };
-
-    const groupedQuestions = groupQuestionsByCategory(questions);
 
     const handleQuantityChange = (event) => {
         const value = event.target.value;
         setQuantity(value);
         formik.handleChange(event);
+
+        // Clear selected questions if quantity is cleared or set to zero
+        if (value === '' || value === '0') {
+            setSelectedQuestions([]);
+        }
     };
+
+    const filteredQuestions = questions.filter(question => question.categoryName === selectedCategory);
 
     return (
         <Box sx={{maxWidth: 1200, margin: 'auto', mt: 4, padding: 3}}>
@@ -164,6 +163,22 @@ const QuizCreate = () => {
                                 <MenuItem value={60}>60 phút</MenuItem>
                             </Select>
                         </FormControl>
+                        <FormControl fullWidth margin="normal">
+                            <InputLabel id="category-label">Danh mục</InputLabel>
+                            <Select
+                                labelId="category-label"
+                                id="category"
+                                name="category"
+                                value={selectedCategory}
+                                onChange={handleCategoryChange}
+                            >
+                                {categories.map((category) => (
+                                    <MenuItem key={category.id} value={category.name}>
+                                        {category.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                         <TextField
                             label="Số lượng câu hỏi"
                             fullWidth
@@ -193,31 +208,26 @@ const QuizCreate = () => {
                         </Button>
                     </form>
                 </Grid>
-                {quantity && (
+                {quantity && selectedCategory && (
                     <Grid item xs={12} md={6} className='question-select-box'>
                         <Typography variant="h6" sx={{mb: 2}}>Xin mời lựa chọn câu hỏi: </Typography>
                         <List sx={{maxHeight: 400, overflow: 'auto', background: '#f0f0f0', padding: '8px'}}>
-                            {Object.keys(groupedQuestions).map((category) => (
-                                <React.Fragment key={category}>
-                                    <Typography variant="subtitle1" sx={{mt: 2}}>{category}</Typography>
-                                    {groupedQuestions[category].map((question) => (
-                                        <ListItem
-                                            key={question.questionId}
-                                            button
-                                            onClick={() => handleQuestionClick(question)}
-                                            selected={selectedQuestions.includes(question)}
-                                            sx={{
-                                                margin: '8px 0',
-                                                padding: '8px',
-                                                border: '1px solid #ccc',
-                                                borderRadius: '4px',
-                                                backgroundColor: selectedQuestions.includes(question) ? '#d3d3d3' : 'white',
-                                            }}
-                                        >
-                                            <ListItemText primary={question.questionText}/>
-                                        </ListItem>
-                                    ))}
-                                </React.Fragment>
+                            {filteredQuestions.map((question) => (
+                                <ListItem
+                                    key={question.questionId}
+                                    button
+                                    onClick={() => handleQuestionClick(question)}
+                                    selected={selectedQuestions.includes(question)}
+                                    sx={{
+                                        margin: '8px 0',
+                                        padding: '8px',
+                                        border: '1px solid #ccc',
+                                        borderRadius: '4px',
+                                        backgroundColor: selectedQuestions.includes(question) ? '#d3d3d3' : 'white',
+                                    }}
+                                >
+                                    <ListItemText primary={question.questionText}/>
+                                </ListItem>
                             ))}
                         </List>
                     </Grid>
