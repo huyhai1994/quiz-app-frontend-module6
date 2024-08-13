@@ -1,0 +1,59 @@
+/* QuizzCreate.css */
+
+.quiz-create-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 80%;
+    margin: auto;
+    margin-top: 4rem;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.quiz-create-form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.quiz-create-form .MuiFormControl-root,
+.quiz-create-form .MuiTextField-root {
+    margin-bottom: 1rem;
+}
+
+.quiz-create-form .MuiButton-root {
+    margin-top: 1.5rem;
+}
+
+.selected-questions-container {
+    flex: 1;
+    margin-left: 2rem;
+}
+
+.selected-questions-container .MuiTypography-root {
+    margin-bottom: 1rem;
+}
+
+.selected-questions-container .MuiList-root {
+    max-height: 40rem;
+    overflow: auto;
+    background: #f0f0f0;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.selected-questions-container .MuiListItem-root {
+    margin: 8px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.selected-questions-container .MuiListItem-root.Mui-selected {
+    background-color: #d3d3d3;
+}

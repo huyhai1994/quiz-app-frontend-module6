@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {listApprovedApprovals} from '../../../store/teacherApprovalStore/TeacherApprovalAxios';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { listApprovedApprovals, searchApprovedApprovals } from '../../../store/teacherApprovalStore/TeacherApprovalAxios';
 import Swal from 'sweetalert2';
-import {format} from 'date-fns';
+import { format } from 'date-fns';
 import Page from "../../pages/Page";
-import {Breadcrumb} from "antd";
-import {FaExclamationTriangle} from "react-icons/fa";
-import './ApprovedApprovalsList.css'; // Import the CSS file
+import { TailSpin } from 'react-loader-spinner';
 
 function ApprovedApprovalsList() {
     const dispatch = useDispatch();
-    const {approvedApprovals, loading, error} = useSelector((state) => state.teacherApprovals);
+    const { approvedApprovals, loading, error } = useSelector((state) => state.teacherApprovals);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 5;
-    const totalPages = Math.ceil(approvedApprovals.length / pageSize);
+    const [searchUserName, setSearchUserName] = useState("");
+    const [searchUserEmail, setSearchUserEmail] = useState("");
+    const [pageSize] = useState(5);
+    const searchButtonRef = useRef(null);
 
     useEffect(() => {
         dispatch(listApprovedApprovals());
@@ -24,6 +24,19 @@ function ApprovedApprovalsList() {
             Swal.fire('Lỗi', error, 'error');
         }
     }, [error]);
+
+    const handleSearch = () => {
+        dispatch(searchApprovedApprovals({ userName: searchUserName, userEmail: searchUserEmail }));
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (searchButtonRef.current) {
+                searchButtonRef.current.click();
+            }
+        }
+    };
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -36,66 +49,80 @@ function ApprovedApprovalsList() {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <TailSpin color="#00BFFF" height={80} width={80} />
+            </div>
+        );
     }
 
     const currentData = getCurrentPageData();
 
     return (
         <div>
-            <Breadcrumb
-                style={{
-                    margin: '16px 0',
-                }}
-            >
-                <Breadcrumb.Item>Danh Sách</Breadcrumb.Item>
-                <Breadcrumb.Item>Đã duyệt</Breadcrumb.Item>
-            </Breadcrumb>
             <h1>Danh Sách Giáo Viên Được Chấp Thuận</h1>
-            <div className="table-responsive">
-                <table className="table table-bordered ">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên</th>
-                        <th>Email</th>
-                        <th>Trạng Thái</th>
-                        <th>Ngày Chấp Thuận</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {currentData.length > 0 ? (
-                        currentData.map((approval) => (
-                            <tr key={approval.idTeacherApprovals}>
-                                <td>{approval.idTeacherApprovals}</td>
-                                <td>{approval.userName}</td>
-                                <td>{approval.userEmail}</td>
-                                <td className='text-center'>
-                                    <span className="status-approved">{approval.teacherApprovalsStatus}</span>
-                                </td>
-                                <td>{format(new Date(approval.approvedAt), 'dd-MM-yyyy - HH:mm:ss')}</td>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="5">
-                                <div style={{textAlign: 'center', marginTop: '20px'}}>
-                                    <FaExclamationTriangle size={50} color="red"/>
-                                    <p style={{fontSize: '18px', color: 'red'}}>Không có dữ liệu!!!</p>
-                                </div>
-                            </td>
+            <div className="mb-3 d-flex">
+                <div className="me-2 flex-grow-1">
+                    <input
+                        type="text"
+                        value={searchUserName}
+                        onChange={(e) => setSearchUserName(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Tìm kiếm theo tên"
+                        className="form-control"
+                    />
+                </div>
+                <div className="me-2 flex-grow-1">
+                    <input
+                        type="text"
+                        value={searchUserEmail}
+                        onChange={(e) => setSearchUserEmail(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Tìm kiếm theo email"
+                        className="form-control"
+                    />
+                </div>
+                <button
+                    className="btn btn-primary"
+                    onClick={handleSearch}
+                    ref={searchButtonRef}
+                >
+                    Tìm kiếm
+                </button>
+            </div>
+            <table className="table table-striped">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>Trạng Thái</th>
+                    <th>Ngày Chấp Thuận</th>
+                </tr>
+                </thead>
+                <tbody>
+                {currentData.length > 0 ? (
+                    currentData.map((approval, index) => (
+                        <tr key={approval.idTeacherApprovals}>
+                            <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                            <td>{approval.userName}</td>
+                            <td>{approval.userEmail}</td>
+                            <td>{approval.teacherApprovalsStatus}</td>
+                            <td>{format(new Date(approval.approvedAt), 'dd-MM-yyyy - HH:mm:ss')}</td>
                         </tr>
-                    )}
-                    </tbody>
-                </table>
-            </div>
-            <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                <Page
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                />
-            </div>
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="5">Không có dữ liệu</td>
+                    </tr>
+                )}
+                </tbody>
+            </table>
+            <Page
+                currentPage={currentPage}
+                totalPages={Math.ceil(approvedApprovals.length / pageSize)}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 }

@@ -1,29 +1,25 @@
-import { format } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
+import { format } from 'date-fns';
 import { useEffect, useState } from "react";
-import Swal from 'sweetalert2';
-import { ListQuiz } from "../../../store/quizStore/QuizAxios";
+import { useDispatch, useSelector } from "react-redux";
+import { ListTeacherQuizzes } from "../../../store/quizStore/QuizAxios";
 import Page from "../../pages/Page";
-import { TailSpin } from 'react-loader-spinner';
+import Swal from "sweetalert2";
+import { TailSpin } from "react-loader-spinner";
 
-const QuizList = () => {
+const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
     const { quizzes, loading, error } = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
 
     useEffect(() => {
-        dispatch(ListQuiz());
+        const userId = 1;
+        dispatch(ListTeacherQuizzes(userId));
     }, [dispatch]);
 
     useEffect(() => {
         if (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Đã có lỗi xảy ra!',
-                footer: `<p>${error}</p>`
-            });
+            Swal.fire('Lỗi', error, 'error');
         }
     }, [error]);
 
@@ -51,7 +47,7 @@ const QuizList = () => {
 
     return (
         <div>
-            <h2>Quiz List</h2>
+            <h2>Danh sách bài kiểm tra của giáo viên</h2>
             <table className="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -59,25 +55,27 @@ const QuizList = () => {
                     <th>Tiêu đề</th>
                     <th>Mô tả</th>
                     <th>Người tạo</th>
-                    <th>Email người tạo</th>
                     <th>Thời gian tạo</th>
                 </tr>
                 </thead>
                 <tbody>
                 {currentData.length > 0 ? (
-                    currentData.map((quiz , index) => (
-                        <tr key={quiz.quizzesId}>
-                            <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                            <td>{quiz.quizzesTitle}</td>
-                            <td>{quiz.quizzesDescription}</td>
-                            <td>{quiz.usersName}</td>
-                            <td>{quiz.userEmail}</td>
-                            <td>{format(new Date(quiz.quizzesTimeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
-                        </tr>
-                    ))
+                    currentData.map((quiz, index) => {
+                        const timeCreate = new Date(quiz.quizzesTimeCreate);
+                        const formattedDate = isNaN(timeCreate.getTime()) ? 'N/A' : format(timeCreate, 'dd-MM-yyyy - HH:mm:ss');
+                        return (
+                            <tr key={quiz.quizzesId}>
+                                <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                                <td>{quiz.quizzesTitle}</td>
+                                <td>{quiz.quizzesDescription}</td>
+                                <td>{quiz.usersName}</td>
+                                <td>{formattedDate}</td>
+                            </tr>
+                        );
+                    })
                 ) : (
                     <tr>
-                        <td colSpan="6">Không có dữ liệu</td>
+                        <td colSpan="5">Không có dữ liệu</td>
                     </tr>
                 )}
                 </tbody>
@@ -91,4 +89,4 @@ const QuizList = () => {
     );
 };
 
-export default QuizList;
+export default ListTeacherQuizzesComponent;

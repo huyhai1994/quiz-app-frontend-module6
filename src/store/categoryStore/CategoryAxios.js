@@ -27,3 +27,13 @@ export const GetCategoryByName = createAsyncThunk('getCategoryByName', async (na
     const response = await axios.get(ApiURL + "/search/" + name);
     return response.data;
 });
+
+export const GetCategoriesByUserId = createAsyncThunk('getCategoriesByUserId', async (userId) => {
+    const response = await axios.get(`${ApiURL}/details/${userId}`, {
+        params: { userId },
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    return response.data;
+});

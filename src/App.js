@@ -30,6 +30,17 @@ import QuizComponent from "./components/list/quiz-component/QuizComponent";
 import QuestionCreate from "./components/list/question/question-create/QuestionCreate";
 import OptionCreate from "./components/list/option/option-create/OptionCreate";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import QuizCreate from "./components/list/quiz/quiz-create/QuizzCreate";
+import QuizTeacherList from "./components/ListTeacher/QuizTeacher/QuizTeacherList";
+import ListTeacherQuestions from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
+import QuizHistoryList from "./components/ListStudent/StudentResultList/QuizHistoryList";
+import QuizListStudent from "./components/ListStudent/examStudent/QuizListStudent";
+import QuestionListStudent from "./components/ListStudent/examStudent/QuestionListStudent";
+import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
+
+
 
 function App() {
     return (
@@ -63,6 +74,14 @@ function App() {
     }}>
         <Routes>
             <Route path="/" element={<Home/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/register" element={<Register/>}/>
+            <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
+            <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
+            <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
+            <Route path="/quizzes" element={<QuizListStudent />} />
+            <Route path={"/result/new/:resultId"} element={<ResultStudentList/>}></Route>
+            <Route path="/quizzes/:quizId/start" element={<QuestionListStudent />} />
             <Route path="/login" element={<AuthLayout title="Login">
                 <LoginForm />
             </AuthLayout>} />
@@ -100,10 +119,11 @@ function App() {
             }>
                 <Route path="" element={<TeacherMain/>}/>
                 <Route path="profile" element={<UserProfile/>}/>
-                <Route path="question" element={<QuestionList/>}/>
                 <Route path="change-password" element={<ChangePasswordForm/>}/>
+                <Route path="question" element={<QuestionList/>}/>
                 <Route path="question/create" element={<QuestionCreate/>}/>
-                <Route path="option-create" element={<OptionCreate/>}/>
+                <Route path="option/create" element={<OptionCreate/>}/>
+                <Route path="quiz/create" element={<QuizCreate/>}/>
             </Route>
 
             <Route path="/student/*" element={

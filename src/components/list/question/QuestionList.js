@@ -1,20 +1,43 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {Breadcrumb} from "antd";
-import {ListQuestion} from "../../../store/questionStore/QuestionAxios";
-import {format} from "date-fns";
-import Page from "../../pages/Page"; // Import component phân trang
-import './QuestionList.css'; // Import the CSS file
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ListQuestion, SearchQuestions } from "../../../store/questionStore/QuestionAxios";
+import { format } from "date-fns";
+import Page from "../../pages/Page";
+import { TailSpin } from 'react-loader-spinner';
+import Swal from 'sweetalert2';
 
 const QuestionList = () => {
     const dispatch = useDispatch();
-    const questions = useSelector((state) => state.questions.questions);
+    const { questions, loading, error } = useSelector((state) => state.questions);
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState("");
     const pageSize = 5;
 
     useEffect(() => {
         dispatch(ListQuestion());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Đã có lỗi xảy ra!',
+                footer: `<p>${error}</p>`
+            });
+        }
+    }, [error]);
+
+    const handleSearch = () => {
+        dispatch(SearchQuestions(searchTerm));
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSearch();
+        }
+    };
 
     const totalPages = Math.ceil(questions.length / pageSize);
 
@@ -28,72 +51,70 @@ const QuestionList = () => {
         return questions.slice(startIndex, endIndex);
     };
 
-    const handleDelete = (questionId) => {
-        // Implement the delete logic here
-        console.log(`Delete question with ID: ${questionId}`);
-    };
-
     const currentData = getCurrentPageData();
 
+    if (loading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <TailSpin color="#00BFFF" height={80} width={80} />
+            </div>
+        );
+    }
+
     return (
-        <div>
-            <Breadcrumb
-                style={{
-                    margin: '16px 0',
-                }}
-            >
-                <Breadcrumb.Item>Danh Sách</Breadcrumb.Item>
-                <Breadcrumb.Item>Câu hỏi</Breadcrumb.Item>
-            </Breadcrumb>
-            <div className="container-fluid mt-5">
-                <h1>Danh Sách Câu Hỏi</h1>
-                <div className="table-responsive">
-                    <table className="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Câu Hỏi</th>
-                            <th>Danh Mục Câu Hỏi</th>
-                            <th>Lựa Chọn (số lượng)</th>
-                            <th>Thời gian tạo</th>
-                            <th>Hành động</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {currentData.length > 0 ? (
-                            currentData.map((question, index) => (
-                                <tr key={question.questionId}>
-                                    <td>{index + 1 + (currentPage - 1) * pageSize}</td>
-                                    <td>{question.questionText}</td>
-                                    <td>{question.categoryName}</td>
-                                    <td>{question.typeName}</td>
-                                    <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
-                                    <td>
-                                        <button
-                                            className="btn btn-danger"
-                                            onClick={() => handleDelete(question.questionId)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="6">No data available</td>
-                            </tr>
-                        )}
-                        </tbody>
-                    </table>
-                </div>
-                <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-                    <Page
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={handlePageChange}
+        <div className="container mt-5">
+            <h2>Danh sách câu hỏi</h2>
+            <div className="mb-3 d-flex">
+                <div className="flex-grow-1">
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Tìm kiếm theo danh mục hoặc câu hỏi"
+                        className="form-control"
                     />
                 </div>
+                <button
+                    className="btn btn-primary ms-2"
+                    onClick={handleSearch}
+                >
+                    Tìm kiếm
+                </button>
             </div>
+            <table className="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Câu hỏi</th>
+                    <th>Danh mục</th>
+                    <th>Loại</th>
+                    <th>Thời gian tạo</th>
+                </tr>
+                </thead>
+                <tbody>
+                {currentData.length > 0 ? (
+                    currentData.map((question, index) => (
+                        <tr key={question.questionId}>
+                            <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                            <td>{question.questionText}</td>
+                            <td>{question.categoryName}</td>
+                            <td>{question.typeName}</td>
+                            <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
+                        </tr>
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="5">Không có dữ liệu</td>
+                    </tr>
+                )}
+                </tbody>
+            </table>
+            <Page
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 };

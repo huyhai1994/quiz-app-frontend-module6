@@ -1,9 +1,10 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {CreateOption} from "./OptionAxios";
+import { createSlice } from "@reduxjs/toolkit";
+import {CreateOption, fetchOptionsByQuestionId} from "./OptionAxios";
 
 const initialState = {
     options: [],
-    error: null
+    status: 'idle',
+    error: null,
 };
 
 const optionSlice = createSlice({
@@ -18,6 +19,17 @@ const optionSlice = createSlice({
             })
             .addCase(CreateOption.rejected, (state, action) => {
                 state.error = action.payload;
+            })
+            .addCase(fetchOptionsByQuestionId.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchOptionsByQuestionId.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.options = action.payload;
+            })
+            .addCase(fetchOptionsByQuestionId.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
             });
     }
 });
