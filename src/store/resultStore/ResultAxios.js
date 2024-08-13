@@ -30,7 +30,6 @@ export const endQuizForUser = createAsyncThunk(
 export const fetchQuizResultsByUserId = createAsyncThunk(
     'result/fetchQuizResultsByUserId',
     async (resultId) => {
-
         const response = await axios.get(`${ApiURL}/${resultId}`);
         return response.data;
     }
