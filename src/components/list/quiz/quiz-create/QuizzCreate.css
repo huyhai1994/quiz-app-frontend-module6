@@ -1,17 +1,9 @@
-/* QuizzCreate.css */
+@import '../../../../styles/vars.css';
 
 .quiz-create-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    max-width: 80%;
-    margin: auto;
-    margin-top: 4rem;
-    padding: 2rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: var(--color-bg);
+    margin-top: 0; /* Ensure margin-top is 0 */
+    padding: 0.5rem; /* Reduced padding */
 }
 
 .quiz-create-form {
@@ -22,33 +14,33 @@
 
 .quiz-create-form .MuiFormControl-root,
 .quiz-create-form .MuiTextField-root {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem; /* Reduced margin-bottom */
 }
 
 .quiz-create-form .MuiButton-root {
-    margin-top: 1.5rem;
+    margin-top: 1rem; /* Reduced margin-top */
 }
 
 .selected-questions-container {
     flex: 1;
-    margin-left: 2rem;
+    margin-left: 1rem; /* Reduced margin-left */
 }
 
 .selected-questions-container .MuiTypography-root {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem; /* Reduced margin-bottom */
 }
 
 .selected-questions-container .MuiList-root {
-    max-height: 40rem;
+    max-height: 30rem; /* Reduced max-height */
     overflow: auto;
     background: #f0f0f0;
-    padding: 8px;
+    padding: 4px; /* Reduced padding */
     border-radius: 8px;
 }
 
 .selected-questions-container .MuiListItem-root {
-    margin: 8px 0;
-    padding: 8px;
+    margin: 4px 0; /* Reduced margin */
+    padding: 4px; /* Reduced padding */
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: white;

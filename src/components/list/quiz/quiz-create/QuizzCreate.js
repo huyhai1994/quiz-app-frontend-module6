@@ -143,142 +143,150 @@ const QuizCreate = () => {
     const filteredQuestions = questions.filter(question => question.categoryName === selectedCategory);
 
     return (
-        <Box className="quiz-create-container">
-            <Box className="quiz-create-form">
-                <form onSubmit={formik.handleSubmit}>
-                    <TextField
-                        label="Tiêu đề"
-                        fullWidth
-                        margin="normal"
-                        id="title"
-                        name="title"
-                        value={formik.values.title}
-                        onChange={formik.handleChange}
-                        error={formik.touched.title && Boolean(formik.errors.title)}
-                        helperText={formik.touched.title && formik.errors.title}
-                    />
-                    <TextField
-                        label="Mô tả"
-                        fullWidth
-                        margin="normal"
-                        id="description"
-                        name="description"
-                        value={formik.values.description}
-                        onChange={formik.handleChange}
-                        error={formik.touched.description && Boolean(formik.errors.description)}
-                        helperText={formik.touched.description && formik.errors.description}
-                    />
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel id="quizTime-label">Thời gian làm bài</InputLabel>
-                        <Select
-                            labelId="quizTime-label"
-                            id="quizTime"
-                            name="quizTime"
-                            value={formik.values.quizTime}
-                            onChange={formik.handleChange}
-                            error={formik.touched.quizTime && Boolean(formik.errors.quizTime)}
-                        >
-                            <MenuItem value={5}>5 phút</MenuItem>
-                            <MenuItem value={10}>10 phút</MenuItem>
-                            <MenuItem value={15}>15 phút</MenuItem>
-                            <MenuItem value={20}>20 phút</MenuItem>
-                            <MenuItem value={30}>30 phút</MenuItem>
-                            <MenuItem value={60}>60 phút</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel id="category-label">Danh mục</InputLabel>
-                        <Select
-                            labelId="category-label"
-                            id="category"
-                            name="category"
-                            value={selectedCategory}
-                            onChange={handleCategoryChange}
-                        >
-                            {categories.map((category) => (
-                                <MenuItem key={category.id} value={category.name}>
-                                    {category.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <TextField
-                        label="Số lượng câu hỏi"
-                        fullWidth
-                        margin="normal"
-                        id="quantity"
-                        name="quantity"
-                        type="number"
-                        value={quantity}
-                        onChange={handleQuantityChange}
-                        error={formik.touched.quantity && Boolean(formik.errors.quantity)}
-                        helperText={formik.touched.quantity && formik.errors.quantity}
-                    />
-                    {quantity && selectedCategory && (
-                        <Button variant="outlined" fullWidth onClick={handleOpenModal} sx={{mt: 2}}>
-                            Chọn câu hỏi
-                        </Button>
+        <Box
+            className=" container py-2 de quiz-create-container">
+            <Box className='row d-flex align-items-center justify-content-center'>
+                <Box className='col-md-6 col-sm-12'>
+                    <Box className="quiz-create-form ">
+                        <form onSubmit={formik.handleSubmit}>
+                            <TextField
+                                label="Tiêu đề"
+                                fullWidth
+                                margin="normal"
+                                id="title"
+                                name="title"
+                                value={formik.values.title}
+                                onChange={formik.handleChange}
+                                error={formik.touched.title && Boolean(formik.errors.title)}
+                                helperText={formik.touched.title && formik.errors.title}
+                            />
+                            <TextField
+                                label="Mô tả"
+                                fullWidth
+                                margin="normal"
+                                id="description"
+                                name="description"
+                                value={formik.values.description}
+                                onChange={formik.handleChange}
+                                error={formik.touched.description && Boolean(formik.errors.description)}
+                                helperText={formik.touched.description && formik.errors.description}
+                            />
+                            <FormControl fullWidth margin="normal">
+                                <InputLabel id="quizTime-label">Thời gian làm bài</InputLabel>
+                                <Select
+                                    labelId="quizTime-label"
+                                    id="quizTime"
+                                    name="quizTime"
+                                    value={formik.values.quizTime}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.quizTime && Boolean(formik.errors.quizTime)}
+                                >
+                                    <MenuItem value={5}>5 phút</MenuItem>
+                                    <MenuItem value={10}>10 phút</MenuItem>
+                                    <MenuItem value={15}>15 phút</MenuItem>
+                                    <MenuItem value={20}>20 phút</MenuItem>
+                                    <MenuItem value={30}>30 phút</MenuItem>
+                                    <MenuItem value={60}>60 phút</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth margin="normal">
+                                <InputLabel id="category-label">Danh mục</InputLabel>
+                                <Select
+                                    labelId="category-label"
+                                    id="category"
+                                    name="category"
+                                    value={selectedCategory}
+                                    onChange={handleCategoryChange}
+                                >
+                                    {categories.map((category) => (
+                                        <MenuItem key={category.id} value={category.name}>
+                                            {category.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <TextField
+                                label="Số lượng câu hỏi"
+                                fullWidth
+                                margin="normal"
+                                id="quantity"
+                                name="quantity"
+                                type="number"
+                                value={quantity}
+                                onChange={handleQuantityChange}
+                                error={formik.touched.quantity && Boolean(formik.errors.quantity)}
+                                helperText={formik.touched.quantity && formik.errors.quantity}
+                            />
+                            {quantity && selectedCategory && (
+                                <Button variant="outlined" fullWidth onClick={handleOpenModal} sx={{mt: 2}}>
+                                    Chọn câu hỏi
+                                </Button>
+                            )}
+                            <TextField
+                                label="Điểm đạt "
+                                fullWidth
+                                margin="normal"
+                                id="passingScore"
+                                name="passingScore"
+                                type="number"
+                                value={formik.values.passingScore}
+                                onChange={formik.handleChange}
+                                error={formik.touched.passingScore && Boolean(formik.errors.passingScore)}
+                                helperText={formik.touched.passingScore && formik.errors.passingScore}
+                            />
+                            <Button variant="contained" className="submit-quiz-create-button" fullWidth type="submit"
+                                    sx={{mt: 3}}>
+                                Tạo mới
+                            </Button>
+                        </form>
+                    </Box>
+                    {selectedQuestions.length > 0 && (
+                        <Box className="selected-questions-container">
+                            <Typography variant="h6">Câu hỏi đã chọn:</Typography>
+                            <List>
+                                {selectedQuestions.map((question) => (
+                                    <ListItem key={question.questionId} button
+                                              onClick={() => handleQuestionClick(question)}>
+                                        <ListItemText primary={question.questionText}/>
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </Box>
                     )}
-                    <TextField
-                        label="Điểm đạt "
-                        fullWidth
-                        margin="normal"
-                        id="passingScore"
-                        name="passingScore"
-                        type="number"
-                        value={formik.values.passingScore}
-                        onChange={formik.handleChange}
-                        error={formik.touched.passingScore && Boolean(formik.errors.passingScore)}
-                        helperText={formik.touched.passingScore && formik.errors.passingScore}
-                    />
-                    <Button variant="contained" className="submit-quiz-create-button" fullWidth type="submit"
-                            sx={{mt: 3}}>
-                        Tạo mới
-                    </Button>
-                </form>
+                    <Modal
+                        open={openModal}
+                        onClose={handleCloseModal}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: 400,
+                            bgcolor: 'background.paper',
+                            border: '2px solid #000',
+                            boxShadow: 24,
+                            p: 4,
+                        }}>
+                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                Chọn câu hỏi
+                            </Typography>
+                            <List>
+                                {filteredQuestions.map((question) => (
+                                    <ListItem key={question.questionId} button
+                                              onClick={() => handleQuestionClick(question)}>
+                                        <ListItemText primary={question.questionText}/>
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </Box>
+                    </Modal>
+                </Box>
             </Box>
-            {selectedQuestions.length > 0 && (
-                <Box className="selected-questions-container">
-                    <Typography variant="h6">Câu hỏi đã chọn:</Typography>
-                    <List>
-                        {selectedQuestions.map((question) => (
-                            <ListItem key={question.questionId} button onClick={() => handleQuestionClick(question)}>
-                                <ListItemText primary={question.questionText}/>
-                            </ListItem>
-                        ))}
-                    </List>
-                </Box>
-            )}
-            <Modal
-                open={openModal}
-                onClose={handleCloseModal}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 400,
-                    bgcolor: 'background.paper',
-                    border: '2px solid #000',
-                    boxShadow: 24,
-                    p: 4,
-                }}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Chọn câu hỏi
-                    </Typography>
-                    <List>
-                        {filteredQuestions.map((question) => (
-                            <ListItem key={question.questionId} button onClick={() => handleQuestionClick(question)}>
-                                <ListItemText primary={question.questionText}/>
-                            </ListItem>
-                        ))}
-                    </List>
-                </Box>
-            </Modal>
         </Box>
+
     );
 };
 
