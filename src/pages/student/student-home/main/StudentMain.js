@@ -8,16 +8,16 @@ import async from "async";
 
 const StudentMain = () => {
 
-    const formik =useFormik({
-        initialValues: {
-            title: '',
-            category: ''
-        }, onSubmit : async (values) =>{
-            try {
-                const response = await QuizService.get
-            }
-        }
-    })
+    // const formik =useFormik({
+    //     initialValues: {
+    //         title: '',
+    //         category: ''
+    //     }, onSubmit : async (values) =>{
+    //         try {
+    //             const response = await QuizService.get
+    //         }
+    //     }
+    // })
     return (<Box sx={{padding: '16px'}}>
         {/* Header */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
