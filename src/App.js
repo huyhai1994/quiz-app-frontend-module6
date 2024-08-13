@@ -36,7 +36,8 @@ import QuizHistoryList from "./components/ListStudent/StudentResultList/QuizHist
 import QuizListStudent from "./components/ListStudent/examStudent/QuizListStudent";
 import QuestionListStudent from "./components/ListStudent/examStudent/QuestionListStudent";
 import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
-
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
 
 
 function App() {
@@ -75,19 +76,19 @@ function App() {
             <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
             <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
             <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
-            <Route path="/quizzes" element={<QuizListStudent />} />
+            <Route path="/quizzes" element={<QuizListStudent/>}/>
             <Route path={"/result/new/:resultId"} element={<ResultStudentList/>}></Route>
-            <Route path="/quizzes/:quizId/start" element={<QuestionListStudent />} />
+            <Route path="/quizzes/:quizId/start" element={<QuestionListStudent/>}/>
             <Route path="/login" element={<AuthLayout title="Login">
-                <LoginForm />
-            </AuthLayout>} />
+                <LoginForm/>
+            </AuthLayout>}/>
             <Route path="/register" element={<AuthLayout title="Register">
-                <RegisterForm />
-            </AuthLayout>} />
-            <Route path="/profile" element={<UserProfileLayout />}>
-                <Route index element={<UserProfile />} />
-                <Route path="change-password" element={<ChangePasswordForm />} />
-                <Route path="reset-password" element={<PasswordReset />} />
+                <RegisterForm/>
+            </AuthLayout>}/>
+            <Route path="/profile" element={<UserProfileLayout/>}>
+                <Route index element={<UserProfile/>}/>
+                <Route path="change-password" element={<ChangePasswordForm/>}/>
+                <Route path="reset-password" element={<PasswordReset/>}/>
             </Route>
             <Route path="/admin" element={<Master/>}>
 
