@@ -16,7 +16,7 @@ const QuestionListStudent = () => {
     const questions = useSelector((state) => state.questions.questions);
     const status = useSelector((state) => state.questions.status);
     const error = useSelector((state) => state.questions.error);
-    const userId = 5; // Replace with actual user ID
+    const userId = 5;
 
     useEffect(() => {
         // Extract resultId from query parameters
