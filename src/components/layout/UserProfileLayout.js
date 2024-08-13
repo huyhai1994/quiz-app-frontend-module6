@@ -1,4 +1,4 @@
-import {UserOutlined, LockOutlined, KeyOutlined, LogoutOutlined} from '@ant-design/icons'
+import {UserOutlined, LockOutlined, KeyOutlined, LogoutOutlined, OrderedListOutlined, SettingOutlined, BookOutlined, FormOutlined} from '@ant-design/icons'
 import {Layout, Menu, Modal} from 'antd'
 import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom'
 import React, {useState} from "react";
@@ -30,8 +30,27 @@ const UserProfileLayout = () => {
 
     const items = [
         {
+            key: 'study',
+            icon: <OrderedListOutlined />,
+            label: 'Study',
+            children: [
+                {
+                    key: 'course',
+                    icon: <BookOutlined />,
+                    label: 'Course',
+                    onClick: () => console.log('Course clicked'),
+                },
+                {
+                    key: 'test',
+                    icon: <FormOutlined />,
+                    label: 'Test',
+                    onClick: () => console.log('Test clicked'),
+                },
+            ],
+        },
+        {
             key: 'setting',
-            icon: <UserOutlined />,
+            icon: <SettingOutlined />,
             label: 'Setting Profile',
             children: [
                 {
