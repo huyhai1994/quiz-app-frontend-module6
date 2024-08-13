@@ -81,6 +81,7 @@ export const logout = createAsyncThunk(
             success: false,
             error: null,
             user: null,
+            role: localStorage.getItem('role') || null,
         },
         reducers: {},
         extraReducers: (builder) => {
@@ -91,9 +92,11 @@ export const logout = createAsyncThunk(
             })
                 .addCase(login.fulfilled, (state, action) => {
                 state.loading = false;
-                state.token = action.payload;
+                state.token = action.payload.token;
                 state.isAuthenticated = true;
-                localStorage.setItem('token', action.payload);
+                state.role = action.payload.role
+                localStorage.setItem('token', action.payload.token);
+                localStorage.setItem('role', action.payload.role)
             })
                 .addCase(login.rejected, (state, action) => {
                     state.loading = false;
