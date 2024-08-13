@@ -12,6 +12,7 @@ import {
     ListItem,
     ListItemText,
     MenuItem,
+    Modal,
     Select,
     TextField,
     Typography
@@ -26,6 +27,7 @@ const QuizCreate = () => {
     const [selectedQuestions, setSelectedQuestions] = useState([]);
     const [quantity, setQuantity] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -116,6 +118,14 @@ const QuizCreate = () => {
         }
     };
 
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
     const filteredQuestions = questions.filter(question => question.categoryName === selectedCategory);
 
     return (
@@ -191,6 +201,11 @@ const QuizCreate = () => {
                             error={formik.touched.quantity && Boolean(formik.errors.quantity)}
                             helperText={formik.touched.quantity && formik.errors.quantity}
                         />
+                        {quantity && selectedCategory && (
+                            <Button variant="outlined" fullWidth onClick={handleOpenModal} sx={{mt: 2}}>
+                                Chọn câu hỏi
+                            </Button>
+                        )}
                         <TextField
                             label="Điểm đạt "
                             fullWidth
@@ -206,33 +221,54 @@ const QuizCreate = () => {
                         <Button variant="contained" fullWidth type="submit" sx={{mt: 3}}>
                             Tạo mới
                         </Button>
+
                     </form>
                 </Grid>
-                {quantity && selectedCategory && (
-                    <Grid item xs={12} md={6} className='question-select-box'>
-                        <Typography variant="h6" sx={{mb: 2}}>Xin mời lựa chọn câu hỏi: </Typography>
-                        <List sx={{maxHeight: 400, overflow: 'auto', background: '#f0f0f0', padding: '8px'}}>
-                            {filteredQuestions.map((question) => (
-                                <ListItem
-                                    key={question.questionId}
-                                    button
-                                    onClick={() => handleQuestionClick(question)}
-                                    selected={selectedQuestions.includes(question)}
-                                    sx={{
-                                        margin: '8px 0',
-                                        padding: '8px',
-                                        border: '1px solid #ccc',
-                                        borderRadius: '4px',
-                                        backgroundColor: selectedQuestions.includes(question) ? '#d3d3d3' : 'white',
-                                    }}
-                                >
-                                    <ListItemText primary={question.questionText}/>
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Grid>
-                )}
             </Grid>
+            <Modal
+                open={openModal}
+                onClose={handleCloseModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    bgcolor: 'background.paper',
+                    border: '2px solid #000',
+                    boxShadow: 24,
+                    p: 4,
+                }}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Xin mời lựa chọn câu hỏi:
+                    </Typography>
+                    <List sx={{maxHeight: 400, overflow: 'auto', background: '#f0f0f0', padding: '8px'}}>
+                        {filteredQuestions.map((question) => (
+                            <ListItem
+                                key={question.questionId}
+                                button
+                                onClick={() => handleQuestionClick(question)}
+                                selected={selectedQuestions.includes(question)}
+                                sx={{
+                                    margin: '8px 0',
+                                    padding: '8px',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '4px',
+                                    backgroundColor: selectedQuestions.includes(question) ? '#d3d3d3' : 'white',
+                                }}
+                            >
+                                <ListItemText primary={question.questionText}/>
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Button variant="contained" fullWidth onClick={handleCloseModal} sx={{mt: 2}}>
+                        Đóng
+                    </Button>
+                </Box>
+            </Modal>
         </Box>
     );
 };
