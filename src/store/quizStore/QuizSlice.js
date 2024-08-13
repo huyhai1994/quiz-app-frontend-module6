@@ -1,11 +1,20 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {CreateQuiz, DeleteQuiz, ListQuiz, UpdateQuiz} from "./QuizAxios";
+import {
+    AddQuestionsToQuiz,
+    CreateQuiz,
+    DeleteQuiz,
+    fetchAllQuizzes,
+    ListQuiz, ListQuizStudent,
+    ListTeacherQuizzes,
+    UpdateQuiz
+} from "./QuizAxios";
 
 
 const initialState = {
     quizzes: [],
     loading: false,
     error: null,
+    status: 'idle',
 };
 
 const quizSlice = createSlice({
@@ -37,6 +46,32 @@ const quizSlice = createSlice({
             })
             .addCase(DeleteQuiz.fulfilled, (state, action) => {
                 state.quizzes = state.quizzes.filter(q => q.id !== action.payload);
+            })
+            .addCase(ListTeacherQuizzes.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(ListTeacherQuizzes.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.quizzes = action.payload;
+            })
+            .addCase(ListTeacherQuizzes.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(AddQuestionsToQuiz.fulfilled, (state, action) => {
+                state.quizzes = action.payload;
+            })
+            .addCase(ListQuizStudent.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(ListQuizStudent.fulfilled, (state, action) => {
+                state.loading = false;
+                state.quizzes = action.payload;
+            })
+            .addCase(ListQuizStudent.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
             });
     },
 });

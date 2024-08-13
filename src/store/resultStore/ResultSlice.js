@@ -1,10 +1,20 @@
-import {endQuiz, startQuiz} from "./ResultAxios";
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import {
+    endQuizForUser,
+    fetchQuiz,
+    fetchQuizResultsByUserId,
+    HistoryResultsByUserId,
+    startQuizForUser
+} from "./ResultAxios";
+
 
 const initialState = {
     results: [],
+    currentQuiz: null,
     loading: false,
     error: null,
+    history: [],
+    status: 'idle'
 };
 
 const resultSlice = createSlice({
@@ -13,34 +23,64 @@ const resultSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(startQuiz.pending, (state) => {
+            .addCase(startQuizForUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(startQuiz.fulfilled, (state, action) => {
+            .addCase(startQuizForUser.fulfilled, (state, action) => {
                 state.loading = false;
-                state.results.push(action.payload);
+                state.currentQuiz = action.payload;
             })
-            .addCase(startQuiz.rejected, (state, action) => {
+            .addCase(startQuizForUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
             })
-            .addCase(endQuiz.pending, (state) => {
+            .addCase(endQuizForUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(endQuiz.fulfilled, (state, action) => {
+            .addCase(endQuizForUser.fulfilled, (state, action) => {
                 state.loading = false;
-                const index = state.results.findIndex(r => r.id === action.payload.id);
-                if (index !== -1) {
-                    state.results[index] = action.payload;
-                }
             })
-            .addCase(endQuiz.rejected, (state, action) => {
+            .addCase(endQuizForUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
+            })
+            .addCase(fetchQuizResultsByUserId.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchQuizResultsByUserId.fulfilled, (state, action) => {
+                state.loading = false;
+                state.results = action.payload;
+            })
+            .addCase(fetchQuizResultsByUserId.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(HistoryResultsByUserId.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(HistoryResultsByUserId.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.history = action.payload;
+            })
+            .addCase(HistoryResultsByUserId.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(fetchQuiz.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchQuiz.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.quiz = action.payload;
+            })
+            .addCase(fetchQuiz.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
             });
-    },
+    }
 });
 
 export default resultSlice.reducer;

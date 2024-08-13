@@ -1,29 +1,25 @@
 import { format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import Swal from 'sweetalert2';
-import { ListQuiz } from "../../../store/quizStore/QuizAxios";
 import Page from "../../pages/Page";
-import { TailSpin } from 'react-loader-spinner';
+import { ListTeacherQuestion } from "../../../store/questionStore/QuestionAxios";
+import Swal from "sweetalert2";
+import { TailSpin } from "react-loader-spinner";
 
-const QuizList = () => {
+const ListTeacherQuestions = () => {
     const dispatch = useDispatch();
-    const { quizzes, loading, error } = useSelector((state) => state.quizzes);
+    const { questions, loading, error } = useSelector((state) => state.questions);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
 
     useEffect(() => {
-        dispatch(ListQuiz());
+        const userId = 2;
+        dispatch(ListTeacherQuestion(userId));
     }, [dispatch]);
 
     useEffect(() => {
         if (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Đã có lỗi xảy ra!',
-                footer: `<p>${error}</p>`
-            });
+            Swal.fire('Lỗi', error, 'error');
         }
     }, [error]);
 
@@ -35,7 +31,7 @@ const QuizList = () => {
         );
     }
 
-    const totalPages = Math.ceil(quizzes.length / pageSize);
+    const totalPages = Math.ceil(questions.length / pageSize);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -44,40 +40,38 @@ const QuizList = () => {
     const getCurrentPageData = () => {
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
-        return quizzes.slice(startIndex, endIndex);
+        return questions.slice(startIndex, endIndex);
     };
 
     const currentData = getCurrentPageData();
 
     return (
         <div>
-            <h2>Quiz List</h2>
+            <h2>Danh sách câu hỏi của giáo viên</h2>
             <table className="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>STT</th>
-                    <th>Tiêu đề</th>
-                    <th>Mô tả</th>
-                    <th>Người tạo</th>
-                    <th>Email người tạo</th>
+                    <th>Câu hỏi</th>
+                    <th>Danh mục</th>
+                    <th>Loại</th>
                     <th>Thời gian tạo</th>
                 </tr>
                 </thead>
                 <tbody>
                 {currentData.length > 0 ? (
-                    currentData.map((quiz , index) => (
-                        <tr key={quiz.quizzesId}>
+                    currentData.map((question, index) => (
+                        <tr key={question.questionId}>
                             <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                            <td>{quiz.quizzesTitle}</td>
-                            <td>{quiz.quizzesDescription}</td>
-                            <td>{quiz.usersName}</td>
-                            <td>{quiz.userEmail}</td>
-                            <td>{format(new Date(quiz.quizzesTimeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
+                            <td>{question.questionText}</td>
+                            <td>{question.categoryName}</td>
+                            <td>{question.typeName}</td>
+                            <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
                         </tr>
                     ))
                 ) : (
                     <tr>
-                        <td colSpan="6">Không có dữ liệu</td>
+                        <td colSpan="5">Không có dữ liệu</td>
                     </tr>
                 )}
                 </tbody>
@@ -91,4 +85,4 @@ const QuizList = () => {
     );
 };
 
-export default QuizList;
+export default ListTeacherQuestions;

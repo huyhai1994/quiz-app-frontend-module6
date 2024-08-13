@@ -1,5 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {listApprovedApprovals, listPendingApprovals, listTeacherApprovals} from "./TeacherApprovalAxios";
+import { createSlice } from "@reduxjs/toolkit";
+import { listApprovedApprovals, listPendingApprovals, listTeacherApprovals, searchApprovedApprovals } from "./TeacherApprovalAxios";
 
 const initialState = {
     teacherApprovals: [],
@@ -27,6 +27,8 @@ const teacherApprovalSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message;
             })
+
+
             .addCase(listPendingApprovals.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -39,6 +41,8 @@ const teacherApprovalSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message;
             })
+
+
             .addCase(listApprovedApprovals.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -48,6 +52,20 @@ const teacherApprovalSlice = createSlice({
                 state.approvedApprovals = action.payload;
             })
             .addCase(listApprovedApprovals.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+
+
+            .addCase(searchApprovedApprovals.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(searchApprovedApprovals.fulfilled, (state, action) => {
+                state.loading = false;
+                state.approvedApprovals = action.payload;
+            })
+            .addCase(searchApprovedApprovals.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
             });
