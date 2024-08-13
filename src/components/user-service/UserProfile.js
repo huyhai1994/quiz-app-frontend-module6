@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {Avatar, Box, Button, TextField, Typography} from '@mui/material';
 import {PhotoCamera} from '@mui/icons-material';
 import axiosInstance from '../../utils/axiosConfig';
-// import './UserProfile.css';
 
 const UserProfile = () => {
     const [user, setUser] = useState(null);
