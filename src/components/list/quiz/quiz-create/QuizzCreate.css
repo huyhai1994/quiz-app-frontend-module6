@@ -1,15 +1,23 @@
 @import '../../../../styles/vars.css';
 
 .quiz-create-container {
+    display: flex;
+    flex-direction: row; /* Arrange children in a row */
+    justify-content: center; /* Center the form when it is alone */
+    width: 100%; /* Full width of the container */
     background-color: var(--color-bg);
-    margin-top: 0; /* Ensure margin-top is 0 */
-    padding: 0.5rem; /* Reduced padding */
+    margin-top: 0; /* Set margin-top to 0 */
+    padding: 1rem; /* Adjusted padding */
 }
 
 .quiz-create-form {
+    flex: 1; /* Allow form to take available space */
+    border: 0.0625rem solid #ccc; /* 1px to rem */
+    border-radius: 0.5rem; /* 8px to rem */
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* 4px and 8px to rem */
     display: flex;
     flex-direction: column;
-    flex: 1;
+    max-width: 37.5rem; /* 600px to rem */
 }
 
 .quiz-create-form .MuiFormControl-root,
@@ -22,30 +30,18 @@
 }
 
 .selected-questions-container {
-    flex: 1;
-    margin-left: 1rem; /* Reduced margin-left */
+    color: var(--color-text);
+    flex: 1; /* Allow selected questions container to take available space */
+    margin-left: 1rem; /* Add space between form and selected questions */
+    max-width: 40%; /* Limit the width of the selected questions container */
 }
 
 .selected-questions-container .MuiTypography-root {
     margin-bottom: 0.5rem; /* Reduced margin-bottom */
 }
 
-.selected-questions-container .MuiList-root {
-    max-height: 30rem; /* Reduced max-height */
-    overflow: auto;
-    background: #f0f0f0;
-    padding: 4px; /* Reduced padding */
-    border-radius: 8px;
-}
+.submit-quiz-create-button {
+    background-color: var(--color-primary) !important;
+    color: var(--color-bg);
 
-.selected-questions-container .MuiListItem-root {
-    margin: 4px 0; /* Reduced margin */
-    padding: 4px; /* Reduced padding */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: white;
-}
-
-.selected-questions-container .MuiListItem-root.Mui-selected {
-    background-color: #d3d3d3;
 }
