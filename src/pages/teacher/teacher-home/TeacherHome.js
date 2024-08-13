@@ -23,14 +23,15 @@ function getItem(label, key, icon, children, link) {
 const items = [
     getItem('Trang chủ', '1', <HomeIcon/>, null, '/teacher/'),
     getItem('Tạo mới', '2', <AddBoxIcon/>, [
-        getItem('Câu hỏi', '3', <QuestionMarkIcon/>, null, '/teacher/question/create')]),
-    getItem('Danh Sách', 'sub1', <ViewListIcon/>, [
-        getItem('Câu Hỏi', '5', <QuestionMarkIcon/>, null, '/teacher/question'),
-        getItem('Bài kiểm tra', '6', <QuizIcon/>, null, '/teacher/test-list')]),
+        getItem('Câu hỏi', '3', <QuestionMarkIcon/>, null, '/teacher/question/create'),
+        getItem('Bài kiểm tra', '4', <QuizIcon/>, null, '/teacher/quiz-create'),]),
+    getItem('Danh Sách', '5', <ViewListIcon/>, [
+        getItem('Câu Hỏi', '6', <QuestionMarkIcon/>, null, '/teacher/question'),
+        getItem('Bài kiểm tra', '7', <QuizIcon/>, null, '/teacher/quiz-create')]),
     getItem('Cài đặt', 'sub2',
         <SettingsIcon/>, [
-            getItem('Thông tin cá nhân', '7', <ManageAccountsIcon/>, null, '/teacher/profile'),
-            getItem('Thay đổi mật khẩu', '8', <PasswordIcon/>, null, '/teacher/change-password')])];
+            getItem('Thông tin cá nhân', '8', <ManageAccountsIcon/>, null, '/teacher/profile'),
+            getItem('Thay đổi mật khẩu', '9', <PasswordIcon/>, null, '/teacher/change-password')])];
 
 const TeacherHome = () => {
     const [collapsed, setCollapsed] = useState(false);
