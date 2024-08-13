@@ -227,7 +227,7 @@ const QuizCreate = () => {
                     <Typography variant="h6">Câu hỏi đã chọn:</Typography>
                     <List>
                         {selectedQuestions.map((question) => (
-                            <ListItem key={question.questionId}>
+                            <ListItem key={question.questionId} button onClick={() => handleQuestionClick(question)}>
                                 <ListItemText primary={question.questionText}/>
                             </ListItem>
                         ))}

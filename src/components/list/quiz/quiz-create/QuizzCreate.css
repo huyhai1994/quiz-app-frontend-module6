@@ -39,7 +39,7 @@
 }
 
 .selected-questions-container .MuiList-root {
-    max-height: 600px;
+    max-height: 40rem;
     overflow: auto;
     background: #f0f0f0;
     padding: 8px;
