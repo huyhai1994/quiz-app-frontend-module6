@@ -63,8 +63,9 @@ const QuizCreate = () => {
         }), onSubmit: (values) => {
             values.questionIds = selectedQuestions.slice(0, values.quantity).map((q) => q.questionId);
             values.timeCreated = getCurrentTimestamp();
-            axios.post('http://localhost:8080/quiz/create?userId=12', values)
-                .then(response => {
+            const userId = localStorage.getItem('userId');
+            axios.post(`http://localhost:8080/quiz/create?userId=${userId}`, values)
+                .then(() => {
                     Swal.fire({
                         icon: 'success',
                         title: 'Tạo bài thi thành công',
