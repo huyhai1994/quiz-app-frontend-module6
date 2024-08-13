@@ -12,25 +12,32 @@ import QuizIcon from '@mui/icons-material/Quiz';
 import '../../../styles/vars.css';
 import './TeacherHome.css';
 
-const {Content, Footer, Sider} = Layout;
+const {
+    Content,
+    Footer,
+    Sider
+} = Layout;
 
 function getItem(label, key, icon, children, link) {
     return {
-        key, icon, children, label: link ? <Link to={link}>{label}</Link> : label,
+        key,
+        icon,
+        children,
+        label: link ?
+            <Link to={link}>{label}</Link> : label,
     };
 }
 
 const items = [
     getItem('Trang chủ', '1', <HomeIcon/>, null, '/teacher/'),
     getItem('Tạo mới', '2', <AddBoxIcon/>, [
-        getItem('Câu hỏi', '3', <QuestionMarkIcon/>, null, '/teacher/question/create')]),
-    getItem('Danh Sách', 'sub1', <ViewListIcon/>, [
-        getItem('Câu Hỏi', '5', <QuestionMarkIcon/>, null, '/teacher/question'),
-        getItem('Bài kiểm tra', '6', <QuizIcon/>, null, '/teacher/test-list')]),
-    getItem('Cài đặt', 'sub2',
-        <SettingsIcon/>, [
-            getItem('Thông tin cá nhân', '7', <ManageAccountsIcon/>, null, '/teacher/profile'),
-            getItem('Thay đổi mật khẩu', '8', <PasswordIcon/>, null, '/teacher/change-password')])];
+        getItem('Câu hỏi', '3', <QuestionMarkIcon/>, null, '/teacher/question/create'),
+        getItem('Bài kiểm tra', '4', <QuizIcon/>, null, '/teacher/quiz/create'),]),
+    getItem('Danh Sách', '5', <ViewListIcon/>, [
+        getItem('Câu Hỏi', '6', <QuestionMarkIcon/>, null, '/teacher/question'),]),
+    getItem('Cài đặt', 'sub2', <SettingsIcon/>, [
+        getItem('Thông tin cá nhân', '8', <ManageAccountsIcon/>, null, '/teacher/profile'),
+        getItem('Thay đổi mật khẩu', '9', <PasswordIcon/>, null, '/teacher/change-password')])];
 
 const TeacherHome = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -59,9 +66,9 @@ const TeacherHome = () => {
         <Layout>
             <Content
                 style={{
-                    margin: '0 16px', display: 'flex',                // Flexbox display for centering
-                    justifyContent: 'center',       // Centers horizontally
-                    height: '100vh',                // Full viewport height
+                    margin: '0 16px', display: 'flex',
+                    justifyContent: 'center',
+                    height: '100vh',
                     background: colorBgContainer, borderRadius: borderRadiusLG,
                 }}
             >
