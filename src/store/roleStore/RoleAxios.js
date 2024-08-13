@@ -14,6 +14,6 @@ export const createRole = createAsyncThunk('role/createRole', async (role) => {
 });
 
 export const searchRoleByName = createAsyncThunk('role/searchRoleByName', async (name) => {
-    const response = await axios.get(`${ApiURL}/search`, { params: { name } });
+    const response = await axios.get(`${ApiURL}/search`, {params: {name}});
     return response.data;
 });

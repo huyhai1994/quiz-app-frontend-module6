@@ -1,0 +1,6 @@
+@import '../../styles/vars.css';
+
+.logo {
+    color: var(--color-primary);
+    font-weight: bolder;
+}
