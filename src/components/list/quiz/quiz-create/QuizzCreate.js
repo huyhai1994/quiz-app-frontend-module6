@@ -28,6 +28,7 @@ const QuizCreate = () => {
     const [quantity, setQuantity] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [openModal, setOpenModal] = useState(false);
+    const [existingQuizTitles, setExistingQuizTitles] = useState([]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -48,15 +49,27 @@ const QuizCreate = () => {
             }
         };
 
+        const fetchQuizTitles = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/quiz/titles');
+                setExistingQuizTitles(response.data.map(quiz => quiz.title));
+            } catch (error) {
+                console.error('Error fetching quiz titles:', error);
+            }
+        };
+
         fetchCategories();
         fetchQuestions();
+        fetchQuizTitles();
     }, []);
 
     const formik = useFormik({
         initialValues: {
             title: '', description: '', quizTime: '', quantity: '', passingScore: '', questionIds: [],
         }, validationSchema: Yup.object({
-            title: Yup.string().required('Required'),
+            title: Yup.string()
+                .required('Required')
+                .test('unique-title', 'xin mời nhập lại tiêu đề đã tồn tại trong hệ thống', value => !existingQuizTitles.includes(value)),
             description: Yup.string().required('Required'),
             quizTime: Yup.number().required('Required'),
             quantity: Yup.number().required('Required'),
@@ -254,30 +267,15 @@ const QuizCreate = () => {
                     p: 4,
                 }}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Xin mời lựa chọn câu hỏi:
+                        Chọn câu hỏi
                     </Typography>
-                    <List sx={{maxHeight: 400, overflow: 'auto', background: '#f0f0f0', padding: '8px'}}>
+                    <List>
                         {filteredQuestions.map((question) => (
-                            <ListItem
-                                key={question.questionId}
-                                button
-                                onClick={() => handleQuestionClick(question)}
-                                selected={selectedQuestions.includes(question)}
-                                sx={{
-                                    margin: '8px 0',
-                                    padding: '8px',
-                                    border: '1px solid #ccc',
-                                    borderRadius: '4px',
-                                    backgroundColor: selectedQuestions.includes(question) ? '#d3d3d3' : 'white',
-                                }}
-                            >
+                            <ListItem key={question.questionId} button onClick={() => handleQuestionClick(question)}>
                                 <ListItemText primary={question.questionText}/>
                             </ListItem>
                         ))}
                     </List>
-                    <Button variant="contained" fullWidth onClick={handleCloseModal} sx={{mt: 2}}>
-                        Đóng
-                    </Button>
                 </Box>
             </Modal>
         </Box>
