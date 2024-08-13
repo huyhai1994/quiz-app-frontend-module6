@@ -2,7 +2,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import {Box, Button, TextField, Typography} from '@mui/material'
 import {useNavigate} from 'react-router-dom';
-import {Field, Form, Formik} from 'formik'
+import {Formik, Form, Field} from 'formik'
 import {useDispatch, useSelector} from 'react-redux'
 import {register} from '../../features/authSlice'
 
@@ -31,7 +31,7 @@ const RegisterForm = () => {
             navigate('/login');
         } catch (error) {
             // Error is handled by the Redux slice
-            setErrors({general: 'Registration failed'});
+            setErrors({ general: 'Registration failed' });
         } finally {
             setSubmitting(false);
         }
@@ -96,12 +96,12 @@ const RegisterForm = () => {
                             {loading ? 'Registering...' : 'Register'}
                         </Button>
                         {error && (
-                            <Typography color="error" variant="body2" sx={{mt: 2}}>
+                            <Typography color="error" variant="body2" sx={{ mt: 2 }}>
                                 {typeof error === 'string' ? error : JSON.stringify(error, null, 2)}
                             </Typography>
                         )}
                         {errors.general && (
-                            <Typography color="error" variant="body2" sx={{mt: 2}}>
+                            <Typography color="error" variant="body2" sx={{ mt: 2 }}>
                                 {errors.general}
                             </Typography>
                         )}
