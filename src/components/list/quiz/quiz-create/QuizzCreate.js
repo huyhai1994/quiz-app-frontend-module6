@@ -19,6 +19,7 @@ import {
 import Swal from 'sweetalert2';
 import './QuizzCreate.css';
 import {API_CATEGORIES_URL, API_QUESTION_URL} from '../../../../configs/backend.configs';
+import QuizService from "../../../../services/quiz.service";
 
 const QuizCreate = () => {
     const [categories, setCategories] = useState([]);
@@ -64,7 +65,7 @@ const QuizCreate = () => {
             values.questionIds = selectedQuestions.slice(0, values.quantity).map((q) => q.questionId);
             values.timeCreated = getCurrentTimestamp();
             const userId = localStorage.getItem('userId');
-            axios.post(`http://localhost:8080/quiz/create?userId=${userId}`, values)
+            QuizService.addQuiz(values)
                 .then(() => {
                     Swal.fire({
                         icon: 'success',
