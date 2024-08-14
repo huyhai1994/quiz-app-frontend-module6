@@ -3,7 +3,7 @@ import {
     endQuizForUser,
     fetchQuiz,
     fetchQuizResultsByUserId,
-    HistoryResultsByUserId,
+    HistoryResultsByUserId, ResultDetailHistory,
     startQuizForUser
 } from "./ResultAxios";
 
@@ -79,6 +79,17 @@ const resultSlice = createSlice({
             .addCase(fetchQuiz.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+            })
+            .addCase(ResultDetailHistory.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(ResultDetailHistory.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.quiz = action.payload;
+            })
+            .addCase(ResultDetailHistory.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
             });
     }
 });
