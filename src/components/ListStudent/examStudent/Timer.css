@@ -1,0 +1,9 @@
+.timer-container {
+    text-align: center;
+    margin: 20px;
+}
+
+.display-remain-time {
+    font-size: 48px;
+    font-weight: bold;
+}

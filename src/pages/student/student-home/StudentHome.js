@@ -70,9 +70,6 @@ const StudentHome = () => {
             <Layout>
                 <Content
                     style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        height: '100vh',
                         background: 'var(--color-bg)',
                         borderRadius: borderRadiusLG,
                     }}
