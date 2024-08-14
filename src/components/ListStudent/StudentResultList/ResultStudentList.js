@@ -1,15 +1,12 @@
-import { format } from "date-fns";
-import { useEffect, useState } from "react";
+import {format} from "date-fns";
+import {useEffect, useState} from "react";
 import Swal from "sweetalert2";
-import { TailSpin } from "react-loader-spinner";
-import { useParams } from "react-router-dom";
-import axios from "axios";
 import {TailSpin} from "react-loader-spinner";
 import {useParams} from "react-router-dom";
-import {fetchQuizResultsByUserId} from "../../../store/resultStore/ResultAxios";
+import axios from "axios";
 
 const ResultStudentList = () => {
-    const { resultId } = useParams();
+    const {resultId} = useParams();
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
