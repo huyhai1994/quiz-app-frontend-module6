@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import {TailSpin} from "react-loader-spinner";
 import {useParams} from "react-router-dom";
 import axios from "axios";
+import {Card, CardContent, Grid, Typography} from "@mui/material";
 
 const ResultStudentList = () => {
     const {resultId} = useParams();
@@ -46,36 +47,43 @@ const ResultStudentList = () => {
     return (
         <div>
             <h2>Kết quả Quiz</h2>
-            <table className="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Người dùng</th>
-                    <th>Thời gian hoàn thành</th>
-                    <th>Điểm số</th>
-                    <th>Số câu trả lời đúng</th>
-                    <th>Số câu trả lời sai</th>
-                </tr>
-                </thead>
-                <tbody>
+            <Grid container spacing={3}>
                 {results.length > 0 ? (
                     results.map((result, index) => (
-                        <tr key={result.id}>
-                            <td>{index + 1}</td>
-                            <td>{result.userName}</td>
-                            <td>{result.finishTime ? format(new Date(result.finishTime), 'dd-MM-yyyy - HH:mm:ss') : 'N/A'}</td>
-                            <td>{result.score}</td>
-                            <td>{result.correctAnswers}</td>
-                            <td>{result.incorrectAnswers}</td>
-                        </tr>
+                        <Grid item xs={12} sm={6} md={4} key={result.id}>
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="h6" component="div">
+                                        STT: {index + 1}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Người dùng: {result.userName}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Thời gian hoàn
+                                        thành: {result.finishTime ? format(new Date(result.finishTime), 'dd-MM-yyyy - HH:mm:ss') : 'N/A'}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Điểm số: {result.score}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Số câu trả lời đúng: {result.correctAnswers}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Số câu trả lời sai: {result.incorrectAnswers}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
                     ))
                 ) : (
-                    <tr>
-                        <td colSpan="6">Không có dữ liệu</td>
-                    </tr>
+                    <Grid item xs={12}>
+                        <Typography variant="body2" color="text.secondary">
+                            Không có dữ liệu
+                        </Typography>
+                    </Grid>
                 )}
-                </tbody>
-            </table>
+            </Grid>
         </div>
     );
 };

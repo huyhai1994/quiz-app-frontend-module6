@@ -25,12 +25,12 @@ const QuizListStudent = () => {
     }, [dispatch, userId]);
 
     const handleStartQuiz = (quizId) => {
-        dispatch(startQuizForUser({ userId, quizId }))
+        dispatch(startQuizForUser({userId, quizId}))
             .unwrap()
             .then((result) => {
                 if (result) {
                     setResultId(result.id);
-                    navigate(`/quizzes/${quizId}/start?resultId=${result.id}`);
+                    navigate(`/student/quizzes/${quizId}/start?resultId=${result.id}`);
                 } else {
                     console.error('Result ID is missing in the API response');
                 }
