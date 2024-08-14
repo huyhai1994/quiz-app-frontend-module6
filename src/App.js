@@ -74,14 +74,15 @@ function App() {
     }}>
         <Routes>
             <Route path="/" element={<Home/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/register" element={<Register/>}/>
+            {/*<Route path="/login" element={<Login/>}/>*/}
+            {/*<Route path="/register" element={<Register/>}/>*/}
             <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
             <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
             <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
             <Route path="/quizzes" element={<QuizListStudent />} />
             <Route path={"/result/new/:resultId"} element={<ResultStudentList/>}></Route>
             <Route path="/quizzes/:quizId/start" element={<QuestionListStudent />} />
+
             <Route path="/login" element={<AuthLayout title="Login">
                 <LoginForm />
             </AuthLayout>} />
