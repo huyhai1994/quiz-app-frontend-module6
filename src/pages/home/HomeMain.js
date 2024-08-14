@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom"; // Ensure the path is correct
-// import heroImage from '../../asset/img.png';
+import heroImage from '../../asset/img.png';
 
 const Main = () => {
     return (<main>
@@ -25,7 +25,7 @@ const Main = () => {
                 </div>
             </div>
             <div className="hero-image">
-                {/*<img src={heroImage} alt="Hero"/>*/}
+                {<img src={heroImage} alt="Hero"/>}
             </div>
         </section>
     </main>);
