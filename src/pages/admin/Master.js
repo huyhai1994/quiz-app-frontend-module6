@@ -3,6 +3,7 @@ import {Link, Outlet, useNavigate} from 'react-router-dom';
 import {Layout, Menu, theme} from 'antd';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import SettingsIcon from '@mui/icons-material/Settings';
+import NavigationIcon from '@mui/icons-material/Navigation';
 import '../../styles/vars.css';
 import './Master.css';
 
@@ -24,11 +25,17 @@ const items = [
             getItem('Danh Mục Câu Hỏi ', '7', null, null, '/admin/categories'),
             getItem('Danh sách  Câu Hỏi ', '8', null, null, '/admin/question')
         ]),
-    getItem('Cài đặt', 'sub1',
-        <SettingsIcon/>, [
-            getItem('Thông tin cá nhân', '9', null, null, '/admin/update-info')])
-];
 
+    getItem('Điều Hướng', 'sub2',
+        <NavigationIcon/>, [
+            getItem('Giao diện giáo viên', '10', null, null, '/teacher'),
+            getItem('Giao diện học viên', '11', null, null, '/student')
+        ]),
+
+    getItem('Cài đặt', 'sub3',
+        <SettingsIcon/>, [
+            getItem('Thông tin cá nhân', '9', null, null, '/admin/profile')])
+];
 
 const Master = () => {
     const [collapsed, setCollapsed] = useState(false);

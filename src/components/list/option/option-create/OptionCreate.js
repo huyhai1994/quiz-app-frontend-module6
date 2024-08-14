@@ -14,12 +14,14 @@ import {
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import './OptionCreate.css';
+import {useNavigate} from "react-router-dom";
 
 const OptionCreate = () => {
     const [options, setOptions] = useState([]);
     const [questionId, setQuestionId] = useState(null);
     const [questionType, setQuestionType] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const storedQuestionId = localStorage.getItem('questionId');
@@ -77,6 +79,7 @@ const OptionCreate = () => {
             Swal.fire({
                 title: "Thành công", text: "Tùy chọn đã được tạo", icon: "success"
             });
+            navigate('/teacher/question/create');
             localStorage.removeItem('questionId');
             localStorage.removeItem('questionType');
         } catch (error) {

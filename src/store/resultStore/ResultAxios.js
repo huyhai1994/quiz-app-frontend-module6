@@ -8,6 +8,7 @@ export const startQuizForUser = createAsyncThunk(
     'result/startQuizForUser',
     async ({ userId, quizId }) => {
         const response = await axios.post(`${ApiURL}/start/${userId}/${quizId}`);
+        console.log(response.data)
         return response.data;
     }
 );

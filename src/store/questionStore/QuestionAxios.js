@@ -1,5 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
+import instance from "../../utils/axiosConfig";
 
 const ApiURL = "http://localhost:8080/question";
 
@@ -39,3 +40,14 @@ export const getQuestionsByQuizId = createAsyncThunk(
         return response.data;
     }
 );
+
+export const DeleteQuestion = createAsyncThunk(
+    'question/delete',
+    async (id, {rejectWithValue}) => {
+        try {
+            await instance.delete(`/question/${id}`);
+            return id
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    })
