@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Link, Outlet, useNavigate} from 'react-router-dom';
-import {Layout, Menu, theme} from 'antd';
+import {Layout, Menu, Modal, theme} from 'antd';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Import the logout icon
@@ -14,10 +14,14 @@ function getItem(label, key, icon, children, link) {
     };
 }
 
-const items = [getItem('Trang chủ', '1', null, null, '/student/home'), getItem('Danh Sách', 'sub1',
-    <ViewListIcon/>, [getItem('Bài kiểm tra', '2', null, null, '/student/quizzes'),]), getItem('Cài đặt', 'sub2',
-    <SettingsIcon/>, [getItem('Thông tin cá nhân', '3', null, null, '/student/profile'), getItem('Thay đổi mật khẩu', '4', null, null, '/student/change-password'),],), getItem('Đăng xuất', '5',
-    <ExitToAppIcon/>, null, '/logout'), // Add the logout item
+const items = [
+    getItem('Trang chủ', '1', null, null, '/student/home'),
+    getItem('Danh Sách', 'sub1',
+        <ViewListIcon/>, [
+            getItem('Bài kiểm tra', '2', null, null, '/student/quizzes'),]), getItem('Cài đặt', 'sub2',
+        <SettingsIcon/>, [
+            getItem('Thông tin cá nhân', '3', null, null, '/student/profile'), getItem('Thay đổi mật khẩu', '4', null, null, '/student/change-password'),],),
+    getItem('Đăng xuất', '5', <ExitToAppIcon/>, null, ''), // Add the logout item
 ];
 
 const StudentHome = () => {
@@ -28,52 +32,62 @@ const StudentHome = () => {
     } = theme.useToken();
 
     const handleLogout = () => {
-        localStorage.removeItem('token'); // Clear the token from local storage
-        navigate('/login'); // Navigate to the login page
+        Modal.confirm({
+            title: 'Xác nhận đăng xuất',
+            content: 'Bạn có chắc chắn muốn đăng xuất?',
+            okText: 'Đăng xuất',
+            cancelText: 'Hủy',
+            onOk: () => {
+                localStorage.removeItem('token'); // Clear the token from local storage
+                navigate('/login'); // Navigate to the login page
+            }
+        });
     };
 
-    return (<Layout style={{minHeight: '100vh'}}>
-        <Sider
-            collapsible
-            collapsed={collapsed}
-            onCollapse={(value) => setCollapsed(value)}
-            width={250}
-            theme={'light'}
-        >
-            <div style={{padding: '16px', textAlign: 'center'}}>
-                <h1 className='logo'>QUIZZ</h1>
-            </div>
-            <Menu
-                defaultSelectedKeys={['1']}
-                mode="inline"
-                items={items}
-                onClick={(e) => {
-                    if (e.key === '5') { // Check if the logout item is clicked
-                        handleLogout();
-                    }
-                }}
-            />
-        </Sider>
-        <Layout>
-            <Content
-                style={{
-                    margin: '0 16px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    height: '100vh',
-                    background: 'var(--color-bg)',
-                    borderRadius: borderRadiusLG,
-                }}
+    return (
+        <Layout style={{minHeight: '100vh'}}>
+            <Sider
+                collapsible
+                collapsed={collapsed}
+                onCollapse={(value) => setCollapsed(value)}
+                width={250}
+                theme={'light'}
             >
-                <div style={{padding: ' 5% 10%'}}>
-                    <Outlet/>
+                <div style={{padding: '16px', textAlign: 'center'}}>
+                    <h1 className='logo'>QUIZZ</h1>
                 </div>
-            </Content>
-            <Footer style={{textAlign: 'center'}}>
-                Ant Design ©{new Date().getFullYear()} Created by Ant UED
-            </Footer>
+                <Menu
+                    defaultSelectedKeys={['1']}
+                    mode="inline"
+                    items={items}
+                    onClick={(e) => {
+                        if (e.key === '5') { // Check if the logout item is clicked
+                            handleLogout();
+                        }
+                    }}
+                />
+            </Sider>
+            <Layout>
+                <Content
+                    style={{
+                        margin: '0 16px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        height: '100vh',
+                        background: 'var(--color-bg)',
+                        borderRadius: borderRadiusLG,
+                    }}
+                >
+                    <div style={{padding: ' 5% 10%'}}>
+                        <Outlet/>
+                    </div>
+                </Content>
+                <Footer style={{textAlign: 'center'}}>
+                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                </Footer>
+            </Layout>
         </Layout>
-    </Layout>);
+    );
 };
 
 export default StudentHome;
