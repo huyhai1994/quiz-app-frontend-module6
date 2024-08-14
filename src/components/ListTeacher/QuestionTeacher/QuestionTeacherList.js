@@ -1,19 +1,19 @@
-import { format } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import {format} from "date-fns";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
 import Page from "../../pages/Page";
-import { ListTeacherQuestion } from "../../../store/questionStore/QuestionAxios";
+import {ListTeacherQuestion} from "../../../store/questionStore/QuestionAxios";
 import Swal from "sweetalert2";
-import { TailSpin } from "react-loader-spinner";
+import {TailSpin} from "react-loader-spinner";
 
 const ListTeacherQuestions = () => {
     const dispatch = useDispatch();
-    const { questions, loading, error } = useSelector((state) => state.questions);
+    const {questions, loading, error} = useSelector((state) => state.questions);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
+    const userId = useSelector((state) => state.users.users.id);
 
     useEffect(() => {
-        const userId = 2;
         dispatch(ListTeacherQuestion(userId))
     }, [dispatch]);
 
@@ -25,8 +25,8 @@ const ListTeacherQuestions = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <TailSpin color="#00BFFF" height={80} width={80} />
+            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+                <TailSpin color="#00BFFF" height={80} width={80}/>
             </div>
         );
     }

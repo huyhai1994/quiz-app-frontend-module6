@@ -16,7 +16,7 @@ const QuestionListStudent = () => {
     const questions = useSelector((state) => state.questions.questions);
     const status = useSelector((state) => state.questions.status);
     const error = useSelector((state) => state.questions.error);
-    const userId = 5; // Replace with actual user ID
+    const userId = useSelector((state) => state.users.users.id);
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
