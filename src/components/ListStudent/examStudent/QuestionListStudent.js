@@ -3,7 +3,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {getQuestionsByQuizId} from '../../../store/questionStore/QuestionAxios';
 import {endQuizForUser} from '../../../store/resultStore/ResultAxios';
-import Swal from 'sweetalert2'; // Import SweetAlert2
+import Swal from 'sweetalert2';
+import axios from "axios"; // Import SweetAlert2
 
 const QuestionListStudent = () => {
     const {quizId} = useParams();
@@ -16,11 +17,32 @@ const QuestionListStudent = () => {
     const questions = useSelector((state) => state.questions.questions);
     const status = useSelector((state) => state.questions.status);
     const error = useSelector((state) => state.questions.error);
-    const userId = useSelector((state) => state.users.users.userId);
+
+    const [userId, setUserId] = useState(null);
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get('http://localhost:8080/users/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setUserId(response.data.id);
+            } catch (error) {
+                console.error('Failed to fetch user profile:', error);
+                // Handle error (e.g., redirect to login if unauthorized)
+                navigate('/login');
+            }
+        };
+
+        fetchUserProfile();
+    }, [navigate]);
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const resultIdFromQuery = queryParams.get('resultId');
+        console.log('result id: ', resultIdFromQuery);
         if (resultIdFromQuery) {
             setResultId(resultIdFromQuery);
         } else {
@@ -56,9 +78,9 @@ const QuestionListStudent = () => {
                         icon: 'success',
                         confirmButtonText: 'OK'
                     });
-                    navigate(`/result/new/${resultId}`);
                 })
                 .catch((err) => {
+                    console.log(resultId)
                     Swal.fire({
                         title: 'Lỗi!',
                         text: `Không thể kết thúc thi: ${err.message}`,
