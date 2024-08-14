@@ -40,6 +40,7 @@ import ResultStudentList from "./components/ListStudent/StudentResultList/Result
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import QuizHistoryDetail from "./components/ListStudent/StudentResultList/QuizHistoryDetail";
+import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
 
 
 function App() {
@@ -83,6 +84,7 @@ function App() {
             <Route path="/quizzes" element={<QuizListStudent/>}/>
             <Route path={"/result/new/:resultId"} element={<ResultStudentList/>}></Route>
             <Route path="/quizzes/:quizId/start" element={<QuestionListStudent/>}/>
+            <Route path={"/top/quizzes"} element={<TopQuizzes/>}></Route>
 
             <Route path="/login" element={<AuthLayout title="Login">
                 <LoginForm />
