@@ -36,8 +36,6 @@ import QuizHistoryList from "./components/ListStudent/StudentResultList/QuizHist
 import QuizListStudent from "./components/ListStudent/examStudent/QuizListStudent";
 import QuestionListStudent from "./components/ListStudent/examStudent/QuestionListStudent";
 import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
-import Login from "./pages/login/Login";
-import Register from "./pages/register/Register";
 
 
 function App() {
@@ -74,9 +72,8 @@ function App() {
             <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
             <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
             <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
-            <Route path="/quizzes" element={<QuizListStudent/>}/>
             <Route path={"/result/new/:resultId"} element={<ResultStudentList/>}></Route>
-            <Route path="/quizzes/:quizId/start" element={<QuestionListStudent/>}/>
+
             <Route path="/login" element={<AuthLayout title="Login">
                 <LoginForm/>
             </AuthLayout>}/>
@@ -89,7 +86,6 @@ function App() {
                 <Route path="reset-password" element={<PasswordReset/>}/>
             </Route>
             <Route path="/admin" element={<Master/>}>
-
                 <Route path="categories" element={<Categories/>}/>
                 <Route path="update-info" element={<AdminEdit/>}/>
                 <Route path="add-category" element={<AddCategory/>}/>
@@ -115,7 +111,10 @@ function App() {
                 <Route path="profile" element={<UserProfile/>}/>
                 <Route path="change-password" element={<ChangePasswordForm/>}/>
                 <Route path="quiz" element={<QuizList/>}/>
+                <Route path="quizzes" element={<QuizListStudent/>}/>
                 <Route path="question" element={<QuizComponent/>}/>
+                <Route path="quizzes/:quizId/start"
+                       element={<QuestionListStudent/>}/>
             </Route>
             <Route path="/teacher" element={<Home/>}>
 

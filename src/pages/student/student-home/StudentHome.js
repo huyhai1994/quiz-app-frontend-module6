@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-
 import {Link, Outlet, useNavigate} from 'react-router-dom';
 import {Layout, Menu, theme} from 'antd';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import SettingsIcon from '@mui/icons-material/Settings';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Import the logout icon
 import '../../../styles/vars.css';
 
 const {Content, Footer, Sider} = Layout;
@@ -14,15 +14,10 @@ function getItem(label, key, icon, children, link) {
     };
 }
 
-const items = [
-    getItem('Trang chủ', '1', null, null, '/student/home'),
-    getItem('Danh Sách', 'sub1',
-        <ViewListIcon/>, [
-            getItem('Lớp học', '2', null, null, '/student/class-list'), getItem('Bài kiểm tra', '3', null, null, '/student/test-list'),]), getItem('Cài đặt', 'sub2',
-        <SettingsIcon/>, [
-            getItem('Thông tin cá nhân', '4', null, null, '/student/profile'), getItem('Thay đổi mật khẩu', '5', null, null, '/student/change-password'),],),
-
-
+const items = [getItem('Trang chủ', '1', null, null, '/student/home'), getItem('Danh Sách', 'sub1',
+    <ViewListIcon/>, [getItem('Bài kiểm tra', '2', null, null, '/student/quizzes'),]), getItem('Cài đặt', 'sub2',
+    <SettingsIcon/>, [getItem('Thông tin cá nhân', '3', null, null, '/student/profile'), getItem('Thay đổi mật khẩu', '4', null, null, '/student/change-password'),],), getItem('Đăng xuất', '5',
+    <ExitToAppIcon/>, null, '/logout'), // Add the logout item
 ];
 
 const StudentHome = () => {
@@ -33,7 +28,8 @@ const StudentHome = () => {
     } = theme.useToken();
 
     const handleLogout = () => {
-        navigate('/login');
+        localStorage.removeItem('token'); // Clear the token from local storage
+        navigate('/login'); // Navigate to the login page
     };
 
     return (<Layout style={{minHeight: '100vh'}}>
@@ -47,7 +43,16 @@ const StudentHome = () => {
             <div style={{padding: '16px', textAlign: 'center'}}>
                 <h1 className='logo'>QUIZZ</h1>
             </div>
-            <Menu defaultSelectedKeys={['1']} mode="inline" items={items}/>
+            <Menu
+                defaultSelectedKeys={['1']}
+                mode="inline"
+                items={items}
+                onClick={(e) => {
+                    if (e.key === '5') { // Check if the logout item is clicked
+                        handleLogout();
+                    }
+                }}
+            />
         </Sider>
         <Layout>
             <Content
