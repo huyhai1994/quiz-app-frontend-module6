@@ -4,7 +4,6 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {getQuestionsByQuizId} from '../../../store/questionStore/QuestionAxios';
 import {endQuizForUser} from '../../../store/resultStore/ResultAxios';
 import Swal from 'sweetalert2';
-import axios from "axios"; // Import SweetAlert2
 
 const QuestionListStudent = () => {
     const {quizId} = useParams();
@@ -18,26 +17,7 @@ const QuestionListStudent = () => {
     const status = useSelector((state) => state.questions.status);
     const error = useSelector((state) => state.questions.error);
 
-    const [userId, setUserId] = useState(null);
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await axios.get('http://localhost:8080/users/profile', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                setUserId(response.data.id);
-            } catch (error) {
-                console.error('Failed to fetch user profile:', error);
-                // Handle error (e.g., redirect to login if unauthorized)
-                navigate('/login');
-            }
-        };
-
-        fetchUserProfile();
-    }, [navigate]);
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
@@ -55,28 +35,21 @@ const QuestionListStudent = () => {
 
     const handleOptionChange = useCallback((questionId, optionId) => {
         setSelectedOptions((prev) => ({
-            ...prev,
-            [questionId]: optionId
+            ...prev, [questionId]: optionId
         }));
     }, []);
 
     const handleSubmit = () => {
         if (resultId) {
             dispatch(endQuizForUser({
-                resultId: Number(resultId),
-                userAnswers: Object.keys(selectedOptions).map(questionId => ({
-                    userId,
-                    questionId: Number(questionId),
-                    optionId: selectedOptions[questionId]
+                resultId: Number(resultId), userAnswers: Object.keys(selectedOptions).map(questionId => ({
+                    userId, questionId: Number(questionId), optionId: selectedOptions[questionId]
                 }))
             }))
                 .unwrap()
                 .then(() => {
                     Swal.fire({
-                        title: 'Thành công!',
-                        text: 'Thi kết thúc thành công!',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
+                        title: 'Thành công!', text: 'Thi kết thúc thành công!', icon: 'success', confirmButtonText: 'OK'
                     });
                 })
                 .catch((err) => {
@@ -90,10 +63,7 @@ const QuestionListStudent = () => {
                 });
         } else {
             Swal.fire({
-                title: 'Lỗi!',
-                text: 'Result ID không có sẵn',
-                icon: 'error',
-                confirmButtonText: 'OK'
+                title: 'Lỗi!', text: 'Result ID không có sẵn', icon: 'error', confirmButtonText: 'OK'
             });
         }
     };
@@ -106,39 +76,29 @@ const QuestionListStudent = () => {
         return <div>Error: {error}</div>;
     }
 
-    return (
-        <div>
-            <h1>Câu hỏi của Quiz {quizId}</h1>
-            <ul>
-                {questions.length > 0 ? (
-                    questions.map((question) => (
-                        <li key={question.id}>
-                            {question.questionText}
-                            <ul>
-                                {question.options.map((option) => (
-                                    <li key={option.id}>
-                                        <label>
-                                            <input
-                                                type="radio"
-                                                name={`question-${question.id}`}
-                                                value={option.id}
-                                                checked={selectedOptions[question.id] === option.id}
-                                                onChange={() => handleOptionChange(question.id, option.id)}
-                                            />
-                                            {option.optionText}
-                                        </label>
-                                    </li>
-                                ))}
-                            </ul>
-                        </li>
-                    ))
-                ) : (
-                    <p>Không có câu hỏi nào cho quiz này.</p>
-                )}
-            </ul>
-            <button onClick={handleSubmit}>Nộp bài thi</button>
-        </div>
-    );
+    return (<div>
+        <h1>Câu hỏi của Quiz {quizId}</h1>
+        <ul>
+            {questions.length > 0 ? (questions.map((question) => (<li key={question.id}>
+                {question.questionText}
+                <ul>
+                    {question.options.map((option) => (<li key={option.id}>
+                        <label>
+                            <input
+                                type="radio"
+                                name={`question-${question.id}`}
+                                value={option.id}
+                                checked={selectedOptions[question.id] === option.id}
+                                onChange={() => handleOptionChange(question.id, option.id)}
+                            />
+                            {option.optionText}
+                        </label>
+                    </li>))}
+                </ul>
+            </li>))) : (<p>Không có câu hỏi nào cho quiz này.</p>)}
+        </ul>
+        <button onClick={handleSubmit}>Nộp bài thi</button>
+    </div>);
 };
 
 export default QuestionListStudent;

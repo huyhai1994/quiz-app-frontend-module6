@@ -98,6 +98,7 @@ const authSlice = createSlice({
                 state.role = action.payload.role
                 localStorage.setItem('token', action.payload.token);
                 localStorage.setItem('role', action.payload.role)
+                localStorage.setItem('userId', action.payload.userId);
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;

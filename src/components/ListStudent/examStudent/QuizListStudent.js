@@ -5,7 +5,6 @@ import {useNavigate} from 'react-router-dom';
 import {startQuizForUser} from "../../../store/resultStore/ResultAxios";
 import {Alert, Button, Spin} from 'antd';
 import {Card, Col, Container, Pagination, Row} from 'react-bootstrap';
-import axios from "axios";
 
 // Placeholder image URL
 const placeholderImage = 'https://www.shutterstock.com/shutterstock/photos/2052894734/display_1500/stock-vector-quiz-and-question-marks-trivia-night-quiz-symbol-neon-sign-night-online-game-with-questions-2052894734.jpg';
@@ -19,31 +18,10 @@ const QuizListStudent = () => {
     const [resultId, setResultId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const quizzesPerPage = 4;
-    const [userId, setUserId] = useState(null);
-
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await axios.get('http://localhost:8080/users/profile', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                setUserId(response.data.id);
-            } catch (error) {
-                console.error('Failed to fetch user profile:', error);
-                // Handle error (e.g., redirect to login if unauthorized)
-                navigate('/login');
-            }
-        };
-
-        fetchUserProfile();
-    }, [navigate]);
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         dispatch(ListQuizStudent());
-        console.log(userId)
     }, [dispatch, userId]);
 
     const handleStartQuiz = (quizId) => {
