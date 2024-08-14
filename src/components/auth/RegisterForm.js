@@ -2,9 +2,10 @@ import React from 'react';
 import * as Yup from 'yup';
 import {Box, Button, TextField, Typography} from '@mui/material'
 import {useNavigate} from 'react-router-dom';
-import {Formik, Form, Field} from 'formik'
+import {Field, Form, Formik} from 'formik'
 import {useDispatch, useSelector} from 'react-redux'
 import {register} from '../../features/authSlice'
+import './RegisterForm.css';
 
 const RegisterSchema = Yup.object().shape({
     name: Yup.string().required('Username is required'),
@@ -31,7 +32,7 @@ const RegisterForm = () => {
             navigate('/login');
         } catch (error) {
             // Error is handled by the Redux slice
-            setErrors({ general: 'Registration failed' });
+            setErrors({general: 'Registration failed'});
         } finally {
             setSubmitting(false);
         }
@@ -39,8 +40,8 @@ const RegisterForm = () => {
 
     return (
         <Box sx={{maxWidth: 400, margin: 'auto', mt: 4}}>
-            <Typography variant="h4" component="h1" gutterBottom>
-                Register
+            <Typography className='text-center' variant="h4" component="h1" gutterBottom>
+                Đăng kí
             </Typography>
             <Formik
                 initialValues={{name: '', email: '', password: '', avatar: null}}
@@ -52,7 +53,7 @@ const RegisterForm = () => {
                         <Field
                             as={TextField}
                             name="name"
-                            label="Name"
+                            label="Tên"
                             fullWidth
                             margin="normal"
                             error={touched.name && Boolean(errors.name)}
@@ -61,7 +62,7 @@ const RegisterForm = () => {
                         <Field
                             as={TextField}
                             name="email"
-                            label="Email"
+                            label="Địa chỉ email"
                             fullWidth
                             margin="normal"
                             error={touched.email && Boolean(errors.email)}
@@ -70,7 +71,7 @@ const RegisterForm = () => {
                         <Field
                             as={TextField}
                             name="password"
-                            label="Password"
+                            label="Mật khẩu"
                             type="password"
                             fullWidth
                             margin="normal"
@@ -88,20 +89,20 @@ const RegisterForm = () => {
                         <Button
                             type="submit"
                             variant="contained"
-                            color="primary"
+                            className='submit-button'
                             fullWidth
                             disabled={isSubmitting || loading}
                             sx={{mt: 2}}
                         >
-                            {loading ? 'Registering...' : 'Register'}
+                            {loading ? 'Đang đăng kí...' : 'Gửi'}
                         </Button>
                         {error && (
-                            <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+                            <Typography color="error" variant="body2" sx={{mt: 2}}>
                                 {typeof error === 'string' ? error : JSON.stringify(error, null, 2)}
                             </Typography>
                         )}
                         {errors.general && (
-                            <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+                            <Typography color="error" variant="body2" sx={{mt: 2}}>
                                 {errors.general}
                             </Typography>
                         )}
