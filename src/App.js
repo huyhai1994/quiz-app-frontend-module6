@@ -133,7 +133,7 @@ function App() {
                 <Route path="quiz" element={<QuizList/>}/>
                 <Route path="question" element={<QuizComponent/>}/>
             </Route>
-            <Route path={"/student"} element={<StudentHome/>}/>
+            {/*<Route path={"/student"} element={<StudentHome/>}/>*/}
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     </ConfigProvider>)
