@@ -27,7 +27,6 @@ const LoginForm = () => {
         try {
             await dispatch(login(values)).unwrap();
             const role = localStorage.getItem('role');
-            // Navigate based on the user's role
             switch (role) {
                 case 'ROLE_ADMIN':
                     navigate('/admin');
@@ -36,7 +35,7 @@ const LoginForm = () => {
                     navigate('/teacher');
                     break;
                 case 'ROLE_STUDENT':
-                    navigate('/student');
+                    navigate('/student/home');
                     break;
                 default:
                     navigate('/');
@@ -49,78 +48,66 @@ const LoginForm = () => {
         }
     };
 
-    return (
-        <Box sx={{maxWidth: 400, margin: 'auto', mt: 4}}>
-            <Typography variant="h4" component="h1" gutterBottom className='text-center'>
-                Đăng nhập
-            </Typography>
-            <Formik
-                initialValues={{email: '', password: ''}}
-                validationSchema={LoginSchema}
-                onSubmit={handleSubmit}
-            >
-                {({errors, touched, isSubmitting}) => (
-                    <Form>
-                        <Field
-                            as={TextField}
-                            name="email"
-                            label="địa chỉ email "
-                            fullWidth
-                            margin="normal"
-                            error={touched.email && Boolean(errors.email)}
-                            helperText={touched.email && errors.email}
-                        />
-                        <Field
-                            as={TextField}
-                            name="password"
-                            label="Mật khẩu"
-                            type={showPassword ? 'text' : 'password'}
-                            fullWidth
-                            margin="normal"
-                            error={touched.password && Boolean(errors.password)}
-                            helperText={touched.password && errors.password}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            edge="end"
-                                        >
-                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            className='submit-button'
-                            disabled={isSubmitting || loading}
-                            sx={{mt: 2}}
-                        >
-                            {loading ? 'Logging in...' : 'Đăng nhập'}
-                        </Button>
-                        {error && (
-                            <Typography color="error" variant="body2" sx={{mt: 2}}>
-                                {typeof error === 'string' ? error : JSON.stringify(error, null, 2)}
-                            </Typography>
-                        )}
-                        {errors.general && (
-                            <Typography color="error" variant="body2" sx={{mt: 2}}>
-                                {errors.general}
-                            </Typography>
-                        )}
-                    </Form>
-                )
-                }
-            </Formik>
-        </Box>
-    )
-        ;
+    return (<Box sx={{maxWidth: 400, margin: 'auto', mt: 4}}>
+        <Typography variant="h4" component="h1" gutterBottom className='text-center'>
+            Đăng nhập
+        </Typography>
+        <Formik
+            initialValues={{email: '', password: ''}}
+            validationSchema={LoginSchema}
+            onSubmit={handleSubmit}
+        >
+            {({errors, touched, isSubmitting}) => (<Form>
+                <Field
+                    as={TextField}
+                    name="email"
+                    label="địa chỉ email "
+                    fullWidth
+                    margin="normal"
+                    error={touched.email && Boolean(errors.email)}
+                    helperText={touched.email && errors.email}
+                />
+                <Field
+                    as={TextField}
+                    name="password"
+                    label="Mật khẩu"
+                    type={showPassword ? 'text' : 'password'}
+                    fullWidth
+                    margin="normal"
+                    error={touched.password && Boolean(errors.password)}
+                    helperText={touched.password && errors.password}
+                    InputProps={{
+                        endAdornment: (<InputAdornment position="end">
+                            <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                edge="end"
+                            >
+                                {showPassword ? <VisibilityOff/> : <Visibility/>}
+                            </IconButton>
+                        </InputAdornment>),
+                    }}
+                />
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    className='submit-button'
+                    disabled={isSubmitting || loading}
+                    sx={{mt: 2}}
+                >
+                    {loading ? 'Logging in...' : 'Đăng nhập'}
+                </Button>
+                {error && (<Typography color="error" variant="body2" sx={{mt: 2}}>
+                    {typeof error === 'string' ? error : JSON.stringify(error, null, 2)}
+                </Typography>)}
+                {errors.general && (<Typography color="error" variant="body2" sx={{mt: 2}}>
+                    {errors.general}
+                </Typography>)}
+            </Form>)}
+        </Formik>
+    </Box>);
 };
 
 export default LoginForm;

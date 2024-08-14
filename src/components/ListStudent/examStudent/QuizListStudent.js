@@ -4,7 +4,9 @@ import {ListQuizStudent} from '../../../store/quizStore/QuizAxios';
 import {useNavigate} from 'react-router-dom';
 import {startQuizForUser} from "../../../store/resultStore/ResultAxios";
 import {Alert, Button, Spin} from 'antd';
-import {Card, Col, Container, Pagination, Row} from 'react-bootstrap';
+import {Card, Container} from 'react-bootstrap';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 // Placeholder image URL
 const placeholderImage = 'https://www.shutterstock.com/shutterstock/photos/2052894734/display_1500/stock-vector-quiz-and-question-marks-trivia-night-quiz-symbol-neon-sign-night-online-game-with-questions-2052894734.jpg';
@@ -16,8 +18,6 @@ const QuizListStudent = () => {
     const status = useSelector((state) => state.quizzes.loading);
     const error = useSelector((state) => state.quizzes.error);
     const [resultId, setResultId] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const quizzesPerPage = 4;
     const userId = localStorage.getItem('userId');
 
     useEffect(() => {
@@ -48,71 +48,52 @@ const QuizListStudent = () => {
         return <Alert message="Error" description={error} type="error" showIcon/>;
     }
 
-    // Calculate the quizzes to display based on the current page
-    const indexOfLastQuiz = currentPage * quizzesPerPage;
-    const indexOfFirstQuiz = indexOfLastQuiz - quizzesPerPage;
-    const currentQuizzes = quizzes.slice(indexOfFirstQuiz, indexOfLastQuiz);
+    const responsive = {
+        superLargeDesktop: {
+            breakpoint: {max: 4000, min: 1024},
+            items: 3
+        },
+        desktop: {
+            breakpoint: {max: 1024, min: 768},
+            items: 3
+        },
+        tablet: {
+            breakpoint: {max: 768, min: 464},
+            items: 2
+        },
+        mobile: {
+            breakpoint: {max: 464, min: 0},
+            items: 1
+        }
+    };
 
-    // Calculate the total number of pages
-    const totalPages = Math.ceil(quizzes.length / quizzesPerPage);
-
-    // Add blank default cards if there are fewer than 4 quizzes on the current page
-    const blankCardsCount = quizzesPerPage - currentQuizzes.length;
-    const blankCards = Array.from({length: blankCardsCount}, (_, index) => (
-        <Col key={`blank-${index}`} xs={12} sm={6} md={4} lg={3} className="mb-4">
-            <Card>
-                <Card.Img
-                    variant="top"
-                    src={placeholderImage}
-                    alt="Blank card"
-                    style={{width: '100%', height: '200px', objectFit: 'cover'}}
-                />
-                <Card.Body>
-                    <Card.Title>Blank Card</Card.Title>
-                    <Card.Text>No quiz available</Card.Text>
-                    <Button type="primary" disabled>
-                        Bắt đầu thi
-                    </Button>
-                </Card.Body>
-            </Card>
-        </Col>));
-
-    return (<Container>
-        <h1>Danh sách các bài thi</h1>
-        <Row>
-            {currentQuizzes.map((quiz) => (<Col key={quiz.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
-                <Card>
-                    <Card.Img
-                        variant="top"
-                        src={quiz.image || placeholderImage}
-                        alt={quiz.title}
-                        style={{width: '100%', height: '200px', objectFit: 'cover'}}
-                    />
-                    <Card.Body>
-                        <Card.Title>{quiz.title}</Card.Title>
-                        <Card.Text>{quiz.quantity} câu hỏi</Card.Text>
-                        <Button type="primary" onClick={() => handleStartQuiz(quiz.id)}>
-                            Bắt đầu thi
-                        </Button>
-                    </Card.Body>
-                </Card>
-            </Col>))}
-            {blankCards}
-        </Row>
-        <Pagination className="justify-content-center mt-4">
-            <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1}/>
-            <Pagination.Prev onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                             disabled={currentPage === 1}/>
-            {[...Array(totalPages).keys()].map(number => (
-                <Pagination.Item key={number + 1} active={number + 1 === currentPage}
-                                 onClick={() => setCurrentPage(number + 1)}>
-                    {number + 1}
-                </Pagination.Item>))}
-            <Pagination.Next onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                             disabled={currentPage === totalPages}/>
-            <Pagination.Last onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages}/>
-        </Pagination>
-    </Container>);
+    return (
+        <Container>
+            <h1>Danh sách các bài thi</h1>
+            <Carousel responsive={responsive}>
+                {quizzes.map((quiz) => (
+                    <div key={quiz.id}>
+                        <Card className='mx-3' onClick={() => handleStartQuiz(quiz.id)} style={{cursor: 'pointer'}}>
+                            <Card.Img
+                                variant="top"
+                                src={quiz.image || placeholderImage}
+                                alt={quiz.title}
+                                style={{width: '100%', height: '200px', objectFit: 'cover'}}
+                            />
+                            <Card.Body>
+                                <Card.Title>{quiz.title}</Card.Title>
+                                <Card.Text>{quiz.quantity} câu hỏi</Card.Text>
+                                <Button type="primary" className='btn button-start'
+                                        onClick={() => handleStartQuiz(quiz.id)}>
+                                    Bắt đầu thi
+                                </Button>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                ))}
+            </Carousel>
+        </Container>
+    );
 };
 
 export default QuizListStudent;
