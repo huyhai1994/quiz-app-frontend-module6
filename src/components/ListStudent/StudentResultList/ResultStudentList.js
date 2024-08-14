@@ -1,15 +1,15 @@
-import { format } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import {format} from "date-fns";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
 import Swal from "sweetalert2";
-import { TailSpin } from "react-loader-spinner";
-import { useParams } from "react-router-dom";
-import { fetchQuizResultsByUserId } from "../../../store/resultStore/ResultAxios";
+import {TailSpin} from "react-loader-spinner";
+import {useParams} from "react-router-dom";
+import {fetchQuizResultsByUserId} from "../../../store/resultStore/ResultAxios";
 
 const ResultStudentList = () => {
     const dispatch = useDispatch();
-    const { resultId } = useParams();
-    const { results, loading, error } = useSelector((state) => state.results);
+    const {resultId} = useParams();
+    const {results, loading, error} = useSelector((state) => state.results);
 
     useEffect(() => {
         if (resultId) {
@@ -25,8 +25,8 @@ const ResultStudentList = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <TailSpin color="#00BFFF" height={80} width={80} />
+            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+                <TailSpin color="#00BFFF" height={80} width={80}/>
             </div>
         );
     }

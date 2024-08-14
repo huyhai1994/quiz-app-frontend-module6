@@ -1,10 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
-import {getQuestionsByQuizId} from '../../../store/questionStore/QuestionAxios';
-import {endQuizForUser} from '../../../store/resultStore/ResultAxios';
-import Swal from 'sweetalert2';
 import axios from 'axios';
+import {getQuestionsByQuizId} from '../../../store/questionStore/QuestionAxios';
+import {useDispatch, useSelector} from 'react-redux';
 import {
     Box,
     Button,
@@ -17,7 +14,10 @@ import {
     RadioGroup,
     Typography
 } from '@mui/material';
-import Timer from './Timer'; // Import the Timer component
+import {endQuizForUser} from '../../../store/resultStore/ResultAxios';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import Swal from 'sweetalert2';
+import Timer from "./Timer";
 
 const QuestionListStudent = () => {
     const {quizId} = useParams();
@@ -31,7 +31,6 @@ const QuestionListStudent = () => {
     const [initialTime, setInitialTime] = useState(null); // Initialize as null
 
     const questions = useSelector((state) => state.questions.questions);
-    console.log(`this is question: ${questions}`);
     const status = useSelector((state) => state.questions.status);
     const error = useSelector((state) => state.questions.error);
 
@@ -40,8 +39,6 @@ const QuestionListStudent = () => {
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const resultIdFromQuery = queryParams.get('resultId');
-        console.log('result id: ', resultIdFromQuery);
-
         if (resultIdFromQuery) {
             setResultId(resultIdFromQuery);
         } else {
@@ -85,10 +82,11 @@ const QuestionListStudent = () => {
                         text: 'Thi kết thúc thành công!',
                         icon: 'success',
                         confirmButtonText: 'OK'
+                    }).then(() => {
+                        navigate(`/result/new/${resultId}`);
                     });
                 })
                 .catch((err) => {
-                    console.log(resultId);
                     Swal.fire({
                         title: 'Lỗi!',
                         text: `Không thể kết thúc thi: ${err.message}`,
@@ -150,9 +148,10 @@ const QuestionListStudent = () => {
                                     />
                                 ))}
                             </RadioGroup>
-                        </CardContent> <Typography variant='h4' className='text-center'>
-                        Câu số {currentQuestionIndex + 1} / {questions.length}
-                    </Typography>
+                        </CardContent>
+                        <Typography variant='h4' className='text-center'>
+                            Câu số {currentQuestionIndex + 1} / {questions.length}
+                        </Typography>
                     </Card>
                 ) : (
                     <Typography variant="body1">Không có câu hỏi nào cho quiz này.</Typography>
