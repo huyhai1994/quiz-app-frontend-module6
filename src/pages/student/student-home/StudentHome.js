@@ -70,15 +70,15 @@ const StudentHome = () => {
             <Layout>
                 <Content
                     style={{
-                        margin: '0 16px',
                         display: 'flex',
                         justifyContent: 'center',
+                        alignItems: 'center',
                         height: '100vh',
                         background: 'var(--color-bg)',
                         borderRadius: borderRadiusLG,
                     }}
                 >
-                    <div style={{padding: ' 5% 10%'}}>
+                    <div>
                         <Outlet/>
                     </div>
                 </Content>
