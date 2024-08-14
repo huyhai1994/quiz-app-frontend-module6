@@ -11,7 +11,7 @@ const ListTeacherQuizzesComponent = () => {
     const {quizzes, loading, error} = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
-    const userId = useSelector((state) => state.users.users.id);
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         dispatch(ListTeacherQuizzes(userId));
