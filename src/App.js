@@ -19,7 +19,6 @@ import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
 import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
 import PasswordReset from "./components/user-service/PasswordReset";
-import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
 import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
 import UserProfile from "./components/user-service/UserProfile";
@@ -37,8 +36,6 @@ import QuizHistoryList from "./components/ListStudent/StudentResultList/QuizHist
 import QuizListStudent from "./components/ListStudent/examStudent/QuizListStudent";
 import QuestionListStudent from "./components/ListStudent/examStudent/QuestionListStudent";
 import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
-import Login from "./pages/login/Login";
-import Register from "./pages/register/Register";
 
 
 function App() {
