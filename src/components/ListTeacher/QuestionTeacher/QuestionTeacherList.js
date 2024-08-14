@@ -14,7 +14,7 @@ const ListTeacherQuestions = () => {
 
     useEffect(() => {
         const userId = 2;
-        dispatch(ListTeacherQuestion(userId));
+        dispatch(ListTeacherQuestion(userId))
     }, [dispatch]);
 
     useEffect(() => {
