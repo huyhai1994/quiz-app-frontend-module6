@@ -1,9 +1,21 @@
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
 .timer-container {
-    text-align: center;
-    margin: 20px;
+    display: flex;
+    justify-content: center;
+    margin: 20px auto; /* Center horizontally */
+    animation: slideDown 0.5s ease-out; /* Apply the slide-down animation */
 }
 
 .display-remain-time {
-    font-size: 48px;
-    font-weight: bold;
+    font-size: 2rem; /* Adjust the font size as needed */
 }

@@ -18,6 +18,15 @@ import {endQuizForUser} from '../../../store/resultStore/ResultAxios';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Timer from "./Timer";
+import SendIcon from '@mui/icons-material/Send';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import './QuestionListStudent.css';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 
 const QuestionListStudent = () => {
     const {quizId} = useParams();
@@ -83,7 +92,7 @@ const QuestionListStudent = () => {
                         icon: 'success',
                         confirmButtonText: 'OK'
                     }).then(() => {
-                        navigate(`/result/new/${resultId}`);
+                        navigate(`/student/result/new/${resultId}`);
                     });
                 })
                 .catch((err) => {
@@ -104,14 +113,6 @@ const QuestionListStudent = () => {
         }
     };
 
-    const handleNextQuestion = () => {
-        setCurrentQuestionIndex((prevIndex) => Math.min(prevIndex + 1, questions.length - 1));
-    };
-
-    const handlePreviousQuestion = () => {
-        setCurrentQuestionIndex((prevIndex) => Math.max(prevIndex - 1, 0));
-    };
-
     if (status === 'loading' || initialTime === null) {
         return <Box display="flex" justifyContent="center" alignItems="center" height="100vh"><CircularProgress/></Box>;
     }
@@ -121,7 +122,17 @@ const QuestionListStudent = () => {
                                                                                                           color="error">Error: {error}</Typography></Box>;
     }
 
-    const currentQuestion = questions[currentQuestionIndex];
+    const settings = {
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        initialSlide: currentQuestionIndex,
+        afterChange: (current) => setCurrentQuestionIndex(current),
+        nextArrow: <ArrowForwardIosIcon/>,
+        prevArrow: <ArrowBackIosIcon/>
+    };
 
     return (
         <Container>
@@ -130,53 +141,48 @@ const QuestionListStudent = () => {
                 <Typography variant="h4" className='text-center' gutterBottom>
                     Câu hỏi của Quiz {quizId}
                 </Typography>
-                {currentQuestion ? (
-                    <Card sx={{width: '70%', margin: '0 auto'}}>
-                        <CardContent>
-                            <Typography variant="h6">{currentQuestion.questionText}</Typography>
-                            <RadioGroup
-                                name={`question-${currentQuestion.id}`}
-                                value={selectedOptions[currentQuestion.id] || ''}
-                                onChange={(e) => handleOptionChange(currentQuestion.id, Number(e.target.value))}
-                            >
-                                {currentQuestion.options.map((option) => (
-                                    <FormControlLabel
-                                        key={option.id}
-                                        value={option.id}
-                                        control={<Radio/>}
-                                        label={option.optionText}
-                                    />
-                                ))}
-                            </RadioGroup>
-                        </CardContent>
-                        <Typography variant='h4' className='text-center'>
-                            Câu số {currentQuestionIndex + 1} / {questions.length}
-                        </Typography>
-                    </Card>
+                {questions.length > 0 ? (
+                    <Slider {...settings}>
+                        {questions.map((question, index) => (
+                            <div key={question.id}>
+                                <Card sx={{width: '70%', margin: '0 auto'}}>
+                                    <CardContent>
+                                        <Typography variant="h6">{question.questionText}</Typography>
+                                        <RadioGroup
+                                            name={`question-${question.id}`}
+                                            value={selectedOptions[question.id] || ''}
+                                            onChange={(e) => handleOptionChange(question.id, Number(e.target.value))}
+                                        >
+                                            {question.options.map((option) => (
+                                                <FormControlLabel
+                                                    key={option.id}
+                                                    value={option.id}
+                                                    control={<Radio
+                                                        icon={<RadioButtonUncheckedIcon/>}
+                                                        checkedIcon={<RadioButtonCheckedIcon/>}
+                                                    />}
+                                                    label={option.optionText}
+                                                    className="option-label"
+                                                />
+                                            ))}
+                                        </RadioGroup>
+                                    </CardContent>
+                                    <Typography variant='h4' className='text-center'>
+                                        Câu số {index + 1} / {questions.length}
+                                    </Typography>
+                                </Card>
+                            </div>
+                        ))}
+                    </Slider>
                 ) : (
                     <Typography variant="body1">Không có câu hỏi nào cho quiz này.</Typography>
                 )}
-                <Box mt={4} display="flex" alignItems="center" justifyContent="center" gap={2}>
-                    <Button
-                        variant="contained"
-                        onClick={handlePreviousQuestion}
-                        disabled={currentQuestionIndex === 0}
-                        sx={{width: {xs: '100px', sm: '150px', md: '200px'}}}
-                    >
-                        Câu hỏi trước
-                    </Button>
-                    <Button
-                        variant="contained"
-                        onClick={handleNextQuestion}
-                        disabled={currentQuestionIndex === questions.length - 1}
-                        sx={{width: {xs: '100px', sm: '150px', md: '200px'}}}
-                    >
-                        Câu hỏi tiếp theo
-                    </Button>
-                </Box>
 
-                <Box mt={4} display="flex" justifyContent="center">
-                    <Button variant="contained" color="primary" onClick={handleSubmit}>
+                <Box mt={5} display="flex" justifyContent="center">
+                    <Button variant="contained"
+                            onClick={handleSubmit}
+                            className='btn-submit'
+                            endIcon={<SendIcon/>}>
                         Nộp bài thi
                     </Button>
                 </Box>

@@ -1,38 +1,35 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
+import {CountdownCircleTimer} from 'react-countdown-circle-timer';
 import './Timer.css'; // Import the CSS file
+import '../../../styles/vars.css';
 
-const Timer = ({ initialTime, onTimeUp }) => {
-    const [timeLeft, setTimeLeft] = useState(initialTime);
-    const intervalRef = useRef(null);
-
-    useEffect(() => {
-        startTimer(initialTime);
-        return () => clearInterval(intervalRef.current);
-    }, [initialTime]);
-
-    const displayTimeLeft = (timeLeft) => {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    };
-
-    const startTimer = (seconds) => {
-        const endTime = Date.now() + seconds * 1000;
-        intervalRef.current = setInterval(() => {
-            const remainingTime = Math.round((endTime - Date.now()) / 1000);
-            setTimeLeft(remainingTime);
-            if (remainingTime <= 0) {
-                clearInterval(intervalRef.current);
-                onTimeUp();
-            }
-        }, 1000);
-    };
-
+const Timer = ({initialTime, onTimeUp}) => {
     return (
         <div className="timer-container">
-            <div className="display-remain-time">
-                {displayTimeLeft(timeLeft)}
-            </div>
+            <svg width="0" height="0">
+                <defs>
+                    <linearGradient id="your-unique-id" x1="1" y1="0" x2="0" y2="0">
+                        <stop offset="5%" stopColor="gold"/>
+                        <stop offset="95%" stopColor="red"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <CountdownCircleTimer
+                isPlaying
+                duration={initialTime}
+                colors="var(--color-primary)"
+                onComplete={onTimeUp}
+            >
+                {({remainingTime}) => {
+                    const minutes = Math.floor(remainingTime / 60);
+                    const seconds = remainingTime % 60;
+                    return (
+                        <div className="display-remain-time">
+                            {minutes < 10 ? '0' : ''}{minutes}:{seconds < 10 ? '0' : ''}{seconds}
+                        </div>
+                    );
+                }}
+            </CountdownCircleTimer>
         </div>
     );
 };
