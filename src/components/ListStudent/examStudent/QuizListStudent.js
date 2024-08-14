@@ -18,7 +18,7 @@ const QuizListStudent = () => {
     const [resultId, setResultId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const quizzesPerPage = 4;
-    const userId = 12; // Replace with actual user ID
+    const userId = 15; // Replace with actual user ID
 
     useEffect(() => {
         dispatch(ListQuizStudent());

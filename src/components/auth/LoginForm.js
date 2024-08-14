@@ -1,8 +1,8 @@
 import React from 'react';
 import * as Yup from 'yup';
 import {useNavigate} from "react-router-dom";
-import {Box, Typography, TextField, Button} from "@mui/material";
-import {Formik, Form, Field} from "formik";
+import {Box, Button, TextField, Typography} from "@mui/material";
+import {Field, Form, Formik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from '../../features/authSlice'
 
@@ -14,15 +14,29 @@ const LoginSchema = Yup.object().shape({
 const LoginForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {loading, error} = useSelector((state) => state.auth);
+    const {loading, error, user} = useSelector((state) => state.auth);
 
-    const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+    const handleSubmit = async (values, {setSubmitting, setErrors}) => {
         try {
             await dispatch(login(values)).unwrap();
-            navigate('/');
+            const role = localStorage.getItem('role');
+            // Navigate based on the user's role
+            switch (role) {
+                case 'ROLE_ADMIN':
+                    navigate('/admin');
+                    break;
+                case 'ROLE_TEACHER':
+                    navigate('/teacher');
+                    break;
+                case 'ROLE_STUDENT':
+                    navigate('/student');
+                    break;
+                default:
+                    navigate('/');
+            }
         } catch (error) {
             // Error is handled by the Redux slice
-            setErrors({ general: 'Login failed' });
+            setErrors({general: 'Login failed'});
         } finally {
             setSubmitting(false);
         }
@@ -70,12 +84,12 @@ const LoginForm = () => {
                             {loading ? 'Logging in...' : 'Login'}
                         </Button>
                         {error && (
-                            <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+                            <Typography color="error" variant="body2" sx={{mt: 2}}>
                                 {typeof error === 'string' ? error : JSON.stringify(error, null, 2)}
                             </Typography>
                         )}
                         {errors.general && (
-                            <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+                            <Typography color="error" variant="body2" sx={{mt: 2}}>
                                 {errors.general}
                             </Typography>
                         )}
