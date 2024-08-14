@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Avatar, Box, Button, TextField, Typography} from '@mui/material';
 import {PhotoCamera} from '@mui/icons-material';
 import axiosInstance from '../../utils/axiosConfig';
+import {API_USER_URL} from '../../configs/backend.configs';
 
 const UserProfile = () => {
     const [user, setUser] = useState(null);
@@ -10,7 +11,7 @@ const UserProfile = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const response = await axiosInstance.get('/users/profile');
+                const response = await axiosInstance.get(API_USER_URL + '/profile');
                 setUser(response.data);
                 setLoading(false);
             } catch (error) {

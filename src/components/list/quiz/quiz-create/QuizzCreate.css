@@ -1,59 +1,47 @@
-/* QuizzCreate.css */
+@import '../../../../styles/vars.css';
 
 .quiz-create-container {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    max-width: 80%;
-    margin: auto;
-    margin-top: 4rem;
-    padding: 2rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    flex-direction: row; /* Arrange children in a row */
+    justify-content: center; /* Center the form when it is alone */
+    width: 100%; /* Full width of the container */
+    background-color: var(--color-bg);
+    margin-top: 0; /* Set margin-top to 0 */
+    padding: 1rem; /* Adjusted padding */
 }
 
 .quiz-create-form {
+    flex: 1; /* Allow form to take available space */
+    border: 0.0625rem solid #ccc; /* 1px to rem */
+    border-radius: 0.5rem; /* 8px to rem */
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* 4px and 8px to rem */
     display: flex;
     flex-direction: column;
-    flex: 1;
+    max-width: 37.5rem; /* 600px to rem */
 }
 
 .quiz-create-form .MuiFormControl-root,
 .quiz-create-form .MuiTextField-root {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem; /* Reduced margin-bottom */
 }
 
 .quiz-create-form .MuiButton-root {
-    margin-top: 1.5rem;
+    margin-top: 1rem; /* Reduced margin-top */
 }
 
 .selected-questions-container {
-    flex: 1;
-    margin-left: 2rem;
+    color: var(--color-text);
+    flex: 1; /* Allow selected questions container to take available space */
+    margin-left: 1rem; /* Add space between form and selected questions */
+    max-width: 40%; /* Limit the width of the selected questions container */
 }
 
 .selected-questions-container .MuiTypography-root {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem; /* Reduced margin-bottom */
 }
 
-.selected-questions-container .MuiList-root {
-    max-height: 40rem;
-    overflow: auto;
-    background: #f0f0f0;
-    padding: 8px;
-    border-radius: 8px;
-}
+.submit-quiz-create-button {
+    background-color: var(--color-primary) !important;
+    color: var(--color-bg);
 
-.selected-questions-container .MuiListItem-root {
-    margin: 8px 0;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: white;
-}
-
-.selected-questions-container .MuiListItem-root.Mui-selected {
-    background-color: #d3d3d3;
 }
