@@ -66,13 +66,11 @@ const TeacherHome = () => {
         <Layout>
             <Content
                 style={{
-                    margin: '0 16px', display: 'flex',
-                    justifyContent: 'center',
-                    height: '100vh',
+                    margin: '0 16px',
                     background: colorBgContainer, borderRadius: borderRadiusLG,
                 }}
             >
-                <div style={{padding: ' 5% 10%'}}>
+                <div>
                     <Outlet/>
                 </div>
             </Content>
@@ -80,7 +78,8 @@ const TeacherHome = () => {
                 Ant Design ©{new Date().getFullYear()} Created by Ant UED
             </Footer>
         </Layout>
-    </Layout>);
+    </Layout>)
+        ;
 };
 
 export default TeacherHome;

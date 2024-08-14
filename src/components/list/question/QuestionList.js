@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ListQuestion, SearchQuestions } from "../../../store/questionStore/QuestionAxios";
+import {DeleteQuestion, ListQuestion, SearchQuestions} from "../../../store/questionStore/QuestionAxios";
 import { format } from "date-fns";
 import Page from "../../pages/Page";
 import { TailSpin } from 'react-loader-spinner';
@@ -37,6 +37,29 @@ const QuestionList = () => {
             e.preventDefault();
             handleSearch();
         }
+    };
+
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn xóa câu hỏi này?',
+            text: "Bạn sẽ không thể hoàn tác hành động này!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Có, xóa nó!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(DeleteQuestion(id)).then(() => {
+                    Swal.fire(
+                        'Đã xóa!',
+                        'Câu hỏi đã được xóa.',
+                        'success'
+                    );
+                });
+            }
+        });
     };
 
     const totalPages = Math.ceil(questions.length / pageSize);
@@ -90,6 +113,7 @@ const QuestionList = () => {
                     <th>Danh mục</th>
                     <th>Loại</th>
                     <th>Thời gian tạo</th>
+                    <th>Thao tác</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -101,6 +125,14 @@ const QuestionList = () => {
                             <td>{question.categoryName}</td>
                             <td>{question.typeName}</td>
                             <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
+                            <td>
+                                <button
+                                    className="btn btn-danger btn-sm"
+                                    onClick={() => handleDelete(question.questionId)}
+                                >
+                                    Xóa
+                                </button>
+                            </td>
                         </tr>
                     ))
                 ) : (
