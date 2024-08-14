@@ -15,5 +15,6 @@ export const requestTeacherRole = createAsyncThunk('requestTeacherRole', async (
 
 export const getUser = createAsyncThunk('getUser', async (id) => {
     const response = await axios.get(`${ApiURL}/profile`);
+    console.log(response.data)
     return response.data;
 });
