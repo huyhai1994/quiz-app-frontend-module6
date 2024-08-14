@@ -75,18 +75,13 @@ const TeacherList = () => {
     return (<div className='teacher-list'>
         <div style={{backgroundColor: 'var(--color-secondary)', padding: '2px', borderRadius: '8px'}}>
             <form
-                className="d-flex mx-1 my-2" role="search"
-                onSubmit={formik.handleSubmit}
-            >
+                className="d-flex mx-1 my-2" role="search" onSubmit={formik.handleSubmit}>
                 <input className="form-control me-2" type="search" placeholder="Tìm kiếm bằng tên hoặc email"
-                       style={{
-                           backgroundColor: 'var(--color-bg)', borderRadius: '8px', padding: '5px 10px'
-                       }}
+                       style={{backgroundColor: 'var(--color-bg)', borderRadius: '8px', padding: '5px 10px'}}
                        aria-label="Search"
                        name="email"
                        value={formik.values.email}
-                       onChange={formik.handleChange}
-                />
+                       onChange={formik.handleChange}/>
                 <button className="btn" type="submit">
                     <FaSearch/>
                 </button>

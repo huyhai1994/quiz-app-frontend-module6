@@ -74,6 +74,7 @@ const Master = () => {
                     margin: '0 16px',
                 }}
             >
+
                 <div
                     style={{
                         padding: 24, minHeight: 360, background: colorBgContainer, borderRadius: borderRadiusLG,
@@ -82,12 +83,9 @@ const Master = () => {
                     <Outlet/>
                 </div>
             </Content>
-            <Footer
-                style={{
-                    textAlign: 'center',
-                }}
-            >
-                Ant Design ©{new Date().getFullYear()} Created by Ant UED
+            <Footer style={{textAlign: 'center',}}>
+                Quiz App &copy; 2022 Created by Team 1 - CodeGym.
+
             </Footer>
         </Layout>
     </Layout>);
