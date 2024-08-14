@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {ListQuizStudent,} from '../../../store/quizStore/QuizAxios';
-import {useNavigate} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ListQuizStudent,  } from '../../../store/quizStore/QuizAxios';
+import { useNavigate } from 'react-router-dom';
 import {startQuizForUser} from "../../../store/resultStore/ResultAxios";
 
 const QuizListStudent = () => {
@@ -18,7 +18,7 @@ const QuizListStudent = () => {
     }, [dispatch]);
 
     const handleStartQuiz = (quizId) => {
-        dispatch(startQuizForUser({userId, quizId}))
+        dispatch(startQuizForUser({ userId, quizId }))
             .unwrap()
             .then((result) => {
                 if (result) {

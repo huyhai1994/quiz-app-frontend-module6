@@ -1,8 +1,8 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
-import {getQuestionsByQuizId} from '../../../store/questionStore/QuestionAxios';
-import {endQuizForUser} from '../../../store/resultStore/ResultAxios';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {useParams, useLocation, useNavigate} from 'react-router-dom';
+import { getQuestionsByQuizId } from '../../../store/questionStore/QuestionAxios';
+import { endQuizForUser } from '../../../store/resultStore/ResultAxios';
 import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const QuestionListStudent = () => {

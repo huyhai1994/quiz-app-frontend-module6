@@ -1,4 +1,4 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const ApiURL = "http://localhost:8080/result";
@@ -6,9 +6,9 @@ const ApiURL = "http://localhost:8080/result";
 
 export const startQuizForUser = createAsyncThunk(
     'result/startQuizForUser',
-    async ({userId, quizId}) => {
+    async ({ userId, quizId }) => {
         const response = await axios.post(`${ApiURL}/start/${userId}/${quizId}`);
-        console.log('Quiz started:', response.data);
+        console.log(response.data)
         return response.data;
     }
 );
@@ -16,7 +16,7 @@ export const startQuizForUser = createAsyncThunk(
 
 export const endQuizForUser = createAsyncThunk(
     'result/endQuizForUser',
-    async ({resultId, userAnswers}) => {
+    async ({ resultId, userAnswers }) => {
         try {
             const response = await axios.post(`${ApiURL}/end/${resultId}`, userAnswers);
             return response.data;
@@ -44,7 +44,7 @@ export const HistoryResultsByUserId = createAsyncThunk(
     }
 );
 
-export const fetchQuiz = createAsyncThunk('quiz/fetchQuiz', async (quizId, {rejectWithValue}) => {
+export const fetchQuiz = createAsyncThunk('quiz/fetchQuiz', async (quizId, { rejectWithValue }) => {
     try {
         const response = await axios.get(`${ApiURL}/quizzes/${quizId}`);
         return response.data;
