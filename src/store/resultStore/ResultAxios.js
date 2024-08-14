@@ -53,3 +53,11 @@ export const fetchQuiz = createAsyncThunk('quiz/fetchQuiz', async (quizId, { rej
         return rejectWithValue(error.response.data);
     }
 });
+
+export const ResultDetailHistory = createAsyncThunk(
+    'result/detail/history',
+    async (id) => {
+        const response = await axios.get(`${ApiURL}/detail/${id}/history`);
+        return response.data;
+    }
+);

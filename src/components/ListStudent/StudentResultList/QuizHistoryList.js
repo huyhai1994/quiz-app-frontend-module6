@@ -1,18 +1,20 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { HistoryResultsByUserId } from "../../../store/resultStore/ResultAxios";
+import { HistoryResultsByUserId, ResultDetailHistory } from "../../../store/resultStore/ResultAxios";
 import { format } from "date-fns";
 import Page from "../../pages/Page";
 import { TailSpin } from 'react-loader-spinner';
 import Swal from 'sweetalert2';
-import {Table} from "react-bootstrap";
+import { Table, Button, Modal } from "react-bootstrap";
+import QuizHistoryDetail from './QuizHistoryDetail';
 
 const QuizHistoryList = () => {
     const dispatch = useDispatch();
     const { history, status, error } = useSelector((state) => state.results);
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedQuizId, setSelectedQuizId] = useState(null);
     const pageSize = 5;
+
     useEffect(() => {
         dispatch(HistoryResultsByUserId(5));
     }, [dispatch]);
@@ -28,17 +30,32 @@ const QuizHistoryList = () => {
         }
     }, [error]);
 
-    const totalPages = Math.ceil(history.length / pageSize);
+    const totalPages = useMemo(() => Math.ceil(history.length / pageSize), [history.length, pageSize]);
 
-    const handlePageChange = (pageNumber) => {
+    const handlePageChange = useCallback((pageNumber) => {
         setCurrentPage(pageNumber);
-    };
+    }, []);
 
-    const getCurrentPageData = () => {
+    const getCurrentPageData = useCallback(() => {
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
         return history.slice(startIndex, endIndex);
-    };
+    }, [currentPage, history]);
+
+    const handleViewDetail = useCallback((id) => {
+        setSelectedQuizId(id);
+    }, []);
+
+    const handleCloseModal = useCallback(() => {
+        setSelectedQuizId(null);
+    }, []);
+
+    // Fetch details when selectedQuizId changes
+    useEffect(() => {
+        if (selectedQuizId !== null) {
+            dispatch(ResultDetailHistory(selectedQuizId));
+        }
+    }, [dispatch, selectedQuizId]);
 
     const currentData = getCurrentPageData();
 
@@ -56,27 +73,35 @@ const QuizHistoryList = () => {
             <Table striped bordered hover>
                 <thead>
                 <tr>
+                    <th>STT</th>
                     <th>Quiz Name</th>
                     <th>Finish Time</th>
                     <th>Duration (Minutes)</th>
                     <th>Score</th>
                     <th>Attempt Number</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 {currentData.length > 0 ? (
                     currentData.map((entry, index) => (
-                        <tr key={index}>
+                        <tr key={entry.id}>
+                            <td>{(currentPage - 1) * pageSize + index + 1}</td>
                             <td>{entry.quizName}</td>
                             <td>{format(new Date(entry.finishTime), 'dd-MM-yyyy - HH:mm:ss')}</td>
                             <td>{entry.durationMinutes}</td>
                             <td>{entry.score}</td>
                             <td>{entry.attemptNumber}</td>
+                            <td>
+                                <Button variant="primary" onClick={() => handleViewDetail(entry.id)}>
+                                    Chi tiết
+                                </Button>
+                            </td>
                         </tr>
                     ))
                 ) : (
                     <tr>
-                        <td colSpan="5">No data available</td>
+                        <td colSpan="7">No data available</td>
                     </tr>
                 )}
                 </tbody>
@@ -86,6 +111,19 @@ const QuizHistoryList = () => {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
+            <Modal show={!!selectedQuizId} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Quiz Details</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <QuizHistoryDetail />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 };
