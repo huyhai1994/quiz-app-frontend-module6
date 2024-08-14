@@ -1,20 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import * as Yup from 'yup';
 import {useNavigate} from "react-router-dom";
-import {Box, Button, TextField, Typography} from "@mui/material";
+import {Box, Button, IconButton, InputAdornment, TextField, Typography} from "@mui/material";
 import {Field, Form, Formik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {login} from '../../features/authSlice'
+import {login} from '../../features/authSlice';
+import {Visibility, VisibilityOff} from '@mui/icons-material';
+import './LoginForm.css';
 
 const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Email Required'),
-    password: Yup.string().required('Password Required'),
-})
+    email: Yup.string().email('Invalid email').required('Cần điền địa chỉ email'),
+    password: Yup.string().required('Cần điền mật khẩu'),
+});
 
 const LoginForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {loading, error, user} = useSelector((state) => state.auth);
+    const {loading, error} = useSelector((state) => state.auth);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     const handleSubmit = async (values, {setSubmitting, setErrors}) => {
         try {
@@ -40,12 +47,12 @@ const LoginForm = () => {
         } finally {
             setSubmitting(false);
         }
-    }
+    };
 
     return (
         <Box sx={{maxWidth: 400, margin: 'auto', mt: 4}}>
-            <Typography variant="h4" component="h1" gutterBottom>
-                Login
+            <Typography variant="h4" component="h1" gutterBottom className='text-center'>
+                Đăng nhập
             </Typography>
             <Formik
                 initialValues={{email: '', password: ''}}
@@ -57,7 +64,7 @@ const LoginForm = () => {
                         <Field
                             as={TextField}
                             name="email"
-                            label="Email"
+                            label="địa chỉ email "
                             fullWidth
                             margin="normal"
                             error={touched.email && Boolean(errors.email)}
@@ -66,22 +73,36 @@ const LoginForm = () => {
                         <Field
                             as={TextField}
                             name="password"
-                            label="Password"
-                            type="password"
+                            label="Mật khẩu"
+                            type={showPassword ? 'text' : 'password'}
                             fullWidth
                             margin="normal"
                             error={touched.password && Boolean(errors.password)}
                             helperText={touched.password && errors.password}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
                         <Button
                             type="submit"
                             variant="contained"
                             color="primary"
                             fullWidth
+                            className='submit-button'
                             disabled={isSubmitting || loading}
                             sx={{mt: 2}}
                         >
-                            {loading ? 'Logging in...' : 'Login'}
+                            {loading ? 'Logging in...' : 'Đăng nhập'}
                         </Button>
                         {error && (
                             <Typography color="error" variant="body2" sx={{mt: 2}}>
@@ -94,10 +115,12 @@ const LoginForm = () => {
                             </Typography>
                         )}
                     </Form>
-                )}
+                )
+                }
             </Formik>
         </Box>
     )
-}
+        ;
+};
 
-export default LoginForm
+export default LoginForm;
