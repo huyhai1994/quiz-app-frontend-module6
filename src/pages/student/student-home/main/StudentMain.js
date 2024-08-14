@@ -58,7 +58,7 @@ const StudentMain = () => {
         </Box>
 
         {/* Thanh tìm kiếm */}
-        <div style={{ backgroundColor: 'var(--color-secondary)', padding: '2px', borderRadius: '8px' }}>
+        <div style={{ width: '100%', backgroundColor: 'var(--color-secondary)', padding: '2px', borderRadius: '8px' }}>
           <form onSubmit={formik.handleSubmit}>
             <input
                 className="form-control me-2"
