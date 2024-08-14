@@ -59,7 +59,7 @@ const StudentMain = () => {
 
         {/* Thanh tìm kiếm */}
         <div style={{ width: '100%', backgroundColor: 'var(--color-secondary)', padding: '2px', borderRadius: '8px' }}>
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={formik.handleSubmit} style={{display: 'flex', alignItems: 'center', width: '100%'}}>
             <input
                 className="form-control me-2"
                 type="search"
