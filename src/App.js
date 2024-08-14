@@ -29,6 +29,7 @@ import StudentMain from "./pages/student/student-home/main/StudentMain";
 import QuizComponent from "./components/list/quiz-component/QuizComponent";
 import QuestionCreate from "./components/list/question/question-create/QuestionCreate";
 import OptionCreate from "./components/list/option/option-create/OptionCreate";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 import QuizCreate from "./components/list/quiz/quiz-create/QuizzCreate";
 import QuizTeacherList from "./components/ListTeacher/QuizTeacher/QuizTeacherList";
 import ListTeacherQuestions from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
@@ -41,7 +42,8 @@ import Register from "./pages/register/Register";
 
 
 function App() {
-    return (<ConfigProvider theme={{
+    return (
+        <ConfigProvider theme={{
         algorithm: [theme.defaultAlgorithm], cssVar: true, token: {
             // Seed Token
             // colorPrimary: '#00b96b',
@@ -71,27 +73,36 @@ function App() {
     }}>
         <Routes>
             <Route path="/" element={<Home/>}/>
+            {/*<Route path="/login" element={<Login/>}/>*/}
+            {/*<Route path="/register" element={<Register/>}/>*/}
             <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
             <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
             <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
             <Route path="/quizzes" element={<QuizListStudent/>}/>
             <Route path={"/result/new/:resultId"} element={<ResultStudentList/>}></Route>
             <Route path="/quizzes/:quizId/start" element={<QuestionListStudent/>}/>
-            <Route path="/login" element={<AuthLayout title="Login">
-                <LoginForm/>
-            </AuthLayout>}/>
-            <Route path="/register" element={<AuthLayout title="Register">
-                <RegisterForm/>
-            </AuthLayout>}/>
-            <Route path="/profile" element={<UserProfileLayout/>}>
-                <Route index element={<UserProfile/>}/>
-                <Route path="change-password" element={<ChangePasswordForm/>}/>
-                <Route path="reset-password" element={<PasswordReset/>}/>
-            </Route>
-            <Route path="/admin" element={<Master/>}>
+            <Route path="/quizzes/:quizId/start" element={<QuestionListStudent />} />
 
+            <Route path="/login" element={<AuthLayout title="Login">
+                <LoginForm />
+            </AuthLayout>} />
+            <Route path="/register" element={<AuthLayout title="Register">
+                <RegisterForm />
+            </AuthLayout>} />
+            <Route path="/profile" element={<UserProfileLayout />}>
+                <Route index element={<UserProfile />} />
+                <Route path="change-password" element={<ChangePasswordForm />} />
+                <Route path="reset-password" element={<PasswordReset />} />
+            </Route>
+
+            <Route path="/admin/*" element={
+                <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
+                    <Master/>
+                </ProtectedRoute>
+            }>
                 <Route path="categories" element={<Categories/>}/>
-                <Route path="update-info" element={<AdminEdit/>}/>
+                {/*<Route path="update-info" element={<AdminEdit/>}/>*/}
+                <Route path="profile" element={<UserProfile/>}/>
                 <Route path="add-category" element={<AddCategory/>}/>
                 <Route path="edit/:id" element={<EditCategory/>}/>
                 <Route path="question" element={<QuestionList/>}/>
@@ -101,7 +112,12 @@ function App() {
                 <Route path="teacher-list" element={<TeacherList/>}/>
                 <Route path="student-list" element={<StudentList/>}/>
             </Route>
-            <Route path="/teacher" element={<TeacherHome/>}>
+
+            <Route path="/teacher/*" element={
+                <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_TEACHER']}>
+                    <TeacherHome/>
+                </ProtectedRoute>
+            }>
                 <Route path="" element={<TeacherMain/>}/>
                 <Route path="profile" element={<UserProfile/>}/>
                 <Route path="change-password" element={<ChangePasswordForm/>}/>
@@ -110,16 +126,19 @@ function App() {
                 <Route path="option/create" element={<OptionCreate/>}/>
                 <Route path="quiz/create" element={<QuizCreate/>}/>
             </Route>
-            <Route path="/student" element={<StudentHome/>}>
+
+            <Route path="/student/*" element={
+                <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
+                    <StudentHome/>
+                </ProtectedRoute>
+            }>
                 <Route path="" element={<StudentMain/>}/>
                 <Route path="profile" element={<UserProfile/>}/>
                 <Route path="change-password" element={<ChangePasswordForm/>}/>
                 <Route path="quiz" element={<QuizList/>}/>
                 <Route path="question" element={<QuizComponent/>}/>
             </Route>
-            <Route path="/teacher" element={<Home/>}>
 
-            </Route>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     </ConfigProvider>)

@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-    CreateQuestion, GetQuestionsByCategoryName, getQuestionsByQuizId,
+    CreateQuestion,
+    GetQuestionsByCategoryName,
+    getQuestionsByQuizId,
     ListQuestion,
     ListTeacherQuestion,
-    SearchQuestions
+    SearchQuestions,
+    DeleteQuestion
 } from "./QuestionAxios";
 
 const initialState = {
@@ -43,6 +46,17 @@ const questionSlice = createSlice({
             .addCase(getQuestionsByQuizId.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
+            })
+            .addCase(DeleteQuestion.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(DeleteQuestion.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.questions = state.questions.filter(question => question.questionId !== action.payload);
+            })
+            .addCase(DeleteQuestion.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
             });
     },
 });
