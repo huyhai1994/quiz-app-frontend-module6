@@ -16,7 +16,7 @@ export const CreateQuestion = createAsyncThunk('createQuestion', async (question
 
 export const SearchQuestions = createAsyncThunk('searchQuestions', async (searchTerm) => {
     const response = await axios.get(`${ApiURL}/search/questions`, {
-        params: { searchTerm }
+        params: {searchTerm}
     });
     return response.data;
 });
@@ -26,28 +26,25 @@ export const ListTeacherQuestion = createAsyncThunk('teacherQuestion/list', asyn
     return response.data;
 });
 
-export const GetQuestionsByCategoryName = createAsyncThunk('getQuestionsByCategoryName', async ({categoryName, userId}) => {
+export const GetQuestionsByCategoryName = createAsyncThunk('getQuestionsByCategoryName', async ({
+                                                                                                    categoryName, userId
+                                                                                                }) => {
     const response = await axios.get(`${ApiURL}/category/${categoryName}`, {
-        params: { userId }
+        params: {userId}
     });
     return response.data;
 });
 
-export const getQuestionsByQuizId = createAsyncThunk(
-    'questions/getByQuizId',
-    async (quizId) => {
-        const response = await axios.get(`${ApiURL}/quiz/${quizId}`);
-        return response.data;
-    }
-);
+export const getQuestionsByQuizId = createAsyncThunk('questions/getByQuizId', async (quizId) => {
+    const response = await axios.get(`${ApiURL}/quiz/${quizId}`);
+    return response.data;
+});
 
-export const DeleteQuestion = createAsyncThunk(
-    'question/delete',
-    async (id, {rejectWithValue}) => {
-        try {
-            await instance.delete(`/question/${id}`);
-            return id
-        } catch (err) {
-            return rejectWithValue(err.response.data);
-        }
-    })
+export const DeleteQuestion = createAsyncThunk('questions/delete', async (id, {rejectWithValue}) => {
+    try {
+        await instance.delete(`/question/${id}`);
+        return id
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})

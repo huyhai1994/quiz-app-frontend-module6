@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { listApprovedApprovals, searchApprovedApprovals } from '../../../store/teacherApprovalStore/TeacherApprovalAxios';
+import React, {useEffect, useRef, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {listApprovedApprovals, searchApprovedApprovals} from '../../../store/teacherApprovalStore/TeacherApprovalAxios';
 import Swal from 'sweetalert2';
-import { format } from 'date-fns';
+import {format} from 'date-fns';
 import Page from "../../pages/Page";
-import { TailSpin } from 'react-loader-spinner';
+import {TailSpin} from 'react-loader-spinner';
 
 function ApprovedApprovalsList() {
     const dispatch = useDispatch();
-    const { approvedApprovals, loading, error } = useSelector((state) => state.teacherApprovals);
+    const {approvedApprovals, loading, error} = useSelector((state) => state.teacherApprovals);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchUserName, setSearchUserName] = useState("");
     const [searchUserEmail, setSearchUserEmail] = useState("");
@@ -26,7 +26,7 @@ function ApprovedApprovalsList() {
     }, [error]);
 
     const handleSearch = () => {
-        dispatch(searchApprovedApprovals({ userName: searchUserName, userEmail: searchUserEmail }));
+        dispatch(searchApprovedApprovals({userName: searchUserName, userEmail: searchUserEmail}));
     };
 
     const handleKeyDown = (e) => {
@@ -50,8 +50,8 @@ function ApprovedApprovalsList() {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <TailSpin color="#00BFFF" height={80} width={80} />
+            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+                <TailSpin color="#00BFFF" height={80} width={80}/>
             </div>
         );
     }

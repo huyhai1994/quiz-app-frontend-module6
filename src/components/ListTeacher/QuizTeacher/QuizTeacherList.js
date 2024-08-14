@@ -1,14 +1,14 @@
-import { format } from 'date-fns';
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ListTeacherQuizzes } from "../../../store/quizStore/QuizAxios";
+import {format} from 'date-fns';
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {ListTeacherQuizzes} from "../../../store/quizStore/QuizAxios";
 import Page from "../../pages/Page";
 import Swal from "sweetalert2";
-import { TailSpin } from "react-loader-spinner";
+import {TailSpin} from "react-loader-spinner";
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
-    const { quizzes, loading, error } = useSelector((state) => state.quizzes);
+    const {quizzes, loading, error} = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
     const userId = localStorage.getItem('userId');
@@ -25,8 +25,8 @@ const ListTeacherQuizzesComponent = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <TailSpin color="#00BFFF" height={80} width={80} />
+            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+                <TailSpin color="#00BFFF" height={80} width={80}/>
             </div>
         );
     }
