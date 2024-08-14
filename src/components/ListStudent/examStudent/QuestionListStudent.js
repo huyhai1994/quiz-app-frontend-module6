@@ -16,10 +16,9 @@ const QuestionListStudent = () => {
     const questions = useSelector((state) => state.questions.questions);
     const status = useSelector((state) => state.questions.status);
     const error = useSelector((state) => state.questions.error);
-    const userId = 12; // Replace with actual user ID
+    const userId = 5; // Replace with actual user ID
 
     useEffect(() => {
-        // Extract resultId from query parameters
         const queryParams = new URLSearchParams(location.search);
         const resultIdFromQuery = queryParams.get('resultId');
         if (resultIdFromQuery) {
@@ -46,7 +45,7 @@ const QuestionListStudent = () => {
                 userAnswers: Object.keys(selectedOptions).map(questionId => ({
                     userId,
                     questionId: Number(questionId),
-                    optionId: selectedOptions[questionId] // Assuming only one option is selected per question
+                    optionId: selectedOptions[questionId]
                 }))
             }))
                 .unwrap()

@@ -15,8 +15,10 @@ const QuizHistoryList = () => {
     const [selectedQuizId, setSelectedQuizId] = useState(null);
     const pageSize = 5;
 
+
+
     useEffect(() => {
-        dispatch(HistoryResultsByUserId(5));
+        dispatch(HistoryResultsByUserId());
     }, [dispatch]);
 
     useEffect(() => {

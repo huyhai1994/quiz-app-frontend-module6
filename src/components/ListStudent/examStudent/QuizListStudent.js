@@ -11,7 +11,7 @@ const QuizListStudent = () => {
     const status = useSelector((state) => state.quizzes.loading);
     const error = useSelector((state) => state.quizzes.error);
     const [resultId, setResultId] = useState(null);
-    const userId = 12; // Replace with actual user ID
+    const userId = 5;
 
     useEffect(() => {
         dispatch(ListQuizStudent());
