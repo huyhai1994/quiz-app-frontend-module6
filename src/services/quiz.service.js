@@ -12,6 +12,12 @@ class QuizService {
         return await axios.get(API_QUIZ_URL);
     }
 
+    static async searchQuizzes(title, category) {
+        return await axios.get(`${API_QUIZ_URL}/search`, {
+            params: {title, category}
+        });
+    }
+
 }
 
 export default QuizService;
