@@ -1,20 +1,20 @@
-import {format, longFormatters} from "date-fns";
+import { format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
 import { TailSpin } from "react-loader-spinner";
-import {useParams} from "react-router-dom";
-import {fetchQuizResultsByUserId} from "../../../store/resultStore/ResultAxios";
+import { useParams } from "react-router-dom";
+import { fetchQuizResultsByUserId } from "../../../store/resultStore/ResultAxios";
 
 const ResultStudentList = () => {
     const dispatch = useDispatch();
-    const {resultId} = useParams();
-    const results = useSelector((state) => state.results.results);
-    const loading = useSelector((state) => state.results.loading);
-    const error = useSelector((state) => state.results.error);
+    const { resultId } = useParams();
+    const { results, loading, error } = useSelector((state) => state.results);
 
     useEffect(() => {
-        dispatch(fetchQuizResultsByUserId(resultId));
+        if (resultId) {
+            dispatch(fetchQuizResultsByUserId(resultId));
+        }
     }, [dispatch, resultId]);
 
     useEffect(() => {
@@ -46,9 +46,9 @@ const ResultStudentList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {results.length > 0 ? (
+                {results && results.length > 0 ? (
                     results.map((result, index) => (
-                        <tr key={index}>
+                        <tr key={result.id}>
                             <td>{index + 1}</td>
                             <td>{result.userName}</td>
                             <td>{format(new Date(result.finishTime), 'dd-MM-yyyy - HH:mm:ss')}</td>
