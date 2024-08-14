@@ -31,8 +31,8 @@ const StudentMain = () => {
     onSubmit: (values) => {
       const searchQuery = values.search.toLowerCase();
       const filtered = quizzes.filter(quiz =>
-          quiz.title.toLowerCase().includes(searchQuery) ||
-          quiz.category.name.toLowerCase().includes(searchQuery)
+          (quiz.title && quiz.title.toLowerCase().includes(searchQuery)) ||
+          (quiz.category && quiz.category.name && quiz.category.name.toLowerCase().includes(searchQuery))
       );
       setFilteredQuizzes(filtered);
     },
@@ -40,7 +40,7 @@ const StudentMain = () => {
 
   const groupByCategory = (quizzes) => {
     return quizzes.reduce((acc, quiz) => {
-      const categoryName = quiz.category.name;
+      const categoryName = quiz.category?.name || "Uncategorized";
       if (!acc[categoryName]) {
         acc[categoryName] = [];
       }
@@ -53,8 +53,8 @@ const StudentMain = () => {
 
   return (
       <Box sx={{ padding: '16px' }}>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h4">Danh sách bài thi</Typography>
+        <Box>
+          <Typography variant="h4">Bạn muốn làm gì hôm nay?</Typography>
         </Box>
 
         {/* Thanh tìm kiếm */}
@@ -64,7 +64,7 @@ const StudentMain = () => {
                 className="form-control me-2"
                 type="search"
                 placeholder="Tìm kiếm bằng tên hoặc danh mục"
-                style={{ backgroundColor: 'var(--color-bg)', borderRadius: '8px', padding: '5px 10px' }}
+                style={{ backgroundColor: 'var(--color-bg)', borderRadius: '8px', padding: '5px 10px', flex: 1 }}
                 aria-label="Search"
                 name="search"
                 value={formik.values.search}
@@ -80,17 +80,17 @@ const StudentMain = () => {
                 <h1>{categoryName}</h1>
                 <Grid container spacing={3} sx={{ marginTop: 1, height: '100%' }} justifyContent="center" alignItems="center">
                   {groupedQuizzes[categoryName]
-                      .sort((a, b) => b.category.playCount - a.category.playCount)  // Sắp xếp theo lượt chơi giảm dần
+                      .sort((a, b) => (b.category?.playCount || 0) - (a.category?.playCount || 0))  // Sắp xếp theo lượt chơi giảm dần
                       .map((quiz) => (
                           <Grid item xs={12} sm={6} md={4} key={quiz.id}>
                             <Card sx={{ maxWidth: 345, boxShadow: 3, transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.2)', cursor: 'pointer' } }}>
                               <CardMedia sx={{ height: 140 }} image={defaultCardQuiz} title={quiz.title} />
                               <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">{quiz.title}</Typography>
-                                <Typography variant="body2" color="text.secondary">{quiz.category.description}</Typography>
+                                <Typography variant="body2" color="text.secondary">{quiz.category?.description || "No description available"}</Typography>
                                 <Box display="flex" justifyContent="space-between">
-                                  <Typography variant="body2" color="text.secondary">Có {quiz.questions.length} câu hỏi</Typography>
-                                  <Typography variant="body2" color="text.secondary">{quiz.category.playCount} lượt chơi</Typography>
+                                  <Typography variant="body2" color="text.secondary">Có {quiz.questions?.length || 0} câu hỏi</Typography>
+                                  <Typography variant="body2" color="text.secondary">{quiz.category?.playCount || 0} lượt chơi</Typography>
                                 </Box>
                               </CardContent>
                             </Card>
