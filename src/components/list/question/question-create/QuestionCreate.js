@@ -59,7 +59,7 @@ const QuestionCreate = () => {
                 Swal.fire({
                     title: "Thành công", text: "Câu hỏi mới đã được tạo", icon: "success"
                 });
-                navigate("/teacher/option-create");
+                navigate("/teacher/option/create");
             } catch (error) {
                 Swal.fire('Thất bại', error || 'Xin vui lòng kiểm tra lại thông tin vừa nhập!', 'error');
                 console.error("Error creating question", values);

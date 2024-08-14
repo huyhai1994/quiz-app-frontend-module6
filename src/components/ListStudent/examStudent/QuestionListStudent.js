@@ -6,7 +6,7 @@ import { endQuizForUser } from '../../../store/resultStore/ResultAxios';
 import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const QuestionListStudent = () => {
-    const { quizId } = useParams();
+    const {quizId} = useParams();
     const location = useLocation();
     const dispatch = useDispatch();
     const [selectedOptions, setSelectedOptions] = useState({});
@@ -16,7 +16,7 @@ const QuestionListStudent = () => {
     const questions = useSelector((state) => state.questions.questions);
     const status = useSelector((state) => state.questions.status);
     const error = useSelector((state) => state.questions.error);
-    const userId = 5;
+    const userId = 12; // Replace with actual user ID
 
     useEffect(() => {
         // Extract resultId from query parameters

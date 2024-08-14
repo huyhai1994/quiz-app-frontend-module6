@@ -41,7 +41,6 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 
 
-
 function App() {
     return (
         <ConfigProvider theme={{
@@ -79,8 +78,9 @@ function App() {
             <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
             <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
             <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
-            <Route path="/quizzes" element={<QuizListStudent />} />
+            <Route path="/quizzes" element={<QuizListStudent/>}/>
             <Route path={"/result/new/:resultId"} element={<ResultStudentList/>}></Route>
+            <Route path="/quizzes/:quizId/start" element={<QuestionListStudent/>}/>
             <Route path="/quizzes/:quizId/start" element={<QuestionListStudent />} />
 
             <Route path="/login" element={<AuthLayout title="Login">
