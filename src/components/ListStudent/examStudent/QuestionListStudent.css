@@ -11,3 +11,8 @@
 .option-label:hover {
     background-color: var(--color-secondary);
 }
+
+.option-label.selected {
+    background-color: var(--color-secondary);
+    border-radius: 5px;
+}

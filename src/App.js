@@ -77,7 +77,6 @@ function App() {
                 <Route path="/quiz-history/:id" element={<QuizHistoryDetail/>}/>
                 <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
 
-                <Route path={"/top/quizzes"} element={<TopQuizzes/>}></Route>
 
                 <Route path="/login" element={<AuthLayout title="Login">
                     <LoginForm/>
@@ -128,6 +127,7 @@ function App() {
                         <StudentHome/>
                     </ProtectedRoute>
                 }>
+                    <Route path={"home"} element={<TopQuizzes/>}></Route>
                     <Route path="" element={<StudentMain/>}/>
                     <Route path="profile" element={<UserProfile/>}/>
                     <Route path="change-password" element={<ChangePasswordForm/>}/>

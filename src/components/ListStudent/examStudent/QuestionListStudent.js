@@ -162,7 +162,7 @@ const QuestionListStudent = () => {
                                                         checkedIcon={<RadioButtonCheckedIcon/>}
                                                     />}
                                                     label={option.optionText}
-                                                    className="option-label"
+                                                    className={`option-label ${selectedOptions[question.id] === option.id ? 'selected' : ''}`}
                                                 />
                                             ))}
                                         </RadioGroup>
