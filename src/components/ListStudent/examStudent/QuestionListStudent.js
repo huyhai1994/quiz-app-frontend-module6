@@ -19,9 +19,8 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Timer from "./Timer";
 import SendIcon from '@mui/icons-material/Send';
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 import './QuestionListStudent.css';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -36,8 +35,8 @@ const QuestionListStudent = () => {
 
     const [selectedOptions, setSelectedOptions] = useState({});
     const [resultId, setResultId] = useState(null);
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [initialTime, setInitialTime] = useState(null); // Initialize as null
+    const [quizName, setQuizName] = useState(''); // New state for quiz name
 
     const questions = useSelector((state) => state.questions.questions);
     const status = useSelector((state) => state.questions.status);
@@ -64,6 +63,15 @@ const QuestionListStudent = () => {
             })
             .catch(error => {
                 console.error('Error fetching quiz time:', error);
+            });
+
+        // Fetch quiz name from the API
+        axios.get(`http://localhost:8080/quiz/${quizId}`)
+            .then(response => {
+                setQuizName(response.data.name);
+            })
+            .catch(error => {
+                console.error('Error fetching quiz name:', error);
             });
     }, [dispatch, quizId, location.search]);
 
@@ -122,16 +130,23 @@ const QuestionListStudent = () => {
                                                                                                           color="error">Error: {error}</Typography></Box>;
     }
 
-    const settings = {
-        dots: true,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        initialSlide: currentQuestionIndex,
-        afterChange: (current) => setCurrentQuestionIndex(current),
-        nextArrow: <ArrowForwardIosIcon/>,
-        prevArrow: <ArrowBackIosIcon/>
+    const responsive = {
+        superLargeDesktop: {
+            breakpoint: {max: 4000, min: 3000},
+            items: 1
+        },
+        desktop: {
+            breakpoint: {max: 3000, min: 1024},
+            items: 1
+        },
+        tablet: {
+            breakpoint: {max: 1024, min: 464},
+            items: 1
+        },
+        mobile: {
+            breakpoint: {max: 464, min: 0},
+            items: 1
+        }
     };
 
     return (
@@ -139,10 +154,17 @@ const QuestionListStudent = () => {
             <Box my={4}>
                 <Timer initialTime={initialTime} onTimeUp={handleSubmit}/>
                 <Typography variant="h4" className='text-center' gutterBottom>
-                    Câu hỏi của Quiz {quizId}
+                    Câu hỏi của Quiz {quizName}
                 </Typography>
                 {questions.length > 0 ? (
-                    <Slider {...settings}>
+                    <Carousel
+                        responsive={responsive}
+                        ssr={true}
+                        infinite={false}
+                        keyBoardControl={true}
+                        customLeftArrow={<ArrowBackIosIcon/>}
+                        customRightArrow={<ArrowForwardIosIcon/>}
+                    >
                         {questions.map((question, index) => (
                             <div key={question.id}>
                                 <Card sx={{width: '70%', margin: '0 auto'}}>
@@ -173,7 +195,7 @@ const QuestionListStudent = () => {
                                 </Card>
                             </div>
                         ))}
-                    </Slider>
+                    </Carousel>
                 ) : (
                     <Typography variant="body1">Không có câu hỏi nào cho quiz này.</Typography>
                 )}
