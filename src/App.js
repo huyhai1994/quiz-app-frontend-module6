@@ -40,7 +40,6 @@ import ResultStudentList from "./components/ListStudent/StudentResultList/Result
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 
-
 function App() {
     return (
         <ConfigProvider theme={{
@@ -102,6 +101,8 @@ function App() {
                 <Route path="categories" element={<Categories/>}/>
                 {/*<Route path="update-info" element={<AdminEdit/>}/>*/}
                 <Route path="profile" element={<UserProfile/>}/>
+                <Route path="change-password" element={<ChangePasswordForm />} />
+                <Route path="reset-password" element={<PasswordReset />} />
                 <Route path="add-category" element={<AddCategory/>}/>
                 <Route path="edit/:id" element={<EditCategory/>}/>
                 <Route path="question" element={<QuestionList/>}/>
