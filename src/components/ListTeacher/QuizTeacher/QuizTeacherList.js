@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ListTeacherQuizzes } from "../../../store/quizStore/QuizAxios";
+import {ListTeacherQuizzes, UpdateQuiz} from "../../../store/quizStore/QuizAxios";
 import Page from "../../pages/Page";
 import Swal from "sweetalert2";
 import { TailSpin } from "react-loader-spinner";
@@ -55,6 +55,11 @@ const ListTeacherQuizzesComponent = () => {
         setSelectedQuiz(null);
     }
 
+    const handleQuizUpdated = (updatedQuiz) => {
+        dispatch(UpdateQuiz({ id: updatedQuiz.quizzesId, quiz: updatedQuiz }));
+        setSelectedQuiz(null);
+    }
+
     return (
         <div>
             <h2>Danh sách bài kiểm tra của giáo viên</h2>
@@ -105,6 +110,7 @@ const ListTeacherQuizzesComponent = () => {
                 <QuizUpdateForm
                     quiz={selectedQuiz}
                     onClose={handleCloseUpdateForm}
+                    onUpdate={handleQuizUpdated}
                 />
             )}
         </div>

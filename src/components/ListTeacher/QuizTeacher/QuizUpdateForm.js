@@ -1,73 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 import {
-    TextField,
+    Box,
     Button,
     FormControl,
     InputLabel,
-    Select,
-    MenuItem,
-    Box,
-    Typography,
     List,
     ListItem,
     ListItemText,
-    Modal
+    MenuItem,
+    Modal,
+    Select,
+    TextField,
+    Typography
 } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { UpdateQuiz } from '../../../store/quizStore/QuizAxios';
-import axios from 'axios';
-import {API_CATEGORIES_URL, API_QUESTION_URL} from "../../../configs/backend.configs";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
+import {API_QUESTION_URL, API_CATEGORIES_URL} from "../../../configs/backend.configs";
 
-const QuizUpdateForm = ({quiz, onClose}) => {
-    const dispatch = useDispatch();
+const QuizUpdateForm = ({ quiz, onClose }) => {
     const [categories, setCategories] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [selectedQuestions, setSelectedQuestions] = useState([]);
-    const [openModal, setOpenModal] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
-    const [quantity, setQuantity] = useState('');
-    const [filteredQuestions, setFilteredQuestions] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const response = await axios.get(API_CATEGORIES_URL);
-                setCategories(response.data);
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-            }
-        };
+        axios.get(API_CATEGORIES_URL)
+            .then(response => setCategories(response.data))
+            .catch(error => console.error('Error fetching categories:', error));
 
-        const fetchQuestions = async () => {
-            try {
-                const response = await axios.get(`${API_QUESTION_URL}/list`);
-                setQuestions(response.data);
-            } catch (error) {
-                console.error('Error fetching questions:', error);
-            }
-        };
+        axios.get(`${API_QUESTION_URL}/list`)
+            .then(response => setQuestions(response.data))
+            .catch(error => console.error('Error fetching questions:', error));
 
-        fetchCategories();
-        fetchQuestions()
-
-        // if (quiz.question) {
-        //     setSelectedQuestions(quiz.question);
-        // }
-    }, []);
-
-
+        // Set initial selected questions
+        setSelectedQuestions(quiz.questions || []);
+        setSelectedCategory(quiz.category?.name || '');
+    }, [quiz]);
 
     const formik = useFormik({
         initialValues: {
-            title: quiz.title || '',
-            description: quiz.description || '',
-            quizTime: quiz.quizTime || '',
+            title: quiz.quizzesTitle || '',
+            description: quiz.quizzesDescription || '',
+            quizTime: quiz.quizzesTime || '',
             quantity: quiz.quantity || '',
             passingScore: quiz.passingScore || '',
-            categoryId: quiz.categoryId || '',
+            questionIds: quiz.questions?.map(q => q.id) || [],
         },
         validationSchema: Yup.object({
             title: Yup.string().required('Required'),
@@ -75,107 +55,85 @@ const QuizUpdateForm = ({quiz, onClose}) => {
             quizTime: Yup.number().required('Required'),
             quantity: Yup.number().required('Required'),
             passingScore: Yup.number().required('Required'),
-            categoryId: Yup.string().required('Required'),
         }),
         onSubmit: (values) => {
             const updatedQuiz = {
                 ...values,
                 questionIds: selectedQuestions.map(q => q.questionId),
             };
-            dispatch(UpdateQuiz({ id: quiz.quizzesId, quiz: updatedQuiz }))
+            axios.put(`http://localhost:8080/quiz/update/${quiz.quizzesId}`, updatedQuiz)
                 .then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Cập nhật bài thi thành công',
+                        text: 'Bạn đã cập nhật bài thi thành công',
+                    });
                     onClose();
                 })
-                .catch((error) => {
+                .catch(error => {
                     console.error('Error updating quiz:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Đã xảy ra lỗi khi cập nhật bài thi',
+                    });
                 });
-        }
-    })
-
-    // const handleQuestionClick = (question) => {
-    //     if (selectedQuestions.find(q => q.questionId === question.questionId)) {
-    //         setSelectedQuestions(selectedQuestions.filter(q => q.questionId !== question.questionId));
-    //     } else if (selectedQuestions.length < formik.values.quantity) {
-    //         selectedQuestions([...selectedQuestions, question]);
-    //     } else {
-    //         alert(`Bạn chỉ có thể chọn ${formik.values.quantity} câu hỏi`)
-    //     }
-    // }
-    const handleCategoryChange = (event) => {
-        setSelectedCategory(event.target.value);
-    };
-
-    useEffect(() => {
-        if (quiz.categoryId) {
-            const category = categories.find(c => c.id === quiz.categoryId);
-            if (category) {
-                setSelectedCategory(category.name);
-            }
-        }
-    }, [quiz, categories]);
+        },
+    });
 
     const handleQuestionClick = (question) => {
-        if (selectedQuestions.includes(question)) {
-            setSelectedQuestions(selectedQuestions.filter(q => q !== question));
-        } else if (selectedQuestions.length < quantity) {
+        if (selectedQuestions.find(q => q.questionId === question.questionId)) {
+            setSelectedQuestions(selectedQuestions.filter(q => q.questionId !== question.questionId));
+        } else if (selectedQuestions.length < formik.values.quantity) {
             setSelectedQuestions([...selectedQuestions, question]);
         } else {
             Swal.fire({
                 icon: 'warning',
                 title: 'Số câu hỏi vượt quá giới hạn.',
-                text: ` Bạn chỉ có thể lựa chọn ${quantity} câu hỏi `,
+                text: `Bạn chỉ có thể lựa chọn ${formik.values.quantity} câu hỏi`,
                 position: 'top'
             });
         }
     };
 
-    const handleQuantityChange = (event) => {
-        const value = event.target.value;
-        setQuantity(value);
-        formik.handleChange(event);
-
-        // Clear selected questions if quantity is cleared or set to zero
-        if (value === '' || value === '0') {
-            setSelectedQuestions([]);
-        }
+    const handleCategoryChange = (event) => {
+        setSelectedCategory(event.target.value);
     };
-    const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false);
 
-    // const filteredQuestions = questions.filter(question => question.categoryName === selectedCategory);
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    };
 
-    useEffect(() => {
-        const filteredQuestions = questions.filter(question => question.categoryName === selectedCategory);
-        setFilteredQuestions(filteredQuestions);
-    }, [selectedCategory, questions]);
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
+    const filteredQuestions = questions.filter(question => question.categoryName === selectedCategory);
 
     return (
-        <Box sx={{ p: 2 }}>
-            <Typography variant="h6" gutterBottom>
-                Cập nhật bài thi
-            </Typography>
+        <Box className="quiz-update-form p-3">
             <form onSubmit={formik.handleSubmit}>
                 <TextField
+                    label="Tiêu đề"
                     fullWidth
+                    margin="normal"
                     id="title"
                     name="title"
-                    label="Tiêu đề"
                     value={formik.values.title}
                     onChange={formik.handleChange}
                     error={formik.touched.title && Boolean(formik.errors.title)}
                     helperText={formik.touched.title && formik.errors.title}
-                    margin="normal"
                 />
                 <TextField
+                    label="Mô tả"
                     fullWidth
+                    margin="normal"
                     id="description"
                     name="description"
-                    label="Mô tả"
                     value={formik.values.description}
                     onChange={formik.handleChange}
                     error={formik.touched.description && Boolean(formik.errors.description)}
                     helperText={formik.touched.description && formik.errors.description}
-                    margin="normal"
                 />
                 <FormControl fullWidth margin="normal">
                     <InputLabel id="quizTime-label">Thời gian làm bài</InputLabel>
@@ -201,56 +159,64 @@ const QuizUpdateForm = ({quiz, onClose}) => {
                         labelId="category-label"
                         id="category"
                         name="category"
-                        // value={formik.values.categoryId}
                         value={selectedCategory}
                         onChange={handleCategoryChange}
-                        // error={formik.touched.categoryId && Boolean(formik.errors.categoryId)}
                     >
                         {categories.map((category) => (
-                            <MenuItem key={category.id} value={category.id}>
+                            <MenuItem key={category.id} value={category.name}>
                                 {category.name}
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
                 <TextField
+                    label="Số lượng câu hỏi"
                     fullWidth
+                    margin="normal"
                     id="quantity"
                     name="quantity"
-                    label="Số lượng câu hỏi"
                     type="number"
                     value={formik.values.quantity}
-                    onChange={handleQuantityChange}
+                    onChange={formik.handleChange}
                     error={formik.touched.quantity && Boolean(formik.errors.quantity)}
                     helperText={formik.touched.quantity && formik.errors.quantity}
-                    margin="normal"
                 />
-                {quantity && selectedCategory && (
-                    <Button variant="outlined" fullWidth onClick={handleOpenModal} sx={{mt: 2}}>
+                {formik.values.quantity && selectedCategory && (
+                    <Button variant="outlined" fullWidth onClick={handleOpenModal} sx={{ mt: 2 }}>
                         Chọn câu hỏi
                     </Button>
                 )}
                 <TextField
+                    label="Điểm đạt "
                     fullWidth
+                    margin="normal"
                     id="passingScore"
                     name="passingScore"
-                    label="Điểm đạt"
                     type="number"
                     value={formik.values.passingScore}
                     onChange={formik.handleChange}
                     error={formik.touched.passingScore && Boolean(formik.errors.passingScore)}
                     helperText={formik.touched.passingScore && formik.errors.passingScore}
-                    margin="normal"
                 />
-                <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
-                    <Button onClick={onClose} variant="outlined">
-                        Hủy
-                    </Button>
-                    <Button type="submit" variant="contained" color="primary">
-                        Cập nhật
-                    </Button>
-                </Box>
+                <Button variant="contained" className="submit-quiz-update-button" fullWidth type="submit" sx={{ mt: 3 }}>
+                    Cập nhật
+                </Button>
+                <Button variant="outlined" fullWidth onClick={onClose} sx={{ mt: 2 }}>
+                    Hủy
+                </Button>
             </form>
+            {selectedQuestions.length > 0 && (
+                <Box className="selected-questions-container">
+                    <Typography variant="h6">Câu hỏi đã chọn:</Typography>
+                    <List>
+                        {selectedQuestions.map((question) => (
+                            <ListItem key={question.questionId} button onClick={() => handleQuestionClick(question)}>
+                                <ListItemText primary={question.questionText} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </Box>
+            )}
             <Modal
                 open={openModal}
                 onClose={handleCloseModal}
@@ -273,12 +239,7 @@ const QuizUpdateForm = ({quiz, onClose}) => {
                     </Typography>
                     <List>
                         {filteredQuestions.map((question) => (
-                            <ListItem
-                                key={question.questionId}
-                                button
-                                onClick={() => handleQuestionClick(question)}
-                                selected={selectedQuestions.find(q => q.questionId === question.questionId)}
-                            >
+                            <ListItem key={question.questionId} button onClick={() => handleQuestionClick(question)}>
                                 <ListItemText primary={question.questionText} />
                             </ListItem>
                         ))}
@@ -287,6 +248,6 @@ const QuizUpdateForm = ({quiz, onClose}) => {
             </Modal>
         </Box>
     );
-}
+};
 
-export default QuizUpdateForm
+export default QuizUpdateForm;

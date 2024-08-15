@@ -16,7 +16,7 @@ export const CreateQuiz = createAsyncThunk('createQuiz', async ({ quiz, userId }
 });
 
 export const UpdateQuiz = createAsyncThunk('updateQuiz', async ({ id, quiz }) => {
-    const response = await axios.put(ApiURL + "/update/" + id, quiz);
+    const response = await axios.put(`${ApiURL}/update/${id}`, quiz);
     return response.data;
 });
 
