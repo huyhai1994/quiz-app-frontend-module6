@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {deleteUser, requestTeacherRole} from "./UserAxios";
+import {deleteUser, getUser, requestTeacherRole} from "./UserAxios";
 
 const initialState = {
     users: [],
@@ -31,9 +31,21 @@ const userSlice = createSlice({
             })
             .addCase(requestTeacherRole.fulfilled, (state, action) => {
                 state.loading = false;
-                // Cập nhật trạng thái nếu cần
             })
             .addCase(requestTeacherRole.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(getUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getUser.fulfilled, (state, action) => {
+                state.loading = false;
+                console.log(action.payload)
+                state.users = action.payload;
+            })
+            .addCase(getUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
             });

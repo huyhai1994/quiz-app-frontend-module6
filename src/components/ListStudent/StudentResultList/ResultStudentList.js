@@ -1,21 +1,33 @@
-import {format, longFormatters} from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { format } from "date-fns";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { TailSpin } from "react-loader-spinner";
-import {useParams} from "react-router-dom";
-import {fetchQuizResultsByUserId} from "../../../store/resultStore/ResultAxios";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const ResultStudentList = () => {
-    const dispatch = useDispatch();
-    const {resultId} = useParams();
-    const results = useSelector((state) => state.results.results);
-    const loading = useSelector((state) => state.results.loading);
-    const error = useSelector((state) => state.results.error);
+    const { resultId } = useParams();
+    const [results, setResults] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        dispatch(fetchQuizResultsByUserId(resultId));
-    }, [dispatch, resultId]);
+        if (resultId) {
+            const fetchResults = async () => {
+                setLoading(true);
+                try {
+                    const response = await axios.get(`http://localhost:8080/result/${resultId}`);
+                    setResults([response.data]);
+                } catch (error) {
+                    setError(error.message);
+                    console.error('Error fetching quiz results:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchResults();
+        }
+    }, [resultId]);
 
     useEffect(() => {
         if (error) {
@@ -48,10 +60,10 @@ const ResultStudentList = () => {
                 <tbody>
                 {results.length > 0 ? (
                     results.map((result, index) => (
-                        <tr key={index}>
+                        <tr key={result.id}>
                             <td>{index + 1}</td>
                             <td>{result.userName}</td>
-                            <td>{format(new Date(result.finishTime), 'dd-MM-yyyy - HH:mm:ss')}</td>
+                            <td>{result.finishTime ? format(new Date(result.finishTime), 'dd-MM-yyyy - HH:mm:ss') : 'N/A'}</td>
                             <td>{result.score}</td>
                             <td>{result.correctAnswers}</td>
                             <td>{result.incorrectAnswers}</td>

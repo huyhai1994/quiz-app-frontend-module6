@@ -1,16 +1,18 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
     AddQuestionsToQuiz,
     CreateQuiz,
     DeleteQuiz,
-    fetchAllQuizzes,
-    ListQuiz, ListQuizStudent,
+    ListQuiz,
+    ListQuizStudent,
     ListTeacherQuizzes,
-    UpdateQuiz
+    UpdateQuiz,
+    fetchTopQuizzes
 } from "./QuizAxios";
 
 const initialState = {
     quizzes: [],
+    topQuizzes: [],
     loading: false,
     error: null,
     status: 'idle',
@@ -69,6 +71,18 @@ const quizSlice = createSlice({
                 state.quizzes = action.payload;
             })
             .addCase(ListQuizStudent.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(fetchTopQuizzes.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchTopQuizzes.fulfilled, (state, action) => {
+                state.loading = false;
+                state.topQuizzes = action.payload;
+            })
+            .addCase(fetchTopQuizzes.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
             });

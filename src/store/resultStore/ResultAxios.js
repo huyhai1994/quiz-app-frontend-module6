@@ -31,8 +31,12 @@ export const endQuizForUser = createAsyncThunk(
 export const fetchQuizResultsByUserId = createAsyncThunk(
     'result/fetchQuizResultsByUserId',
     async (resultId) => {
-        const response = await axios.get(`${ApiURL}/${resultId}`);
-        return response.data;
+        try {
+            const response = await axios.get(`${ApiURL}/${resultId}`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 );
 
@@ -53,3 +57,11 @@ export const fetchQuiz = createAsyncThunk('quiz/fetchQuiz', async (quizId, { rej
         return rejectWithValue(error.response.data);
     }
 });
+
+export const ResultDetailHistory = createAsyncThunk(
+    'result/detail/history',
+    async (id) => {
+        const response = await axios.get(`${ApiURL}/detail/${id}/history`);
+        return response.data;
+    }
+);

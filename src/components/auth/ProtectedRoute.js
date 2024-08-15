@@ -1,12 +1,12 @@
 import {Navigate, useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
 
-const ProtectedRoute = ({ children, allowedRoles }) => {
-    const { isAuthenticated, role } = useSelector((state) => state.auth);
+const ProtectedRoute = ({children, allowedRoles}) => {
+    const {isAuthenticated, role} = useSelector((state) => state.auth);
     const location = useLocation();
 
     if (!isAuthenticated) {
-        return <Navigate to="/login" state={{from: location}} replace />
+        return <Navigate to="/login" state={{from: location}} replace/>
     }
 
     if (allowedRoles && !allowedRoles.includes(role)) {
@@ -21,13 +21,13 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
         // }
         switch (role) {
             case 'ROLE_ADMIN':
-                return <Navigate to="/admin" replace />;
+                return <Navigate to="/admin" replace/>;
             case 'ROLE_TEACHER':
-                return <Navigate to="/teacher" replace />;
+                return <Navigate to="/teacher" replace/>;
             case 'ROLE_STUDENT':
-                return <Navigate to="/student" replace />;
+                return <Navigate to="/student" replace/>;
             default:
-                return <Navigate to="/" replace />;
+                return <Navigate to="/" replace/>;
         }
     }
     return children

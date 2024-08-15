@@ -1,4 +1,4 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const ApiURL = "http://localhost:8080/quiz";
@@ -38,4 +38,14 @@ export const AddQuestionsToQuiz = createAsyncThunk('addQuestionsToQuiz', async (
 export const ListQuizStudent = createAsyncThunk('listQuizStudent', async () => {
     const response = await axios.get(ApiURL + "/exam");
     return response.data;
+});
+
+export const fetchTopQuizzes = createAsyncThunk('fetchTopQuizzes', async () => {
+    try {
+        const response = await axios.get(`${ApiURL}/quizzes/top`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching top quizzes:', error);
+        throw new Error(error.message);
+    }
 });
