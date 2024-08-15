@@ -1,0 +1,29 @@
+@import '../../../styles/vars.css';
+
+.btn-next, .btn-previous, .btn-submit {
+    background-color: var(--color-primary) !important;
+}
+
+.option-label {
+    transition: background-color 0.3s ease;
+}
+
+.option-label:hover {
+    background-color: var(--color-secondary);
+}
+
+.option-label.selected {
+    background-color: var(--color-secondary);
+    border-radius: 5px;
+}
+
+.button-start {
+    background-color: var(--color-primary) !important;
+    color: var(--color-bg) !important;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+}

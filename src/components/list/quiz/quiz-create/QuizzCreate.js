@@ -69,11 +69,11 @@ const QuizCreate = () => {
         }, validationSchema: Yup.object({
             title: Yup.string()
                 .required('Required')
-                .test('unique-title', 'xin mời nhập lại, tiêu đề đã tồn tại trong hệ thống', value => !existingQuizTitles.includes(value)),
-            description: Yup.string().required('Required'),
-            quizTime: Yup.number().required('Required'),
-            quantity: Yup.number().required('Required'),
-            passingScore: Yup.number().required('Required'),
+                .test('unique-title', 'xin mời nhập lại tiêu đề đã tồn tại trong hệ thống', value => !existingQuizTitles.includes(value)),
+            description: Yup.string().required('Cần nhập mô tả cho bài thi'),
+            quizTime: Yup.number().required('Cần nhập thời gian thi'),
+            quantity: Yup.number().required('Cần nhập số lượng câu hỏi'),
+            passingScore: Yup.number().required('cần nhập điểm đạt '),
         }), onSubmit: (values) => {
             values.questionIds = selectedQuestions.slice(0, values.quantity).map((q) => q.questionId);
             values.timeCreated = getCurrentTimestamp();

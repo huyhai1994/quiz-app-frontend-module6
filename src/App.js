@@ -19,7 +19,6 @@ import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
 import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
 import PasswordReset from "./components/user-service/PasswordReset";
-import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
 import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
 import UserProfile from "./components/user-service/UserProfile";
@@ -37,61 +36,57 @@ import QuizHistoryList from "./components/ListStudent/StudentResultList/QuizHist
 import QuizListStudent from "./components/ListStudent/examStudent/QuizListStudent";
 import QuestionListStudent from "./components/ListStudent/examStudent/QuestionListStudent";
 import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
-import Login from "./pages/login/Login";
-import Register from "./pages/register/Register";
+import QuizHistoryDetail from "./components/ListStudent/StudentResultList/QuizHistoryDetail";
+import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
+
 
 function App() {
     return (
         <ConfigProvider theme={{
-        algorithm: [theme.defaultAlgorithm], cssVar: true, token: {
-            // Seed Token
-            // colorPrimary: '#00b96b',
-            // borderRadius: 2,
+            algorithm: [theme.defaultAlgorithm], cssVar: true, token: {
+                // Seed Token
+                // colorPrimary: '#00b96b',
+                // borderRadius: 2,
 
-            // Alias Token
-            // colorBgContainer: '#f6ffed',
-            // colorPrimaryBg: '#e6f7ff',
-            // colorLink: '#1890ff',
-            // headerBg: '#5a2c82',
-        }, components: {
-            Layout: {
-                lightTriggerBg: 'var(--color-bg)',
-                lightTriggerColor: 'var(--color-primary)',
-                lightSiderBg: 'var(--color-bg)',
-            }, Menu: {
-                itemBg: 'var(--color-bg)',
-                itemColor: 'var(--color-primary)',
-                itemHoverColor: 'var(--color-primary)',
-                itemSelectedBg: 'var(--color-secondary)',
-                itemActiveBg: 'var(--color-bg)',
-                itemSelectedColor: 'var(--color-dark)',
-            }, Dropdown: {
-                background: 'var(--color-bg)',
+                // Alias Token
+                // colorBgContainer: '#f6ffed',
+                // colorPrimaryBg: '#e6f7ff',
+                // colorLink: '#1890ff',
+                // headerBg: '#5a2c82',
+            }, components: {
+                Layout: {
+                    lightTriggerBg: 'var(--color-bg)',
+                    lightTriggerColor: 'var(--color-primary)',
+                    lightSiderBg: 'var(--color-bg)',
+                }, Menu: {
+                    itemBg: 'var(--color-bg)',
+                    itemColor: 'var(--color-primary)',
+                    itemHoverColor: 'var(--color-primary)',
+                    itemSelectedBg: 'var(--color-secondary)',
+                    itemActiveBg: 'var(--color-bg)',
+                    itemSelectedColor: 'var(--color-dark)',
+                }, Dropdown: {
+                    background: 'var(--color-bg)',
+                },
             },
-        },
-    }}>
-        <Routes>
-            <Route path="/" element={<Home/>}/>
-            {/*<Route path="/login" element={<Login/>}/>*/}
-            {/*<Route path="/register" element={<Register/>}/>*/}
-            <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
-            <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
-            <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
-            <Route path="/quizzes" element={<QuizListStudent/>}/>
-            <Route path={"/result/new/:resultId"} element={<ResultStudentList/>}></Route>
-            <Route path="/quizzes/:quizId/start" element={<QuestionListStudent/>}/>
-
-            <Route path="/login" element={<AuthLayout title="Login">
-                <LoginForm />
-            </AuthLayout>} />
-            <Route path="/register" element={<AuthLayout title="Register">
-                <RegisterForm />
-            </AuthLayout>} />
-            <Route path="/profile" element={<UserProfileLayout />}>
-                <Route index element={<UserProfile />} />
-                <Route path="change-password" element={<ChangePasswordForm />} />
-                <Route path="reset-password" element={<PasswordReset />} />
-            </Route>
+        }}>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
+                <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
+                <Route path="/quiz-history/:id" element={<QuizHistoryDetail/>}/>
+                <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
+                <Route path="/login" element={<AuthLayout title="Login">
+                    <LoginForm/>
+                </AuthLayout>}/>
+                <Route path="/register" element={<AuthLayout title="Register">
+                    <RegisterForm/>
+                </AuthLayout>}/>
+                <Route path="/profile" element={<UserProfileLayout/>}>
+                    <Route index element={<UserProfile/>}/>
+                    <Route path="change-password" element={<ChangePasswordForm/>}/>
+                    <Route path="reset-password" element={<PasswordReset/>}/>
+                </Route>
 
             <Route path="/admin/*" element={
                 <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
@@ -127,21 +122,25 @@ function App() {
                 <Route path="quiz/create" element={<QuizCreate/>}/>
             </Route>
 
-            <Route path="/student/*" element={
-                <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
-                    <StudentHome/>
-                </ProtectedRoute>
-            }>
-                <Route path="" element={<StudentMain/>}/>
-                <Route path="profile" element={<UserProfile/>}/>
-                <Route path="change-password" element={<ChangePasswordForm/>}/>
-                <Route path="quiz" element={<QuizList/>}/>
-                <Route path="question" element={<QuizComponent/>}/>
-            </Route>
+                <Route path="/student/*" element={
+                    <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
+                        <StudentHome/>
+                    </ProtectedRoute>
+                }>
+                    <Route path={"home"} element={<TopQuizzes/>}></Route>
+                    <Route path="" element={<StudentMain/>}/>
+                    <Route path="profile" element={<UserProfile/>}/>
+                    <Route path="change-password" element={<ChangePasswordForm/>}/>
+                    <Route path="quiz" element={<QuizList/>}/>
+                    <Route path="quizzes" element={<QuizListStudent/>}/>
+                    <Route path="question" element={<QuizComponent/>}/>
+                    <Route path={"result/new/:resultId"} element={<ResultStudentList/>}/>
+                    <Route path="quizzes/:quizId/start" element={<QuestionListStudent/>}/>
+                </Route>
 
-            <Route path="*" element={<NotFound/>}/>
-        </Routes>
-    </ConfigProvider>)
+                <Route path="*" element={<NotFound/>}/>
+            </Routes>
+        </ConfigProvider>)
 }
 
 export default App;

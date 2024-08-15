@@ -13,9 +13,10 @@ const ListTeacherQuizzesComponent = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedQuiz, setSelectedQuiz] = useState(null);
     const pageSize = 5;
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
-        const userId = 2;
+        // const userId = 2;
         dispatch(ListTeacherQuizzes(userId));
     }, [dispatch]);
 
@@ -27,8 +28,8 @@ const ListTeacherQuizzesComponent = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <TailSpin color="#00BFFF" height={80} width={80} />
+            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+                <TailSpin color="#00BFFF" height={80} width={80}/>
             </div>
         );
     }
