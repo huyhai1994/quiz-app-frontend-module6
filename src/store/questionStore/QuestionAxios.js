@@ -42,7 +42,7 @@ export const getQuestionsByQuizId = createAsyncThunk(
 );
 
 export const DeleteQuestion = createAsyncThunk(
-    'question/delete',
+    'questions/delete',
     async (id, {rejectWithValue}) => {
         try {
             await instance.delete(`/question/${id}`);

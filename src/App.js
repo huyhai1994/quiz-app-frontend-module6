@@ -81,7 +81,6 @@ function App() {
             <Route path="/quizzes" element={<QuizListStudent/>}/>
             <Route path={"/result/new/:resultId"} element={<ResultStudentList/>}></Route>
             <Route path="/quizzes/:quizId/start" element={<QuestionListStudent/>}/>
-            <Route path="/quizzes/:quizId/start" element={<QuestionListStudent />} />
 
             <Route path="/login" element={<AuthLayout title="Login">
                 <LoginForm />

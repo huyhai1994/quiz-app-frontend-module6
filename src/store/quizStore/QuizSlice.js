@@ -9,7 +9,6 @@ import {
     UpdateQuiz
 } from "./QuizAxios";
 
-
 const initialState = {
     quizzes: [],
     loading: false,

@@ -69,7 +69,7 @@ const QuizCreate = () => {
         }, validationSchema: Yup.object({
             title: Yup.string()
                 .required('Required')
-                .test('unique-title', 'xin mời nhập lại tiêu đề đã tồn tại trong hệ thống', value => !existingQuizTitles.includes(value)),
+                .test('unique-title', 'xin mời nhập lại, tiêu đề đã tồn tại trong hệ thống', value => !existingQuizTitles.includes(value)),
             description: Yup.string().required('Required'),
             quizTime: Yup.number().required('Required'),
             quantity: Yup.number().required('Required'),
