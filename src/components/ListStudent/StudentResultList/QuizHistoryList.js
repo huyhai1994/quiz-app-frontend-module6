@@ -1,24 +1,23 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { HistoryResultsByUserId, ResultDetailHistory } from "../../../store/resultStore/ResultAxios";
-import { format } from "date-fns";
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {HistoryResultsByUserId, ResultDetailHistory} from "../../../store/resultStore/ResultAxios";
+import {format} from "date-fns";
 import Page from "../../pages/Page";
-import { TailSpin } from 'react-loader-spinner';
+import {TailSpin} from 'react-loader-spinner';
 import Swal from 'sweetalert2';
-import { Table, Button, Modal } from "react-bootstrap";
+import {Button, Modal, Table} from "react-bootstrap";
 import QuizHistoryDetail from './QuizHistoryDetail';
 
 const QuizHistoryList = () => {
     const dispatch = useDispatch();
-    const { history, status, error } = useSelector((state) => state.results);
+    const {history, status, error} = useSelector((state) => state.results);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedQuizId, setSelectedQuizId] = useState(null);
     const pageSize = 5;
-
-
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
-        dispatch(HistoryResultsByUserId());
+        dispatch(HistoryResultsByUserId(userId));
     }, [dispatch]);
 
     useEffect(() => {
@@ -62,8 +61,8 @@ const QuizHistoryList = () => {
     const currentData = getCurrentPageData();
 
     if (status === 'loading') return (
-        <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-            <TailSpin color="#00BFFF" height={80} width={80} />
+        <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+            <TailSpin color="#00BFFF" height={80} width={80}/>
         </div>
     );
 
@@ -118,7 +117,7 @@ const QuizHistoryList = () => {
                     <Modal.Title>Quiz Details</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <QuizHistoryDetail />
+                    <QuizHistoryDetail/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>

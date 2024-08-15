@@ -76,8 +76,6 @@ function App() {
                 <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
                 <Route path="/quiz-history/:id" element={<QuizHistoryDetail/>}/>
                 <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
-
-
                 <Route path="/login" element={<AuthLayout title="Login">
                     <LoginForm/>
                 </AuthLayout>}/>

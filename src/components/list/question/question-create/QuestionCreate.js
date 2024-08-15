@@ -28,9 +28,9 @@ const QuestionCreate = () => {
                 setQuestionTypes(questionTypeRes.data);
 
                 const userRes = await axiosInstance.get('/users/profile');
+                console.log("User fetched successfully", userRes.data);
                 setTeacherName(userRes.data.name);
                 setUserId(userRes.data.id);
-                localStorage.setItem('userId', userRes.data.id);
                 setLoading(false);
             } catch (err) {
                 console.error("Error fetching data", err);
@@ -54,8 +54,12 @@ const QuestionCreate = () => {
             try {
                 localStorage.setItem('questionType', values.questionType);
                 const response = await QuestionService.addQuestion(values, userId);
+                console.log("Question created successfully", values);
                 const newQuestionId = response.data.id;
-                localStorage.setItem('questionId', newQuestionId);
+                localStorage.setItem('questionId',
+                    newQuestionId
+                )
+                ;
                 Swal.fire({
                     title: "Thành công", text: "Câu hỏi mới đã được tạo", icon: "success"
                 });
