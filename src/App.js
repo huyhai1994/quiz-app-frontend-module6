@@ -78,7 +78,7 @@ function App() {
             {/*<Route path="/register" element={<Register/>}/>*/}
             <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
             <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
-            <Route path="/quiz-history/:id" element={<QuizHistoryDetail />} />
+            <Route path="/quiz-history/:id" element={<QuizHistoryDetail/>} />
             <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
             <Route path="/quizzes" element={<QuizListStudent/>}/>
             <Route path={"/result/new/:resultId"} element={<ResultStudentList/>}></Route>
