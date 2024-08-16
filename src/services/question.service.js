@@ -10,7 +10,7 @@ class QuestionService {
             createdBy: {id: userId},
             difficulty: data.difficulty
         };
-        return await axios.post(`${API_QUESTION_URL}/create?userId=${userId}`, payload);
+        return await axios.post(`${API_QUESTION_URL}`, payload);
     }
 }
 

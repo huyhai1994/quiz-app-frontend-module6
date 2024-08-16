@@ -1,11 +1,23 @@
 import axios from "axios";
+import axiosInstance from "../utils/axiosConfig";
 import {API_QUIZ_URL} from "../configs/backend.configs";
 
 class QuizService {
 
     static async addQuiz(data) {
         const userId = localStorage.getItem('userId');
-        return await axios.post(`${API_QUIZ_URL}/create?userId=${userId}`, data);
+        const payload = {
+            title: data.title,
+            description: data.description,
+            quizTime: data.quizTime,
+            quantity: data.quantity,
+            passingScore: data.passingScore,
+            questionIds: data.questionIds,
+            timeCreated: data.timeCreated
+        };
+        return await axiosInstance.post(API_QUIZ_URL, payload, {
+            params: {userId}
+        });
     }
 
     static async getAllQuizzes() {
