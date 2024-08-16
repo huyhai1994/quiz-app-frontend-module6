@@ -22,7 +22,15 @@ const initialState = {
 const quizSlice = createSlice({
     name: 'quizzes',
     initialState,
-    reducers: {},
+    reducers: {
+        updateQuizInList: (state, action) => {
+            const updatedQuiz = action.payload;
+            const index = state.quizzes.findIndex(quiz => quiz.quizzesId === updatedQuiz.quizzesId);
+            if (index !== -1) {
+                state.quizzes[index] = {...state.quizzes[index], ...updatedQuiz};
+            }
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(ListQuiz.pending, (state) => {
@@ -45,9 +53,10 @@ const quizSlice = createSlice({
             })
             .addCase(UpdateQuiz.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                const index = state.quizzes.findIndex(quiz => quiz.quizzesId === action.payload.quizzesId);
+                const updatedQuiz = action.payload;
+                const index = state.quizzes.findIndex(quiz => quiz.quizzesId === updatedQuiz.quizzesId);
                 if (index !== -1) {
-                    state.quizzes[index] = action.payload;
+                    state.quizzes[index] = { ...state.quizzes[index], ...updatedQuiz };
                 }
             })
             .addCase(UpdateQuiz.rejected, (state, action) => {
@@ -110,4 +119,5 @@ const quizSlice = createSlice({
     },
 });
 
+export const { updateQuizInList } = quizSlice.actions;
 export default quizSlice.reducer;

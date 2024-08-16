@@ -22,7 +22,6 @@ import PasswordReset from "./components/user-service/PasswordReset";
 import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
 import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
 import UserProfile from "./components/user-service/UserProfile";
-import UserProfileLayout from "./components/layout/UserProfileLayout";
 import StudentHome from "./pages/student/student-home/StudentHome";
 import StudentMain from "./pages/student/student-home/main/StudentMain";
 import QuizComponent from "./components/list/quiz-component/QuizComponent";
@@ -32,14 +31,15 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import QuizCreate from "./components/list/quiz/quiz-create/QuizzCreate";
 import QuizTeacherList from "./components/ListTeacher/QuizTeacher/QuizTeacherList";
 import ListTeacherQuestions from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
-import QuestionTeacherList from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
 import QuizHistoryList from "./components/ListStudent/StudentResultList/QuizHistoryList";
 import QuizListStudent from "./components/ListStudent/examStudent/QuizListStudent";
 import QuestionListStudent from "./components/ListStudent/examStudent/QuestionListStudent";
 import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
 import QuizHistoryDetail from "./components/ListStudent/StudentResultList/QuizHistoryDetail";
 import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
+import QuestionTeacherList from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
 import QuizTeacherHistory from "./components/ListTeacher/HistoryTeacherQuiz/QuizTeacherHistory";
+
 
 function App() {
     return (
