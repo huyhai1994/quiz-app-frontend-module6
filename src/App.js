@@ -41,6 +41,7 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import QuizHistoryDetail from "./components/ListStudent/StudentResultList/QuizHistoryDetail";
 import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
+import QuestionTeacherList from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
 
 
 function App() {
@@ -124,7 +125,7 @@ function App() {
                     <Route path="" element={<TeacherMain/>}/>
                     <Route path="profile" element={<UserProfile/>}/>
                     <Route path="change-password" element={<ChangePasswordForm/>}/>
-                    <Route path="question" element={<QuestionList/>}/>
+                    <Route path="question" element={<QuestionTeacherList/>}/>
                     <Route path="question/create" element={<QuestionCreate/>}/>
                     <Route path="option/create" element={<OptionCreate/>}/>
                     <Route path="quiz/create" element={<QuizCreate/>}/>
