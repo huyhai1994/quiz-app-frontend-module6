@@ -7,7 +7,7 @@ import {
     ListQuizStudent,
     ListTeacherQuizzes,
     UpdateQuiz,
-    fetchTopQuizzes
+    fetchTopQuizzes, fetchQuizHistoryByTeacher
 } from "./QuizAxios";
 
 const initialState = {
@@ -16,6 +16,7 @@ const initialState = {
     loading: false,
     error: null,
     status: 'idle',
+    historyTeacher: [],
 };
 
 const quizSlice = createSlice({
@@ -93,6 +94,18 @@ const quizSlice = createSlice({
             .addCase(fetchTopQuizzes.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
+            })
+            .addCase(fetchQuizHistoryByTeacher.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchQuizHistoryByTeacher.fulfilled, (state, action) => {
+                state.loading = false;
+                state.historyTeacher = action.payload;
+            })
+            .addCase(fetchQuizHistoryByTeacher.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
             });
     },
 });

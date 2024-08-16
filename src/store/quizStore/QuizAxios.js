@@ -45,7 +45,18 @@ export const fetchTopQuizzes = createAsyncThunk('fetchTopQuizzes', async () => {
         const response = await axios.get(`${ApiURL}/quizzes/top`);
         return response.data;
     } catch (error) {
-        console.error('Error fetching top quizzes:', error);
         throw new Error(error.message);
     }
 });
+
+export const fetchQuizHistoryByTeacher = createAsyncThunk(
+    'quiz/fetchQuizHistoryByTeacher',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get('/quiz/teacher/history');
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response ? error.response.data : 'Network Error');
+        }
+    }
+);

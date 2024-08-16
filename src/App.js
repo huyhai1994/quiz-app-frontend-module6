@@ -40,6 +40,7 @@ import ResultStudentList from "./components/ListStudent/StudentResultList/Result
 import QuizHistoryDetail from "./components/ListStudent/StudentResultList/QuizHistoryDetail";
 import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
 import QuestionTeacherList from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
+import QuizTeacherHistory from "./components/ListTeacher/HistoryTeacherQuiz/QuizTeacherHistory";
 
 
 function App() {
@@ -127,6 +128,7 @@ function App() {
                 <Route path="change-password" element={<ChangePasswordForm/>}/>
                 <Route path="question" element={<QuestionTeacherList/>}/>
                 <Route path="question/create" element={<QuestionCreate/>}/>
+                <Route path="quiz/history" element={<QuizTeacherHistory/>}/>
                 <Route path="option/create" element={<OptionCreate/>}/>
                 <Route path="quiz/create" element={<QuizCreate/>}/>
             </Route>
