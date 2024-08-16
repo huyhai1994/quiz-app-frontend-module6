@@ -1,21 +1,23 @@
 import { format } from 'date-fns';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { ListTeacherQuizzes } from '../../../store/quizStore/QuizAxios';
-import Page from '../../pages/Page';
-import Swal from 'sweetalert2';
-import { TailSpin } from 'react-loader-spinner';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {ListTeacherQuizzes, UpdateQuiz} from "../../../store/quizStore/QuizAxios";
+import Page from "../../pages/Page";
+import Swal from "sweetalert2";
+import { TailSpin } from "react-loader-spinner";
+import QuizUpdateForm from './QuizUpdateForm';
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
     const { quizzes, loading, error } = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedQuiz, setSelectedQuiz] = useState(null);
     const pageSize = 5;
-    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
+        const userId = localStorage.getItem('userId');
         dispatch(ListTeacherQuizzes(userId));
-    }, [dispatch, userId]);
+    }, [dispatch]);
 
     useEffect(() => {
         if (error) {
@@ -45,6 +47,28 @@ const ListTeacherQuizzesComponent = () => {
 
     const currentData = getCurrentPageData();
 
+    const handleUpdateQuiz = (quiz) => {
+        setSelectedQuiz(quiz);
+    }
+
+    const handleCloseUpdateForm = () => {
+        setSelectedQuiz(null);
+    }
+
+    // const handleQuizUpdated = (updatedQuiz) => {
+        //Gọi slice quizzes có action = updateQuizInList trong QuizSlice
+        // dispatch({ type: 'quizzes/updateQuizInList', payload: updatedQuiz });
+        // setSelectedQuiz(null);
+    // }
+
+    const handleQuizUpdated = (updatedQuiz) => {
+        const updatedQuizzes = quizzes.map(quiz =>
+            quiz.quizzesId === updatedQuiz.quizzesId ? updatedQuiz : quiz
+        );
+        dispatch({ type: 'quizzes/updateQuizInList', payload: updatedQuizzes });
+        setSelectedQuiz(null);
+    }
+
     return (
         <div>
             <h2>Danh sách bài kiểm tra của giáo viên</h2>
@@ -59,6 +83,7 @@ const ListTeacherQuizzesComponent = () => {
                     <th>Số lượng</th>
                     <th>Điểm đạt</th>
                     <th>Độ khó</th>
+                    <th>Thao tác</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -76,6 +101,11 @@ const ListTeacherQuizzesComponent = () => {
                                 <td>{quiz.quantity}</td>
                                 <td>{quiz.passingScore}</td>
                                 <td>{quiz.difficulty}</td>
+                                <td>
+                                    <button onClick={() => handleUpdateQuiz(quiz)} className="btn btn-primary btn-sm">
+                                        Cập nhật
+                                    </button>
+                                </td>
                             </tr>
                         );
                     })
@@ -91,6 +121,13 @@ const ListTeacherQuizzesComponent = () => {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
+            {selectedQuiz && (
+                <QuizUpdateForm
+                    quiz={selectedQuiz}
+                    onClose={handleCloseUpdateForm}
+                    onUpdate={handleQuizUpdated}
+                />
+            )}
         </div>
     );
 };

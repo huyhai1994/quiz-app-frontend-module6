@@ -18,8 +18,11 @@ import {
 } from '@mui/material';
 import Swal from 'sweetalert2';
 import {API_QUESTION_URL, API_CATEGORIES_URL} from "../../../configs/backend.configs";
+import {useDispatch} from "react-redux";
+import {UpdateQuiz} from "../../../store/quizStore/QuizAxios";
 
-const QuizUpdateForm = ({ quiz, onClose }) => {
+const QuizUpdateForm = ({ quiz, onClose, onUpdate }) => {
+    const dispatch = useDispatch()
     const [categories, setCategories] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [selectedQuestions, setSelectedQuestions] = useState([]);
@@ -35,7 +38,6 @@ const QuizUpdateForm = ({ quiz, onClose }) => {
             .then(response => setQuestions(response.data))
             .catch(error => console.error('Error fetching questions:', error));
 
-        // Set initial selected questions
         setSelectedQuestions(quiz.questions || []);
         setSelectedCategory(quiz.category?.name || '');
     }, [quiz]);
@@ -59,15 +61,19 @@ const QuizUpdateForm = ({ quiz, onClose }) => {
         onSubmit: (values) => {
             const updatedQuiz = {
                 ...values,
+                quizzesId: quiz.quizzesId,
                 questionIds: selectedQuestions.map(q => q.questionId),
             };
-            axios.put(`http://localhost:8080/quiz/update/${quiz.quizzesId}`, updatedQuiz)
-                .then(() => {
+            // axios.put(`http://localhost:8080/quiz/update/${quiz.quizzesId}`, updatedQuiz)
+            dispatch(UpdateQuiz({ id: quiz.quizzesId, quiz: updatedQuiz }))
+                .unwrap()
+                .then((response) => {
                     Swal.fire({
                         icon: 'success',
                         title: 'Cập nhật bài thi thành công',
                         text: 'Bạn đã cập nhật bài thi thành công',
                     });
+                    onUpdate(response);
                     onClose();
                 })
                 .catch(error => {
