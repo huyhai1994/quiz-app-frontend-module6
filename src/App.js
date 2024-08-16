@@ -19,6 +19,7 @@ import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
 import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
 import PasswordReset from "./components/user-service/PasswordReset";
+import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
 import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
 import UserProfile from "./components/user-service/UserProfile";
@@ -37,6 +38,7 @@ import QuestionListStudent from "./components/ListStudent/examStudent/QuestionLi
 import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
 import QuizHistoryDetail from "./components/ListStudent/StudentResultList/QuizHistoryDetail";
 import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
+import QuestionTeacherList from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
 
 function App() {
     return (
@@ -115,7 +117,7 @@ function App() {
                 <Route path="" element={<TeacherMain/>}/>
                 <Route path="profile" element={<UserProfile/>}/>
                 <Route path="change-password" element={<ChangePasswordForm/>}/>
-                <Route path="question" element={<QuestionList/>}/>
+                <Route path="question" element={<QuestionTeacherList/>}/>
                 <Route path="question/create" element={<QuestionCreate/>}/>
                 <Route path="option/create" element={<OptionCreate/>}/>
                 <Route path="quiz/create" element={<QuizCreate/>}/>

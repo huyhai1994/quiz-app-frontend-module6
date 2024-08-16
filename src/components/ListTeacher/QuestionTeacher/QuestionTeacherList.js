@@ -1,8 +1,8 @@
 import { format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Page from "../../pages/Page";
-import { ListTeacherQuestion } from "../../../store/questionStore/QuestionAxios";
+import {DeleteQuestion, ListTeacherQuestion} from "../../../store/questionStore/QuestionAxios";
 import Swal from "sweetalert2";
 import { TailSpin } from "react-loader-spinner";
 
@@ -16,6 +16,29 @@ const ListTeacherQuestions = () => {
     useEffect(() => {
         dispatch(ListTeacherQuestion(userId))
     }, [dispatch]);
+
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn xóa câu hỏi này?',
+            text: "Bạn sẽ không thể hoàn tác hành động này!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Có, xóa nó!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(DeleteQuestion(id)).then(() => {
+                    Swal.fire(
+                        'Đã xóa!',
+                        'Câu hỏi đã được xóa.',
+                        'success'
+                    );
+                });
+            }
+        });
+    };
 
     useEffect(() => {
         if (error) {
@@ -67,6 +90,14 @@ const ListTeacherQuestions = () => {
                             <td>{question.categoryName}</td>
                             <td>{question.typeName}</td>
                             <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
+                            <td>
+                                <button
+                                    className="btn btn-danger btn-sm"
+                                    onClick={() => handleDelete(question.questionId)}
+                                >
+                                    Xóa
+                                </button>
+                            </td>
                         </tr>
                     ))
                 ) : (

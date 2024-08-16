@@ -39,28 +39,6 @@ const QuestionList = () => {
         }
     };
 
-    const handleDelete = (id) => {
-        Swal.fire({
-            title: 'Bạn có chắc chắn muốn xóa câu hỏi này?',
-            text: "Bạn sẽ không thể hoàn tác hành động này!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Có, xóa nó!',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                dispatch(DeleteQuestion(id)).then(() => {
-                    Swal.fire(
-                        'Đã xóa!',
-                        'Câu hỏi đã được xóa.',
-                        'success'
-                    );
-                });
-            }
-        });
-    };
 
     const totalPages = Math.ceil(questions.length / pageSize);
 
@@ -125,14 +103,6 @@ const QuestionList = () => {
                             <td>{question.categoryName}</td>
                             <td>{question.typeName}</td>
                             <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
-                            <td>
-                                <button
-                                    className="btn btn-danger btn-sm"
-                                    onClick={() => handleDelete(question.questionId)}
-                                >
-                                    Xóa
-                                </button>
-                            </td>
                         </tr>
                     ))
                 ) : (

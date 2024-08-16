@@ -27,8 +27,8 @@ const ListTeacherQuizzesComponent = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
-                <TailSpin color="#00BFFF" height={80} width={80}/>
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <TailSpin color="#00BFFF" height={80} width={80} />
             </div>
         );
     }
