@@ -22,7 +22,6 @@ import PasswordReset from "./components/user-service/PasswordReset";
 import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
 import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
 import UserProfile from "./components/user-service/UserProfile";
-import UserProfileLayout from "./components/layout/UserProfileLayout";
 import StudentHome from "./pages/student/student-home/StudentHome";
 import StudentMain from "./pages/student/student-home/main/StudentMain";
 import QuizComponent from "./components/list/quiz-component/QuizComponent";
@@ -38,7 +37,6 @@ import QuestionListStudent from "./components/ListStudent/examStudent/QuestionLi
 import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
 import QuizHistoryDetail from "./components/ListStudent/StudentResultList/QuizHistoryDetail";
 import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
-
 
 function App() {
     return (
@@ -72,6 +70,13 @@ function App() {
     }}>
         <Routes>
             <Route path="/" element={<Home/>}/>
+            <Route path="/login" element={<AuthLayout title="Login">
+                <LoginForm/>
+            </AuthLayout>}/>
+            <Route path="/register" element={<AuthLayout title="Register">
+                <RegisterForm/>
+            </AuthLayout>}/>
+
             {/*<Route path="/login" element={<Login/>}/>*/}
             {/*<Route path="/register" element={<Register/>}/>*/}
             <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
@@ -83,25 +88,12 @@ function App() {
             <Route path="/quizzes/:quizId/start" element={<QuestionListStudent/>}/>
             <Route path={"/top/quizzes"} element={<TopQuizzes/>}></Route>
 
-                <Route path="/login" element={<AuthLayout title="Login">
-                    <LoginForm/>
-                </AuthLayout>}/>
-                <Route path="/register" element={<AuthLayout title="Register">
-                    <RegisterForm/>
-                </AuthLayout>}/>
-                <Route path="/profile" element={<UserProfileLayout/>}>
-                    <Route index element={<UserProfile/>}/>
-                    <Route path="change-password" element={<ChangePasswordForm/>}/>
-                    <Route path="reset-password" element={<PasswordReset/>}/>
-                </Route>
-
             <Route path="/admin/*" element={
                 <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
                     <Master/>
                 </ProtectedRoute>
             }>
                 <Route path="categories" element={<Categories/>}/>
-                {/*<Route path="update-info" element={<AdminEdit/>}/>*/}
                 <Route path="profile" element={<UserProfile/>}/>
                 <Route path="change-password" element={<ChangePasswordForm />} />
                 <Route path="reset-password" element={<PasswordReset />} />
@@ -146,7 +138,7 @@ function App() {
                 </Route>
 
                 <Route path="*" element={<NotFound/>}/>
-            </Routes>
+        </Routes>
         </ConfigProvider>)
 }
 

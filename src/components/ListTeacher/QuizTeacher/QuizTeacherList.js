@@ -13,10 +13,9 @@ const ListTeacherQuizzesComponent = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedQuiz, setSelectedQuiz] = useState(null);
     const pageSize = 5;
-    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
-        // const userId = 2;
+        const userId = localStorage.getItem('userId');
         dispatch(ListTeacherQuizzes(userId));
     }, [dispatch]);
 
@@ -56,8 +55,17 @@ const ListTeacherQuizzesComponent = () => {
         setSelectedQuiz(null);
     }
 
+    // const handleQuizUpdated = (updatedQuiz) => {
+        //Gọi slice quizzes có action = updateQuizInList trong QuizSlice
+        // dispatch({ type: 'quizzes/updateQuizInList', payload: updatedQuiz });
+        // setSelectedQuiz(null);
+    // }
+
     const handleQuizUpdated = (updatedQuiz) => {
-        dispatch(UpdateQuiz({ id: updatedQuiz.quizzesId, quiz: updatedQuiz }));
+        const updatedQuizzes = quizzes.map(quiz =>
+            quiz.quizzesId === updatedQuiz.quizzesId ? updatedQuiz : quiz
+        );
+        dispatch({ type: 'quizzes/updateQuizInList', payload: updatedQuizzes });
         setSelectedQuiz(null);
     }
 
