@@ -78,8 +78,11 @@ const ListTeacherQuizzesComponent = () => {
                     <th>STT</th>
                     <th>Tiêu đề</th>
                     <th>Mô tả</th>
-                    <th>Người tạo</th>
                     <th>Thời gian tạo</th>
+                    <th>Thời gian</th>
+                    <th>Số lượng</th>
+                    <th>Điểm đạt</th>
+                    <th>Độ khó</th>
                     <th>Thao tác</th>
                 </tr>
                 </thead>
@@ -93,8 +96,11 @@ const ListTeacherQuizzesComponent = () => {
                                 <td>{(currentPage - 1) * pageSize + index + 1}</td>
                                 <td>{quiz.quizzesTitle}</td>
                                 <td>{quiz.quizzesDescription}</td>
-                                <td>{quiz.usersName}</td>
                                 <td>{formattedDate}</td>
+                                <td>{quiz.quizTime}</td>
+                                <td>{quiz.quantity}</td>
+                                <td>{quiz.passingScore}</td>
+                                <td>{quiz.difficulty}</td>
                                 <td>
                                     <button onClick={() => handleUpdateQuiz(quiz)} className="btn btn-primary btn-sm">
                                         Cập nhật
@@ -105,7 +111,7 @@ const ListTeacherQuizzesComponent = () => {
                     })
                 ) : (
                     <tr>
-                        <td colSpan="5">Không có dữ liệu</td>
+                        <td colSpan="8">Không có dữ liệu</td>
                     </tr>
                 )}
                 </tbody>

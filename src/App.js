@@ -123,25 +123,26 @@ function App() {
                 <Route path="quiz/create" element={<QuizCreate/>}/>
             </Route>
 
-                <Route path="/student/*" element={
-                    <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
-                        <StudentHome/>
-                    </ProtectedRoute>
-                }>
-                    <Route path={"home"} element={<TopQuizzes/>}></Route>
-                    <Route path="" element={<StudentMain/>}/>
-                    <Route path="profile" element={<UserProfile/>}/>
-                    <Route path="change-password" element={<ChangePasswordForm/>}/>
-                    <Route path="quiz" element={<QuizList/>}/>
-                    <Route path="quizzes" element={<QuizListStudent/>}/>
-                    <Route path="question" element={<QuizComponent/>}/>
-                    <Route path={"result/new/:resultId"} element={<ResultStudentList/>}/>
-                    <Route path="quizzes/:quizId/start" element={<QuestionListStudent/>}/>
-                </Route>
+            <Route path="/student/*" element={
+                <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
+                    <StudentHome/>
+                </ProtectedRoute>
+            }>
+                <Route path={"home"} element={<TopQuizzes/>}></Route>
+                <Route path="" element={<StudentMain/>}/>
+                <Route path="profile" element={<UserProfile/>}/>
+                <Route path="change-password" element={<ChangePasswordForm/>}/>
+                <Route path="quiz" element={<QuizList/>}/>
+                <Route path="quizzes" element={<QuizListStudent/>}/>
+                <Route path="question" element={<QuizComponent/>}/>
+                <Route path={"result/new/:resultId"} element={<ResultStudentList/>}/>
+                <Route path="quizzes/:quizId/start" element={<QuestionListStudent/>}/>
+            </Route>
 
-                <Route path="*" element={<NotFound/>}/>
+            <Route path="*" element={<NotFound/>}/>
         </Routes>
-        </ConfigProvider>)
+        </ConfigProvider>
+    )
 }
 
 export default App;
