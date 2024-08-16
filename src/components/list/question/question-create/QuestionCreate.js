@@ -28,7 +28,6 @@ const QuestionCreate = () => {
                 setQuestionTypes(questionTypeRes.data);
 
                 const userRes = await axiosInstance.get('/users/profile');
-                console.log("User fetched successfully", userRes.data);
                 setTeacherName(userRes.data.name);
                 setUserId(userRes.data.id);
                 setLoading(false);
@@ -54,18 +53,17 @@ const QuestionCreate = () => {
             try {
                 localStorage.setItem('questionType', values.questionType);
                 const response = await QuestionService.addQuestion(values, userId);
-                console.log("Question created successfully", values);
                 const newQuestionId = response.data.id;
                 localStorage.setItem('questionId',
                     newQuestionId
                 )
                 ;
-                Swal.fire({
+                await Swal.fire({
                     title: "Thành công", text: "Câu hỏi mới đã được tạo", icon: "success"
                 });
                 navigate("/teacher/option/create");
             } catch (error) {
-                Swal.fire('Thất bại', error || 'Xin vui lòng kiểm tra lại thông tin vừa nhập!', 'error');
+                await Swal.fire('Thất bại', error || 'Xin vui lòng kiểm tra lại thông tin vừa nhập!', 'error');
                 console.error("Error creating question", values);
             }
         }
@@ -104,9 +102,11 @@ const QuestionCreate = () => {
                     value={formik.values.questionType}
                     onChange={formik.handleChange}
                     error={formik.touched.questionType && Boolean(formik.errors.questionType)}
-                >
+                    variant='standard'>
                     {questionTypes.map((type) => (<MenuItem key={type.id} value={type.id}>
-                        {type.typeName === "ONE" ? "Một" : type.typeName === "MANY" ? "Nhiều" : "Đúng/sai"}
+                        {type.typeName === "ONE" ? "Một câu đúng" :
+                            type.typeName === "MANY" ? "Nhiều câu đúng" :
+                                "Đúng/sai"}
                     </MenuItem>))}
                 </Select>
             </FormControl>
@@ -118,7 +118,7 @@ const QuestionCreate = () => {
                     value={formik.values.difficulty}
                     onChange={formik.handleChange}
                     error={formik.touched.difficulty && Boolean(formik.errors.difficulty)}
-                >
+                    variant='standard'>
                     <MenuItem value="EASY">Dễ</MenuItem>
                     <MenuItem value="MEDIUM">Trung bình</MenuItem>
                     <MenuItem value="HARD">Khó</MenuItem>
@@ -132,23 +132,12 @@ const QuestionCreate = () => {
                     value={formik.values.category}
                     onChange={formik.handleChange}
                     error={formik.touched.category && Boolean(formik.errors.category)}
-                >
+                    variant='standard'>
                     {categories.map((category) => (<MenuItem key={category.id} value={category.id}>
                         {category.name}
                     </MenuItem>))}
                 </Select>
             </FormControl>
-            <TextField
-                label="Người tạo"
-                fullWidth
-                margin="normal"
-                id="createdBy"
-                name="createdBy"
-                value={formik.values.createdBy}
-                onChange={formik.handleChange}
-                placeholder={teacherName}
-                InputProps={{readOnly: true}}
-            />
             <Button className='question-submit-button mt-3' variant="contained" fullWidth type="submit">
                 Tạo câu hỏi
             </Button>

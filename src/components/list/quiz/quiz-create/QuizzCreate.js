@@ -18,8 +18,9 @@ import {
 } from '@mui/material';
 import Swal from 'sweetalert2';
 import './QuizzCreate.css';
-import {API_CATEGORIES_URL, API_QUESTION_URL} from '../../../../configs/backend.configs';
+import {API_CATEGORIES_URL, API_QUESTION_URL, API_QUIZ_URL} from '../../../../configs/backend.configs';
 import QuizService from "../../../../services/quiz.service";
+import {useNavigate} from "react-router-dom";
 
 const QuizCreate = () => {
     const [categories, setCategories] = useState([]);
@@ -29,6 +30,7 @@ const QuizCreate = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [openModal, setOpenModal] = useState(false);
     const [existingQuizTitles, setExistingQuizTitles] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -51,7 +53,7 @@ const QuizCreate = () => {
 
         const fetchQuizTitles = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/quiz/titles');
+                const response = await axios.get(`${API_QUIZ_URL}/titles`);
                 setExistingQuizTitles(response.data.map(quiz => quiz.title));
             } catch (error) {
                 console.error('Error fetching quiz titles:', error);
@@ -77,7 +79,7 @@ const QuizCreate = () => {
         }), onSubmit: (values) => {
             values.questionIds = selectedQuestions.slice(0, values.quantity).map((q) => q.questionId);
             values.timeCreated = getCurrentTimestamp();
-            const userId = localStorage.getItem('userId');
+            localStorage.getItem('userId');
             QuizService.addQuiz(values)
                 .then(() => {
                     Swal.fire({
@@ -85,7 +87,7 @@ const QuizCreate = () => {
                         title: 'Tạo bài thi thành công',
                         text: 'Bạn đã tạo bài thi thành công',
                     }).then(() => {
-                        window.location.href = '/teacher/quiz';
+                        navigate('/teacher/teacher-quizzes');
                     });
                 })
                 .catch(error => {
@@ -178,7 +180,7 @@ const QuizCreate = () => {
                             value={formik.values.quizTime}
                             onChange={formik.handleChange}
                             error={formik.touched.quizTime && Boolean(formik.errors.quizTime)}
-                        >
+                            variant='standard'>
                             <MenuItem value={5}>5 phút</MenuItem>
                             <MenuItem value={10}>10 phút</MenuItem>
                             <MenuItem value={15}>15 phút</MenuItem>
@@ -195,7 +197,7 @@ const QuizCreate = () => {
                             name="category"
                             value={selectedCategory}
                             onChange={handleCategoryChange}
-                        >
+                            variant='standard'>
                             {categories.map((category) => (
                                 <MenuItem key={category.id} value={category.name}>
                                     {category.name}

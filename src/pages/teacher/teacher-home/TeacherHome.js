@@ -17,28 +17,23 @@ const {Content, Footer, Sider} = Layout;
 
 function getItem(label, key, icon, children, link) {
     return {
-        key,
-        icon,
-        children,
-        label: link ? <Link to={link}>{label}</Link> : label,
+        key, icon, children, label: link ? <Link to={link}>{label}</Link> : label,
     };
 }
 
-const items = [
-    getItem('Trang chủ', '1', <HomeIcon/>, null, '/teacher/'),
-    getItem('Tạo mới', '2', <AddBoxIcon/>, [
-        getItem('Câu hỏi', '3', <QuestionMarkIcon/>, null, '/teacher/question/create'),
-        getItem('Bài kiểm tra', '4', <QuizIcon/>, null, '/teacher/quiz/create'),
-    ]),
-    getItem('Danh Sách', '5', <ViewListIcon/>, [
+const items = [getItem('Trang chủ', '1', <HomeIcon/>, null, '/teacher/'), getItem('Tạo mới', '2',
+    <AddBoxIcon/>, [getItem('Câu hỏi', '3',
+        <QuestionMarkIcon/>, null, '/teacher/question/create'), getItem('Bài kiểm tra', '4',
+        <QuizIcon/>, null, '/teacher/quiz/create'),]), getItem('Danh Sách', '5',
+    <ViewListIcon/>, [
         getItem('Câu Hỏi', '6', <QuestionMarkIcon/>, null, '/teacher/question'),
-    ]),
+        getItem('Bài kiểm tra', '7', <QuizIcon/>, null, '/teacher/teacher-quizzes'),]),
     getItem('Cài đặt', 'sub2', <SettingsIcon/>, [
-        getItem('Thông tin cá nhân', '8', <ManageAccountsIcon/>, null, '/teacher/profile'),
-        getItem('Thay đổi mật khẩu', '9', <PasswordIcon/>, null, '/teacher/change-password'),
-    ]),
-    getItem('Đăng xuất', '10', <ExitToAppIcon/>, null, ''),
-];
+        getItem('Thông tin cá nhân', '8',
+            <ManageAccountsIcon/>, null, '/teacher/profile'),
+        getItem('Thay đổi mật khẩu', '9',
+            <PasswordIcon/>, null, '/teacher/change-password'),]), getItem('Đăng xuất', '10',
+        <ExitToAppIcon/>, null, ''),];
 
 const TeacherHome = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -60,47 +55,43 @@ const TeacherHome = () => {
         });
     };
 
-    return (
-        <Layout style={{minHeight: '100vh'}}>
-            <Sider
-                collapsible
-                collapsed={collapsed}
-                onCollapse={(value) => setCollapsed(value)}
-                width={250}
-                theme={'light'}
+    return (<Layout style={{minHeight: '100vh'}}>
+        <Sider
+            collapsible
+            collapsed={collapsed}
+            onCollapse={(value) => setCollapsed(value)}
+            width={250}
+            theme={'light'}
+        >
+            <div style={{padding: '16px', textAlign: 'center'}}>
+                <h1 className='logo'>QUIZZ</h1>
+            </div>
+            <Menu
+                defaultSelectedKeys={['1']}
+                mode="inline"
+                items={items}
+                onClick={(e) => {
+                    if (e.key === '10') { // Check if the logout item is clicked
+                        handleLogout();
+                    }
+                }}
+            />
+        </Sider>
+        <Layout>
+            <Content
+                style={{
+                    margin: '0 16px', background: colorBgContainer, borderRadius: borderRadiusLG,
+                }}
             >
-                <div style={{padding: '16px', textAlign: 'center'}}>
-                    <h1 className='logo'>QUIZZ</h1>
+                <div>
+                    <Outlet/>
                 </div>
-                <Menu
-                    defaultSelectedKeys={['1']}
-                    mode="inline"
-                    items={items}
-                    onClick={(e) => {
-                        if (e.key === '10') { // Check if the logout item is clicked
-                            handleLogout();
-                        }
-                    }}
-                />
-            </Sider>
-            <Layout>
-                <Content
-                    style={{
-                        margin: '0 16px',
-                        background: colorBgContainer,
-                        borderRadius: borderRadiusLG,
-                    }}
-                >
-                    <div>
-                        <Outlet/>
-                    </div>
-                </Content>
-                <Footer style={{textAlign: 'center'}}>
-                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
-                </Footer>
-            </Layout>
+            </Content>
+            <Footer style={{textAlign: 'center'}}>
+                Ant Design ©{new Date().getFullYear()} Created by Ant UED
+            </Footer>
         </Layout>
-    );
+    </Layout>);
 };
 
 export default TeacherHome;

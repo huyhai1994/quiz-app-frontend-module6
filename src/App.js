@@ -72,7 +72,6 @@ function App() {
         }}>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
                 <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
                 <Route path="/quiz-history/:id" element={<QuizHistoryDetail/>}/>
                 <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
@@ -115,6 +114,7 @@ function App() {
                     <Route path="profile" element={<UserProfile/>}/>
                     <Route path="change-password" element={<ChangePasswordForm/>}/>
                     <Route path="question" element={<QuestionList/>}/>
+                    <Route path={"teacher-quizzes"} element={<QuizTeacherList/>}></Route>
                     <Route path="question/create" element={<QuestionCreate/>}/>
                     <Route path="option/create" element={<OptionCreate/>}/>
                     <Route path="quiz/create" element={<QuizCreate/>}/>
