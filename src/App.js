@@ -125,7 +125,7 @@ function App() {
                 <Route path="" element={<TeacherMain/>}/>
                 <Route path="profile" element={<UserProfile/>}/>
                 <Route path="change-password" element={<ChangePasswordForm/>}/>
-                <Route path="question" element={<QuestionList/>}/>
+                <Route path="question" element={<QuestionTeacherList/>}/>
                 <Route path="question/create" element={<QuestionCreate/>}/>
                 <Route path="option/create" element={<OptionCreate/>}/>
                 <Route path="quiz/create" element={<QuizCreate/>}/>
