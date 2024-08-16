@@ -1,21 +1,21 @@
-import {format} from 'date-fns';
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {ListTeacherQuizzes} from "../../../store/quizStore/QuizAxios";
-import Page from "../../pages/Page";
-import Swal from "sweetalert2";
-import {TailSpin} from "react-loader-spinner";
+import { format } from 'date-fns';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ListTeacherQuizzes } from '../../../store/quizStore/QuizAxios';
+import Page from '../../pages/Page';
+import Swal from 'sweetalert2';
+import { TailSpin } from 'react-loader-spinner';
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
-    const {quizzes, loading, error} = useSelector((state) => state.quizzes);
+    const { quizzes, loading, error } = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
     const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         dispatch(ListTeacherQuizzes(userId));
-    }, [dispatch]);
+    }, [dispatch, userId]);
 
     useEffect(() => {
         if (error) {
@@ -25,8 +25,8 @@ const ListTeacherQuizzesComponent = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
-                <TailSpin color="#00BFFF" height={80} width={80}/>
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <TailSpin color="#00BFFF" height={80} width={80} />
             </div>
         );
     }
@@ -54,8 +54,11 @@ const ListTeacherQuizzesComponent = () => {
                     <th>STT</th>
                     <th>Tiêu đề</th>
                     <th>Mô tả</th>
-                    <th>Người tạo</th>
                     <th>Thời gian tạo</th>
+                    <th>Thời gian</th>
+                    <th>Số lượng</th>
+                    <th>Điểm đạt</th>
+                    <th>Độ khó</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -68,14 +71,17 @@ const ListTeacherQuizzesComponent = () => {
                                 <td>{(currentPage - 1) * pageSize + index + 1}</td>
                                 <td>{quiz.quizzesTitle}</td>
                                 <td>{quiz.quizzesDescription}</td>
-                                <td>{quiz.usersName}</td>
                                 <td>{formattedDate}</td>
+                                <td>{quiz.quizTime}</td>
+                                <td>{quiz.quantity}</td>
+                                <td>{quiz.passingScore}</td>
+                                <td>{quiz.difficulty}</td>
                             </tr>
                         );
                     })
                 ) : (
                     <tr>
-                        <td colSpan="5">Không có dữ liệu</td>
+                        <td colSpan="8">Không có dữ liệu</td>
                     </tr>
                 )}
                 </tbody>
