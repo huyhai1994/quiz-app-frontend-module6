@@ -14,11 +14,10 @@ const QuizHistoryList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedQuizId, setSelectedQuizId] = useState(null);
     const pageSize = 5;
-
-
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
-        dispatch(HistoryResultsByUserId());
+        dispatch(HistoryResultsByUserId(userId));
     }, [dispatch]);
 
     useEffect(() => {
