@@ -19,7 +19,6 @@ import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
 import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
 import PasswordReset from "./components/user-service/PasswordReset";
-import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
 import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
 import UserProfile from "./components/user-service/UserProfile";
@@ -33,15 +32,14 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import QuizCreate from "./components/list/quiz/quiz-create/QuizzCreate";
 import QuizTeacherList from "./components/ListTeacher/QuizTeacher/QuizTeacherList";
 import ListTeacherQuestions from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
+import QuestionTeacherList from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
 import QuizHistoryList from "./components/ListStudent/StudentResultList/QuizHistoryList";
 import QuizListStudent from "./components/ListStudent/examStudent/QuizListStudent";
 import QuestionListStudent from "./components/ListStudent/examStudent/QuestionListStudent";
 import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
 import QuizHistoryDetail from "./components/ListStudent/StudentResultList/QuizHistoryDetail";
 import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
-import QuestionTeacherList from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
 import QuizTeacherHistory from "./components/ListTeacher/HistoryTeacherQuiz/QuizTeacherHistory";
-
 
 function App() {
     return (
@@ -50,42 +48,6 @@ function App() {
                 // Seed Token
                 // colorPrimary: '#00b96b',
                 // borderRadius: 2,
-
-            // Alias Token
-            // colorBgContainer: '#f6ffed',
-            // colorPrimaryBg: '#e6f7ff',
-            // colorLink: '#1890ff',
-            // headerBg: '#5a2c82',
-        }, components: {
-            Layout: {
-                lightTriggerBg: 'var(--color-bg)',
-                lightTriggerColor: 'var(--color-primary)',
-                lightSiderBg: 'var(--color-bg)',
-            }, Menu: {
-                itemBg: 'var(--color-bg)',
-                itemColor: 'var(--color-primary)',
-                itemHoverColor: 'var(--color-primary)',
-                itemSelectedBg: 'var(--color-secondary)',
-                itemActiveBg: 'var(--color-bg)',
-                itemSelectedColor: 'var(--color-dark)',
-            }, Dropdown: {
-                background: 'var(--color-bg)',
-            },
-        },
-    }}>
-        <Routes>
-            <Route path="/" element={<Home/>}/>
-            {/*<Route path="/login" element={<Login/>}/>*/}
-            {/*<Route path="/register" element={<Register/>}/>*/}
-            <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
-            <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
-            <Route path="/quiz-history/:id" element={<QuizHistoryDetail />} />
-            <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
-            <Route path="/quizzes" element={<QuizListStudent/>}/>
-            <Route path={"/result/new/:resultId"} element={<ResultStudentList/>}></Route>
-            <Route path="/quizzes/:quizId/start" element={<QuestionListStudent/>}/>
-            <Route path={"/top/quizzes"} element={<TopQuizzes/>}></Route>
-
                 // Alias Token
                 // colorBgContainer: '#f6ffed',
                 // colorPrimaryBg: '#e6f7ff',
@@ -110,55 +72,39 @@ function App() {
         }}>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
+                <Route path="/teacher-quizzes" element={<QuizTeacherList/>}/>
+                <Route path="/result/history" element={<QuizHistoryList/>}/>
                 <Route path="/quiz-history/:id" element={<QuizHistoryDetail/>}/>
-                <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
-                <Route path="/login" element={<AuthLayout title="Login">
-                    <LoginForm/>
-                </AuthLayout>}/>
-                <Route path="/register" element={<AuthLayout title="Register">
-                    <RegisterForm/>
-                </AuthLayout>}/>
+                <Route path="/teacher-question" element={<ListTeacherQuestions/>}/>
+                <Route path="/quizzes" element={<QuizListStudent/>}/>
+                <Route path="/result/new/:resultId" element={<ResultStudentList/>}/>
+                <Route path="/quizzes/:quizId/start" element={<QuestionListStudent/>}/>
+                <Route path="/top/quizzes" element={<TopQuizzes/>}/>
+                <Route path="/login" element={<AuthLayout title="Login"><LoginForm/></AuthLayout>}/>
+                <Route path="/register" element={<AuthLayout title="Register"><RegisterForm/></AuthLayout>}/>
                 <Route path="/profile" element={<UserProfileLayout/>}>
                     <Route index element={<UserProfile/>}/>
                     <Route path="change-password" element={<ChangePasswordForm/>}/>
                     <Route path="reset-password" element={<PasswordReset/>}/>
                 </Route>
-
-            <Route path="/admin/*" element={
-                <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
-                    <Master/>
-                </ProtectedRoute>
-            }>
-                <Route path="categories" element={<Categories/>}/>
-                {/*<Route path="update-info" element={<AdminEdit/>}/>*/}
-                <Route path="profile" element={<UserProfile/>}/>
-                <Route path="change-password" element={<ChangePasswordForm />} />
-                <Route path="reset-password" element={<PasswordReset />} />
-                <Route path="add-category" element={<AddCategory/>}/>
-                <Route path="edit/:id" element={<EditCategory/>}/>
-                <Route path="question" element={<QuestionList/>}/>
-                <Route path="quiz" element={<QuizList/>}/>
-                <Route path="teacher/approved" element={<TeacherApprovalApprovedList/>}/>
-                <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>
-                <Route path="teacher-list" element={<TeacherList/>}/>
-                <Route path="student-list" element={<StudentList/>}/>
-            </Route>
-
-            <Route path="/teacher/*" element={
-                <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_TEACHER']}>
-                    <TeacherHome/>
-                </ProtectedRoute>
-            }>
-                <Route path="" element={<TeacherMain/>}/>
-                <Route path="profile" element={<UserProfile/>}/>
-                <Route path="change-password" element={<ChangePasswordForm/>}/>
-                <Route path="question" element={<QuestionTeacherList/>}/>
-                <Route path="question/create" element={<QuestionCreate/>}/>
-                <Route path="quiz/history" element={<QuizTeacherHistory/>}/>
-                <Route path="option/create" element={<OptionCreate/>}/>
-                <Route path="quiz/create" element={<QuizCreate/>}/>
-            </Route>
+                <Route path="/admin/*" element={
+                    <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
+                        <Master/>
+                    </ProtectedRoute>
+                }>
+                    <Route path="categories" element={<Categories/>}/>
+                    <Route path="profile" element={<UserProfile/>}/>
+                    <Route path="change-password" element={<ChangePasswordForm/>}/>
+                    <Route path="reset-password" element={<PasswordReset/>}/>
+                    <Route path="add-category" element={<AddCategory/>}/>
+                    <Route path="edit/:id" element={<EditCategory/>}/>
+                    <Route path="question" element={<QuestionList/>}/>
+                    <Route path="quiz" element={<QuizList/>}/>
+                    <Route path="teacher/approved" element={<TeacherApprovalApprovedList/>}/>
+                    <Route path="pending-list" element={<TeacherApprovalPendingList/>}/>
+                    <Route path="teacher-list" element={<TeacherList/>}/>
+                    <Route path="student-list" element={<StudentList/>}/>
+                </Route>
                 <Route path="/teacher/*" element={
                     <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_TEACHER']}>
                         <TeacherHome/>
@@ -167,32 +113,31 @@ function App() {
                     <Route path="" element={<TeacherMain/>}/>
                     <Route path="profile" element={<UserProfile/>}/>
                     <Route path="change-password" element={<ChangePasswordForm/>}/>
-                    <Route path="question" element={<QuestionList/>}/>
-                    <Route path={"teacher-quizzes"} element={<QuizTeacherList/>}></Route>
+                    <Route path="question" element={<QuestionTeacherList/>}/>
                     <Route path="question/create" element={<QuestionCreate/>}/>
+                    <Route path="quiz/history" element={<QuizTeacherHistory/>}/>
                     <Route path="option/create" element={<OptionCreate/>}/>
                     <Route path="quiz/create" element={<QuizCreate/>}/>
                 </Route>
-
                 <Route path="/student/*" element={
                     <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
                         <StudentHome/>
                     </ProtectedRoute>
                 }>
-                    <Route path={"home"} element={<TopQuizzes/>}></Route>
+                    <Route path="home" element={<TopQuizzes/>}/>
                     <Route path="" element={<StudentMain/>}/>
                     <Route path="profile" element={<UserProfile/>}/>
                     <Route path="change-password" element={<ChangePasswordForm/>}/>
                     <Route path="quiz" element={<QuizList/>}/>
                     <Route path="quizzes" element={<QuizListStudent/>}/>
                     <Route path="question" element={<QuizComponent/>}/>
-                    <Route path={"result/new/:resultId"} element={<ResultStudentList/>}/>
+                    <Route path="result/new/:resultId" element={<ResultStudentList/>}/>
                     <Route path="quizzes/:quizId/start" element={<QuestionListStudent/>}/>
                 </Route>
-
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
-        </ConfigProvider>)
+        </ConfigProvider>
+    );
 }
 
 export default App;

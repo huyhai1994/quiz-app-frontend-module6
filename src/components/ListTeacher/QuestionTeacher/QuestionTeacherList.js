@@ -1,11 +1,7 @@
 import {format} from "date-fns";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
-import { format } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Page from "../../pages/Page";
-import {ListTeacherQuestion} from "../../../store/questionStore/QuestionAxios";
 import {DeleteQuestion, ListTeacherQuestion} from "../../../store/questionStore/QuestionAxios";
 import Swal from "sweetalert2";
 import {TailSpin} from "react-loader-spinner";
