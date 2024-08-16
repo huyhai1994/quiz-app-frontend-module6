@@ -71,6 +71,7 @@ function App() {
             },
         }}>
             <Routes>
+                <Route path="/students" element={<StudentMain/>}/>
                 <Route path="/" element={<Home/>}/>
                 <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
                 <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>

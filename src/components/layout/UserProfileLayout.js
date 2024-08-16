@@ -88,7 +88,11 @@ const UserProfileLayout = () => {
                 width='300px'
             >
                 <div style={{padding: '16px', textAlign: 'center'}}>
-                    <h1 className='logo'>QUIZZ</h1>
+                    <h1>
+                        <Link className='logo' to={'/admin'}>
+                            {collapsed ? 'Q' : 'QUIZZ'}
+                        </Link>
+                    </h1>
                 </div>
                 <Menu
                     theme="light"
