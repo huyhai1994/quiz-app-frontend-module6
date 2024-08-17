@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useFormik } from 'formik';
+import React, {useEffect, useState} from 'react';
+import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import {
@@ -17,11 +17,11 @@ import {
     Typography
 } from '@mui/material';
 import Swal from 'sweetalert2';
-import {API_QUESTION_URL, API_CATEGORIES_URL} from "../../../configs/backend.configs";
+import {API_CATEGORIES_URL, API_QUESTION_URL} from "../../../configs/backend.configs";
 import {useDispatch} from "react-redux";
 import {UpdateQuiz} from "../../../store/quizStore/QuizAxios";
 
-const QuizUpdateForm = ({ quiz, onClose, onUpdate }) => {
+const QuizUpdateForm = ({quiz, onClose, onUpdate}) => {
     const dispatch = useDispatch()
     const [categories, setCategories] = useState([]);
     const [questions, setQuestions] = useState([]);
@@ -65,7 +65,7 @@ const QuizUpdateForm = ({ quiz, onClose, onUpdate }) => {
                 questionIds: selectedQuestions.map(q => q.questionId),
             };
             // axios.put(`http://localhost:8080/quiz/update/${quiz.quizzesId}`, updatedQuiz)
-            dispatch(UpdateQuiz({ id: quiz.quizzesId, quiz: updatedQuiz }))
+            dispatch(UpdateQuiz({id: quiz.quizzesId, quiz: updatedQuiz}))
                 .unwrap()
                 .then((response) => {
                     Swal.fire({
@@ -188,7 +188,7 @@ const QuizUpdateForm = ({ quiz, onClose, onUpdate }) => {
                     helperText={formik.touched.quantity && formik.errors.quantity}
                 />
                 {formik.values.quantity && selectedCategory && (
-                    <Button variant="outlined" fullWidth onClick={handleOpenModal} sx={{ mt: 2 }}>
+                    <Button variant="outlined" fullWidth onClick={handleOpenModal} sx={{mt: 2}}>
                         Chọn câu hỏi
                     </Button>
                 )}
@@ -204,10 +204,10 @@ const QuizUpdateForm = ({ quiz, onClose, onUpdate }) => {
                     error={formik.touched.passingScore && Boolean(formik.errors.passingScore)}
                     helperText={formik.touched.passingScore && formik.errors.passingScore}
                 />
-                <Button variant="contained" className="submit-quiz-update-button" fullWidth type="submit" sx={{ mt: 3 }}>
+                <Button variant="contained" className="submit-quiz-update-button" fullWidth type="submit" sx={{mt: 3}}>
                     Cập nhật
                 </Button>
-                <Button variant="outlined" fullWidth onClick={onClose} sx={{ mt: 2 }}>
+                <Button variant="outlined" fullWidth onClick={onClose} sx={{mt: 2}}>
                     Hủy
                 </Button>
             </form>
@@ -217,7 +217,7 @@ const QuizUpdateForm = ({ quiz, onClose, onUpdate }) => {
                     <List>
                         {selectedQuestions.map((question) => (
                             <ListItem key={question.questionId} button onClick={() => handleQuestionClick(question)}>
-                                <ListItemText primary={question.questionText} />
+                                <ListItemText primary={question.questionText}/>
                             </ListItem>
                         ))}
                     </List>
@@ -246,7 +246,7 @@ const QuizUpdateForm = ({ quiz, onClose, onUpdate }) => {
                     <List>
                         {filteredQuestions.map((question) => (
                             <ListItem key={question.questionId} button onClick={() => handleQuestionClick(question)}>
-                                <ListItemText primary={question.questionText} />
+                                <ListItemText primary={question.questionText}/>
                             </ListItem>
                         ))}
                     </List>

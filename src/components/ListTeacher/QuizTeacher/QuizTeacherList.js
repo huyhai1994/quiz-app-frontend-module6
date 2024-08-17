@@ -1,10 +1,10 @@
-import { format } from 'date-fns';
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {ListTeacherQuizzes, UpdateQuiz} from "../../../store/quizStore/QuizAxios";
+import {format} from 'date-fns';
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {ListTeacherQuizzes} from "../../../store/quizStore/QuizAxios";
 import Page from "../../pages/Page";
 import Swal from "sweetalert2";
-import { TailSpin } from "react-loader-spinner";
+import {TailSpin} from "react-loader-spinner";
 import QuizUpdateForm from './QuizUpdateForm';
 
 const ListTeacherQuizzesComponent = () => {
@@ -56,16 +56,16 @@ const ListTeacherQuizzesComponent = () => {
     }
 
     // const handleQuizUpdated = (updatedQuiz) => {
-        //Gọi slice quizzes có action = updateQuizInList trong QuizSlice
-        // dispatch({ type: 'quizzes/updateQuizInList', payload: updatedQuiz });
-        // setSelectedQuiz(null);
+    //Gọi slice quizzes có action = updateQuizInList trong QuizSlice
+    // dispatch({ type: 'quizzes/updateQuizInList', payload: updatedQuiz });
+    // setSelectedQuiz(null);
     // }
 
     const handleQuizUpdated = (updatedQuiz) => {
         const updatedQuizzes = quizzes.map(quiz =>
             quiz.quizzesId === updatedQuiz.quizzesId ? updatedQuiz : quiz
         );
-        dispatch({ type: 'quizzes/updateQuizInList', payload: updatedQuizzes });
+        dispatch({type: 'quizzes/updateQuizInList', payload: updatedQuizzes});
         setSelectedQuiz(null);
     }
 

@@ -1,13 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 import {
     AddQuestionsToQuiz,
     CreateQuiz,
     DeleteQuiz,
+    fetchQuizHistoryByTeacher,
+    fetchTopQuizzes,
     ListQuiz,
     ListQuizStudent,
     ListTeacherQuizzes,
-    UpdateQuiz,
-    fetchTopQuizzes, fetchQuizHistoryByTeacher
+    UpdateQuiz
 } from "./QuizAxios";
 
 const initialState = {
@@ -56,7 +57,7 @@ const quizSlice = createSlice({
                 const updatedQuiz = action.payload;
                 const index = state.quizzes.findIndex(quiz => quiz.quizzesId === updatedQuiz.quizzesId);
                 if (index !== -1) {
-                    state.quizzes[index] = { ...state.quizzes[index], ...updatedQuiz };
+                    state.quizzes[index] = {...state.quizzes[index], ...updatedQuiz};
                 }
             })
             .addCase(UpdateQuiz.rejected, (state, action) => {
@@ -119,5 +120,5 @@ const quizSlice = createSlice({
     },
 });
 
-export const { updateQuizInList } = quizSlice.actions;
+export const {updateQuizInList} = quizSlice.actions;
 export default quizSlice.reducer;

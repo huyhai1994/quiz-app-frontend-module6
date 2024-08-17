@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {DeleteQuestion, ListQuestion, SearchQuestions} from "../../../store/questionStore/QuestionAxios";
+import {ListQuestion, SearchQuestions} from "../../../store/questionStore/QuestionAxios";
 import {format} from "date-fns";
 import Page from "../../pages/Page";
 import {TailSpin} from 'react-loader-spinner';

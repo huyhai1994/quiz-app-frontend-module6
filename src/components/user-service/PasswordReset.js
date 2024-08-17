@@ -1,4 +1,4 @@
-import {Steps, Input, Button, Form, message} from 'antd'
+import {Button, Form, Input, message, Steps} from 'antd'
 import axiosInstance from '../../utils/axiosConfig'
 import {useState} from "react";
 
@@ -108,7 +108,7 @@ const PasswordReset = () => {
                         name="confirmPassword"
                         rules={[
                             {required: true, message: 'Vui lòng xác nhận mật khẩu mới'},
-                            ({ getFieldValue }) => ({
+                            ({getFieldValue}) => ({
                                 validator(_, value) {
                                     if (!value || getFieldValue('newPassword') === value) {
                                         return Promise.resolve()
