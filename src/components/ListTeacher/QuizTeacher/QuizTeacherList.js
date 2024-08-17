@@ -1,19 +1,21 @@
-import {format} from 'date-fns';
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {ListTeacherQuizzes} from "../../../store/quizStore/QuizAxios";
+import { format } from 'date-fns';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {ListTeacherQuizzes, UpdateQuiz} from "../../../store/quizStore/QuizAxios";
 import Page from "../../pages/Page";
 import Swal from "sweetalert2";
-import {TailSpin} from "react-loader-spinner";
+import { TailSpin } from "react-loader-spinner";
+import QuizUpdateForm from './QuizUpdateForm';
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
-    const {quizzes, loading, error} = useSelector((state) => state.quizzes);
+    const { quizzes, loading, error } = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedQuiz, setSelectedQuiz] = useState(null);
     const pageSize = 5;
-    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
+        const userId = localStorage.getItem('userId');
         dispatch(ListTeacherQuizzes(userId));
     }, [dispatch]);
 
@@ -25,8 +27,8 @@ const ListTeacherQuizzesComponent = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
-                <TailSpin color="#00BFFF" height={80} width={80}/>
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <TailSpin color="#00BFFF" height={80} width={80} />
             </div>
         );
     }
@@ -45,6 +47,28 @@ const ListTeacherQuizzesComponent = () => {
 
     const currentData = getCurrentPageData();
 
+    const handleUpdateQuiz = (quiz) => {
+        setSelectedQuiz(quiz);
+    }
+
+    const handleCloseUpdateForm = () => {
+        setSelectedQuiz(null);
+    }
+
+    // const handleQuizUpdated = (updatedQuiz) => {
+        //Gọi slice quizzes có action = updateQuizInList trong QuizSlice
+        // dispatch({ type: 'quizzes/updateQuizInList', payload: updatedQuiz });
+        // setSelectedQuiz(null);
+    // }
+
+    const handleQuizUpdated = (updatedQuiz) => {
+        const updatedQuizzes = quizzes.map(quiz =>
+            quiz.quizzesId === updatedQuiz.quizzesId ? updatedQuiz : quiz
+        );
+        dispatch({ type: 'quizzes/updateQuizInList', payload: updatedQuizzes });
+        setSelectedQuiz(null);
+    }
+
     return (
         <div>
             <h2>Danh sách bài kiểm tra của giáo viên</h2>
@@ -54,8 +78,12 @@ const ListTeacherQuizzesComponent = () => {
                     <th>STT</th>
                     <th>Tiêu đề</th>
                     <th>Mô tả</th>
-                    <th>Người tạo</th>
                     <th>Thời gian tạo</th>
+                    <th>Thời gian</th>
+                    <th>Số lượng</th>
+                    <th>Điểm đạt</th>
+                    <th>Độ khó</th>
+                    <th>Thao tác</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -68,14 +96,22 @@ const ListTeacherQuizzesComponent = () => {
                                 <td>{(currentPage - 1) * pageSize + index + 1}</td>
                                 <td>{quiz.quizzesTitle}</td>
                                 <td>{quiz.quizzesDescription}</td>
-                                <td>{quiz.usersName}</td>
                                 <td>{formattedDate}</td>
+                                <td>{quiz.quizTime}</td>
+                                <td>{quiz.quantity}</td>
+                                <td>{quiz.passingScore}</td>
+                                <td>{quiz.difficulty}</td>
+                                <td>
+                                    <button onClick={() => handleUpdateQuiz(quiz)} className="btn btn-primary btn-sm">
+                                        Cập nhật
+                                    </button>
+                                </td>
                             </tr>
                         );
                     })
                 ) : (
                     <tr>
-                        <td colSpan="5">Không có dữ liệu</td>
+                        <td colSpan="8">Không có dữ liệu</td>
                     </tr>
                 )}
                 </tbody>
@@ -85,6 +121,13 @@ const ListTeacherQuizzesComponent = () => {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
+            {selectedQuiz && (
+                <QuizUpdateForm
+                    quiz={selectedQuiz}
+                    onClose={handleCloseUpdateForm}
+                    onUpdate={handleQuizUpdated}
+                />
+            )}
         </div>
     );
 };

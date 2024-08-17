@@ -40,11 +40,13 @@ export const getQuestionsByQuizId = createAsyncThunk('questions/getByQuizId', as
     return response.data;
 });
 
-export const DeleteQuestion = createAsyncThunk('questions/delete', async (id, {rejectWithValue}) => {
-    try {
-        await instance.delete(`/question/${id}`);
-        return id
-    } catch (err) {
-        return rejectWithValue(err.response.data);
-    }
-})
+export const DeleteQuestion = createAsyncThunk(
+    'questions/delete',
+    async (id, {rejectWithValue}) => {
+        try {
+            await instance.delete(`/question/${id}`);
+            return id
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    })
