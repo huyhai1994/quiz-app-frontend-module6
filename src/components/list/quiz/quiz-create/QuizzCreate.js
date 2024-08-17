@@ -14,6 +14,7 @@ import {
     MenuItem,
     Modal,
     Select,
+    Slider,
     TextField,
     Tooltip,
     Typography
@@ -159,6 +160,19 @@ const QuizCreate = () => {
 
     const filteredQuestions = questions.filter(question => question.categoryName === selectedCategory);
 
+    const marks = [
+        {value: 5, label: '5 '},
+        {value: 10, label: '10'},
+        {value: 15, label: '15'},
+        {value: 20, label: '20 '},
+        {value: 30, label: '30 '},
+        {value: 60, label: '60 '},
+    ];
+
+    const valuetext = (value) => {
+        return `${value} phút`;
+    };
+
     return (<Box className="quiz-create-container">
         <Box className="quiz-create-form p-3">
             <form onSubmit={formik.handleSubmit}>
@@ -185,22 +199,23 @@ const QuizCreate = () => {
                     helperText={formik.touched.description && formik.errors.description}
                 />
                 <FormControl fullWidth margin="normal">
-                    <InputLabel id="quizTime-label">Thời gian làm bài</InputLabel>
-                    <Select
-                        labelId="quizTime-label"
+                    <InputLabel id="quizTime-label">Thời gian làm bài (phút)</InputLabel>
+                    <Slider
+                        aria-label="Custom marks"
+                        defaultValue={5}
+                        getAriaValueText={valuetext}
+                        step={null}
+                        color='var(--color-primary)'
+                        className='mt-5'
+                        min={5}
+                        max={60}
+                        marks={marks}
                         id="quizTime"
                         name="quizTime"
                         value={formik.values.quizTime}
-                        onChange={formik.handleChange}
+                        onChange={(event, value) => formik.setFieldValue('quizTime', value)}
                         error={formik.touched.quizTime && Boolean(formik.errors.quizTime)}
-                        variant='standard'>
-                        <MenuItem value={5}>5 phút</MenuItem>
-                        <MenuItem value={10}>10 phút</MenuItem>
-                        <MenuItem value={15}>15 phút</MenuItem>
-                        <MenuItem value={20}>20 phút</MenuItem>
-                        <MenuItem value={30}>30 phút</MenuItem>
-                        <MenuItem value={60}>60 phút</MenuItem>
-                    </Select>
+                    />
                 </FormControl>
                 <FormControl fullWidth margin="normal">
                     <InputLabel id="quizCategory-label">Danh mục bài thi</InputLabel>
@@ -301,6 +316,7 @@ const QuizCreate = () => {
                             variant='h6'
                             value={selectedQuestions}
                             onChange={setSelectedQuestions}
+                            color='var(--color-primary)'
                             labelledBy="Chọn câu hỏi"
                         />
                     </React.Fragment>))}
