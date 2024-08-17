@@ -138,6 +138,7 @@ const QuizCreate = () => {
 
     const handleQuestionClick = (question) => {
         if (selectedQuestions.includes(question)) {
+            console.log('Question already selected');
             setSelectedQuestions(selectedQuestions.filter(q => q !== question));
         } else if (selectedQuestions.length < quantity) {
             setSelectedQuestions([...selectedQuestions, question]);
@@ -179,9 +180,7 @@ const QuizCreate = () => {
     const handleCloseModal = () => {
         setOpenModal(false);
     };
-
-    const filteredQuestions = questions.filter(question => question.categoryName === selectedCategory);
-
+    questions.filter(question => question.categoryName === selectedCategory);
     const marks = [
         {value: 5, label: '5 '},
         {value: 10, label: '10'},
@@ -349,10 +348,19 @@ const QuizCreate = () => {
                             options={questions.filter(question => question.categoryName === category.name).map(question => ({
                                 label: question.questionText, value: question.questionId
                             }))}
-                            variant='h6'
                             value={selectedQuestions}
-                            onChange={setSelectedQuestions}
-                            color='var(--color-primary)'
+                            onChange={(selected) => {
+                                if (selected.length > quantity) {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Số câu hỏi vượt quá giới hạn.',
+                                        text: ` Bạn chỉ có thể lựa chọn ${quantity} câu hỏi `,
+                                        position: 'top'
+                                    });
+                                } else {
+                                    setSelectedQuestions(selected);
+                                }
+                            }}
                             labelledBy="Chọn câu hỏi"
                         />
                     </React.Fragment>))}
