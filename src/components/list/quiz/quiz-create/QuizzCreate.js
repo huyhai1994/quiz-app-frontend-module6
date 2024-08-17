@@ -6,6 +6,7 @@ import {
     Box,
     Button,
     FormControl,
+    IconButton,
     InputLabel,
     List,
     ListItem,
@@ -14,9 +15,11 @@ import {
     Modal,
     Select,
     TextField,
+    Tooltip,
     Typography
 } from '@mui/material';
 import Swal from 'sweetalert2';
+import DeleteIcon from '@mui/icons-material/Delete';
 import './QuizzCreate.css';
 import {MultiSelect} from 'react-multi-select-component';
 import {API_CATEGORIES_URL, API_QUESTION_URL, API_QUIZ_URL} from '../../../../configs/backend.configs';
@@ -257,8 +260,13 @@ const QuizCreate = () => {
                     <Typography variant="h6">Câu hỏi đã chọn:</Typography>
                     <List>
                         {selectedQuestions.map((question) => (
-                            <ListItem key={question.value} button onClick={() => handleQuestionClick(question)}>
+                            <ListItem key={question.value} onClick={() => handleQuestionClick(question)}>
                                 <ListItemText primary={question.label}/>
+                                <Tooltip title="Remove question">
+                                    <IconButton>
+                                        <DeleteIcon/>
+                                    </IconButton>
+                                </Tooltip>
                             </ListItem>
                         ))}
                     </List>
