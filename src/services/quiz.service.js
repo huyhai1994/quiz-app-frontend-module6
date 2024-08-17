@@ -12,7 +12,9 @@ class QuizService {
             quizTime: data.quizTime,
             quantity: data.quantity,
             passingScore: data.passingScore,
+            difficulty: data.difficulty,
             questionIds: data.questionIds,
+            quizCategoryId: data.quizCategoryId,
             timeCreated: data.timeCreated
         };
         return await axiosInstance.post(API_QUIZ_URL, payload, {

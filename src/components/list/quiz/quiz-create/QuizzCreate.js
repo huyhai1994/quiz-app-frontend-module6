@@ -35,6 +35,7 @@ const QuizCreate = () => {
     const [selectedQuestions, setSelectedQuestions] = useState([]);
     const [quantity, setQuantity] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedDifficulty, setSelectedDifficulty] = useState('');
     const [openModal, setOpenModal] = useState(false);
     const [existingQuizTitles, setExistingQuizTitles] = useState([]);
     const navigate = useNavigate();
@@ -84,7 +85,14 @@ const QuizCreate = () => {
 
     const formik = useFormik({
         initialValues: {
-            title: '', description: '', quizTime: '', quantity: '', passingScore: '', questionIds: [],
+            title: '',
+            description: '',
+            quizTime: '',
+            quantity: '',
+            passingScore: '',
+            difficulty: '',
+            quizCategoryId: '',
+            questionIds: [],
         }, validationSchema: Yup.object({
             title: Yup.string()
                 .required('Required')
@@ -93,9 +101,17 @@ const QuizCreate = () => {
             quizTime: Yup.number().required('Cần nhập thời gian thi'),
             quantity: Yup.number().required('Cần nhập số lượng câu hỏi'),
             passingScore: Yup.number().required('cần nhập điểm đạt '),
+            difficulty: Yup.string().required('Cần chọn độ khó'),
+            quizCategoryId: Yup.string().required('Cần chọn danh mục bài thi'),
         }), onSubmit: (values) => {
             values.questionIds = selectedQuestions.slice(0, values.quantity).map((q) => q.value);
             values.timeCreated = getCurrentTimestamp();
+            values.difficulty = values.difficulty.toUpperCase(); // Ensure difficulty is in uppercase
+            const selectedCategoryObject = quizCategories.find(category => category.name === selectedCategory);
+            values.quizCategoryId = selectedCategoryObject ? {
+                id: selectedCategoryObject.id,
+                name: selectedCategoryObject.name
+            } : null;
             localStorage.getItem('userId');
             QuizService.addQuiz(values)
                 .then(() => {
@@ -137,6 +153,7 @@ const QuizCreate = () => {
 
     const handleCategoryChange = (event) => {
         setSelectedCategory(event.target.value);
+        formik.setFieldValue('quizCategoryId', event.target.value);
     };
 
     const handleQuantityChange = (event) => {
@@ -148,6 +165,11 @@ const QuizCreate = () => {
         if (value === '' || value === '0') {
             setSelectedQuestions([]);
         }
+    };
+
+    const handleDifficultyChange = (event) => {
+        setSelectedDifficulty(event.target.value);
+        formik.handleChange(event);
     };
 
     const handleOpenModal = () => {
@@ -231,6 +253,20 @@ const QuizCreate = () => {
                         </MenuItem>))}
                     </Select>
                 </FormControl>
+                <FormControl fullWidth margin="normal">
+                    <InputLabel id="difficulty-label">Độ khó</InputLabel>
+                    <Select
+                        labelId="difficulty-label"
+                        id="difficulty"
+                        name="difficulty"
+                        value={selectedDifficulty}
+                        onChange={handleDifficultyChange}
+                        variant='standard'>
+                        <MenuItem value="EASY">Dễ</MenuItem>
+                        <MenuItem value="MEDIUM">Trung bình</MenuItem>
+                        <MenuItem value="HARD">Khó</MenuItem>
+                    </Select>
+                </FormControl>
                 <TextField
                     label="Số lượng câu hỏi"
                     fullWidth
@@ -244,7 +280,7 @@ const QuizCreate = () => {
                     helperText={formik.touched.quantity && formik.errors.quantity}
                 />
                 {quantity && selectedCategory && (
-                    <Button variant="outlined" fullWidth onClick={handleOpenModal} sx={{mt: 2}}>
+                    <Button bgColor='var(--color-primary)' fullWidth onClick={handleOpenModal} sx={{mt: 2}}>
                         Chọn câu hỏi
                     </Button>)}
                 <TextField
@@ -273,7 +309,7 @@ const QuizCreate = () => {
                     onClick={() => handleQuestionClick(question)}
                     sx={{
                         '&:hover': {
-                            backgroundColor: 'var(--color-secondary)', // Change this to your desired hover color
+                            backgroundColor: 'var(--color-secondary)',
                         },
                     }}
                 >
