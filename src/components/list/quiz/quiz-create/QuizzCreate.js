@@ -23,6 +23,7 @@ import QuizService from "../../../../services/quiz.service";
 import {useNavigate} from "react-router-dom";
 
 const QuizCreate = () => {
+    const [quizCategories, setQuizCategories] = useState([]);
     const [categories, setCategories] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [selectedQuestions, setSelectedQuestions] = useState([]);
@@ -33,6 +34,15 @@ const QuizCreate = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const fetchQuizCategories = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/quiz-categories');
+                setQuizCategories(response.data);
+            } catch (error) {
+                console.error('Error fetching quiz categories:', error);
+            }
+        };
+
         const fetchCategories = async () => {
             try {
                 const response = await axios.get(API_CATEGORIES_URL);
@@ -60,6 +70,7 @@ const QuizCreate = () => {
             }
         };
 
+        fetchQuizCategories();
         fetchCategories();
         fetchQuestions();
         fetchQuizTitles();
@@ -190,15 +201,15 @@ const QuizCreate = () => {
                         </Select>
                     </FormControl>
                     <FormControl fullWidth margin="normal">
-                        <InputLabel id="category-label">Danh mục</InputLabel>
+                        <InputLabel id="quizCategory-label">Danh mục bài thi</InputLabel>
                         <Select
-                            labelId="category-label"
-                            id="category"
-                            name="category"
+                            labelId="quizCategory-label"
+                            id="quizCategory"
+                            name="quizCategory"
                             value={selectedCategory}
                             onChange={handleCategoryChange}
                             variant='standard'>
-                            {categories.map((category) => (
+                            {quizCategories.map((category) => (
                                 <MenuItem key={category.id} value={category.name}>
                                     {category.name}
                                 </MenuItem>
@@ -273,10 +284,16 @@ const QuizCreate = () => {
                         Chọn câu hỏi
                     </Typography>
                     <List>
-                        {filteredQuestions.map((question) => (
-                            <ListItem key={question.questionId} button onClick={() => handleQuestionClick(question)}>
-                                <ListItemText primary={question.questionText}/>
-                            </ListItem>
+                        {categories.map((category) => (
+                            <React.Fragment key={category.id}>
+                                <Typography variant="subtitle1">{category.name}</Typography>
+                                {questions.filter(question => question.categoryName === category.name).map((question) => (
+                                    <ListItem key={question.questionId} button
+                                              onClick={() => handleQuestionClick(question)}>
+                                        <ListItemText primary={question.questionText}/>
+                                    </ListItem>
+                                ))}
+                            </React.Fragment>
                         ))}
                     </List>
                 </Box>

@@ -31,14 +31,15 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import QuizCreate from "./components/list/quiz/quiz-create/QuizzCreate";
 import QuizTeacherList from "./components/ListTeacher/QuizTeacher/QuizTeacherList";
 import ListTeacherQuestions from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
+import QuestionTeacherList from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
 import QuizHistoryList from "./components/ListStudent/StudentResultList/QuizHistoryList";
 import QuizListStudent from "./components/ListStudent/examStudent/QuizListStudent";
 import QuestionListStudent from "./components/ListStudent/examStudent/QuestionListStudent";
 import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
 import QuizHistoryDetail from "./components/ListStudent/StudentResultList/QuizHistoryDetail";
 import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
-import QuestionTeacherList from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
 import QuizTeacherHistory from "./components/ListTeacher/HistoryTeacherQuiz/QuizTeacherHistory";
+import UserProfileLayout from "./components/layout/UserProfileLayout";
 
 
 function App() {
@@ -46,12 +47,12 @@ function App() {
         <ConfigProvider theme={{
             algorithm: [theme.defaultAlgorithm], cssVar: true, token: {
                 // Seed Token
-                // colorPrimary: '#00b96b',
-                // borderRadius: 2,
+                colorPrimary: '#00b96b',
+                borderRadius: 5,
                 // Alias Token
-                // colorBgContainer: '#f6ffed',
-                // colorPrimaryBg: '#e6f7ff',
-                // colorLink: '#1890ff',
+                colorBgContainer: 'var(--color-bg)',
+                colorPrimaryBg: 'var(--color-bg)',
+                //colorLink: '#1890ff',
                 // headerBg: '#5a2c82',
             }, components: {
                 Layout: {
