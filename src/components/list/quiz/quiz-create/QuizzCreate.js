@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import Swal from 'sweetalert2';
 import './QuizzCreate.css';
+import {MultiSelect} from 'react-multi-select-component';
 import {API_CATEGORIES_URL, API_QUESTION_URL, API_QUIZ_URL} from '../../../../configs/backend.configs';
 import QuizService from "../../../../services/quiz.service";
 import {useNavigate} from "react-router-dom";
@@ -88,7 +89,7 @@ const QuizCreate = () => {
             quantity: Yup.number().required('Cần nhập số lượng câu hỏi'),
             passingScore: Yup.number().required('cần nhập điểm đạt '),
         }), onSubmit: (values) => {
-            values.questionIds = selectedQuestions.slice(0, values.quantity).map((q) => q.questionId);
+            values.questionIds = selectedQuestions.slice(0, values.quantity).map((q) => q.value);
             values.timeCreated = getCurrentTimestamp();
             localStorage.getItem('userId');
             QuizService.addQuiz(values)
@@ -256,8 +257,8 @@ const QuizCreate = () => {
                     <Typography variant="h6">Câu hỏi đã chọn:</Typography>
                     <List>
                         {selectedQuestions.map((question) => (
-                            <ListItem key={question.questionId} button onClick={() => handleQuestionClick(question)}>
-                                <ListItemText primary={question.questionText}/>
+                            <ListItem key={question.value} button onClick={() => handleQuestionClick(question)}>
+                                <ListItemText primary={question.label}/>
                             </ListItem>
                         ))}
                     </List>
@@ -286,13 +287,17 @@ const QuizCreate = () => {
                     <List>
                         {categories.map((category) => (
                             <React.Fragment key={category.id}>
-                                <Typography variant="subtitle1">{category.name}</Typography>
-                                {questions.filter(question => question.categoryName === category.name).map((question) => (
-                                    <ListItem key={question.questionId} button
-                                              onClick={() => handleQuestionClick(question)}>
-                                        <ListItemText primary={question.questionText}/>
-                                    </ListItem>
-                                ))}
+                                <Typography variant="h5">{category.name}</Typography>
+                                <MultiSelect
+                                    options={questions.filter(question => question.categoryName === category.name).map(question => ({
+                                        label: question.questionText,
+                                        value: question.questionId
+                                    }))}
+                                    variant='h6'
+                                    value={selectedQuestions}
+                                    onChange={setSelectedQuestions}
+                                    labelledBy="Chọn câu hỏi"
+                                />
                             </React.Fragment>
                         ))}
                     </List>
