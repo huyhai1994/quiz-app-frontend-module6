@@ -19,8 +19,8 @@ import {
     Tooltip,
     Typography
 } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
 import Swal from 'sweetalert2';
-import DeleteIcon from '@mui/icons-material/Delete';
 import {MultiSelect} from 'react-multi-select-component';
 import {API_CATEGORIES_URL, API_QUESTION_URL, API_QUIZ_URL} from '../../../../configs/backend.configs';
 import QuizService from "../../../../services/quiz.service";
@@ -326,22 +326,28 @@ const QuizCreate = () => {
             </Box>
             {selectedQuestions.length > 0 && (
                 <Box className="selected-questions-container shadow">
-                    <Typography variant="h6" className='text-center mt-3'>Câu hỏi đã chọn</Typography>
+                    <Typography
+                        variant="h6" className='text-center mt-3'
+                        sx={{fontWeight: 'bold', color: 'var(--color-primary)'}}
+                    >Câu hỏi đã chọn</Typography>
                     <List>
                         {selectedQuestions.map((question) => (
                             <ListItem
                                 key={question.value}
                                 onClick={() => handleQuestionClick(question)}
+                                className='shadow my-2'
                                 sx={{
+                                    transition: 'transform 0.2s ease-in-out', // Smooth transition for the scale effect
                                     '&:hover': {
                                         backgroundColor: 'var(--color-secondary)',
+                                        transform: 'scale(1.05)', // Slightly increase the size on hover
                                     },
                                 }}
                             >
                                 <ListItemText primary={question.label}/>
-                                <Tooltip title="Remove question">
+                                <Tooltip title="Ấn để xóa !" enterDelay={300} leaveDelay={200}>
                                     <IconButton>
-                                        <DeleteIcon/>
+                                        <ClearIcon/>
                                     </IconButton>
                                 </Tooltip>
                             </ListItem>
@@ -378,7 +384,9 @@ const QuizCreate = () => {
                                         label: question.questionText,
                                         value: question.questionId
                                     }))}
-                                    value={selectedQuestions.filter(sq => questions.find(q => q.questionId === sq.value && q.categoryName.trim() === category.name.trim()))}
+                                    value={selectedQuestions.filter(sq => questions.find(
+                                        q => q.questionId === sq.value
+                                            && q.categoryName.trim() === category.name.trim()))}
                                     onChange={(selected) => {
                                         // This will now only update questions related to the currently adjusted category.
                                         const filteredOutQuestions = selectedQuestions.filter(sq => !questions.find(q => q.questionId === sq.value && q.categoryName.trim() === category.name.trim()));
