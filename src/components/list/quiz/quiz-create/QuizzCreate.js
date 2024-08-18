@@ -19,6 +19,7 @@ import {
     Tooltip,
     Typography
 } from '@mui/material';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import ClearIcon from '@mui/icons-material/Clear';
 import Swal from 'sweetalert2';
 import {MultiSelect} from 'react-multi-select-component';
@@ -117,8 +118,8 @@ const QuizCreate = () => {
                 .then(() => {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Quiz created successfully',
-                        text: 'Your quiz has been created',
+                        title: 'Bài thi tạo thành công!',
+                        text: 'Đã thêm bài thi vào hệ thống',
                     }).then(() => {
                         navigate('/teacher/teacher-quizzes');
                     });
@@ -180,27 +181,6 @@ const QuizCreate = () => {
     const handleCloseModal = () => {
         setOpenModal(false);
     };
-
-    const handleSelectAllInCategory = (categoryName) => {
-        const categoryQuestions = questions.filter(q => q.categoryName === categoryName);
-
-        // Map to the format expected by the MultiSelect component
-        const newSelectedQuestions = categoryQuestions.map(q => ({
-            label: q.questionText,
-            value: q.id
-        }));
-
-        // Merge with the currently selected questions, avoiding duplicates
-        const updatedSelectedQuestions = [...selectedQuestions];
-        newSelectedQuestions.forEach(newQ => {
-            if (!updatedSelectedQuestions.some(q => q.value === newQ.value)) {
-                updatedSelectedQuestions.push(newQ);
-            }
-        });
-
-        setSelectedQuestions(updatedSelectedQuestions);
-    };
-
     const marks = [
         {value: 5, label: '5 '},
         {value: 10, label: '10'},
@@ -241,7 +221,7 @@ const QuizCreate = () => {
                         helperText={formik.touched.description && formik.errors.description}
                     />
                     <FormControl fullWidth margin="normal">
-                        <InputLabel id="quizTime-label">Thời gian làm bài (phút)</InputLabel>
+                        <InputLabel id="quizTime-label"><AccessAlarmIcon/> Thời gian làm bài (phút)</InputLabel>
                         <Slider
                             aria-label="Custom marks"
                             defaultValue={5}
@@ -398,7 +378,6 @@ const QuizCreate = () => {
                                         q => q.questionId === sq.value
                                             && q.categoryName.trim() === category.name.trim()))}
                                     onChange={(selected) => {
-                                        // This will now only update questions related to the currently adjusted category.
                                         const filteredOutQuestions = selectedQuestions.filter(sq => !questions.find(q => q.questionId === sq.value && q.categoryName.trim() === category.name.trim()));
                                         setSelectedQuestions([...filteredOutQuestions, ...selected]);
                                     }}

@@ -73,7 +73,6 @@ function App() {
         }}>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path="/teacher-quizzes" element={<QuizTeacherList/>}/>
                 <Route path="/result/history" element={<QuizHistoryList/>}/>
                 <Route path="/quiz-history/:id" element={<QuizHistoryDetail/>}/>
                 <Route path="/teacher-question" element={<ListTeacherQuestions/>}/>
@@ -119,6 +118,7 @@ function App() {
                     <Route path="quiz/history" element={<QuizTeacherHistory/>}/>
                     <Route path="option/create" element={<OptionCreate/>}/>
                     <Route path="quiz/create" element={<QuizCreate/>}/>
+                    <Route path="teacher-quizzes" element={<QuizTeacherList/>}/>
                 </Route>
                 <Route path="/student/*" element={
                     <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
