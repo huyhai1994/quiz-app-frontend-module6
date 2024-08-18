@@ -121,12 +121,14 @@ const QuestionCreate = () => {
         <Box className="container" sx={{
             mx: 5,
             mt: 4,
-            border: '1px solid #ccc',
-            borderRadius: 4,
             padding: 3,
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
         }}>
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={formik.handleSubmit}
+                  className='shadow p-3 rounded-md'>
+                <Typography className=' text-center' variant='h4' sx={{
+                    color: "var(--color-primary)",
+                    fontWeight: 'bold',
+                }}>Tạo mới câu hỏi </Typography>
                 <TextField
                     label="Tiêu đề"
                     fullWidth
@@ -166,7 +168,7 @@ const QuestionCreate = () => {
                         onChange={formik.handleChange}
                         error={formik.touched.difficulty && Boolean(formik.errors.difficulty)}
                         variant='standard'>
-                        <MenuItem value="EASY">Dễ</MenuItem>
+                        <MenuItem value="EASY" sx={{bgColor: 'red'}}>Dễ</MenuItem>
                         <MenuItem value="MEDIUM">Trung bình</MenuItem>
                         <MenuItem value="HARD">Khó</MenuItem>
                     </Select>
