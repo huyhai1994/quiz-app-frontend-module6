@@ -260,6 +260,20 @@ const QuizCreate = () => {
                         />
                     </FormControl>
                     <FormControl fullWidth margin="normal">
+                        <InputLabel id="difficulty-label">Độ khó</InputLabel>
+                        <Select
+                            labelId="difficulty-label"
+                            id="difficulty"
+                            name="difficulty"
+                            value={selectedDifficulty}
+                            onChange={handleDifficultyChange}
+                            variant='standard'>
+                            <MenuItem value="EASY">Dễ</MenuItem>
+                            <MenuItem value="MEDIUM">Trung bình</MenuItem>
+                            <MenuItem value="HARD">Khó</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <FormControl fullWidth margin="normal">
                         <InputLabel id="quizCategory-label">Danh mục bài thi</InputLabel>
                         <Select
                             labelId="quizCategory-label"
@@ -275,20 +289,6 @@ const QuizCreate = () => {
                             ))}
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel id="difficulty-label">Độ khó</InputLabel>
-                        <Select
-                            labelId="difficulty-label"
-                            id="difficulty"
-                            name="difficulty"
-                            value={selectedDifficulty}
-                            onChange={handleDifficultyChange}
-                            variant='standard'>
-                            <MenuItem value="EASY">Dễ</MenuItem>
-                            <MenuItem value="MEDIUM">Trung bình</MenuItem>
-                            <MenuItem value="HARD">Khó</MenuItem>
-                        </Select>
-                    </FormControl>
                     <TextField
                         label="Số lượng câu hỏi"
                         fullWidth
@@ -302,7 +302,7 @@ const QuizCreate = () => {
                         helperText={formik.touched.quantity && formik.errors.quantity}
                     />
                     {quantity && selectedCategory && (
-                        <Button bgColor='var(--color-primary)' fullWidth onClick={handleOpenModal} sx={{mt: 2}}>
+                        <Button fullWidth onClick={handleOpenModal} sx={{mt: 2}}>
                             Chọn câu hỏi
                         </Button>
                     )}
@@ -368,18 +368,27 @@ const QuizCreate = () => {
                     transform: 'translate(-50%, -50%)',
                     width: '50%',
                     maxWidth: '90%',
+                    maxHeight: '80vh',
+                    overflowY: 'auto',
                     bgcolor: 'background.paper',
                     border: '2px solid #000',
                     boxShadow: 24,
                     p: 4,
                 }}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    <Typography id="modal-modal-title"
+                                variant="h4"
+                                sx={{
+                                    color: 'var(--color-primary)',
+                                    fontWeight: 'bold'
+                                }}
+                                className='text-center'
+                    >
                         Chọn câu hỏi
                     </Typography>
-                    <List>
+                    <List className='my-4'>
                         {quizCategories.map((category) => (
                             <React.Fragment key={category.id}>
-                                <Typography variant="h5">{category.name}</Typography>
+                                <Typography variant="h5" className='my-2'>{category.name}</Typography>
                                 <MultiSelect
                                     options={questions.filter(question => question.categoryName.trim() === category.name.trim()).map(question => ({
                                         label: question.questionText,
@@ -399,7 +408,7 @@ const QuizCreate = () => {
                         ))}
                     </List>
                 </Box>
-            </Modal>
+            </Modal>>
 
         </Box>
     );
