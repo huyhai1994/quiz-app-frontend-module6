@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Link, Outlet, useNavigate} from 'react-router-dom';
 import {Layout, Menu, Modal, theme} from 'antd';
 import ViewListIcon from '@mui/icons-material/ViewList';
+import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Import the logout icon
 import '../../../styles/vars.css';
@@ -15,7 +16,7 @@ function getItem(label, key, icon, children, link) {
 }
 
 const items = [
-    getItem('Trang chủ', '1', null, null, '/student/home'),
+    getItem('Trang chủ', '1', <HomeIcon/>, null, '/student/home'),
     getItem('Danh Sách', 'sub1',
         <ViewListIcon/>, [
             getItem('Bài kiểm tra', '2', null, null, '/student/quizzes'),]), getItem('Cài đặt', 'sub2',
