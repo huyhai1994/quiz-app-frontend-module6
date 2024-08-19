@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { TailSpin } from "react-loader-spinner";
-import { ListTeacherQuizzes } from "../../../store/quizStore/QuizAxios";
-import { format } from "date-fns";
+import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {TailSpin} from "react-loader-spinner";
+import {ListTeacherQuizzes} from "../../../store/quizStore/QuizAxios";
+import {format} from "date-fns";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Page from "../../pages/Page";
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { quizzes, loading, error } = useSelector((state) => state.quizzes);
+    const {quizzes, loading, error} = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
-    const userId = 2;
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         dispatch(ListTeacherQuizzes(userId));
@@ -43,8 +43,8 @@ const ListTeacherQuizzesComponent = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <TailSpin color="#00BFFF" height={80} width={80} />
+            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+                <TailSpin color="#00BFFF" height={80} width={80}/>
             </div>
         );
     }
@@ -59,7 +59,7 @@ const ListTeacherQuizzesComponent = () => {
                     <th>Tiêu đề</th>
                     <th>Mô tả</th>
                     <th>Thời gian tạo</th>
-                    <th>Thời gian</th>
+                    <th>Thời gian làm bài(phút)</th>
                     <th>Số lượng</th>
                     <th>Điểm đạt</th>
                     <th>Độ khó</th>
