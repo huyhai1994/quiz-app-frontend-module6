@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 import {CreateOption, fetchOptionsByQuestionId} from "./OptionAxios";
 
 const initialState = {

@@ -30,8 +30,8 @@ const TopQuizzes = () => {
 
     if (loading) {
         return (<div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
-                <TailSpin color="#00BFFF" height={80} width={80}/>
-            </div>);
+            <TailSpin color="#00BFFF" height={80} width={80}/>
+        </div>);
     }
 
     const getIcon = (index) => {
@@ -65,37 +65,37 @@ const TopQuizzes = () => {
         navigate(`/student/quizzes/${quizId}/start?resultId=${resultIdFromQuery}`);
     };
     return (<Box display="flex" justifyContent="center" minHeight="100vh">
-            <div className="container mt-5">
-                <Typography variant="h4" gutterBottom>Bài Thi Phổ Biến Nhất</Typography>
-                {topQuizzes.length > 0 ? (<Box>
-                        <Carousel responsive={responsive}>
-                            {topQuizzes.map((quiz, index) => (<div key={quiz.id}>
-                                    <Card className='mx-3' onClick={() => handleCardClick(quiz.id)}
-                                          style={{cursor: 'pointer'}}>
-                                        <Box display="flex" justifyContent="center" alignItems="center" p={2}>
-                                            {getIcon(index)}
-                                        </Box>
-                                        <CardContent>
-                                            <Box className='d-flex justify-content-between align-items-center'>
-                                                <Typography variant="h5" component="div">
-                                                    {quiz.title}
-                                                </Typography>
-                                                <Box display="flex" alignItems="center">
-                                                    <AttemptIcon style={{marginRight: 4}}/>
-                                                    <Typography variant="h6" color="text.secondary">
-                                                        Số lượt thi: {quiz.resultCount}
-                                                    </Typography>
-                                                </Box>
-                                            </Box>
-                                        </CardContent>
-                                    </Card>
-                                </div>))}
-                        </Carousel>
-                    </Box>) : (<Typography variant="body1" color="text.secondary" align="center">
-                        Không có dữ liệu
-                    </Typography>)}
-            </div>
-        </Box>);
+        <div className="container mt-5">
+            <Typography variant="h4" gutterBottom>Bài Thi Phổ Biến Nhất</Typography>
+            {topQuizzes.length > 0 ? (<Box>
+                <Carousel responsive={responsive}>
+                    {topQuizzes.map((quiz, index) => (<div key={quiz.id}>
+                        <Card className='mx-3' onClick={() => handleCardClick(quiz.id)}
+                              style={{cursor: 'pointer'}}>
+                            <Box display="flex" justifyContent="center" alignItems="center" p={2}>
+                                {getIcon(index)}
+                            </Box>
+                            <CardContent>
+                                <Box className='d-flex justify-content-between align-items-center'>
+                                    <Typography variant="h5" component="div">
+                                        {quiz.title}
+                                    </Typography>
+                                    <Box display="flex" alignItems="center">
+                                        <AttemptIcon style={{marginRight: 4}}/>
+                                        <Typography variant="h6" color="text.secondary">
+                                            Số lượt thi: {quiz.resultCount}
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            </CardContent>
+                        </Card>
+                    </div>))}
+                </Carousel>
+            </Box>) : (<Typography variant="body1" color="text.secondary" align="center">
+                Không có dữ liệu
+            </Typography>)}
+        </div>
+    </Box>);
 };
 
 export default TopQuizzes;

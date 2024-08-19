@@ -7,9 +7,19 @@ import {Alert, Button, Spin} from 'antd';
 import {Card, Container} from 'react-bootstrap';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
+import './quizlist.css';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
 
 const placeholderImage = 'https://www.shutterstock.com/shutterstock/photos/2052894734/display_1500/stock-vector-quiz-and-question-marks-trivia-night-quiz-symbol-neon-sign-night-online-game-with-questions-2052894734.jpg';
-
+const CustomLeftArrow = ({ onClick }) => (
+   <ChevronLeft color="secondary" onClick={() => onClick()} className="custom-left-arrow" />
+);
+const CustomRightArrow = ({ onClick }) => {
+    return <ChevronRightIcon color="secondary" onClick={() => onClick()} className="custom-right-arrow" />
+};
 const QuizListStudent = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -69,7 +79,7 @@ const QuizListStudent = () => {
     return (
         <Container>
             <h1>Danh sách các bài thi</h1>
-            <Carousel responsive={responsive}>
+            <Carousel arrows={true} customLeftArrow={<CustomLeftArrow />} customRightArrow={<CustomRightArrow />} responsive={responsive}>
                 {quizzes.map((quiz) => (
                     <div key={quiz.id}>
                         <Card className='mx-3' onClick={() => handleStartQuiz(quiz.id)} style={{cursor: 'pointer'}}>

@@ -1,11 +1,86 @@
 @import '../../../../styles/vars.css';
 
+.container {
+    padding: 20px;
+    background-color: var(--color-bg);
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.option-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    height: 220px; /* Keeping it square */
+    color: #fff !important; /* Text color inside the boxes */
+    position: relative;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out;
+}
+
+.option-container:hover {
+    transform: translateY(-5px);
+}
+
+.option-input {
+    width: 100%;
+    background-color: transparent !important;
+    border: none;
+    color: inherit;
+    font-size: 18px;
+    text-align: center;
+    outline: none;
+    margin-bottom: 10px;
+    height: auto;
+}
+
+.switch-label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.col-12.col-sm-6.col-md-3 {
+    flex: 1;
+    margin: 5px;
+}
+
 .question-submit-button {
     background-color: var(--color-primary) !important;
-    color: var(--color-bg);
-    border: none;
-    padding: 10px 20px;
+    color: #fff !important;
+    padding: 10px;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.question-submit-button:hover {
+    background-color: var(--color-secondary) !important; /* Darken on hover */
+    color: var(--color-dark) !important;
+}
+
+
+.row > div.col-md-3 .option-container {
+    background-color: var(--color-secondary); /* Màu nền cho loại 3 */
+}
+
+.row {
+    color: white;
+}
+
+.MuiOutlinedInput-root {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
