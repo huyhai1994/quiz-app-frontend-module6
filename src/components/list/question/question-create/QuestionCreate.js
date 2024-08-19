@@ -61,7 +61,13 @@ const QuestionCreate = () => {
 
     const formik = useFormik({
         initialValues: {
-            title: '', questionType: '', difficulty: '', category: '', createdBy: teacherName, options: []
+            title: '',
+            questionType: '',
+            difficulty: '',
+            category: '',
+            createdBy:
+            teacherName,
+            options: []
         }, validationSchema: validationSchema, onSubmit: async (values) => {
             try {
                 const response = await QuestionService.addQuestion({...values, options}, userId);

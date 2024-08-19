@@ -29,6 +29,7 @@ import QuestionCreate from "./components/list/question/question-create/QuestionC
 import OptionCreate from "./components/list/option/option-create/OptionCreate";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import QuizCreate from "./components/list/quiz/quiz-create/QuizzCreate";
+import QuestionEdit from "./components/list/question/question-edit/QuestionEdit";
 import QuizTeacherList from "./components/ListTeacher/QuizTeacher/QuizTeacherList";
 import ListTeacherQuestions from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
 import QuestionTeacherList from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
@@ -115,6 +116,7 @@ function App() {
                     <Route path="change-password" element={<ChangePasswordForm/>}/>
                     <Route path="question" element={<QuestionTeacherList/>}/>
                     <Route path="question/create" element={<QuestionCreate/>}/>
+                    <Route path="question/edit/:id" element={<QuestionEdit/>}/>
                     <Route path="quiz/history" element={<QuizTeacherHistory/>}/>
                     <Route path="option/create" element={<OptionCreate/>}/>
                     <Route path="quiz/create" element={<QuizCreate/>}/>

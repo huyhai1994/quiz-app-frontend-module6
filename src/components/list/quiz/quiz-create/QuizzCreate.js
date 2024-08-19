@@ -350,7 +350,6 @@ const QuizCreate = () => {
                     maxWidth: '90%',
                     maxHeight: '80vh',
                     overflowY: 'auto',
-                    bgcolor: 'background.paper',
                     border: '2px solid #000',
                     boxShadow: 24,
                     p: 4,
@@ -379,7 +378,19 @@ const QuizCreate = () => {
                                             && q.categoryName.trim() === category.name.trim()))}
                                     onChange={(selected) => {
                                         const filteredOutQuestions = selectedQuestions.filter(sq => !questions.find(q => q.questionId === sq.value && q.categoryName.trim() === category.name.trim()));
-                                        setSelectedQuestions([...filteredOutQuestions, ...selected]);
+                                        // Calculate the total number of selected questions after this change
+                                        const totalSelected = [...filteredOutQuestions, ...selected].length;
+
+                                        if (totalSelected > quantity) {
+                                            Swal.fire({
+                                                icon: 'warning',
+                                                title: 'Số lượng câu hỏi đã vượt quá giới hạn',
+                                                text: `Bạn chỉ có thể chọn tối đa ${quantity} câu hỏi`,
+                                                position: 'top'
+                                            });
+                                        } else {
+                                            setSelectedQuestions([...filteredOutQuestions, ...selected]);
+                                        }
                                     }}
                                     labelledBy="Select"
                                 />
@@ -387,8 +398,7 @@ const QuizCreate = () => {
                         ))}
                     </List>
                 </Box>
-            </Modal>>
-
+            </Modal>
         </Box>
     );
 };
