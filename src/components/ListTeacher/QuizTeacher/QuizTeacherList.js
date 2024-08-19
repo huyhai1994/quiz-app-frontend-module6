@@ -1,17 +1,19 @@
-import { format } from 'date-fns';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { ListTeacherQuizzes } from '../../../store/quizStore/QuizAxios';
-import Page from '../../pages/Page';
-import Swal from 'sweetalert2';
-import { TailSpin } from 'react-loader-spinner';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { TailSpin } from "react-loader-spinner";
+import { ListTeacherQuizzes } from "../../../store/quizStore/QuizAxios";
+import { format } from "date-fns";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import Page from "../../pages/Page";
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate(); // Để điều hướng
     const { quizzes, loading, error } = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
-    const userId = localStorage.getItem('userId');
+    const userId = 2;
 
     useEffect(() => {
         dispatch(ListTeacherQuizzes(userId));
@@ -23,18 +25,12 @@ const ListTeacherQuizzesComponent = () => {
         }
     }, [error]);
 
-    if (loading) {
-        return (
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <TailSpin color="#00BFFF" height={80} width={80} />
-            </div>
-        );
-    }
-
-    const totalPages = Math.ceil(quizzes.length / pageSize);
-
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
+    };
+
+    const handleViewHistory = (quizId) => {
+        navigate(`/teacher/quizzes/${quizId}/user-history`);
     };
 
     const getCurrentPageData = () => {
@@ -44,6 +40,14 @@ const ListTeacherQuizzesComponent = () => {
     };
 
     const currentData = getCurrentPageData();
+
+    if (loading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <TailSpin color="#00BFFF" height={80} width={80} />
+            </div>
+        );
+    }
 
     return (
         <div>
@@ -59,6 +63,7 @@ const ListTeacherQuizzesComponent = () => {
                     <th>Số lượng</th>
                     <th>Điểm đạt</th>
                     <th>Độ khó</th>
+                    <th>Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -76,19 +81,27 @@ const ListTeacherQuizzesComponent = () => {
                                 <td>{quiz.quantity}</td>
                                 <td>{quiz.passingScore}</td>
                                 <td>{quiz.difficulty}</td>
+                                <td>
+                                    <button
+                                        className="btn btn-info"
+                                        onClick={() => handleViewHistory(quiz.quizzesId)}
+                                    >
+                                        Xem lịch sử
+                                    </button>
+                                </td>
                             </tr>
                         );
                     })
                 ) : (
                     <tr>
-                        <td colSpan="8">Không có dữ liệu</td>
+                        <td colSpan="9">Không có dữ liệu</td>
                     </tr>
                 )}
                 </tbody>
             </table>
             <Page
                 currentPage={currentPage}
-                totalPages={totalPages}
+                totalPages={Math.ceil(quizzes.length / pageSize)}
                 onPageChange={handlePageChange}
             />
         </div>

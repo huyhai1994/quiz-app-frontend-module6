@@ -19,7 +19,6 @@ import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
 import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
 import PasswordReset from "./components/user-service/PasswordReset";
-import AdminEdit from "./pages/admin/admin-edit/AdminEdit";
 import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
 import TeacherMain from "./pages/teacher/teacher-home/main/TeacherMain";
 import UserProfile from "./components/user-service/UserProfile";
@@ -77,7 +76,7 @@ function App() {
             <Route path="/" element={<Home/>}/>
             {/*<Route path="/login" element={<Login/>}/>*/}
             {/*<Route path="/register" element={<Register/>}/>*/}
-            <Route path={"/teacher-quizzes"} element={<QuizTeacherList/>}></Route>
+
             <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
             <Route path="/quiz-history/:id" element={<QuizHistoryDetail />} />
             <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
@@ -128,9 +127,10 @@ function App() {
                 <Route path="change-password" element={<ChangePasswordForm/>}/>
                 <Route path="question" element={<QuestionTeacherList/>}/>
                 <Route path="question/create" element={<QuestionCreate/>}/>
-                <Route path="quiz/history" element={<QuizTeacherHistory/>}/>
                 <Route path="option/create" element={<OptionCreate/>}/>
                 <Route path="quiz/create" element={<QuizCreate/>}/>
+                <Route path="quizzes" element={<QuizTeacherList/>}/>
+                <Route path="quizzes/:id/user-history" element={<QuizTeacherHistory />} />
             </Route>
 
                 <Route path="/student/*" element={
