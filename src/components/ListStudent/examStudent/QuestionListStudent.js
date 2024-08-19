@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
+import {getQuestionsByQuizId} from '../../../store/questionStore/QuestionAxios';
+import {useDispatch, useSelector} from 'react-redux';
 import {
     Box,
     Button,
@@ -14,16 +15,13 @@ import {
     RadioGroup,
     Typography
 } from '@mui/material';
-import Swal from 'sweetalert2';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
-import {getQuestionsByQuizId} from '../../../store/questionStore/QuestionAxios';
 import {endQuizForUser} from '../../../store/resultStore/ResultAxios';
-import Timer from './Timer';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import Swal from 'sweetalert2';
+import Timer from "./Timer";
 import SendIcon from '@mui/icons-material/Send';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import './QuestionListStudent.css';
 
 const QuestionListStudent = () => {
@@ -35,7 +33,7 @@ const QuestionListStudent = () => {
     const [selectedOptions, setSelectedOptions] = useState({});
     const [resultId, setResultId] = useState(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [initialTime, setInitialTime] = useState(null);
+    const [initialTime, setInitialTime] = useState(null); // Initialize as null
 
     const questions = useSelector((state) => state.questions.questions);
     const status = useSelector((state) => state.questions.status);
@@ -53,10 +51,12 @@ const QuestionListStudent = () => {
         }
 
         dispatch(getQuestionsByQuizId(quizId));
+
+        // Fetch initial time left from the API
         axios.get(`http://localhost:8080/quiz/${quizId}/time`)
             .then(response => {
                 const quizTimeInMinutes = response.data.quizTime;
-                setInitialTime(quizTimeInMinutes * 60);
+                setInitialTime(quizTimeInMinutes * 60); // Convert minutes to seconds
             })
             .catch(error => {
                 console.error('Error fetching quiz time:', error);
@@ -69,7 +69,7 @@ const QuestionListStudent = () => {
                 ...prev,
                 [questionId]: {
                     ...prev[questionId],
-                    [optionId]: !prev[questionId]?.[optionId]
+                    [optionId]: !(prev[questionId] && prev[questionId][optionId])
                 }
             }));
         } else {
@@ -82,24 +82,14 @@ const QuestionListStudent = () => {
 
     const handleSubmit = () => {
         if (resultId) {
-            const answers = Object.keys(selectedOptions).flatMap(questionId => {
-                if (typeof selectedOptions[questionId] === 'object') {
-                    return Object.keys(selectedOptions[questionId])
-                        .filter(optionId => selectedOptions[questionId][optionId])
-                        .map(optionId => ({
-                            userId,
-                            questionId: Number(questionId),
-                            optionId: Number(optionId)
-                        }));
-                }
-                return [{
+            dispatch(endQuizForUser({
+                resultId: Number(resultId),
+                userAnswers: Object.keys(selectedOptions).map(questionId => ({
                     userId,
                     questionId: Number(questionId),
                     optionId: selectedOptions[questionId]
-                }];
-            });
-
-            dispatch(endQuizForUser({resultId: Number(resultId), userAnswers: answers}))
+                }))
+            }))
                 .unwrap()
                 .then(() => {
                     Swal.fire({
@@ -139,6 +129,9 @@ const QuestionListStudent = () => {
     }
 
     const currentQuestion = questions[currentQuestionIndex];
+    const handleQuestionSelect = (index) => {
+        setCurrentQuestionIndex(index);
+    };
 
     return (
         <Container>
@@ -152,30 +145,41 @@ const QuestionListStudent = () => {
                         <Card sx={{width: '70%', margin: '0 auto'}}>
                             <CardContent>
                                 <Typography variant="h6">{currentQuestion.questionText}</Typography>
-                                <RadioGroup
-                                    name={`question-${currentQuestion.id}`}
-                                    value={selectedOptions[currentQuestion.id] || ''}
-                                    onChange={(e) => handleOptionChange(currentQuestion.id, Number(e.target.value), currentQuestion.type === 'MANY')}
-                                >
-                                    {currentQuestion.options.map((option) => (
+                                {currentQuestion.typeName === 'MANY' ? (
+                                    currentQuestion.options.map(option => (
                                         <FormControlLabel
                                             key={option.id}
                                             control={
-                                                currentQuestion.type === 'MANY' ?
-                                                    <Checkbox
-                                                        icon={<CheckBoxOutlineBlankIcon/>}
-                                                        checkedIcon={<CheckBoxIcon/>}
-                                                        checked={!!selectedOptions[currentQuestion.id]?.[option.id]}
-                                                    /> :
-                                                    <Radio
-                                                        icon={<RadioButtonUncheckedIcon/>}
-                                                        checkedIcon={<RadioButtonCheckedIcon/>}
-                                                    />
+                                                <Checkbox
+                                                    icon={<RadioButtonUncheckedIcon/>}
+                                                    checkedIcon={<RadioButtonCheckedIcon/>}
+                                                    checked={!!selectedOptions[currentQuestion.id]?.[option.id]}
+                                                    onChange={() => handleOptionChange(currentQuestion.id, option.id, true)}
+                                                />
                                             }
                                             label={option.optionText}
                                         />
-                                    ))}
-                                </RadioGroup>
+                                    ))
+                                ) : (
+                                    <RadioGroup
+                                        name={`question-${currentQuestion.id}`}
+                                        value={selectedOptions[currentQuestion.id] || ''}
+                                        onChange={(e) => handleOptionChange(currentQuestion.id, Number(e.target.value), false)}
+                                    >
+                                        {currentQuestion.options.map((option) => (
+                                            <FormControlLabel
+                                                key={option.id}
+                                                value={option.id}
+                                                control={<Radio
+                                                    icon={<RadioButtonUncheckedIcon/>}
+                                                    checkedIcon={<RadioButtonCheckedIcon/>}
+                                                />}
+                                                label={option.optionText}
+                                                className={`option-label ${selectedOptions[currentQuestion.id] === option.id ? 'selected' : ''}`}
+                                            />
+                                        ))}
+                                    </RadioGroup>
+                                )}
                             </CardContent>
                             <Typography variant='h4' className='text-center'>
                                 Câu số {currentQuestionIndex + 1} / {questions.length}
@@ -208,7 +212,7 @@ const QuestionListStudent = () => {
                             <Button
                                 key={index}
                                 variant={index === currentQuestionIndex ? "contained" : "outlined"}
-                                onClick={() => setCurrentQuestionIndex(index)}
+                                onClick={() => handleQuestionSelect(index)}
                                 size="large"
                                 sx={{
                                     backgroundColor: index === currentQuestionIndex ? 'var(--color-primary)' : 'inherit',
