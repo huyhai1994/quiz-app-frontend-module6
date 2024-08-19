@@ -1,10 +1,9 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
     endQuizForUser,
     fetchQuiz,
-    fetchQuizResultsByUserId,
-    HistoryResultsByUserId,
-    ResultDetailHistory,
+    fetchQuizResultsByUserId, fetchResultsByUserId,
+    HistoryResultsByUserId, ResultDetailHistory,
     startQuizForUser
 } from "./ResultAxios";
 
@@ -15,6 +14,7 @@ const initialState = {
     loading: false,
     error: null,
     history: [],
+    userResults: [],
     status: 'idle'
 };
 
@@ -89,6 +89,17 @@ const resultSlice = createSlice({
                 state.quiz = action.payload;
             })
             .addCase(ResultDetailHistory.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(fetchResultsByUserId.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchResultsByUserId.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.userResults = action.payload;
+            })
+            .addCase(fetchResultsByUserId.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             });

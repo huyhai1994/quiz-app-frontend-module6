@@ -37,7 +37,6 @@ import QuizHistoryList from "./components/ListStudent/StudentResultList/QuizHist
 import QuizListStudent from "./components/ListStudent/examStudent/QuizListStudent";
 import QuestionListStudent from "./components/ListStudent/examStudent/QuestionListStudent";
 import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
-import QuizHistoryDetail from "./components/ListStudent/StudentResultList/QuizHistoryDetail";
 import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
 import QuizTeacherHistory from "./components/ListTeacher/HistoryTeacherQuiz/QuizTeacherHistory";
 import UserProfileLayout from "./components/layout/UserProfileLayout";
