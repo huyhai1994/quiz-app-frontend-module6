@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 import {
     CreateQuestion,
+    DeleteQuestion,
     GetQuestionsByCategoryName,
     getQuestionsByQuizId,
     ListQuestion,
     ListTeacherQuestion,
-    SearchQuestions,
-    DeleteQuestion
+    SearchQuestions
 } from "./QuestionAxios";
 
 const initialState = {

@@ -1,5 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { listApprovedApprovals, listPendingApprovals, listTeacherApprovals, searchApprovedApprovals } from "./TeacherApprovalAxios";
+import {createSlice} from "@reduxjs/toolkit";
+import {
+    listApprovedApprovals,
+    listPendingApprovals,
+    listTeacherApprovals,
+    searchApprovedApprovals
+} from "./TeacherApprovalAxios";
 
 const initialState = {
     teacherApprovals: [],

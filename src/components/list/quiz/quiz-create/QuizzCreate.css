@@ -30,7 +30,6 @@
 }
 
 .selected-questions-container {
-    color: var(--color-text);
     flex: 1; /* Allow selected questions container to take available space */
     margin-left: 1rem; /* Add space between form and selected questions */
     max-width: 40%; /* Limit the width of the selected questions container */

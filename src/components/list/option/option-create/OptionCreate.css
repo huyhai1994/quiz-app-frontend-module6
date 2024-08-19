@@ -1,11 +1,31 @@
 @import '../../../../styles/vars.css';
 
+.option-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.option-input {
+    flex: 1;
+    margin-right: 16px;
+    width: 100%; /* Increase width */
+    font-size: 1rem; /* Increase font size */
+}
+
 .option-submit-button {
-    background-color: var(--color-primary) !important;
-    color: var(--color-bg);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    background-color: var(--color-primary) !important; /* Change to a more vibrant color */
+    padding: 12px 24px; /* Ensure enough padding */
+    font-size: 1rem; /* Increase font size */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Add transition for hover effect */
+}
+
+.option-submit-button:hover {
+    background-color: var(--color-secondary) !important; /* Slightly darker shade on hover */
+    box-shadow: var(--color-dark);
+}
+
+.switch-label {
+    margin-left: 8px; /* Increase spacing between switch and label */
 }

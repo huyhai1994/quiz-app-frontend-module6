@@ -39,7 +39,7 @@ const Master = () => {
             setLogoutModalOpen(false)
             navigate('/');
         } catch (error) {
-            console.log('Logout failed: ' ,error)
+            console.log('Logout failed: ', error)
         }
     }
 
@@ -63,9 +63,9 @@ const Master = () => {
         getItem('Cài đặt', 'sub3',
             <SettingsIcon/>, [
                 getItem('Thông tin cá nhân', '9', null, null, '/admin/profile'),
-                getItem('Đổi mật khẩu', '12', <LockOutlinedIcon />, null, '/admin/change-password'),
-                getItem('Quên mật khẩu', '13', <KeyOutlinedIcon />, null, '/admin/reset-password'),
-                getItem('Đăng xuất', '14', <LogoutOutlinedIcon />, null, null, showLogoutModal)
+                getItem('Đổi mật khẩu', '12', <LockOutlinedIcon/>, null, '/admin/change-password'),
+                getItem('Quên mật khẩu', '13', <KeyOutlinedIcon/>, null, '/admin/reset-password'),
+                getItem('Đăng xuất', '14', <LogoutOutlinedIcon/>, null, null, showLogoutModal)
             ])
     ];
 

@@ -8,7 +8,7 @@ const HomeHeader = () => {
     const {isAuthenticated, role} = useSelector(state => state.auth);
 
     const handleProfileClick = () => {
-        if(isAuthenticated) {
+        if (isAuthenticated) {
             switch (role) {
                 case "ROLE_ADMIN":
                     navigate("/admin/profile");

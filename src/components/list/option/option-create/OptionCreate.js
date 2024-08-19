@@ -1,16 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-    Box,
-    Button,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    InputLabel,
-    OutlinedInput,
-    Radio,
-    RadioGroup,
-    Typography
-} from '@mui/material';
+import {Box, Button, FormControlLabel, OutlinedInput, Switch, Typography} from '@mui/material';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import './OptionCreate.css';
@@ -103,65 +92,29 @@ const OptionCreate = () => {
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
         }}>
             <form onSubmit={handleSubmit}>
-                {questionType === 1 && (
-                    <RadioGroup>
-                        {options.map((option, index) => (
-                            <FormControl fullWidth margin="normal" key={index}>
-                                <InputLabel htmlFor={`option-${index}`}>Tùy chọn {index + 1}</InputLabel>
-                                <OutlinedInput
-                                    id={`option-${index}`}
-                                    name={`option-${index}`}
-                                    value={option.optionText}
-                                    onChange={(e) => handleOptionChange(index, 'optionText', e.target.value)}
-                                    placeholder={`Nhập tùy chọn ${index + 1}`}
-                                />
-                                <FormControlLabel
-                                    control={<Radio
-                                        checked={option.isCorrect}
-                                        onChange={(e) => handleOptionChange(index, 'isCorrect', e.target.checked)}
-                                    />}
-                                    label="Đúng"
-                                />
-                            </FormControl>
-                        ))}
-                    </RadioGroup>
-                )}
-                {questionType === 2 && (
-                    options.map((option, index) => (
-                        <FormControl fullWidth margin="normal" key={index}>
-                            <InputLabel htmlFor={`option-${index}`}>Tùy chọn {index + 1}</InputLabel>
+                {options.map((option, index) => (
+                    <div className="option-container" key={index}>
+                        {questionType !== 3 && (
                             <OutlinedInput
+                                className="option-input"
                                 id={`option-${index}`}
                                 name={`option-${index}`}
                                 value={option.optionText}
                                 onChange={(e) => handleOptionChange(index, 'optionText', e.target.value)}
-                                placeholder={`Nhập tùy chọn ${index + 1}`}
+                                placeholder={`Nhập lựa chọn câu hỏi số  ${index + 1}`}
                             />
-                            <FormControlLabel
-                                control={<Checkbox
-                                    checked={option.isCorrect}
-                                    onChange={(e) => handleOptionChange(index, 'isCorrect', e.target.checked)}
-                                />}
-                                label="Đúng"
-                            />
-                        </FormControl>
-                    ))
-                )}
-                {questionType === 3 && (
-                    <RadioGroup>
-                        {options.map((option, index) => (
-                            <FormControl fullWidth margin="normal" key={index}>
-                                <FormControlLabel
-                                    control={<Radio
-                                        checked={option.isCorrect}
-                                        onChange={(e) => handleOptionChange(index, 'isCorrect', e.target.checked)}
-                                    />}
-                                    label={option.optionText}
-                                />
-                            </FormControl>
-                        ))}
-                    </RadioGroup>
-                )}
+                        )}
+                        <FormControlLabel
+                            control={<Switch
+                                checked={option.isCorrect}
+                                onChange={(e) => handleOptionChange(index, 'isCorrect', e.target.checked)}
+                                color="primary"
+                            />}
+                            label={questionType === 3 ? option.optionText : "Đúng"}
+                            className="switch-label"
+                        />
+                    </div>
+                ))}
                 <Button className='option-submit-button' variant="contained" fullWidth type="submit">
                     Tạo tùy chọn
                 </Button>

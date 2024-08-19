@@ -1,14 +1,14 @@
-import { format } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import {format} from "date-fns";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
 import Swal from 'sweetalert2';
-import { ListQuiz } from "../../../store/quizStore/QuizAxios";
+import {ListQuiz} from "../../../store/quizStore/QuizAxios";
 import Page from "../../pages/Page";
-import { TailSpin } from 'react-loader-spinner';
+import {TailSpin} from 'react-loader-spinner';
 
 const QuizList = () => {
     const dispatch = useDispatch();
-    const { quizzes, loading, error } = useSelector((state) => state.quizzes);
+    const {quizzes, loading, error} = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
 
@@ -29,8 +29,8 @@ const QuizList = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <TailSpin color="#00BFFF" height={80} width={80} />
+            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+                <TailSpin color="#00BFFF" height={80} width={80}/>
             </div>
         );
     }
@@ -65,7 +65,7 @@ const QuizList = () => {
                 </thead>
                 <tbody>
                 {currentData.length > 0 ? (
-                    currentData.map((quiz , index) => (
+                    currentData.map((quiz, index) => (
                         <tr key={quiz.quizzesId}>
                             <td>{(currentPage - 1) * pageSize + index + 1}</td>
                             <td>{quiz.quizzesTitle}</td>
