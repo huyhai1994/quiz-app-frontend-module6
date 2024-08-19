@@ -21,12 +21,15 @@ import {
 } from "@mui/material";
 import {TailSpin} from "react-loader-spinner";
 import Swal from "sweetalert2";
+import {Link} from "react-router-dom";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const ListTeacherQuestions = () => {
     const dispatch = useDispatch();
     const {questions, loading, error} = useSelector((state) => state.questions);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 5;
+    const pageSize = 20;
     const userId = localStorage.getItem('userId');
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedQuestionId, setSelectedQuestionId] = useState(null);
@@ -89,9 +92,9 @@ const ListTeacherQuestions = () => {
     const currentData = getCurrentPageData();
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className='py-3'>
             <Grid item xs={12}>
-                <h2>Danh sách câu hỏi của giáo viên</h2>
+                <h2 className='fw-bold'>Danh sách câu hỏi của giáo viên</h2>
             </Grid>
             <Grid item xs={12}>
                 <TableContainer component={Paper}>
@@ -101,7 +104,7 @@ const ListTeacherQuestions = () => {
                                 <TableCell>STT</TableCell>
                                 <TableCell>Câu hỏi</TableCell>
                                 <TableCell>Danh mục</TableCell>
-                                <TableCell>Loại</TableCell>
+                                <TableCell>Loại câu hỏi</TableCell>
                                 <TableCell>Thời gian tạo</TableCell>
                                 <TableCell>Hành động</TableCell>
                             </TableRow>
@@ -119,9 +122,20 @@ const ListTeacherQuestions = () => {
                                             <Button
                                                 variant="contained"
                                                 color="secondary"
+                                                startIcon={<DeleteIcon/>}
                                                 onClick={() => handleDelete(question.questionId)}
+                                                style={{marginRight: 8}}
                                             >
                                                 Xóa
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                startIcon={<EditIcon/>}
+                                                component={Link}
+                                                to={`/teacher/question/edit/${question.questionId}`}
+                                            >
+                                                Sửa
                                             </Button>
                                         </TableCell>
                                     </TableRow>
