@@ -14,6 +14,10 @@ class QuestionService {
         };
         return await axios.post(API_QUESTION_URL, payload);
     };
+
+    static async getQuestionById(id) {
+        return await axios.get(`${API_QUESTION_URL}/${id}`);
+    }
 }
 
 export default QuestionService;
