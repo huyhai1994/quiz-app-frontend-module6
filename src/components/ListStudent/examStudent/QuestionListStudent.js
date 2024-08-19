@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import axios from 'axios';
-import {getQuestionsByQuizId} from '../../../store/questionStore/QuestionAxios';
 import {useDispatch, useSelector} from 'react-redux';
+import axios from 'axios';
 import {
     Box,
     Button,
     Card,
     CardContent,
+    Checkbox,
     CircularProgress,
     Container,
     FormControlLabel,
@@ -14,13 +14,16 @@ import {
     RadioGroup,
     Typography
 } from '@mui/material';
-import {endQuizForUser} from '../../../store/resultStore/ResultAxios';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import Swal from 'sweetalert2';
-import Timer from "./Timer";
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {getQuestionsByQuizId} from '../../../store/questionStore/QuestionAxios';
+import {endQuizForUser} from '../../../store/resultStore/ResultAxios';
+import Timer from './Timer';
 import SendIcon from '@mui/icons-material/Send';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import './QuestionListStudent.css';
 
 const QuestionListStudent = () => {
@@ -32,7 +35,7 @@ const QuestionListStudent = () => {
     const [selectedOptions, setSelectedOptions] = useState({});
     const [resultId, setResultId] = useState(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [initialTime, setInitialTime] = useState(null); // Initialize as null
+    const [initialTime, setInitialTime] = useState(null);
 
     const questions = useSelector((state) => state.questions.questions);
     const status = useSelector((state) => state.questions.status);
@@ -50,35 +53,53 @@ const QuestionListStudent = () => {
         }
 
         dispatch(getQuestionsByQuizId(quizId));
-
-        // Fetch initial time left from the API
         axios.get(`http://localhost:8080/quiz/${quizId}/time`)
             .then(response => {
                 const quizTimeInMinutes = response.data.quizTime;
-                setInitialTime(quizTimeInMinutes * 60); // Convert minutes to seconds
+                setInitialTime(quizTimeInMinutes * 60);
             })
             .catch(error => {
                 console.error('Error fetching quiz time:', error);
             });
     }, [dispatch, quizId, location.search]);
 
-    const handleOptionChange = useCallback((questionId, optionId) => {
-        setSelectedOptions((prev) => ({
-            ...prev,
-            [questionId]: optionId
-        }));
+    const handleOptionChange = useCallback((questionId, optionId, isMultiple) => {
+        if (isMultiple) {
+            setSelectedOptions(prev => ({
+                ...prev,
+                [questionId]: {
+                    ...prev[questionId],
+                    [optionId]: !prev[questionId]?.[optionId]
+                }
+            }));
+        } else {
+            setSelectedOptions(prev => ({
+                ...prev,
+                [questionId]: optionId
+            }));
+        }
     }, []);
 
     const handleSubmit = () => {
         if (resultId) {
-            dispatch(endQuizForUser({
-                resultId: Number(resultId),
-                userAnswers: Object.keys(selectedOptions).map(questionId => ({
+            const answers = Object.keys(selectedOptions).flatMap(questionId => {
+                if (typeof selectedOptions[questionId] === 'object') {
+                    return Object.keys(selectedOptions[questionId])
+                        .filter(optionId => selectedOptions[questionId][optionId])
+                        .map(optionId => ({
+                            userId,
+                            questionId: Number(questionId),
+                            optionId: Number(optionId)
+                        }));
+                }
+                return [{
                     userId,
                     questionId: Number(questionId),
                     optionId: selectedOptions[questionId]
-                }))
-            }))
+                }];
+            });
+
+            dispatch(endQuizForUser({resultId: Number(resultId), userAnswers: answers}))
                 .unwrap()
                 .then(() => {
                     Swal.fire({
@@ -118,9 +139,6 @@ const QuestionListStudent = () => {
     }
 
     const currentQuestion = questions[currentQuestionIndex];
-    const handleQuestionSelect = (index) => {
-        setCurrentQuestionIndex(index);
-    };
 
     return (
         <Container>
@@ -137,18 +155,24 @@ const QuestionListStudent = () => {
                                 <RadioGroup
                                     name={`question-${currentQuestion.id}`}
                                     value={selectedOptions[currentQuestion.id] || ''}
-                                    onChange={(e) => handleOptionChange(currentQuestion.id, Number(e.target.value))}
+                                    onChange={(e) => handleOptionChange(currentQuestion.id, Number(e.target.value), currentQuestion.type === 'MANY')}
                                 >
                                     {currentQuestion.options.map((option) => (
                                         <FormControlLabel
                                             key={option.id}
-                                            value={option.id}
-                                            control={<Radio
-                                                icon={<RadioButtonUncheckedIcon/>}
-                                                checkedIcon={<RadioButtonCheckedIcon/>}
-                                            />}
+                                            control={
+                                                currentQuestion.type === 'MANY' ?
+                                                    <Checkbox
+                                                        icon={<CheckBoxOutlineBlankIcon/>}
+                                                        checkedIcon={<CheckBoxIcon/>}
+                                                        checked={!!selectedOptions[currentQuestion.id]?.[option.id]}
+                                                    /> :
+                                                    <Radio
+                                                        icon={<RadioButtonUncheckedIcon/>}
+                                                        checkedIcon={<RadioButtonCheckedIcon/>}
+                                                    />
+                                            }
                                             label={option.optionText}
-                                            className={`option-label ${selectedOptions[currentQuestion.id] === option.id ? 'selected' : ''}`}
                                         />
                                     ))}
                                 </RadioGroup>
@@ -177,7 +201,6 @@ const QuestionListStudent = () => {
                      alignItems="center"
                      height="100%"
                 >
-
                     <Box
                         className='shadow p-3 d-flex align-items-center justify-content-center'
                         display="flex" flexWrap="wrap" gap={1} sx={{marginTop: 'calc(50vh - 200px)'}}>
@@ -185,7 +208,7 @@ const QuestionListStudent = () => {
                             <Button
                                 key={index}
                                 variant={index === currentQuestionIndex ? "contained" : "outlined"}
-                                onClick={() => handleQuestionSelect(index)}
+                                onClick={() => setCurrentQuestionIndex(index)}
                                 size="large"
                                 sx={{
                                     backgroundColor: index === currentQuestionIndex ? 'var(--color-primary)' : 'inherit',
@@ -202,8 +225,7 @@ const QuestionListStudent = () => {
                 </Box>
             </Box>
         </Container>
-    )
-        ;
+    );
 };
 
 export default QuestionListStudent;

@@ -118,7 +118,8 @@ function App() {
                     <Route path="option/create" element={<OptionCreate/>}/>
                     <Route path="quiz/create" element={<QuizCreate/>}/>
                     <Route path="teacher-quizzes" element={<QuizTeacherList/>}/>
-                    <Route path="quizzes/:id/user-history" element={<QuizTeacherHistory/>}/>
+                    <Route path="quizzes/:id/user-history"
+                           element={<QuizTeacherHistory/>}/> {/*TODO: xem lich su thi cua hoc sinh*/}
                 </Route>
                 <Route path="/student/*" element={
                     <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
@@ -134,7 +135,7 @@ function App() {
                     <Route path="question" element={<QuizComponent/>}/>
                     <Route path="result/new/:resultId" element={<ResultStudentList/>}/>
                     <Route path="quizzes/:quizId/start" element={<QuestionListStudent/>}/>
-                    <Route path="result/history" element={<QuizHistoryList/>}/>
+                    <Route path="result/history" element={<QuizHistoryList/>}/> {/*TODO: xem lich su ca nhan thi*/}
                 </Route>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
