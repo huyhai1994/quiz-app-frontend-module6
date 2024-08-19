@@ -118,7 +118,7 @@ function App() {
                     <Route path="option/create" element={<OptionCreate/>}/>
                     <Route path="quiz/create" element={<QuizCreate/>}/>
                     <Route path="teacher-quizzes" element={<QuizTeacherList/>}/>
-                    <Route path="quizzes/:id/user-history" element={<QuizTeacherHistory />} />
+                    <Route path="quizzes/:id/user-history" element={<QuizTeacherHistory/>}/>
                 </Route>
                 <Route path="/student/*" element={
                     <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
