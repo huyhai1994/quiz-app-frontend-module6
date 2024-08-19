@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from 'react-loader-spinner';
+import { ThreeDots } from 'react-loader-spinner';
 import {fetchQuizHistoryByTeacher} from "../../../store/quizStore/QuizAxios";
 
 const QuizTeacherHistory = () => {
@@ -11,16 +11,14 @@ const QuizTeacherHistory = () => {
         dispatch(fetchQuizHistoryByTeacher());
     }, [dispatch]);
 
-
     if (loading) {
         return (
             <div className="d-flex justify-content-center">
-                <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
+                <ThreeDots color="#00BFFF" height={80} width={80} />
             </div>
         );
     }
 
-    // Hiển thị thông báo lỗi nếu có lỗi xảy ra
     if (error) {
         return <div className="alert alert-danger" role="alert">Error: {error}</div>;
     }
