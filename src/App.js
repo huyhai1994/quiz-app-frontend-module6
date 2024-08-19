@@ -114,6 +114,7 @@ function App() {
                     <Route path="question" element={<QuestionTeacherList/>}/>
                     <Route path="question/create" element={<QuestionCreate/>}/>
                     <Route path="question/edit/:id" element={<QuestionEdit/>}/>
+                    <Route path="question/edit/:id" element={<QuestionEdit/>}/>
                     <Route path="quiz/history" element={<QuizTeacherHistory/>}/>
                     <Route path="option/create" element={<OptionCreate/>}/>
                     <Route path="quiz/create" element={<QuizCreate/>}/>
