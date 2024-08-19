@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {TailSpin} from 'react-loader-spinner';
 import Swal from 'sweetalert2';
@@ -10,12 +10,15 @@ import PrinceIcon from '@mui/icons-material/EmojiEvents';
 import AttemptIcon from '@mui/icons-material/CheckCircle';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import {useLocation, useNavigate} from 'react-router-dom';
+import {startQuizForUser} from "../../../store/resultStore/ResultAxios";
 
 const TopQuizzes = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const {topQuizzes, loading, error} = useSelector((state) => state.quizzes);
+    const userId = localStorage.getItem('userId');
+    const [resultId, setResultId] = useState(null);
 
     useEffect(() => {
         dispatch(fetchTopQuizzes());
@@ -48,10 +51,20 @@ const TopQuizzes = () => {
         }
     };
 
-    const handleCardClick = (quizId) => {
-        const queryParams = new URLSearchParams(location.search);
-        const resultIdFromQuery = queryParams.get('resultId');
-        navigate(`/student/quizzes/${quizId}/start?resultId=${resultIdFromQuery}`);
+    const handleStartQuiz = (quizId) => {
+        dispatch(startQuizForUser({userId, quizId}))
+            .unwrap()
+            .then((result) => {
+                if (result) {
+                    setResultId(result.id);
+                    navigate(`/student/quizzes/${quizId}/start?resultId=${result.id}`);
+                } else {
+                    console.error('Result ID is missing in the API response');
+                }
+            })
+            .catch((err) => {
+                console.error('Failed to start quiz:', err.message);
+            });
     };
 
     return (
@@ -66,7 +79,7 @@ const TopQuizzes = () => {
                     topQuizzes.map((quiz, index) => (
                         <Card
                             key={quiz.id}
-                            onClick={() => handleCardClick(quiz.id)}
+                            onClick={() => handleStartQuiz(quiz.id)}
                             sx={{
                                 cursor: 'pointer',
                                 flex: '1 1 calc(24% - 16px)', // Adjusted to fit more cards in the row
