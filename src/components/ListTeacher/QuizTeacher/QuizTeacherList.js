@@ -16,8 +16,8 @@ const ListTeacherQuizzesComponent = () => {
     const userId = localStorage.getItem('userId');
 
     useEffect(() => {
-        dispatch(ListTeacherQuizzes(2));
-    }, [dispatch, 2]);
+        dispatch(ListTeacherQuizzes(userId));
+    }, [dispatch, userId]);
 
     useEffect(() => {
         if (error) {
