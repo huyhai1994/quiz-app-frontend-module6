@@ -1,23 +1,23 @@
-import { format } from 'date-fns';
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {ListTeacherQuizzes, UpdateQuiz} from "../../../store/quizStore/QuizAxios";
-import Page from "../../pages/Page";
+import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {TailSpin} from "react-loader-spinner";
+import {ListTeacherQuizzes} from "../../../store/quizStore/QuizAxios";
+import {format} from "date-fns";
 import Swal from "sweetalert2";
-import { TailSpin } from "react-loader-spinner";
-import QuizUpdateForm from './QuizUpdateForm';
+import {useNavigate} from "react-router-dom";
+import Page from "../../pages/Page";
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
-    const { quizzes, loading, error } = useSelector((state) => state.quizzes);
+    const navigate = useNavigate();
+    const {quizzes, loading, error} = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
-    const [selectedQuiz, setSelectedQuiz] = useState(null);
     const pageSize = 5;
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
-        const userId = localStorage.getItem('userId');
         dispatch(ListTeacherQuizzes(userId));
-    }, [dispatch]);
+    }, [dispatch, userId]);
 
     useEffect(() => {
         if (error) {
@@ -25,18 +25,12 @@ const ListTeacherQuizzesComponent = () => {
         }
     }, [error]);
 
-    if (loading) {
-        return (
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <TailSpin color="#00BFFF" height={80} width={80} />
-            </div>
-        );
-    }
-
-    const totalPages = Math.ceil(quizzes.length / pageSize);
-
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
+    };
+
+    const handleViewHistory = (quizId) => {
+        navigate(`/teacher/quizzes/${quizId}/user-history`);
     };
 
     const getCurrentPageData = () => {
@@ -47,26 +41,12 @@ const ListTeacherQuizzesComponent = () => {
 
     const currentData = getCurrentPageData();
 
-    const handleUpdateQuiz = (quiz) => {
-        setSelectedQuiz(quiz);
-    }
-
-    const handleCloseUpdateForm = () => {
-        setSelectedQuiz(null);
-    }
-
-    // const handleQuizUpdated = (updatedQuiz) => {
-        //Gọi slice quizzes có action = updateQuizInList trong QuizSlice
-        // dispatch({ type: 'quizzes/updateQuizInList', payload: updatedQuiz });
-        // setSelectedQuiz(null);
-    // }
-
-    const handleQuizUpdated = (updatedQuiz) => {
-        const updatedQuizzes = quizzes.map(quiz =>
-            quiz.quizzesId === updatedQuiz.quizzesId ? updatedQuiz : quiz
+    if (loading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+                <TailSpin color="#00BFFF" height={80} width={80}/>
+            </div>
         );
-        dispatch({ type: 'quizzes/updateQuizInList', payload: updatedQuizzes });
-        setSelectedQuiz(null);
     }
 
     return (
@@ -79,11 +59,11 @@ const ListTeacherQuizzesComponent = () => {
                     <th>Tiêu đề</th>
                     <th>Mô tả</th>
                     <th>Thời gian tạo</th>
-                    <th>Thời gian</th>
+                    <th>Thời gian làm bài(phút)</th>
                     <th>Số lượng</th>
                     <th>Điểm đạt</th>
                     <th>Độ khó</th>
-                    <th>Thao tác</th>
+                    <th>Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -102,8 +82,11 @@ const ListTeacherQuizzesComponent = () => {
                                 <td>{quiz.passingScore}</td>
                                 <td>{quiz.difficulty}</td>
                                 <td>
-                                    <button onClick={() => handleUpdateQuiz(quiz)} className="btn btn-primary btn-sm">
-                                        Cập nhật
+                                    <button
+                                        className="btn btn-info"
+                                        onClick={() => handleViewHistory(quiz.quizzesId)}
+                                    >
+                                        Xem lịch sử
                                     </button>
                                 </td>
                             </tr>
@@ -111,23 +94,16 @@ const ListTeacherQuizzesComponent = () => {
                     })
                 ) : (
                     <tr>
-                        <td colSpan="8">Không có dữ liệu</td>
+                        <td colSpan="9">Không có dữ liệu</td>
                     </tr>
                 )}
                 </tbody>
             </table>
             <Page
                 currentPage={currentPage}
-                totalPages={totalPages}
+                totalPages={Math.ceil(quizzes.length / pageSize)}
                 onPageChange={handlePageChange}
             />
-            {selectedQuiz && (
-                <QuizUpdateForm
-                    quiz={selectedQuiz}
-                    onClose={handleCloseUpdateForm}
-                    onUpdate={handleQuizUpdated}
-                />
-            )}
         </div>
     );
 };

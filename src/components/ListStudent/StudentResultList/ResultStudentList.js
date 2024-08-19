@@ -74,9 +74,6 @@ const ResultStudentList = () => {
                                         <Typography variant="h4" align="center" gutterBottom>
                                             Kết quả Quiz
                                         </Typography>
-                                        <Typography variant="h5" component="div">
-                                            STT: {index + 1}
-                                        </Typography>
                                         <Typography variant="body1" color="text.secondary">
                                             Người dùng: {result.userName}
                                         </Typography>

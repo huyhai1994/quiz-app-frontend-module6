@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 
 const ApiURL = "http://localhost:8080/teacher-approvals";
@@ -42,10 +42,10 @@ export const listApprovedApprovals = createAsyncThunk(
 
 export const searchApprovedApprovals = createAsyncThunk(
     'teacherApproval/searchApprovedApprovals',
-    async ({ userName, userEmail }) => {
+    async ({userName, userEmail}) => {
         try {
             const response = await axios.get(`${ApiURL}/search/approved`, {
-                params: { userName, userEmail }
+                params: {userName, userEmail}
             });
             return response.data;
         } catch (error) {

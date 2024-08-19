@@ -1,4 +1,13 @@
-import {UserOutlined, LockOutlined, KeyOutlined, LogoutOutlined, OrderedListOutlined, SettingOutlined, BookOutlined, FormOutlined} from '@ant-design/icons'
+import {
+    BookOutlined,
+    FormOutlined,
+    KeyOutlined,
+    LockOutlined,
+    LogoutOutlined,
+    OrderedListOutlined,
+    SettingOutlined,
+    UserOutlined
+} from '@ant-design/icons'
 import {Layout, Menu, Modal} from 'antd'
 import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom'
 import React, {useState} from "react";
@@ -24,25 +33,25 @@ const UserProfileLayout = () => {
             setLogoutModalVisible(false)
             navigate('/');
         } catch (error) {
-            console.log('Logout failed: ' ,error)
+            console.log('Logout failed: ', error)
         }
     }
 
     const items = [
         {
             key: 'study',
-            icon: <OrderedListOutlined />,
+            icon: <OrderedListOutlined/>,
             label: 'Study',
             children: [
                 {
                     key: 'course',
-                    icon: <BookOutlined />,
+                    icon: <BookOutlined/>,
                     label: 'Course',
                     onClick: () => console.log('Course clicked'),
                 },
                 {
                     key: 'test',
-                    icon: <FormOutlined />,
+                    icon: <FormOutlined/>,
                     label: 'Test',
                     onClick: () => console.log('Test clicked'),
                 },
@@ -50,27 +59,27 @@ const UserProfileLayout = () => {
         },
         {
             key: 'setting',
-            icon: <SettingOutlined />,
+            icon: <SettingOutlined/>,
             label: 'Setting Profile',
             children: [
                 {
                     key: 'profile',
-                    icon: <UserOutlined />,
+                    icon: <UserOutlined/>,
                     label: <Link to="/profile">Your Profile</Link>,
                 },
                 {
                     key: 'change-password',
-                    icon: <LockOutlined />,
+                    icon: <LockOutlined/>,
                     label: <Link to="/profile/change-password">Change Password</Link>,
                 },
                 {
                     key: 'reset-password',
-                    icon: <KeyOutlined />,
+                    icon: <KeyOutlined/>,
                     label: <Link to="/profile/reset-password">Forgot My Password</Link>,
                 },
                 {
                     key: 'logout',
-                    icon: <LogoutOutlined />,
+                    icon: <LogoutOutlined/>,
                     label: 'Logout',
                     onClick: showLogoutModal,
                 }
@@ -79,7 +88,7 @@ const UserProfileLayout = () => {
     ];
 
     return (
-        <Layout style={{ minHeight: '100vh'}}>
+        <Layout style={{minHeight: '100vh'}}>
             <Sider
                 collapsible
                 collapsed={collapsed}
@@ -88,7 +97,11 @@ const UserProfileLayout = () => {
                 width='300px'
             >
                 <div style={{padding: '16px', textAlign: 'center'}}>
-                    <h1 className='logo'>QUIZZ</h1>
+                    <h1>
+                        <Link className='logo' to={'/admin'}>
+                            {collapsed ? 'Q' : 'QUIZZ'}
+                        </Link>
+                    </h1>
                 </div>
                 <Menu
                     theme="light"
@@ -102,7 +115,7 @@ const UserProfileLayout = () => {
             <Layout className="site-layout">
                 <Content style={{margin: '0 16px'}}>
                     <div style={{padding: 24, minHeight: 360}}>
-                        <Outlet />
+                        <Outlet/>
                     </div>
                 </Content>
                 <Footer

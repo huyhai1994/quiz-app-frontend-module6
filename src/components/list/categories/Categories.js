@@ -4,8 +4,9 @@ import {Breadcrumb, Button} from "antd";
 import CategoryService from "../../../services/category.service";
 import Swal from "sweetalert2";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPen, faTrash} from '@fortawesome/free-solid-svg-icons';
-import Page from "../../pages/Page"; // Import the pagination component
+import {faPen, faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
+import Page from "../../pages/Page";
+import {PlusOne} from "@mui/icons-material"; // Import the pagination component
 
 const Categories = () => {
     const [loading, setLoading] = useState(true);
@@ -24,6 +25,10 @@ const Categories = () => {
             }
         };
         fetchCategories();
+    }, []);
+
+    useEffect(() => {
+        document.title = 'Danh mục câu hỏi';
     }, []);
 
     const deleteCategory = async (id) => {
@@ -85,9 +90,9 @@ const Categories = () => {
                 <div className="col-md-6">
                     <h1>Danh mục câu hỏi</h1>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6 text-end">
                     <Link to="/admin/add-category">
-                        <Button className="text-bg-success" type="primary"> Thêm danh mục</Button>
+                        <Button className="text-bg-success" type="primary"><FontAwesomeIcon icon={faPlus} /> Thêm danh mục</Button>
                     </Link>
                 </div>
             </div>
@@ -97,34 +102,35 @@ const Categories = () => {
             <tr>
                 <th>Tiêu đề</th>
                 <th>Mô tả</th>
-                <th>Thao tác</th>
+                <th width='140px'>Thao tác</th>
             </tr>
             </thead>
             <tbody>
             {currentCategories.map((category, index) => (<tr key={category.id}>
                 <td>{category.name}</td>
                 <td>{category.description}</td>
-                <td>
+                <td className="text-center">
                     <Link to={"/admin/edit/" + category.id}>
-                        <Button type="primary">
+                        <Button title="Sửa" type="primary" className="mx-2">
                             <FontAwesomeIcon icon={faPen}/>
                         </Button>
                     </Link>
-                    <Button type="primary" onClick={() => deleteCategory(category.id)} danger>
+                    <Button title="Xóa" type="primary" onClick={() => deleteCategory(category.id)} danger>
                         <FontAwesomeIcon icon={faTrash}/>
                     </Button>
                 </td>
             </tr>))}
             </tbody>
         </table>
-
-        <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-            <Page
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
-        </div>
+        {totalPages > 1 && (
+            <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                <Page
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            </div>
+        )}
     </div>);
 };
 

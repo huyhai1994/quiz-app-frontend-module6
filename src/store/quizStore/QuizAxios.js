@@ -49,14 +49,15 @@ export const fetchTopQuizzes = createAsyncThunk('fetchTopQuizzes', async () => {
     }
 });
 
-export const fetchQuizHistoryByTeacher = createAsyncThunk(
+export const fetchHistoryUserByQuizId = createAsyncThunk(
     'quiz/fetchQuizHistoryByTeacher',
-    async (_, { rejectWithValue }) => {
+    async (id) => {
         try {
-            const response = await axios.get('/quiz/teacher/history');
+            const response = await axios.get(`${ApiURL}/${id}/user-info`);
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response ? error.response.data : 'Network Error');
+            console.error("Error:", error);
+            return { error: error.response ? error.response.data : 'Network Error' };
         }
     }
 );

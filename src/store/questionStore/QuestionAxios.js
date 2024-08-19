@@ -15,6 +15,7 @@ export const CreateQuestion = createAsyncThunk('createQuestion', async (question
 });
 
 export const SearchQuestions = createAsyncThunk('searchQuestions', async (searchTerm) => {
+
     const response = await axios.get(`${ApiURL}/search/questions`, {
         params: {searchTerm}
     });
