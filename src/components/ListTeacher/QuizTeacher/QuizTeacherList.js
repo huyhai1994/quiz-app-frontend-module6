@@ -9,7 +9,7 @@ import Page from "../../pages/Page";
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate(); // Để điều hướng
+    const navigate = useNavigate();
     const { quizzes, loading, error } = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;

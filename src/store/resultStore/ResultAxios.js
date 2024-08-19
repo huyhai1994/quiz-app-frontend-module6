@@ -34,7 +34,6 @@ export const fetchQuizResultsByUserId = createAsyncThunk('result/fetchQuizResult
 
 export const HistoryResultsByUserId = createAsyncThunk('result/fetchQuizHistoryByUserId', async (userId) => {
     const response = await axios.get(`${ApiURL}/history/${userId}`);
-    console.log(`${ApiURL}/history/${userId}`)
     return response.data;
 });
 
@@ -52,3 +51,18 @@ export const ResultDetailHistory = createAsyncThunk('result/detail/history', asy
     const response = await axios.get(`${ApiURL}/detail/${id}/history`);
     return response.data;
 });
+
+export const fetchResultsByUserId = createAsyncThunk(
+    'results/fetchByUserId',
+    async (userId) => {
+        try {
+            const response = await axios.get(`${ApiURL}/user/${userId}`);
+            alert(response.data)
+            return response.data;
+        } catch (error) {
+            // Trả về lỗi nếu có
+            throw new Error(error.response?.data || 'Something went wrong');
+        }
+    }
+);
+

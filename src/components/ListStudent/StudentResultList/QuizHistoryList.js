@@ -1,16 +1,16 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {HistoryResultsByUserId, ResultDetailHistory} from "../../../store/resultStore/ResultAxios";
-import {format} from "date-fns";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { HistoryResultsByUserId, ResultDetailHistory } from "../../../store/resultStore/ResultAxios";
+import { format } from "date-fns";
 import Page from "../../pages/Page";
-import {TailSpin} from 'react-loader-spinner';
+import { TailSpin } from 'react-loader-spinner';
 import Swal from 'sweetalert2';
-import {Button, Modal, Table} from "react-bootstrap";
+import { Button, Modal, Table, Alert } from "react-bootstrap";
 import QuizHistoryDetail from './QuizHistoryDetail';
 
 const QuizHistoryList = () => {
     const dispatch = useDispatch();
-    const {history, status, error} = useSelector((state) => state.results);
+    const { history, status, error } = useSelector((state) => state.results);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedQuizId, setSelectedQuizId] = useState(null);
     const pageSize = 5;
@@ -18,7 +18,7 @@ const QuizHistoryList = () => {
 
     useEffect(() => {
         dispatch(HistoryResultsByUserId(userId));
-    }, [dispatch]);
+    }, [dispatch, userId]);
 
     useEffect(() => {
         if (error) {
@@ -60,68 +60,80 @@ const QuizHistoryList = () => {
 
     const currentData = getCurrentPageData();
 
-    if (status === 'loading') return (
-        <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
-            <TailSpin color="#00BFFF" height={80} width={80}/>
-        </div>
-    );
-
-    if (status === 'failed') return <p>Error: {error}</p>;
-
     return (
         <div className="container mt-5">
-            <h2>Quiz History</h2>
-            <Table striped bordered hover>
-                <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Quiz Name</th>
-                    <th>Finish Time</th>
-                    <th>Duration (Minutes)</th>
-                    <th>Score</th>
-                    <th>Attempt Number</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentData.length > 0 ? (
-                    currentData.map((entry, index) => (
-                        <tr key={entry.id}>
-                            <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                            <td>{entry.quizName}</td>
-                            <td>{format(new Date(entry.finishTime), 'dd-MM-yyyy - HH:mm:ss')}</td>
-                            <td>{entry.durationMinutes}</td>
-                            <td>{entry.score}</td>
-                            <td>{entry.attemptNumber}</td>
-                            <td>
-                                <Button variant="primary" onClick={() => handleViewDetail(entry.id)}>
-                                    Chi tiết
-                                </Button>
-                            </td>
+            <h2>Lịch sử Quiz đã làm</h2>
+
+            {status === 'loading' ? (
+                <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                    <TailSpin color="#00BFFF" height={80} width={80} />
+                </div>
+            ) : (
+                <>
+                    <Table striped bordered hover>
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên bài Quiz</th>
+                            <th>Thời gian hoàn thành</th>
+                            <th>Thời gian làm bài</th>
+                            <th>Điểm số</th>
+                            <th>Số lần làm bài</th>
+                            <th>Khác</th>
                         </tr>
-                    ))
-                ) : (
-                    <tr>
-                        <td colSpan="7">No data available</td>
-                    </tr>
-                )}
-                </tbody>
-            </Table>
-            <Page
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
+                        </thead>
+                        <tbody>
+                        {currentData.length > 0 ? (
+                            currentData.map((entry, index) => (
+                                <tr key={entry.id}>
+                                    <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                                    <td>{entry.quizName}</td>
+                                    <td>{format(new Date(entry.finishTime), 'dd-MM-yyyy - HH:mm:ss')}</td>
+                                    <td>{entry.durationMinutes}</td>
+                                    <td>{entry.score}</td>
+                                    <td>{entry.attemptNumber}</td>
+                                    <td>
+                                        <Button variant="primary" onClick={() => handleViewDetail(entry.id)}>
+                                            Chi tiết
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="7">
+                                    <Alert variant="info">
+                                        Không có dữ liệu để hiển thị.
+                                    </Alert>
+                                </td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </Table>
+                    <Page
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                </>
+            )}
+
+            {status === 'failed' && (
+                <Alert variant="danger" className="mt-3">
+                    Lỗi: {error}
+                </Alert>
+            )}
+
             <Modal show={!!selectedQuizId} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Quiz Details</Modal.Title>
+                    <Modal.Title>Chi tiết lịch sử thi</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <QuizHistoryDetail/>
+                    <QuizHistoryDetail />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>
-                        Close
+                        Đóng
                     </Button>
                 </Modal.Footer>
             </Modal>
