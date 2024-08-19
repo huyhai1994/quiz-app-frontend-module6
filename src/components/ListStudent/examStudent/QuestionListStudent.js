@@ -135,56 +135,62 @@ const QuestionListStudent = () => {
     };
 
     return (
-        <Container>
-            <Box my={4}>
-                <Timer initialTime={initialTime} onTimeUp={handleSubmit}/>
-                <Typography variant="h4" className='text-center' gutterBottom>
-                    Câu hỏi của Quiz {quizId}
-                </Typography>
-                {questions.length > 0 ? (
-                    <Slider {...settings}>
-                        {questions.map((question, index) => (
-                            <div key={question.id}>
-                                <Card sx={{width: '70%', margin: '0 auto'}}>
-                                    <CardContent>
-                                        <Typography variant="h6">{question.questionText}</Typography>
-                                        <RadioGroup
-                                            name={`question-${question.id}`}
-                                            value={selectedOptions[question.id] || ''}
-                                            onChange={(e) => handleOptionChange(question.id, Number(e.target.value))}
-                                        >
-                                            {question.options.map((option) => (
-                                                <FormControlLabel
-                                                    key={option.id}
-                                                    value={option.id}
-                                                    control={<Radio
-                                                        icon={<RadioButtonUncheckedIcon/>}
-                                                        checkedIcon={<RadioButtonCheckedIcon/>}
-                                                    />}
-                                                    label={option.optionText}
-                                                    className={`option-label ${selectedOptions[question.id] === option.id ? 'selected' : ''}`}
-                                                />
-                                            ))}
-                                        </RadioGroup>
-                                    </CardContent>
-                                    <Typography variant='h4' className='text-center'>
-                                        Câu số {index + 1} / {questions.length}
-                                    </Typography>
-                                </Card>
-                            </div>
-                        ))}
-                    </Slider>
-                ) : (
-                    <Typography variant="body1">Không có câu hỏi nào cho quiz này.</Typography>
-                )}
-
-                <Box mt={5} display="flex" justifyContent="center">
-                    <Button variant="contained"
-                            onClick={handleSubmit}
-                            className='btn-submit'
-                            endIcon={<SendIcon/>}>
-                        Nộp bài thi
-                    </Button>
+        <Container className=''>
+            <Box display="flex" justifyContent="space-between" alignItems="flex-start" my={4}>
+                <Box className='question-container' flex="1" mr={2}>
+                    <Timer initialTime={initialTime} onTimeUp={handleSubmit}/>
+                    <Typography variant="h4" className='text-center' gutterBottom>
+                        Câu hỏi của Quiz {quizId}
+                    </Typography>
+                    {questions.length > 0 ? (
+                        <Slider {...settings}>
+                            {questions.map((question, index) => (
+                                <div key={question.id}>
+                                    <Card sx={{width: '70%', margin: '0 auto'}}>
+                                        <CardContent>
+                                            <Typography variant="h6">{question.questionText}</Typography>
+                                            <RadioGroup
+                                                name={`question-${question.id}`}
+                                                value={selectedOptions[question.id] || ''}
+                                                onChange={(e) => handleOptionChange(question.id, Number(e.target.value))}
+                                            >
+                                                {question.options.map((option) => (
+                                                    <FormControlLabel
+                                                        key={option.id}
+                                                        value={option.id}
+                                                        control={<Radio
+                                                            icon={<RadioButtonUncheckedIcon/>}
+                                                            checkedIcon={<RadioButtonCheckedIcon/>}
+                                                        />}
+                                                        label={option.optionText}
+                                                        className={`option-label ${selectedOptions[question.id] === option.id ? 'selected' : ''}`}
+                                                    />
+                                                ))}
+                                            </RadioGroup>
+                                        </CardContent>
+                                        <Typography variant='h4' className='text-center'>
+                                            Câu số {index + 1} / {questions.length}
+                                        </Typography>
+                                    </Card>
+                                </div>
+                            ))}
+                        </Slider>
+                    ) : (
+                        <Typography variant="body1">Không có câu hỏi nào cho quiz này.</Typography>
+                    )}
+                    <Box mt={5} display="flex" justifyContent="center">
+                        <Button variant="contained"
+                                onClick={handleSubmit}
+                                className='btn-submit'
+                                endIcon={<SendIcon/>}>
+                            Nộp bài thi
+                        </Button>
+                    </Box>
+                </Box>
+                <Box className='paginating-container' flex="0 0 300px">
+                    <Typography>
+                        This is a student-side application. The quiz data is fetched from a mock API, and the timer
+                    </Typography>
                 </Box>
             </Box>
         </Container>

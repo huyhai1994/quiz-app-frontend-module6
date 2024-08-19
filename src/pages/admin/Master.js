@@ -71,44 +71,44 @@ const Master = () => {
 
     return (
         <Layout style={{minHeight: '100vh',}}>
-        <Sider
-            collapsible
-            collapsed={collapsed}
-            onCollapse={(value) => setCollapsed(value)}
-            width={250}
-            theme={'light'}
-        >
-            <div style={{padding: '16px', textAlign: 'center'}}>
-                <h1>
-                    <Link className='logo' to={'/admin'}>
-                        {collapsed ? 'Q' : 'QUIZZ' }
-                    </Link>
-                </h1>
-            </div>
-            <Menu
-                defaultSelectedKeys={['1']}
-                mode="inline"
-                items={items}
-            />
-        </Sider>
-        <Layout>
-            <Content style={{margin: '0 16px',}}>
-                <div
-                    style={{
-                        padding: 24,
-                        minHeight: 360,
-                        background: colorBgContainer,
-                        borderRadius: borderRadiusLG,
-                    }}
-                >
-                    <Outlet/>
+            <Sider
+                collapsible
+                collapsed={collapsed}
+                onCollapse={(value) => setCollapsed(value)}
+                width={250}
+                theme={'light'}
+            >
+                <div style={{padding: '16px', textAlign: 'center'}}>
+                    <h1>
+                        <Link className='logo' to={'/admin'}>
+                            {collapsed ? 'Q' : 'QUIZZ'}
+                        </Link>
+                    </h1>
                 </div>
-            </Content>
-            <Footer
-                style={{textAlign: 'center',}}>
-                Ant Design ©{new Date().getFullYear()} Created by Ant UED
-            </Footer>
-        </Layout>
+                <Menu
+                    defaultSelectedKeys={['1']}
+                    mode="inline"
+                    items={items}
+                />
+            </Sider>
+            <Layout>
+                <Content style={{margin: '0 16px',}}>
+                    <div
+                        style={{
+                            padding: 24,
+                            minHeight: 360,
+                            background: colorBgContainer,
+                            borderRadius: borderRadiusLG,
+                        }}
+                    >
+                        <Outlet/>
+                    </div>
+                </Content>
+                <Footer
+                    style={{textAlign: 'center',}}>
+                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                </Footer>
+            </Layout>
             <Modal
                 title="Đăng xuất"
                 open={logoutModalOpen}
@@ -119,7 +119,7 @@ const Master = () => {
             >
                 <p>Bạn có chắc chắn muốn đăng xuất không?</p>
             </Modal>
-    </Layout>
+        </Layout>
     );
 };
 
