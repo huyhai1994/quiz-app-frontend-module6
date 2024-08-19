@@ -73,8 +73,6 @@ function App() {
         }}>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path="/result/history" element={<QuizHistoryList/>}/>
-                <Route path="/quiz-history/:id" element={<QuizHistoryDetail/>}/>
                 <Route path="/teacher-question" element={<ListTeacherQuestions/>}/>
                 <Route path="/quizzes" element={<QuizListStudent/>}/>
                 <Route path="/result/new/:resultId" element={<ResultStudentList/>}/>
@@ -135,6 +133,7 @@ function App() {
                     <Route path="question" element={<QuizComponent/>}/>
                     <Route path="result/new/:resultId" element={<ResultStudentList/>}/>
                     <Route path="quizzes/:quizId/start" element={<QuestionListStudent/>}/>
+                    <Route path="result/history" element={<QuizHistoryList/>}/>
                 </Route>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
