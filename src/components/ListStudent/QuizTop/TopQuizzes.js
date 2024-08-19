@@ -4,12 +4,10 @@ import {TailSpin} from 'react-loader-spinner';
 import Swal from 'sweetalert2';
 import {fetchTopQuizzes} from "../../../store/quizStore/QuizAxios";
 import {Box, Card, CardContent, Typography} from '@mui/material';
-import KingIcon from '@mui/icons-material/EmojiEvents'; // King icon
-import QueenIcon from '@mui/icons-material/EmojiEvents'; // Queen icon
-import PrinceIcon from '@mui/icons-material/EmojiEvents'; // Prince icon
-import AttemptIcon from '@mui/icons-material/CheckCircle'; // Attempt icon
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
+import KingIcon from '@mui/icons-material/EmojiEvents';
+import QueenIcon from '@mui/icons-material/EmojiEvents';
+import PrinceIcon from '@mui/icons-material/EmojiEvents';
+import AttemptIcon from '@mui/icons-material/CheckCircle';
 import {useLocation, useNavigate} from 'react-router-dom';
 
 const TopQuizzes = () => {
@@ -29,54 +27,69 @@ const TopQuizzes = () => {
     }, [error]);
 
     if (loading) {
-        return (<div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
-            <TailSpin color="#00BFFF" height={80} width={80}/>
-        </div>);
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+                <TailSpin color="#00BFFF" height={80} width={80}/>
+            </div>
+        );
     }
 
     const getIcon = (index) => {
         switch (index) {
             case 0:
-                return <KingIcon style={{fontSize: 50, color: 'gold'}}/>;
+                return <KingIcon style={{fontSize: 100, color: 'gold'}}/>;
             case 1:
-                return <QueenIcon style={{fontSize: 50, color: 'silver'}}/>;
+                return <QueenIcon style={{fontSize: 100, color: 'silver'}}/>;
             case 2:
-                return <PrinceIcon style={{fontSize: 50, color: 'bronze'}}/>;
+                return <PrinceIcon style={{fontSize: 100, color: 'bronze'}}/>;
             default:
                 return null;
         }
     };
 
-    const responsive = {
-        superLargeDesktop: {
-            breakpoint: {max: 4000, min: 1024}, items: 3
-        }, desktop: {
-            breakpoint: {max: 1024, min: 768}, items: 3
-        }, tablet: {
-            breakpoint: {max: 768, min: 464}, items: 2
-        }, mobile: {
-            breakpoint: {max: 464, min: 0}, items: 1
-        }
-    };
-
     const handleCardClick = (quizId) => {
-        const queryParams = new URLSearchParams(location.search);//TODO: Hỏi lại tiến chỗ này
+        const queryParams = new URLSearchParams(location.search);
         const resultIdFromQuery = queryParams.get('resultId');
         navigate(`/student/quizzes/${quizId}/start?resultId=${resultIdFromQuery}`);
     };
-    return (<Box display="flex" justifyContent="center" minHeight="100vh">
-        <div className="container mt-5">
-            <Typography variant="h4" gutterBottom>Bài Thi Phổ Biến Nhất</Typography>
-            {topQuizzes.length > 0 ? (<Box>
-                <Carousel responsive={responsive}>
-                    {topQuizzes.map((quiz, index) => (<div key={quiz.id}>
-                        <Card className='mx-3' onClick={() => handleCardClick(quiz.id)}
-                              style={{cursor: 'pointer'}}>
+
+    return (
+        <Box className='py-5' color='var(--color-primary)' display="flex" flexDirection="column" alignItems="center"
+             minHeight="100vh" p={3}>
+            <Typography variant="h4" gutterBottom sx={{fontWeight: 'bold'}}>
+                Bài Thi HOT
+            </Typography>
+            <Box className="" display="flex" flexWrap="wrap" justifyContent="center" gap={3} width="100%">
+                {topQuizzes.length > 0 ? (
+                    topQuizzes.map((quiz, index) => (
+                        <Card
+                            key={quiz.id}
+                            onClick={() => handleCardClick(quiz.id)}
+                            sx={{
+                                cursor: 'pointer',
+                                flex: '1 1 calc(25% - 16px)', // Default to 3 cards per row
+                                maxWidth: 'calc(25% - 16px)', // Max width to ensure proper wrapping
+                                mb: 3, // Margin bottom
+                                transition: 'transform 0.3s, box-shadow 0.3s',
+                                '&:hover': {
+                                    transform: 'scale(1.05)', // Slightly bigger on hover
+                                    boxShadow: '0 4px 20px var(--color-secondary)', // Shadow color change
+                                },
+                                '@media (max-width: 1024px)': {
+                                    flex: '1 1 calc(50% - 16px)', // 2 cards per row on medium screens
+                                    maxWidth: 'calc(50% - 16px)',
+                                },
+                                '@media (max-width: 768px)': {
+                                    flex: '1 1 calc(100% - 16px)', // 1 card per row on small screens
+                                    maxWidth: 'calc(100% - 16px)',
+                                }
+                            }}
+                        >
                             <Box display="flex" justifyContent="center" alignItems="center" p={2}>
                                 {getIcon(index)}
                             </Box>
                             <CardContent>
-                                <Box className='d-flex justify-content-between align-items-center'>
+                                <Box display="flex" justifyContent="space-between" alignItems="center">
                                     <Typography variant="h5" component="div">
                                         {quiz.title}
                                     </Typography>
@@ -89,13 +102,15 @@ const TopQuizzes = () => {
                                 </Box>
                             </CardContent>
                         </Card>
-                    </div>))}
-                </Carousel>
-            </Box>) : (<Typography variant="body1" color="text.secondary" align="center">
-                Không có dữ liệu
-            </Typography>)}
-        </div>
-    </Box>);
+                    ))
+                ) : (
+                    <Typography variant="body1" color="text.secondary" align="center">
+                        Không có dữ liệu
+                    </Typography>
+                )}
+            </Box>
+        </Box>
+    );
 };
 
 export default TopQuizzes;
