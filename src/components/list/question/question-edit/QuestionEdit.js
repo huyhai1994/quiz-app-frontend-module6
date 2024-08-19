@@ -48,13 +48,12 @@ const QuestionEdit = () => {
         }),
         onSubmit: async (values) => {
             try {
-                const response = await QuestionService.updateQuestion(id, {...values, options});
+                await QuestionService.updateQuestion(id, {...values, options});
                 await Swal.fire({
                     title: "Thành công",
                     text: "Câu hỏi và tùy chọn đã được cập nhật",
                     icon: "success"
                 });
-
                 navigate("/teacher/question");
             } catch (error) {
                 await Swal.fire('Thất bại', error || 'Xin vui lòng kiểm tra lại thông tin vừa nhập!', 'error');
@@ -66,28 +65,20 @@ const QuestionEdit = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch categories
                 const categoryRes = await CategoryService.getAllCategories();
                 setCategories(categoryRes.data);
 
-                // Fetch question types
                 const questionTypeRes = await QuestionTypeService.getAllQuestionTypes();
                 setQuestionTypes(questionTypeRes.data);
 
-                // Fetch user profile
                 const userRes = await axiosInstance.get('/users/profile');
                 setTeacherName(userRes.data.name);
                 setUserId(userRes.data.id);
 
-                // Fetch question data by ID
                 const questionRes = await QuestionService.getQuestionById(id);
                 const questionData = questionRes.data;
 
-                // Log the questionData to see its structure
-                console.log('Fetched question data:', questionData);
-
-                // Populate form fields with fetched data, using optional chaining to prevent errors
-                formik.setValues({
+                await formik.setValues({
                     title: questionData.questionText || '',
                     questionType: questionData.questionType?.id || '', // Assuming questionType ID is used
                     difficulty: questionData.difficulty || '',
@@ -96,8 +87,6 @@ const QuestionEdit = () => {
                     options: questionData.options || []
                 });
 
-                // Log formik values after setting them
-                console.log('Formik values:', formik.values);
                 setOptions(questionData.options || []);
                 setLoading(false);
             } catch (err) {
