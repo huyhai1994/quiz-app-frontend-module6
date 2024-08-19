@@ -38,11 +38,11 @@ const TopQuizzes = () => {
     const getIcon = (index) => {
         switch (index) {
             case 0:
-                return <KingIcon style={{fontSize: 100, color: 'gold'}}/>;
+                return <KingIcon style={{fontSize: 80, color: 'gold'}}/>;
             case 1:
-                return <QueenIcon style={{fontSize: 100, color: 'silver'}}/>;
+                return <QueenIcon style={{fontSize: 80, color: 'silver'}}/>;
             case 2:
-                return <PrinceIcon style={{fontSize: 100, color: 'bronze'}}/>;
+                return <PrinceIcon style={{fontSize: 80, color: 'bronze'}}/>;
             default:
                 return null;
         }
@@ -55,12 +55,13 @@ const TopQuizzes = () => {
     };
 
     return (
-        <Box className='py-5' color='var(--color-primary)' display="flex" flexDirection="column" alignItems="center"
-             minHeight="100vh" p={3}>
+        <Box className='py-5 shadow' color='var(--color-primary)' display="flex" flexDirection="column"
+             alignItems="center"
+             p={3}>
             <Typography variant="h4" gutterBottom sx={{fontWeight: 'bold', color: 'red'}}>
                 Bài Thi HOT <LocalFireDepartmentIcon style={{fontSize: 50, color: 'red'}}/>
             </Typography>
-            <Box className="" display="flex" flexWrap="wrap" justifyContent="center" gap={3} width="100%">
+            <Box display="flex" flexWrap="wrap" justifyContent="center" gap={3} width="100%">
                 {topQuizzes.length > 0 ? (
                     topQuizzes.map((quiz, index) => (
                         <Card
@@ -68,8 +69,8 @@ const TopQuizzes = () => {
                             onClick={() => handleCardClick(quiz.id)}
                             sx={{
                                 cursor: 'pointer',
-                                flex: '1 1 calc(25% - 16px)', // Default to 3 cards per row
-                                maxWidth: 'calc(25% - 16px)', // Max width to ensure proper wrapping
+                                flex: '1 1 calc(24% - 16px)', // Adjusted to fit more cards in the row
+                                maxWidth: 'calc(24% - 16px)', // Adjusted max width
                                 mb: 3, // Margin bottom
                                 transition: 'transform 0.3s, box-shadow 0.3s',
                                 '&:hover': {
@@ -77,8 +78,8 @@ const TopQuizzes = () => {
                                     boxShadow: '0 4px 20px var(--color-secondary)', // Shadow color change
                                 },
                                 '@media (max-width: 1024px)': {
-                                    flex: '1 1 calc(50% - 16px)', // 2 cards per row on medium screens
-                                    maxWidth: 'calc(50% - 16px)',
+                                    flex: '1 1 calc(49% - 16px)', // 2 cards per row on medium screens
+                                    maxWidth: 'calc(49% - 16px)',
                                 },
                                 '@media (max-width: 768px)': {
                                     flex: '1 1 calc(100% - 16px)', // 1 card per row on small screens
@@ -91,7 +92,7 @@ const TopQuizzes = () => {
                             </Box>
                             <CardContent>
                                 <Box display="flex" justifyContent="space-between" alignItems="center">
-                                    <Typography variant="h5" component="div">
+                                    <Typography variant="h6" component="div">
                                         {quiz.title}
                                     </Typography>
                                     <Box display="flex" alignItems="center">
