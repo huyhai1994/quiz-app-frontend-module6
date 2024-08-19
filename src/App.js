@@ -35,7 +35,6 @@ import QuizHistoryList from "./components/ListStudent/StudentResultList/QuizHist
 import QuizListStudent from "./components/ListStudent/examStudent/QuizListStudent";
 import QuestionListStudent from "./components/ListStudent/examStudent/QuestionListStudent";
 import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
-import QuizHistoryDetail from "./components/ListStudent/StudentResultList/QuizHistoryDetail";
 import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
 import QuestionTeacherList from "./components/ListTeacher/QuestionTeacher/QuestionTeacherList";
 import QuizTeacherHistory from "./components/ListTeacher/HistoryTeacherQuiz/QuizTeacherHistory";
@@ -82,8 +81,7 @@ function App() {
             {/*<Route path="/login" element={<Login/>}/>*/}
             {/*<Route path="/register" element={<Register/>}/>*/}
 
-            <Route path={"/result/history"} element={<QuizHistoryList/>}></Route>
-            <Route path="/quiz-history/:id" element={<QuizHistoryDetail />} />
+
             <Route path={"/teacher-question"} element={<ListTeacherQuestions/>}></Route>
             <Route path="/quizzes" element={<QuizListStudent/>}/>
             <Route path={"/result/new/:resultId"} element={<ResultStudentList/>}></Route>
@@ -139,6 +137,7 @@ function App() {
                 <Route path="question" element={<QuizComponent/>}/>
                 <Route path={"result/new/:resultId"} element={<ResultStudentList/>}/>
                 <Route path="quizzes/:quizId/start" element={<QuestionListStudent/>}/>
+                <Route path={"result/history"} element={<QuizHistoryList/>}/>
             </Route>
 
             <Route path="*" element={<NotFound/>}/>

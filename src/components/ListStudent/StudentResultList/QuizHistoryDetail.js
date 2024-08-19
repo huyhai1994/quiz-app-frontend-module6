@@ -27,12 +27,12 @@ const QuizHistoryDetail = React.memo(() => {
 
     return (
         <div>
-            <p><strong>Quiz Name:</strong> {quiz.quizName}</p>
-            <p><strong>Submit Time:</strong> {quiz.submitTime ? format(new Date(quiz.submitTime), 'dd-MM-yyyy - HH:mm:ss') : ''}</p>
-            <p><strong>Score:</strong> {quiz.score}</p>
-            <p><strong>Correct Answers:</strong> {quiz.correctAnswers}</p>
-            <p><strong>Incorrect Answers:</strong> {quiz.incorrectAnswers}</p>
-            <p><strong>Rank:</strong> {quiz.rank}</p>
+            <p><strong>Tên quiz:</strong> {quiz.quizName}</p>
+            <p><strong>Thời gian hoàn thành:</strong> {quiz.submitTime ? format(new Date(quiz.submitTime), 'dd-MM-yyyy - HH:mm:ss') : ''}</p>
+            <p><strong>Điểm số:</strong> {quiz.score}</p>
+            <p><strong>Tổng số câu đúng:</strong> {quiz.correctAnswers}</p>
+            <p><strong>Tổng số câu sai:</strong> {quiz.incorrectAnswers}</p>
+            <p><strong>Xếp hạng:</strong> {quiz.rank}</p>
         </div>
     );
 });

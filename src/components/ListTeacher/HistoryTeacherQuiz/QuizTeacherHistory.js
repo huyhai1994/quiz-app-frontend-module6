@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import { TailSpin } from 'react-loader-spinner';
 import { Button, Modal, Table } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import StudentExamList from "./StudentExamHistory";
+import Page from "../../pages/Page";
 
 const QuizTeacherHistory = () => {
     const { id } = useParams();
@@ -44,7 +45,6 @@ const QuizTeacherHistory = () => {
     }, [currentPage, quizTeacherHistory]);
 
     const handleViewDetail = useCallback((userId) => {
-        console.log('Selected User ID:', userId);
         setSelectedUserId(userId);
         setShowModal(true);
     }, []);
@@ -72,7 +72,7 @@ const QuizTeacherHistory = () => {
 
     return (
         <div className="container mt-5">
-            <h2>Lịch sử Giảng Viên</h2>
+            <h2>Lịch sử thi của học sinh</h2>
             <Table striped bordered hover>
                 <thead>
                 <tr>
@@ -105,22 +105,11 @@ const QuizTeacherHistory = () => {
                 )}
                 </tbody>
             </Table>
-
-            {/* Pagination component */}
-            <div className="d-flex justify-content-between mt-3">
-                <Button
-                    disabled={currentPage === 1}
-                    onClick={() => handlePageChange(currentPage - 1)}
-                >
-                    Previous
-                </Button>
-                <Button
-                    disabled={currentPage === totalPages}
-                    onClick={() => handlePageChange(currentPage + 1)}
-                >
-                    Next
-                </Button>
-            </div>
+            <Page
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
 
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>

@@ -34,7 +34,6 @@ export const fetchQuizResultsByUserId = createAsyncThunk('result/fetchQuizResult
 
 export const HistoryResultsByUserId = createAsyncThunk('result/fetchQuizHistoryByUserId', async (userId) => {
     const response = await axios.get(`${ApiURL}/history/${userId}`);
-    console.log(`${ApiURL}/history/${userId}`)
     return response.data;
 });
 
