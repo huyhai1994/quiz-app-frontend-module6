@@ -48,7 +48,8 @@ const LoginForm = () => {
         }
     };
 
-    return (<Box sx={{maxWidth: 400, margin: 'auto', mt: 4}}>
+    return (
+        <Box sx={{maxWidth: 400, margin: 'auto', mt: 4}}>
         <Typography variant="h4" component="h1" gutterBottom className='text-center'>
             Đăng nhập
         </Typography>
@@ -99,15 +100,20 @@ const LoginForm = () => {
                 >
                     {loading ? 'Logging in...' : 'Đăng nhập'}
                 </Button>
-                {error && (<Typography color="error" variant="body2" sx={{mt: 2}}>
-                    {typeof error === 'string' ? error : JSON.stringify(error, null, 2)}
-                </Typography>)}
-                {errors.general && (<Typography color="error" variant="body2" sx={{mt: 2}}>
-                    {errors.general}
-                </Typography>)}
-            </Form>)}
+                {error && (
+                    <Typography color="error" variant="body2" sx={{mt: 2}}>
+                        {typeof error === 'string' ? error : JSON.stringify(error, null, 2)}
+                    </Typography>)}
+                {errors.general && (
+                    <Typography color="error" variant="body2" sx={{mt: 2}}>
+                        {errors.general}
+                    </Typography>
+                )}
+            </Form>
+            )}
         </Formik>
-    </Box>);
+    </Box>
+    );
 };
 
 export default LoginForm;
