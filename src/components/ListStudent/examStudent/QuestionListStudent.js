@@ -19,14 +19,9 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Timer from "./Timer";
 import SendIcon from '@mui/icons-material/Send';
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import './QuestionListStudent.css';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import './QuestionListStudent.css';
 
 const QuestionListStudent = () => {
     const {quizId} = useParams();
@@ -122,59 +117,46 @@ const QuestionListStudent = () => {
                                                                                                           color="error">Error: {error}</Typography></Box>;
     }
 
-    const settings = {
-        dots: true,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        initialSlide: currentQuestionIndex,
-        afterChange: (current) => setCurrentQuestionIndex(current),
-        nextArrow: <ArrowForwardIosIcon/>,
-        prevArrow: <ArrowBackIosIcon/>
+    const currentQuestion = questions[currentQuestionIndex];
+    const handleQuestionSelect = (index) => {
+        setCurrentQuestionIndex(index);
     };
 
     return (
-        <Container className=''>
-            <Box display="flex" justifyContent="space-between" alignItems="flex-start" my={4}>
+        <Container>
+            <Box display="flex" justifyContent="space-between" alignItems="flex-start" minHeight="100vh" my={4}>
                 <Box className='question-container' flex="1" mr={2}>
                     <Timer initialTime={initialTime} onTimeUp={handleSubmit}/>
                     <Typography variant="h4" className='text-center' gutterBottom>
                         Câu hỏi của Quiz {quizId}
                     </Typography>
-                    {questions.length > 0 ? (
-                        <Slider {...settings}>
-                            {questions.map((question, index) => (
-                                <div key={question.id}>
-                                    <Card sx={{width: '70%', margin: '0 auto'}}>
-                                        <CardContent>
-                                            <Typography variant="h6">{question.questionText}</Typography>
-                                            <RadioGroup
-                                                name={`question-${question.id}`}
-                                                value={selectedOptions[question.id] || ''}
-                                                onChange={(e) => handleOptionChange(question.id, Number(e.target.value))}
-                                            >
-                                                {question.options.map((option) => (
-                                                    <FormControlLabel
-                                                        key={option.id}
-                                                        value={option.id}
-                                                        control={<Radio
-                                                            icon={<RadioButtonUncheckedIcon/>}
-                                                            checkedIcon={<RadioButtonCheckedIcon/>}
-                                                        />}
-                                                        label={option.optionText}
-                                                        className={`option-label ${selectedOptions[question.id] === option.id ? 'selected' : ''}`}
-                                                    />
-                                                ))}
-                                            </RadioGroup>
-                                        </CardContent>
-                                        <Typography variant='h4' className='text-center'>
-                                            Câu số {index + 1} / {questions.length}
-                                        </Typography>
-                                    </Card>
-                                </div>
-                            ))}
-                        </Slider>
+                    {currentQuestion ? (
+                        <Card sx={{width: '70%', margin: '0 auto'}}>
+                            <CardContent>
+                                <Typography variant="h6">{currentQuestion.questionText}</Typography>
+                                <RadioGroup
+                                    name={`question-${currentQuestion.id}`}
+                                    value={selectedOptions[currentQuestion.id] || ''}
+                                    onChange={(e) => handleOptionChange(currentQuestion.id, Number(e.target.value))}
+                                >
+                                    {currentQuestion.options.map((option) => (
+                                        <FormControlLabel
+                                            key={option.id}
+                                            value={option.id}
+                                            control={<Radio
+                                                icon={<RadioButtonUncheckedIcon/>}
+                                                checkedIcon={<RadioButtonCheckedIcon/>}
+                                            />}
+                                            label={option.optionText}
+                                            className={`option-label ${selectedOptions[currentQuestion.id] === option.id ? 'selected' : ''}`}
+                                        />
+                                    ))}
+                                </RadioGroup>
+                            </CardContent>
+                            <Typography variant='h4' className='text-center'>
+                                Câu số {currentQuestionIndex + 1} / {questions.length}
+                            </Typography>
+                        </Card>
                     ) : (
                         <Typography variant="body1">Không có câu hỏi nào cho quiz này.</Typography>
                     )}
@@ -187,14 +169,41 @@ const QuestionListStudent = () => {
                         </Button>
                     </Box>
                 </Box>
-                <Box className='paginating-container' flex="0 0 300px">
-                    <Typography>
-                        This is a student-side application. The quiz data is fetched from a mock API, and the timer
-                    </Typography>
+                <Box className='paginating-container'
+                     flex="0 0 300px"
+                     display="flex"
+                     flexDirection="column"
+                     justifyContent="center"
+                     alignItems="center"
+                     height="100%"
+                >
+
+                    <Box
+                        className='shadow p-3 d-flex align-items-center justify-content-center'
+                        display="flex" flexWrap="wrap" gap={1} sx={{marginTop: 'calc(50vh - 200px)'}}>
+                        {questions.map((_, index) => (
+                            <Button
+                                key={index}
+                                variant={index === currentQuestionIndex ? "contained" : "outlined"}
+                                onClick={() => handleQuestionSelect(index)}
+                                size="large"
+                                sx={{
+                                    backgroundColor: index === currentQuestionIndex ? 'var(--color-primary)' : 'inherit',
+                                    color: index === currentQuestionIndex ? '#fff' : 'inherit',
+                                    '&:hover': {
+                                        backgroundColor: index === currentQuestionIndex ? 'var(--color-primary)' : 'rgba(0, 0, 0, 0.04)',
+                                    }
+                                }}
+                            >
+                                {index + 1}
+                            </Button>
+                        ))}
+                    </Box>
                 </Box>
             </Box>
         </Container>
-    );
+    )
+        ;
 };
 
 export default QuestionListStudent;
