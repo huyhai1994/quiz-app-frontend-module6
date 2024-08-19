@@ -13,7 +13,7 @@ const ListTeacherQuizzesComponent = () => {
     const {quizzes, loading, error} = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
-    const userId = 2;
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         dispatch(ListTeacherQuizzes(userId));
@@ -59,7 +59,7 @@ const ListTeacherQuizzesComponent = () => {
                     <th>Tiêu đề</th>
                     <th>Mô tả</th>
                     <th>Thời gian tạo</th>
-                    <th>Thời gian</th>
+                    <th>Thời gian làm bài(phút)</th>
                     <th>Số lượng</th>
                     <th>Điểm đạt</th>
                     <th>Độ khó</th>
