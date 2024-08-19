@@ -1,55 +1,69 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {TailSpin} from 'react-loader-spinner';
-import {fetchQuizHistoryByTeacher} from "../../../store/quizStore/QuizAxios";
+import {useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {TailSpin} from "react-loader-spinner";
 
 const QuizTeacherHistory = () => {
-    const dispatch = useDispatch();
-    const {historyTeacher, loading, error} = useSelector((state) => state.quizzes);
+    const { id } = useParams();
+    const [quizTeacherHistory, setQuizTeacherHistory] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        dispatch(fetchQuizHistoryByTeacher());
-    }, [dispatch]);
+        const fetchHistory = async () => {
+            try {
+                setLoading(true);
+                const response = await axios.get(`http://localhost:8080/quiz/${id}/user-info`);
+                setQuizTeacherHistory(response.data);
+            } catch (err) {
+                setError(err.message || 'Có lỗi xảy ra');
+            } finally {
+                setLoading(false);
+            }
+        };
 
+        if (id) {
+            fetchHistory();
+        }
+    }, [id]);
 
     if (loading) {
-        return (<div className="d-flex justify-content-center">
-            <TailSpin type="ThreeDots" color="#00BFFF" height={80} width={80}/>
-        </div>);
+        return (
+            <div className="d-flex justify-content-center">
+                <TailSpin type="ThreeDots" color="#00BFFF" height={80} width={80} />
+            </div>
+        );
     }
 
-    // Hiển thị thông báo lỗi nếu có lỗi xảy ra
     if (error) {
-        return <div className="alert alert-danger" role="alert">Error: {error}</div>;
+        return <div className="alert alert-danger" role="alert">Lỗi: {error}</div>;
     }
 
-    return (<div className="container">
-        <h1 className="my-4">Quiz History</h1>
-        <table className="table table-striped">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Difficulty</th>
-                <th>Finish Time</th>
-                <th>Score</th>
-                <th>Quantity Exam</th>
-            </tr>
-            </thead>
-            <tbody>
-            {historyTeacher.map((quiz, index) => (<tr key={index}>
-                <td>{quiz.id}</td>
-                <td>{quiz.name}</td>
-                <td>{quiz.quantity}</td>
-                <td>{quiz.difficulty}</td>
-                <td>{quiz.finishTime}</td>
-                <td>{quiz.score}</td>
-                <td>{quiz.quantityExam}</td>
-            </tr>))}
-            </tbody>
-        </table>
-    </div>);
+    return (
+        <div className="container mt-4">
+            <h2>Lịch sử Bài Kiểm Tra</h2>
+            <table className="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên Người Dùng</th>
+                    <th>Email Người Dùng</th>
+                    <th>Số Lần Thử</th>
+                </tr>
+                </thead>
+                <tbody>
+                {quizTeacherHistory.map((history, index) => (
+                    <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{history.userName}</td>
+                        <td>{history.userEmail}</td>
+                        <td>{history.attemptCount}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        </div>
+    );
 };
 
 export default QuizTeacherHistory;

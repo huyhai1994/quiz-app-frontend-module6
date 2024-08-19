@@ -1,4 +1,4 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const ApiURL = "http://localhost:8080/quiz";
@@ -8,14 +8,14 @@ export const ListQuiz = createAsyncThunk('listQuiz', async () => {
     return response.data;
 });
 
-export const CreateQuiz = createAsyncThunk('createQuiz', async ({quiz, userId}) => {
+export const CreateQuiz = createAsyncThunk('createQuiz', async ({ quiz, userId }) => {
     const response = await axios.post(`${ApiURL}/create`, quiz, {
-        params: {userId}
+        params: { userId }
     });
     return response.data;
 });
 
-export const UpdateQuiz = createAsyncThunk('updateQuiz', async ({id, quiz}) => {
+export const UpdateQuiz = createAsyncThunk('updateQuiz', async ({ id, quiz }) => {
     const response = await axios.put(`${ApiURL}/update/${id}`, quiz);
     return response.data;
 });
@@ -30,7 +30,7 @@ export const ListTeacherQuizzes = createAsyncThunk('teacherQuiz/list', async (us
     return response.data;
 });
 
-export const AddQuestionsToQuiz = createAsyncThunk('addQuestionsToQuiz', async ({quizId, questionIds}) => {
+export const AddQuestionsToQuiz = createAsyncThunk('addQuestionsToQuiz', async ({ quizId, questionIds }) => {
     const response = await axios.post(`${ApiURL}/${quizId}/add-questions`, questionIds);
     return response.data;
 });
@@ -49,14 +49,15 @@ export const fetchTopQuizzes = createAsyncThunk('fetchTopQuizzes', async () => {
     }
 });
 
-export const fetchQuizHistoryByTeacher = createAsyncThunk(
+export const fetchHistoryUserByQuizId = createAsyncThunk(
     'quiz/fetchQuizHistoryByTeacher',
-    async (_, {rejectWithValue}) => {
+    async (id) => {
         try {
-            const response = await axios.get('/quiz/teacher/history');
+            const response = await axios.get(`${ApiURL}/${id}/user-info`);
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response ? error.response.data : 'Network Error');
+            console.error("Error:", error);
+            return { error: error.response ? error.response.data : 'Network Error' };
         }
     }
 );

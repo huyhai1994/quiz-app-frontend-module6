@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Form, Input} from 'antd';
 import {Link, useNavigate} from "react-router-dom";
 import CategoryService from "../../../services/category.service";
@@ -19,6 +19,10 @@ const AddCategory = () => {
             });
         })
     }
+
+    useEffect(() => {
+        document.title = 'Tạo danh mục câu hỏi';
+    }, []);
 
     return (<div>
         <h1>Tạo danh mục</h1>

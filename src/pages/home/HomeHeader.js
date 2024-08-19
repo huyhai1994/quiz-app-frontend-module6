@@ -30,7 +30,7 @@ const HomeHeader = () => {
     return (
         <header>
             <nav className="navbar">
-                <div className="navbar-brand">Quizizz</div>
+                <div className="navbar-brand"><Link to={'/'}>Quizizz</Link></div>
                 <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                     <Menu.Item key="1" onClick={handleProfileClick}>
                         Your Profile

@@ -1,14 +1,13 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
     AddQuestionsToQuiz,
     CreateQuiz,
     DeleteQuiz,
-    fetchQuizHistoryByTeacher,
-    fetchTopQuizzes,
     ListQuiz,
     ListQuizStudent,
     ListTeacherQuizzes,
-    UpdateQuiz
+    UpdateQuiz,
+    fetchTopQuizzes, fetchHistoryUserByQuizId
 } from "./QuizAxios";
 
 const initialState = {
@@ -17,7 +16,7 @@ const initialState = {
     loading: false,
     error: null,
     status: 'idle',
-    historyTeacher: [],
+    quizTeacherHistory: [],
 };
 
 const quizSlice = createSlice({
@@ -57,7 +56,7 @@ const quizSlice = createSlice({
                 const updatedQuiz = action.payload;
                 const index = state.quizzes.findIndex(quiz => quiz.quizzesId === updatedQuiz.quizzesId);
                 if (index !== -1) {
-                    state.quizzes[index] = {...state.quizzes[index], ...updatedQuiz};
+                    state.quizzes[index] = { ...state.quizzes[index], ...updatedQuiz };
                 }
             })
             .addCase(UpdateQuiz.rejected, (state, action) => {
@@ -105,20 +104,20 @@ const quizSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message;
             })
-            .addCase(fetchQuizHistoryByTeacher.pending, (state) => {
+            .addCase(fetchHistoryUserByQuizId.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchQuizHistoryByTeacher.fulfilled, (state, action) => {
+            .addCase(fetchHistoryUserByQuizId.fulfilled, (state, action) => {
                 state.loading = false;
-                state.historyTeacher = action.payload;
+                state.quizTeacherHistory = action.payload;
             })
-            .addCase(fetchQuizHistoryByTeacher.rejected, (state, action) => {
+            .addCase(fetchHistoryUserByQuizId.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });
     },
 });
 
-export const {updateQuizInList} = quizSlice.actions;
+export const { updateQuizInList } = quizSlice.actions;
 export default quizSlice.reducer;

@@ -96,9 +96,6 @@ footer {
     color: var(--color-bg);
     text-align: center;
     padding: 20px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
 }
 
 .footer-links a {
@@ -106,4 +103,3 @@ footer {
     margin: 0 10px;
     text-decoration: none;
 }
-
