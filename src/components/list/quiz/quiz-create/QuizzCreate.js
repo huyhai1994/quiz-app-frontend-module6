@@ -341,19 +341,22 @@ const QuizCreate = () => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: '50%',
-                    maxWidth: '90%',
-                    maxHeight: '80vh',
-                    overflowY: 'auto',
-                    border: '2px solid #000',
-                    boxShadow: 24,
-                    p: 4,
-                }}>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '50%',
+                        maxWidth: '90%',
+                        maxHeight: '80vh',
+                        overflowY: 'auto',
+                        border: '2px solid #000',
+                        boxShadow: 24,
+                        p: 4,
+                        backgroundColor: 'white',
+                    }}
+                >
                     <Typography id="modal-modal-title"
                                 variant="h4"
                                 sx={{
