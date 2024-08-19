@@ -31,46 +31,6 @@ const QuestionEdit = () => {
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const categoryRes = await CategoryService.getAllCategories();
-                setCategories(categoryRes.data);
-
-                const questionTypeRes = await QuestionTypeService.getAllQuestionTypes();
-                setQuestionTypes(questionTypeRes.data);
-
-                const userRes = await axiosInstance.get('/users/profile');
-                setTeacherName(userRes.data.name);
-                setUserId(userRes.data.id);
-
-                const questionRes = await QuestionService.getQuestionById(id);
-                const questionData = questionRes.data;
-                formik.setValues({
-                    title: questionData.questionText,
-                    questionType: questionData.questionType.id,
-                    difficulty: questionData.difficulty,
-                    category: questionData.category.id,
-                    createdBy: questionData.createdBy.id,
-                    options: questionData.options
-                });
-                setOptions(questionData.options);
-                setLoading(false);
-            } catch (err) {
-                console.error("Error fetching data", err);
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, [id]);
-
-    const validationSchema = Yup.object().shape({
-        title: Yup.string().required('Xin vui lòng nhập tiêu đề'),
-        questionType: Yup.number().required('Xin vui lòng chọn loại câu hỏi'),
-        difficulty: Yup.string().required('Xin vui lòng chọn độ khó'),
-        category: Yup.number().required('Xin vui lòng chọn danh mục'),
-    });
-
     const formik = useFormik({
         initialValues: {
             title: '',
@@ -80,7 +40,12 @@ const QuestionEdit = () => {
             createdBy: teacherName,
             options: []
         },
-        validationSchema: validationSchema,
+        validationSchema: Yup.object().shape({
+            title: Yup.string().required('Xin vui lòng nhập tiêu đề'),
+            questionType: Yup.number().required('Xin vui lòng chọn loại câu hỏi'),
+            difficulty: Yup.string().required('Xin vui lòng chọn độ khó'),
+            category: Yup.number().required('Xin vui lòng chọn danh mục'),
+        }),
         onSubmit: async (values) => {
             try {
                 const response = await QuestionService.updateQuestion(id, {...values, options});
@@ -97,6 +62,51 @@ const QuestionEdit = () => {
             }
         }
     });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Fetch categories
+                const categoryRes = await CategoryService.getAllCategories();
+                setCategories(categoryRes.data);
+
+                // Fetch question types
+                const questionTypeRes = await QuestionTypeService.getAllQuestionTypes();
+                setQuestionTypes(questionTypeRes.data);
+
+                // Fetch user profile
+                const userRes = await axiosInstance.get('/users/profile');
+                setTeacherName(userRes.data.name);
+                setUserId(userRes.data.id);
+
+                // Fetch question data by ID
+                const questionRes = await QuestionService.getQuestionById(id);
+                const questionData = questionRes.data;
+
+                // Log the questionData to see its structure
+                console.log('Fetched question data:', questionData);
+
+                // Populate form fields with fetched data, using optional chaining to prevent errors
+                formik.setValues({
+                    title: questionData.questionText || '',
+                    questionType: questionData.questionType?.id || '', // Assuming questionType ID is used
+                    difficulty: questionData.difficulty || '',
+                    category: questionData.category?.id || '', // Assuming category ID is used
+                    createdBy: questionData.createdBy?.id || '', // Assuming createdBy ID is used
+                    options: questionData.options || []
+                });
+
+                // Log formik values after setting them
+                console.log('Formik values:', formik.values);
+                setOptions(questionData.options || []);
+                setLoading(false);
+            } catch (err) {
+                console.error("Error fetching data", err);
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, [id]);
 
     useEffect(() => {
         if (formik.values.questionType) {
@@ -137,6 +147,7 @@ const QuestionEdit = () => {
     if (loading) {
         return <Typography>Loading...</Typography>;
     }
+
     return (
         <Box className="container" sx={{
             mx: 5,
@@ -145,10 +156,10 @@ const QuestionEdit = () => {
         }}>
             <form onSubmit={formik.handleSubmit}
                   className='shadow p-3 rounded-md'>
-                <Typography className=' text-center' variant='h4' sx={{
+                <Typography className='text-center' variant='h4' sx={{
                     color: "var(--color-primary)",
                     fontWeight: 'bold',
-                }}>Chỉnh sửa câu hỏi </Typography>
+                }}>Chỉnh sửa câu hỏi</Typography>
                 <TextField
                     label="Tiêu đề"
                     fullWidth
@@ -188,7 +199,7 @@ const QuestionEdit = () => {
                         onChange={formik.handleChange}
                         error={formik.touched.difficulty && Boolean(formik.errors.difficulty)}
                         variant='standard'>
-                        <MenuItem value="EASY" sx={{bgColor: 'red'}}>Dễ</MenuItem>
+                        <MenuItem value="EASY">Dễ</MenuItem>
                         <MenuItem value="MEDIUM">Trung bình</MenuItem>
                         <MenuItem value="HARD">Khó</MenuItem>
                     </Select>
@@ -220,6 +231,7 @@ const QuestionEdit = () => {
                                             id={`option-${index}`}
                                             name={`option-${index}`}
                                             value={option.optionText}
+                                            aria-placeholder={option.optionText}
                                             onChange={(e) => handleOptionChange(index, 'optionText', e.target.value)}
                                             placeholder={`Nhập tùy chọn ${index + 1}`}
                                         />
