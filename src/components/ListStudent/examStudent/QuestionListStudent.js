@@ -23,6 +23,7 @@ import SendIcon from '@mui/icons-material/Send';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import './QuestionListStudent.css';
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 const QuestionListStudent = () => {
     const {quizId} = useParams();
@@ -125,8 +126,7 @@ const QuestionListStudent = () => {
                                                     <Checkbox
                                                         checked={!!selectedOptions[currentQuestion.id]?.[option.id]}
                                                         onChange={() => handleOptionChange(currentQuestion.id, option.id, true)}
-                                                        icon={<RadioButtonUncheckedIcon/>}
-                                                        checkedIcon={<RadioButtonCheckedIcon/>}
+                                                        {...label}
                                                     />
                                                 }
                                                 label={option.optionText}
