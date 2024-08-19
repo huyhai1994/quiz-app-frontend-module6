@@ -66,92 +66,148 @@ const UserProfile = () => {
         }
     };
 
+    const formatDate = (date) => {
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        };
+
+        return new Intl.DateTimeFormat('vi-VN', options).format(new Date(date));
+    };
+
+    const getRoleName = (role) => {
+        switch (role) {
+            case "ROLE_STUDENT":
+                return "Học sinh";
+            case "ROLE_TEACHER":
+                return "Giáo viên";
+            case "ROLE_ADMIN":
+                return "Quản trị viên";
+            default:
+                return "Unknown";
+        }
+    };
+
     if (loading) {
         return <Box display="flex" justifyContent="center" alignItems="center" height="100vh"><CircularProgress/></Box>;
-
     }
 
     if (!user) {
         return <Typography>Failed to load user profile</Typography>;
     }
 
-    return (<Box sx={{
-        maxWidth: 600,
-        margin: 'auto',
-        mt: 4,
-        border: '1px solid #ccc',
-        borderRadius: 4,
-        padding: 3,
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
-    }}>
-        <Box sx={{display: 'flex', justifyContent: 'center', mb: 2, position: 'relative'}}>
-            <Avatar
-                src={user.avatar || '/default-avatar.png'}
-                sx={{width: 100, height: 100}}
+    return (
+        <Box sx={{
+            maxWidth: 600,
+            margin: 'auto',
+            mt: 4,
+            border: '1px solid #ccc',
+            borderRadius: 4,
+            padding: 3,
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+        }}>
+            <Box sx={{display: 'flex', justifyContent: 'center', mb: 2, position: 'relative'}}>
+                <Avatar
+                    src={user.avatar || '/default-avatar.png'}
+                    sx={{width: 100, height: 100}}
+                />
+                {editMode && (<input
+                    accept="image/*"
+                    type="file"
+                    style={{display: 'none'}}
+                    id="avatar-upload"
+                    onChange={handleAvatarChange}
+                />)}
+                {editMode && (
+                    <label htmlFor="avatar-upload"
+                           style={{position: 'absolute', bottom: 0, right: 'calc(50% - 10rem)'}}>
+                        <Button component="span" startIcon={<PhotoCamera/>}>
+                            Đăng ảnh đai diện
+                        </Button>
+                    </label>)}
+            </Box>
+            <TextField
+                label="Tên người dùng"
+                fullWidth
+                margin="normal"
+                value={editMode ? name : user.name}
+                onChange={handleNameChange}
+                InputProps={{readOnly: !editMode}}
             />
-            {editMode && (<input
-                accept="image/*"
-                type="file"
-                style={{display: 'none'}}
-                id="avatar-upload"
-                onChange={handleAvatarChange}
-            />)}
-            {editMode && (
-                <label htmlFor="avatar-upload" style={{position: 'absolute', bottom: 0, right: 'calc(50%-10rem)'}}>
-                    <Button component="span" startIcon={<PhotoCamera/>}>
-                        Đăng ảnh đai diện
+            <TextField
+                label="Email"
+                fullWidth
+                margin="normal"
+                value={user.email}
+                InputProps={{readOnly: true}}
+            />
+            <TextField
+                label="Vai trò người dùng"
+                fullWidth
+                margin="normal"
+                value={getRoleName(user.role ? user.role.name : 'Unknown')}
+                InputProps={{readOnly: true}}
+                disabled
+            />
+            <TextField
+                label="Đăng kí tài khoản vào "
+                fullWidth
+                margin="normal"
+                value={formatDate(user.registeredAt)}
+                InputProps={{readOnly: true}}
+                disabled
+            />
+            {!editMode ? (
+                <Button
+                    variant="contained"
+                    onClick={handleEditClick}
+                    sx={{
+                        mt: 2,
+                        backgroundColor: 'var(--color-primary)',
+                        '&:hover': {backgroundColor: 'var(--color-secondary)', color: 'var(--color-text)'},
+                        width: '100%'  // Make button full width
+                    }}
+                >
+                    Ấn để sửa
+                </Button>
+            ) : (
+                <Box sx={{
+                    display: "flex",
+                    justifyContent: 'space-between',
+                    mt: 2,
+                    flexDirection: {xs: 'column', sm: 'row'} // Column on small screens, row on larger
+                }}>
+                    <Button
+                        variant="contained"
+                        sx={{
+                            width: {xs: '100%', sm: '48%'}, // Full width on small screens, 48% on larger
+                            mb: {xs: 2, sm: 0}, // Add margin bottom on small screens
+                            backgroundColor: 'var(--color-primary)', // Use custom primary color
+                            '&:hover': {backgroundColor: 'var(--color-primary-dark)'} // Add hover effect
+                        }}
+                        onClick={handleSubmit}
+                    >
+                        Lưu thay đổi
                     </Button>
-                </label>)}
+                    <Button
+                        variant="outlined"
+                        color="secondary"
+                        onClick={handleCancelEdit}
+                        sx={{
+                            width: {xs: '100%', sm: '48%'} // Full width on small screens, 48% on larger
+                        }}
+                    >
+                        Hủy
+                    </Button>
+                </Box>
+            )}
         </Box>
-        <TextField
-            label="Tên người dùng "
-            fullWidth
-            margin="normal"
-            value={editMode ? name : user.name}
-            onChange={handleNameChange}
-            InputProps={{readOnly: !editMode}}
-        />
-        <TextField
-            label="Email"
-            fullWidth
-            margin="normal"
-            value={user.email}
-            InputProps={{readOnly: true}}
-        />
-        <TextField
-            label="Vai trò người dùng "
-            fullWidth
-            margin="normal"
-            value={user.role ? user.role.name : 'Unknown'}
-            InputProps={{readOnly: true}}
-        />
-        <TextField
-            label="Register at"
-            fullWidth
-            margin="normal"
-            value={new Date(user.registeredAt).toLocaleString()}
-            InputProps={{readOnly: true}}
-        />
-        {!editMode ? (<Button
-            variant="contained"
-            onClick={handleEditClick}
-            sx={{
-                mt: 2,
-                backgroundColor: 'var(--color-primary)',
-                '&:hover': {backgroundColor: 'var(--color-secondary)', color: 'var(--color-text)'},
-                width: '100%'  // Make button full width
-            }}
-        >
-            Ấn để sửa
-        </Button>) : (<Box sx={{display: "flex", justifyContent: 'space-between', mt: 2}}>
-            <Button variant="contained" color="primary" onClick={handleSubmit} sx={{width: '48%'}}>
-                Lưu thay đổi
-            </Button>
-            <Button variant="outlined" color="secondary" onClick={handleCancelEdit} sx={{width: '48%'}}>
-                Hủy
-            </Button>
-        </Box>)}
-    </Box>);
+    );
 };
 
 export default UserProfile;
