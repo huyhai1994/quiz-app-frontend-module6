@@ -8,6 +8,7 @@ import KingIcon from '@mui/icons-material/EmojiEvents';
 import QueenIcon from '@mui/icons-material/EmojiEvents';
 import PrinceIcon from '@mui/icons-material/EmojiEvents';
 import AttemptIcon from '@mui/icons-material/CheckCircle';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import {useLocation, useNavigate} from 'react-router-dom';
 
 const TopQuizzes = () => {
@@ -56,8 +57,8 @@ const TopQuizzes = () => {
     return (
         <Box className='py-5' color='var(--color-primary)' display="flex" flexDirection="column" alignItems="center"
              minHeight="100vh" p={3}>
-            <Typography variant="h4" gutterBottom sx={{fontWeight: 'bold'}}>
-                Bài Thi HOT
+            <Typography variant="h4" gutterBottom sx={{fontWeight: 'bold', color: 'red'}}>
+                Bài Thi HOT <LocalFireDepartmentIcon style={{fontSize: 50, color: 'red'}}/>
             </Typography>
             <Box className="" display="flex" flexWrap="wrap" justifyContent="center" gap={3} width="100%">
                 {topQuizzes.length > 0 ? (
