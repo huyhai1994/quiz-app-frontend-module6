@@ -6,6 +6,7 @@ import {
     Box,
     Button,
     FormControl,
+    FormHelperText,
     IconButton,
     InputLabel,
     List,
@@ -87,7 +88,7 @@ const QuizCreate = () => {
         initialValues: {
             title: '',
             description: '',
-            quizTime: '',
+            quizTime: 5, // Set default value to 5 minutes
             quantity: '',
             passingScore: '',
             difficulty: '',
@@ -181,6 +182,7 @@ const QuizCreate = () => {
     const handleCloseModal = () => {
         setOpenModal(false);
     };
+
     const marks = [
         {value: 5, label: '5 '},
         {value: 10, label: '10'},
@@ -224,7 +226,7 @@ const QuizCreate = () => {
                         <InputLabel id="quizTime-label"><AccessAlarmIcon/> Thời gian làm bài (phút)</InputLabel>
                         <Slider
                             aria-label="Custom marks"
-                            defaultValue={5}
+                            defaultValue={5} // Set default value to 5 minutes
                             getAriaValueText={valuetext}
                             step={null}
                             color='var(--color-primary)'
@@ -238,6 +240,7 @@ const QuizCreate = () => {
                             onChange={(event, value) => formik.setFieldValue('quizTime', value)}
                             error={formik.touched.quizTime && Boolean(formik.errors.quizTime)}
                         />
+                        <FormHelperText>Thời gian mặc định là 5 phút</FormHelperText>
                     </FormControl>
                     <FormControl fullWidth margin="normal">
                         <InputLabel id="difficulty-label">Độ khó</InputLabel>
@@ -373,7 +376,7 @@ const QuizCreate = () => {
                                 <Typography variant="h5" className='my-2'>{category.name}</Typography>
                                 <MultiSelect
                                     options={questions.filter(question => question.categoryName.trim() === category.name.trim()).map(question => ({
-                                        label: question.questionText,
+                                        label: `${question.questionText} (${question.questionId})`,
                                         value: question.questionId
                                     }))}
                                     value={selectedQuestions.filter(sq => questions.find(
