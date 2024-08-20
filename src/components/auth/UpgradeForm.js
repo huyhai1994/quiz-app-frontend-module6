@@ -35,21 +35,24 @@ const TeacherApprovalStatus = () => {
     };
 
     return (<Row justify="center" style={{marginTop: '50px'}}>
-            <Col xs={24} sm={16} md={12} lg={8}>
-                <Card title="Teacher Approval Status" bordered={false}>
-                    {approvalStatus ? (<div>
-                            <p>ID: {approvalStatus.id}</p>
-                            <p>User ID: {approvalStatus.userId}</p>
-                            <p>Status: {approvalStatus.status}</p>
-                            {/* Render other possible fields here */}
-                            {approvalStatus.status === 'Pending' ? (
-                                <Button type="primary" onClick={handleUpgrade} disabled={loading}>
-                                    Upgrade to Teacher
-                                </Button>) : (<p>Your request is {approvalStatus.status}</p>)}
-                        </div>) : (<p>Bạn đang là học sinh</p>)}
-                </Card>
-            </Col>
-        </Row>);
+        <Col xs={24} sm={16} md={12} lg={12}>
+            <Card className='shadow fw-bold' title="Trạng thái nâng hạng người dùng" bordered={false}>
+                {approvalStatus ? (<div>
+                    <p>ID: {approvalStatus.id}</p>
+                    <p>Status: {approvalStatus.status}</p>
+                    {/* Render other possible fields here */}
+                    {approvalStatus.status === 'PENDING' ? (<Button type="primary" disabled>
+                        Đang duyệt
+                    </Button>) : (<p>Yêu cầu của bạn {approvalStatus.status}?"đang chờ"</p>)}
+                </div>) : (<div>
+                    <p>Bạn đang là học sinh</p>
+                    <Button type="primary" onClick={handleUpgrade} disabled={loading}>
+                        Nâng hạng lên giáo viên
+                    </Button>
+                </div>)}
+            </Card>
+        </Col>
+    </Row>);
 };
 
 export default TeacherApprovalStatus;
