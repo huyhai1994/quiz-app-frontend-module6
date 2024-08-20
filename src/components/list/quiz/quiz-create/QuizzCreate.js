@@ -50,7 +50,6 @@ const QuizCreate = () => {
                 console.error('Error fetching quiz categories:', error);
             }
         };
-
         const fetchCategories = async () => {
             try {
                 const response = await axios.get(API_CATEGORIES_URL);
@@ -59,7 +58,6 @@ const QuizCreate = () => {
                 console.error('Error fetching categories:', error);
             }
         };
-
         const fetchQuestions = async () => {
             try {
                 const response = await axios.get(`${API_QUESTION_URL}/list`);
@@ -68,7 +66,6 @@ const QuizCreate = () => {
                 console.error('Error fetching questions:', error);
             }
         };
-
         const fetchQuizTitles = async () => {
             try {
                 const response = await axios.get(`${API_QUIZ_URL}/titles`);
@@ -77,13 +74,11 @@ const QuizCreate = () => {
                 console.error('Error fetching quiz titles:', error);
             }
         };
-
         fetchQuizCategories();
         fetchCategories();
         fetchQuestions();
         fetchQuizTitles();
     }, []);
-
     const formik = useFormik({
         initialValues: {
             title: '',
@@ -130,7 +125,6 @@ const QuizCreate = () => {
                 });
         },
     });
-
     const getCurrentTimestamp = () => {
         const now = new Date();
         const pad = (num, size) => ('000' + num).slice(size * -1);
@@ -139,7 +133,6 @@ const QuizCreate = () => {
         const milliseconds = pad(now.getMilliseconds(), 3);
         return `${date} ${time}.${milliseconds}`;
     };
-
     const handleQuestionClick = (question) => {
         if (selectedQuestions.includes(question)) {
             setSelectedQuestions(selectedQuestions.filter(q => q !== question));
@@ -154,12 +147,10 @@ const QuizCreate = () => {
             });
         }
     };
-
     const handleCategoryChange = (event) => {
         setSelectedCategory(event.target.value);
         formik.setFieldValue('quizCategoryId', event.target.value);
     };
-
     const handleQuantityChange = (event) => {
         const value = event.target.value;
         setQuantity(value);
@@ -169,16 +160,13 @@ const QuizCreate = () => {
             setSelectedQuestions([]);
         }
     };
-
     const handleDifficultyChange = (event) => {
         setSelectedDifficulty(event.target.value);
         formik.handleChange(event);
     };
-
     const handleOpenModal = () => {
         setOpenModal(true);
     };
-
     const handleCloseModal = () => {
         setOpenModal(false);
     };
@@ -191,11 +179,9 @@ const QuizCreate = () => {
         {value: 30, label: '30 '},
         {value: 60, label: '60 '},
     ];
-
     const valuetext = (value) => {
         return `${value} phút`;
     };
-
     return (
         <Box className="quiz-create-container">
             <Box className="quiz-create-form p-3">

@@ -39,6 +39,9 @@ import ResultStudentList from "./components/ListStudent/StudentResultList/Result
 import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
 import QuizTeacherHistory from "./components/ListTeacher/HistoryTeacherQuiz/QuizTeacherHistory";
 import UserProfileLayout from "./components/layout/UserProfileLayout";
+import QuizRoom from "./components/quiz/QuizRoom";
+import QuizActive from "./components/quiz/QuizActive";
+import QuizResults from "./components/quiz/QuizResults";
 import UpgradeForm from "./components/auth/UpgradeForm";
 
 
@@ -85,6 +88,7 @@ function App() {
                     <Route path="change-password" element={<ChangePasswordForm/>}/>
                     <Route path="reset-password" element={<PasswordReset/>}/>
                 </Route>
+
                 <Route path="/admin/*" element={
                     <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
                         <Master/>
@@ -103,6 +107,7 @@ function App() {
                     <Route path="teacher-list" element={<TeacherList/>}/>
                     <Route path="student-list" element={<StudentList/>}/>
                 </Route>
+
                 <Route path="/teacher/*" element={
                     <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_TEACHER']}>
                         <TeacherHome/>
@@ -119,9 +124,12 @@ function App() {
                     <Route path="option/create" element={<OptionCreate/>}/>
                     <Route path="quiz/create" element={<QuizCreate/>}/>
                     <Route path="teacher-quizzes" element={<QuizTeacherList/>}/>
-                    <Route path="quizzes/:id/user-history"
-                           element={<QuizTeacherHistory/>}/> {/*TODO: xem lich su thi cua hoc sinh*/}
+                    <Route path="quiz/:quizId/room" element={<QuizRoom/>} />
+                    <Route path="quiz/:quizId/active" element={<QuizActive/>} />
+                    <Route path="quiz/:quizId/results" element={<QuizResults/>} />
+                    <Route path="quizzes/:id/user-history" element={<QuizTeacherHistory/>}/> {/*TODO: xem lich su thi cua hoc sinh*/}
                 </Route>
+
                 <Route path="/student/*" element={
                     <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
                         <StudentHome/>
@@ -133,10 +141,10 @@ function App() {
                     <Route path="profile" element={<UserProfile/>}/>
                     <Route path="change-password" element={<ChangePasswordForm/>}/>
                     <Route path="quiz" element={<QuizList/>}/>
-                    <Route path="quizzes" element={<QuizListStudent/>}/>
                     <Route path="question" element={<QuizComponent/>}/>
-                    <Route path="result/new/:resultId" element={<ResultStudentList/>}/>
+                    <Route path="quizzes" element={<QuizListStudent/>}/>
                     <Route path="quizzes/:quizId/start" element={<QuestionListStudent/>}/>
+                    <Route path="result/new/:resultId" element={<ResultStudentList/>}/>
                     <Route path="result/history" element={<QuizHistoryList/>}/> {/*TODO: xem lich su ca nhan thi*/}
                 </Route>
                 <Route path="*" element={<NotFound/>}/>
