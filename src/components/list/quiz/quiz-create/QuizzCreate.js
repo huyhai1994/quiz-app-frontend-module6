@@ -82,7 +82,7 @@ const QuizCreate = () => {
         initialValues: {
             title: '',
             description: '',
-            quizTime: '',
+            quizTime: 1,
             quantity: '',
             passingScore: '',
             difficulty: '',
@@ -170,6 +170,8 @@ const QuizCreate = () => {
         setOpenModal(false);
     };
     const marks = [
+        {value: 1, label: "1"},
+        {value: 3, label: '3'},
         {value: 5, label: '5 '},
         {value: 10, label: '10'},
         {value: 15, label: '15'},
@@ -210,12 +212,12 @@ const QuizCreate = () => {
                         <InputLabel id="quizTime-label"><AccessAlarmIcon/> Thời gian làm bài (phút)</InputLabel>
                         <Slider
                             aria-label="Custom marks"
-                            defaultValue={5}
+                            defaultValue={1}
                             getAriaValueText={valuetext}
                             step={null}
                             color='var(--color-primary)'
                             className='mt-5'
-                            min={5}
+                            min={1}
                             max={60}
                             marks={marks}
                             id="quizTime"
