@@ -49,6 +49,10 @@ const ListTeacherQuizzesComponent = () => {
         );
     }
 
+    const handlePlayQuiz = (quizId) => {
+        navigate(`/teacher/quiz/${quizId}/room`);
+    }
+
     return (
         <div>
             <h2>Danh sách bài kiểm tra của giáo viên</h2>
@@ -87,6 +91,12 @@ const ListTeacherQuizzesComponent = () => {
                                         onClick={() => handleViewHistory(quiz.quizzesId)}
                                     >
                                         Xem lịch sử
+                                    </button>
+                                    <button
+                                        className="btn btn-primary ml-2"
+                                        onClick={() => handlePlayQuiz(quiz.quizzesId)}
+                                    >
+                                        Chơi
                                     </button>
                                 </td>
                             </tr>

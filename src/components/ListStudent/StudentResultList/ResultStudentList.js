@@ -58,9 +58,7 @@ const ResultStudentList = () => {
             </div>
         );
     }
-
     const COLORS = ['var(--color-primary)', 'var(--color-secondary)'];
-
     return (
         <Box display="flex" justifyContent="center" minHeight="100vh" className='mt-5'>
             <Box width="80%">
