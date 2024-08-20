@@ -33,29 +33,24 @@ const QuestionListStudent = () => {
     const location = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
     const [selectedOptions, setSelectedOptions] = useState({});
     const [resultId, setResultId] = useState(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [initialTime, setInitialTime] = useState(null);
-
     const questions = useSelector(state => state.questions.questions);
     const status = useSelector(state => state.questions.status);
     const error = useSelector(state => state.questions.error);
-
     const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const resultIdFromQuery = queryParams.get('resultId');
         setResultId(resultIdFromQuery);
-
         dispatch(getQuestionsByQuizId(quizId));
         axios.get(`http://localhost:8080/quiz/${quizId}/time`)
             .then(response => setInitialTime(response.data.quizTime * 60))
             .catch(error => console.error('Error fetching quiz time:', error));
     }, [dispatch, quizId, location.search]);
-
     const handleOptionChange = useCallback((questionId, optionId, isMultiple) => {
         setSelectedOptions(prev => {
             if (isMultiple) {
@@ -71,7 +66,6 @@ const QuestionListStudent = () => {
             return {...prev, [questionId]: optionId};
         });
     }, []);
-
     const handleSubmit = () => {
         if (resultId) {
             const userAnswers = Object.entries(selectedOptions).flatMap(([questionId, answer]) => {
@@ -84,7 +78,6 @@ const QuestionListStudent = () => {
                 }
                 return [{userId, questionId: Number(questionId), optionId: answer}];
             });
-
             dispatch(endQuizForUser({resultId: Number(resultId), userAnswers}))
                 .unwrap()
                 .then(() => {
@@ -100,13 +93,12 @@ const QuestionListStudent = () => {
     // Use the custom hook to block navigation and prompt the user
     usePrompt('Bạn sẽ mất tiến trình nếu rời khỏi trang này!', true);
 
-    if (status === 'loading' || initialTime === null) {
+if (status === 'loading' || initialTime === null) {
         return <Box display="flex" justifyContent="center" alignItems="center" height="100vh"><CircularProgress/></Box>;
     }
 
     if (status === 'failed') {
-        return <Box display="flex" justifyContent="center" alignItems="center" height="100vh"><Typography variant="h6"
-                                                                                                          color="error">Error: {error}</Typography></Box>;
+        return <Box display="flex" justifyContent="center" alignItems="center" height="100vh"><Typography variant="h6" color="error">Error: {error}</Typography></Box>;
     }
 
     const currentQuestion = questions[currentQuestionIndex];

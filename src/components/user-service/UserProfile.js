@@ -67,6 +67,8 @@ const UserProfile = () => {
     };
 
     const formatDate = (date) => {
+        if (!date) return 'N/A'; // Return 'N/A' if date is null or undefined
+
         const options = {
             weekday: 'long',
             year: 'numeric',
@@ -77,7 +79,12 @@ const UserProfile = () => {
             hour12: false
         };
 
-        return new Intl.DateTimeFormat('vi-VN', options).format(new Date(date));
+        try {
+            return new Intl.DateTimeFormat('vi-VN', options).format(new Date(date));
+        } catch (error) {
+            console.error('Error formatting date:', error);
+            return 'Invalid Date';
+        }
     };
 
     const getRoleName = (role) => {
