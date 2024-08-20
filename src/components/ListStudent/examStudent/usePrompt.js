@@ -1,6 +1,5 @@
 import {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import Swal from 'sweetalert2';
 
 export function usePrompt(message, when) {
     const navigate = useNavigate();
@@ -8,26 +7,22 @@ export function usePrompt(message, when) {
     useEffect(() => {
         const handleBeforeUnload = (event) => {
             if (when) {
+                const confirmationMessage = message || "nếu thoát bạn sẽ mất tiến trình";
                 event.preventDefault();
-                event.returnValue = message;
-                return message;
+                event.returnValue = confirmationMessage; // For most browsers
+                return confirmationMessage; // For legacy browsers
             }
         };
 
         const handleNavigation = (event) => {
-            event.preventDefault();
-            Swal.fire({
-                title: 'Bạn có chắc chắn?',
-                text: "Bạn sẽ mất tiến trình nếu rời khỏi trang này!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Rời khỏi',
-                cancelButtonText: 'Ở lại',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    navigate(event.target.href || '/');
+            if (when) {
+                const confirmationMessage = message || "nếu thoát bạn sẽ mất tiến trình";
+                if (window.confirm(confirmationMessage)) {
+                    navigate('/student/quizzes'); // Navigate to /student/quizzes if user confirms
+                } else {
+                    event.preventDefault();
                 }
-            });
+            }
         };
 
         window.addEventListener('beforeunload', handleBeforeUnload);
