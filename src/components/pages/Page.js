@@ -1,4 +1,5 @@
 import React from 'react';
+import './page.css';
 
 const Page = ({currentPage, totalPages, onPageChange}) => {
     const getPageNumbers = () => {

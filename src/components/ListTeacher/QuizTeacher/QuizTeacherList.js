@@ -6,13 +6,16 @@ import {format} from "date-fns";
 import Swal from "sweetalert2";
 import {useNavigate} from "react-router-dom";
 import Page from "../../pages/Page";
+import {Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import VisibilityIcon from '@mui/icons-material/Visibility'; // Import the eye icon
+import './QuizTeacherList.css';
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {quizzes, loading, error} = useSelector((state) => state.quizzes);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 5;
+    const pageSize = 20;
     const userId = localStorage.getItem('userId');
 
     useEffect(() => {
@@ -41,71 +44,89 @@ const ListTeacherQuizzesComponent = () => {
 
     const currentData = getCurrentPageData();
 
+    const getDifficultyLabel = (difficulty) => {
+        switch (difficulty) {
+            case 'HARD':
+                return <span className="difficulty-label"
+                             style={{backgroundColor: 'red', color: 'var(--color-dark)'}}>Khó</span>;
+            case 'MEDIUM':
+                return <span className="difficulty-label" style={{backgroundColor: 'yellow', color: 'var(--color-bg)'}}>Trung bình</span>;
+            case 'EASY':
+                return <span className="difficulty-label"
+                             style={{backgroundColor: 'green', color: 'var(--color-bg)'}}>Dễ</span>;
+            default:
+                return difficulty;
+        }
+    };
+
     if (loading) {
-        return (
-            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
-                <TailSpin color="#00BFFF" height={80} width={80}/>
-            </div>
-        );
+        return (<div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+            <TailSpin color="#00BFFF" height={80} width={80}/>
+        </div>);
     }
 
-    return (
-        <div>
-            <h2>Danh sách bài kiểm tra của giáo viên</h2>
-            <table className="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tiêu đề</th>
-                    <th>Mô tả</th>
-                    <th>Thời gian tạo</th>
-                    <th>Thời gian làm bài(phút)</th>
-                    <th>Số lượng</th>
-                    <th>Điểm đạt</th>
-                    <th>Độ khó</th>
-                    <th>Hành động</th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentData.length > 0 ? (
-                    currentData.map((quiz, index) => {
-                        const timeCreate = new Date(quiz.quizzesTimeCreate);
-                        const formattedDate = isNaN(timeCreate.getTime()) ? 'N/A' : format(timeCreate, 'dd-MM-yyyy - HH:mm:ss');
-                        return (
-                            <tr key={quiz.quizzesId}>
-                                <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                                <td>{quiz.quizzesTitle}</td>
-                                <td>{quiz.quizzesDescription}</td>
-                                <td>{formattedDate}</td>
-                                <td>{quiz.quizTime}</td>
-                                <td>{quiz.quantity}</td>
-                                <td>{quiz.passingScore}</td>
-                                <td>{quiz.difficulty}</td>
-                                <td>
-                                    <button
-                                        className="btn btn-info"
+    return (<Grid container spacing={2} className='p-5 shadow'>
+        <Grid item xs={12}>
+            <h2 className='fw-bold text-center'>Danh sách bài kiểm tra của giáo viên</h2>
+        </Grid>
+        <Grid item xs={12}>
+            <TableContainer component={Paper}>
+                <Table aria-label="quiz table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>STT</TableCell>
+                            <TableCell>Tiêu đề</TableCell>
+                            <TableCell>Mô tả</TableCell>
+                            <TableCell>Thời gian tạo</TableCell>
+                            <TableCell>Thời gian làm bài (phút)</TableCell>
+                            <TableCell>Số lượng</TableCell>
+                            <TableCell>Điểm đạt</TableCell>
+                            <TableCell>Độ khó</TableCell>
+                            <TableCell>Hành động</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {currentData.length > 0 ? (currentData.map((quiz, index) => {
+                            const timeCreate = new Date(quiz.quizzesTimeCreate);
+                            const formattedDate = isNaN(timeCreate.getTime()) ? 'N/A' : format(timeCreate, 'dd-MM-yyyy - HH:mm:ss');
+                            return (<TableRow
+                                key={quiz.quizzesId}
+                                className="quiz-row" // Add class for hover effect
+                            >
+                                <TableCell>{(currentPage - 1) * pageSize + index + 1}</TableCell>
+                                <TableCell>{quiz.quizzesTitle}</TableCell>
+                                <TableCell>{quiz.quizzesDescription}</TableCell>
+                                <TableCell>{formattedDate}</TableCell>
+                                <TableCell>{quiz.quizTime}</TableCell>
+                                <TableCell>{quiz.quantity}</TableCell>
+                                <TableCell>{quiz.passingScore}</TableCell>
+                                <TableCell>{getDifficultyLabel(quiz.difficulty)}</TableCell>
+                                <TableCell>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        startIcon={<VisibilityIcon/>}
                                         onClick={() => handleViewHistory(quiz.quizzesId)}
                                     >
                                         Xem lịch sử
-                                    </button>
-                                </td>
-                            </tr>
-                        );
-                    })
-                ) : (
-                    <tr>
-                        <td colSpan="9">Không có dữ liệu</td>
-                    </tr>
-                )}
-                </tbody>
-            </table>
+                                    </Button>
+                                </TableCell>
+                            </TableRow>);
+                        })) : (<TableRow>
+                            <TableCell colSpan="9">Không có dữ liệu</TableCell>
+                        </TableRow>)}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Grid>
+        <Grid item xs={12} className='d-flex align-items-center justify-content-center'>
             <Page
                 currentPage={currentPage}
                 totalPages={Math.ceil(quizzes.length / pageSize)}
                 onPageChange={handlePageChange}
             />
-        </div>
-    );
+        </Grid>
+    </Grid>);
 };
 
 export default ListTeacherQuizzesComponent;

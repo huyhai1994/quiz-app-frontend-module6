@@ -56,7 +56,11 @@ const QuestionEdit = () => {
                 });
                 navigate("/teacher/question");
             } catch (error) {
-                await Swal.fire('Thất bại', error || 'Xin vui lòng kiểm tra lại thông tin vừa nhập!', 'error');
+                if (error.response && error.response.status === 409) {
+                    await Swal.fire('Thất bại', 'Câu hỏi đã có trong bài thi, không thể cập nhật được', 'error');
+                } else {
+                    await Swal.fire('Thất bại', error.message || 'Xin vui lòng kiểm tra lại thông tin vừa nhập!', 'error');
+                }
                 console.error("Error updating question", values);
             }
         }

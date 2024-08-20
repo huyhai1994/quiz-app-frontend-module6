@@ -24,6 +24,7 @@ import Swal from "sweetalert2";
 import {Link} from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import './QuestionTeacherList.css'; // Import the custom CSS file
 
 const ListTeacherQuestions = () => {
     const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const ListTeacherQuestions = () => {
     const [selectedQuestionId, setSelectedQuestionId] = useState(null);
 
     useEffect(() => {
-        dispatch(ListTeacherQuestion(userId))
+        dispatch(ListTeacherQuestion(userId));
     }, [dispatch]);
 
     const handleDelete = (id) => {
@@ -48,6 +49,11 @@ const ListTeacherQuestions = () => {
             setOpenDialog(false);
             setSelectedQuestionId(null);
         });
+    };
+
+    const getQuestionDetail = (id) => {
+        // Implement the function to get question details by ID
+        console.log(`Fetching details for question ID: ${id}`);
     };
 
     useEffect(() => {
@@ -92,9 +98,9 @@ const ListTeacherQuestions = () => {
     const currentData = getCurrentPageData();
 
     return (
-        <Grid container spacing={2} className='py-3'>
+        <Grid container spacing={2} className='p-3'>
             <Grid item xs={12}>
-                <h2 className='fw-bold'>Danh sách câu hỏi của giáo viên</h2>
+                <h2 className='fw-bold text-center'>Danh sách câu hỏi của giáo viên</h2>
             </Grid>
             <Grid item xs={12}>
                 <TableContainer component={Paper}>
@@ -112,31 +118,34 @@ const ListTeacherQuestions = () => {
                         <TableBody>
                             {currentData.length > 0 ? (
                                 currentData.map((question, index) => (
-                                    <TableRow key={question.questionId}>
+                                    <TableRow
+                                        key={question.questionId}
+                                        className="question-row" // Add a class for hover effect
+                                        onMouseEnter={() => setSelectedQuestionId(question.questionId)}
+                                        onMouseLeave={() => setSelectedQuestionId(null)}
+                                    >
                                         <TableCell>{(currentPage - 1) * pageSize + index + 1}</TableCell>
                                         <TableCell>{question.questionText}</TableCell>
                                         <TableCell>{question.categoryName}</TableCell>
                                         <TableCell>{mapTypeName(question.typeName)}</TableCell>
                                         <TableCell>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</TableCell>
                                         <TableCell>
-                                            <Button
-                                                variant="contained"
-                                                color="secondary"
-                                                startIcon={<DeleteIcon/>}
-                                                onClick={() => handleDelete(question.questionId)}
-                                                style={{marginRight: 8}}
-                                            >
-                                                Xóa
-                                            </Button>
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                startIcon={<EditIcon/>}
-                                                component={Link}
-                                                to={`/teacher/question/edit/${question.questionId}`}
-                                            >
-                                                Sửa
-                                            </Button>
+                                            <div className="action-icons">
+                                                <Button
+                                                    variant="standard"
+                                                    startIcon={<DeleteIcon/>}
+                                                    style={{color: 'red'}}
+                                                    onClick={() => handleDelete(question.questionId)}
+                                                    className="icon-button"
+                                                />
+                                                <Button
+                                                    variant="standard"
+                                                    startIcon={<EditIcon/>}
+                                                    component={Link}
+                                                    to={`/teacher/question/edit/${question.questionId}`}
+                                                    className="icon-button"
+                                                />
+                                            </div>
                                         </TableCell>
                                     </TableRow>
                                 ))
@@ -149,7 +158,7 @@ const ListTeacherQuestions = () => {
                     </Table>
                 </TableContainer>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} className='d-flex align-items-center justify-content-center'>
                 <Page
                     currentPage={currentPage}
                     totalPages={totalPages}
