@@ -17,7 +17,7 @@
     padding: 20px;
     margin: 10px;
     height: 220px; /* Keeping it square */
-    color: #fff !important; /* Text color inside the boxes */
+    color: var(--color-dark) !important; /* Text color inside the boxes */
     position: relative;
     flex-direction: column;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

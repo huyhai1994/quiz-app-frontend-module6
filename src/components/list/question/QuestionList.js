@@ -76,10 +76,7 @@ const QuestionList = () => {
                         className="form-control"
                     />
                 </div>
-                <button
-                    className="btn btn-primary ms-2"
-                    onClick={handleSearch}
-                >
+                <button className="btn btn-primary ms-2" onClick={handleSearch}>
                     Tìm kiếm
                 </button>
             </div>

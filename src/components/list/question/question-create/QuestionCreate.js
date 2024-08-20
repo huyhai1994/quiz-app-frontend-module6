@@ -4,13 +4,13 @@ import Swal from "sweetalert2";
 import {
     Box,
     Button,
+    Checkbox,
     FormControl,
     FormControlLabel,
     InputLabel,
     MenuItem,
     OutlinedInput,
     Select,
-    Switch,
     TextField,
     Typography
 } from '@mui/material';
@@ -65,14 +65,17 @@ const QuestionCreate = () => {
             questionType: '',
             difficulty: '',
             category: '',
-            createdBy:
-            teacherName,
+            createdBy: teacherName,
             options: []
-        }, validationSchema: validationSchema, onSubmit: async (values) => {
+        },
+        validationSchema: validationSchema,
+        onSubmit: async (values) => {
             try {
                 const response = await QuestionService.addQuestion({...values, options}, userId);
                 await Swal.fire({
-                    title: "Thành công", text: "Câu hỏi và tùy chọn đã được tạo", icon: "success"
+                    title: "Thành công",
+                    text: "Câu hỏi và tùy chọn đã được tạo",
+                    icon: "success"
                 });
 
                 navigate("/teacher/question");
@@ -100,8 +103,8 @@ const QuestionCreate = () => {
             ];
         } else if (type === 3) {
             initialOptions = [
-                {optionText: 'True', isCorrect: false},
-                {optionText: 'False', isCorrect: false}
+                {optionText: 'Đúng', isCorrect: false},
+                {optionText: 'Sai', isCorrect: false}
             ];
         }
         setOptions(initialOptions);
@@ -124,17 +127,12 @@ const QuestionCreate = () => {
     }
 
     return (
-        <Box className="container" sx={{
-            mx: 5,
-            mt: 4,
-            padding: 3,
-        }}>
-            <form onSubmit={formik.handleSubmit}
-                  className='shadow p-3 rounded-md'>
-                <Typography className=' text-center' variant='h4' sx={{
-                    color: "var(--color-primary)",
-                    fontWeight: 'bold',
-                }}>Tạo mới câu hỏi </Typography>
+        <Box className="container" sx={{mx: 5, mt: 4, padding: 3}}>
+            <form onSubmit={formik.handleSubmit} className='shadow p-3 rounded-md'>
+                <Typography className='text-center' variant='h4'
+                            sx={{color: "var(--color-primary)", fontWeight: 'bold'}}>
+                    Tạo mới câu hỏi
+                </Typography>
                 <TextField
                     label="Tiêu đề"
                     fullWidth
@@ -211,9 +209,15 @@ const QuestionCreate = () => {
                                         />
                                     )}
                                     <FormControlLabel
-                                        control={<Switch
+                                        control={<Checkbox
                                             checked={option.isCorrect}
                                             onChange={(e) => handleOptionChange(index, 'isCorrect', e.target.checked)}
+                                            sx={{
+                                                color: 'var(--color-primary)',
+                                                '&.Mui-checked': {
+                                                    color: 'var(--color-primary)',
+                                                },
+                                            }}
                                         />}
                                         label={formik.values.questionType === 3 ? option.optionText : "Đúng"}
                                         className="switch-label"
@@ -223,8 +227,7 @@ const QuestionCreate = () => {
                         ))}
                     </div>
                 )}
-                <Button className='question-submit-button mt-3' variant="contained" fullWidth
-                        type="submit">
+                <Button className='question-submit-button mt-3' variant="contained" fullWidth type="submit">
                     Tạo câu hỏi và tùy chọn
                 </Button>
             </form>

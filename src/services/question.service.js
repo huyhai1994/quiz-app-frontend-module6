@@ -14,6 +14,24 @@ class QuestionService {
         };
         return await axios.post(API_QUESTION_URL, payload);
     };
+
+    static async getQuestionById(id) {
+        return await axios.get(`${API_QUESTION_URL}/${id}`);
+    }
+
+    static async updateQuestion(id, updateQuestionData) {
+        const userId = localStorage.getItem('userId');
+        const payload = {
+            questionText: updateQuestionData.title,
+            questionType: {id: updateQuestionData.questionType},
+            category: {id: updateQuestionData.category},
+            createdBy: {id: userId},
+            difficulty: updateQuestionData.difficulty,
+            options: updateQuestionData.options
+        };
+        return await axios.put(`${API_QUESTION_URL}/${id}`, payload);
+
+    }
 }
 
 export default QuestionService;
