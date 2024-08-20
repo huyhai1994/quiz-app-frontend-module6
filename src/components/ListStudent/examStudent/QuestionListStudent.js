@@ -106,10 +106,18 @@ const QuestionListStudent = () => {
 
     const currentQuestion = questions[currentQuestionIndex];
 
+    const isQuestionAnswered = (index) => {
+        const questionId = questions[index]?.id;
+        return selectedOptions[questionId] && (
+            (typeof selectedOptions[questionId] === 'object' && Object.values(selectedOptions[questionId]).some(selected => selected)) ||
+            typeof selectedOptions[questionId] === 'number'
+        );
+    };
+
     return (
         <Container>
-            <Box display="flex" justifyContent="space-between" alignItems="flex-start" minHeight="100vh" my={4}>
-                <Box className='question-container' flex="1" mr={2}>
+            <Box display="flex" justifyContent="space-between" alignItems="flex-start" minHeight="100vh">
+                <Box className='question-container' flex="1">
                     <Timer initialTime={initialTime} onTimeUp={handleSubmit}/>
                     <Typography variant="h4" className='text-center' gutterBottom>
                         Câu hỏi của Quiz {quizId}
@@ -176,10 +184,10 @@ const QuestionListStudent = () => {
                                 onClick={() => setCurrentQuestionIndex(index)}
                                 size="large"
                                 sx={{
-                                    backgroundColor: index === currentQuestionIndex ? 'var(--color-primary)' : 'inherit',
-                                    color: index === currentQuestionIndex ? '#fff' : 'inherit',
+                                    backgroundColor: index === currentQuestionIndex ? 'var(--color-primary)' : (isQuestionAnswered(index) ? 'green' : 'inherit'),
+                                    color: index === currentQuestionIndex ? '#fff' : (isQuestionAnswered(index) ? '#fff' : 'inherit'),
                                     '&:hover': {
-                                        backgroundColor: index === currentQuestionIndex ? 'var(--color-primary)' : 'rgba(0, 0, 0, 0.04)',
+                                        backgroundColor: index === currentQuestionIndex ? 'var(--color-primary)' : (isQuestionAnswered(index) ? 'darkgreen' : 'rgba(0, 0, 0, 0.04)'),
                                     }
                                 }}
                             >
