@@ -1,0 +1,58 @@
+/* QuestionTeacherList.css */
+
+.question-row {
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+.question-row:hover {
+    background-color: var(--color-secondary); /* Change background color on hover */
+}
+
+.action-icons {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-button {
+    display: none;
+}
+
+.question-row:hover .icon-button {
+    display: inline-flex; /* Show edit and delete buttons on hover */
+}
+
+.eye-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-primary); /* Adjust this color as needed */
+    z-index: 10; /* Ensures the eye icon is on top of the row */
+    display: none;
+    /* QuestionTeacherList.css */
+
+    .question-row {
+        position: relative;
+        transition: background-color 0.3s ease;
+    }
+
+    .question-row:hover {
+        background-color: var(--color-secondary); /* Change background color on hover */
+    }
+
+    .action-icons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .icon-button {
+        display: none;
+    }
+
+    .question-row:hover .icon-button {
+        display: inline-flex; /* Show edit and delete buttons on hover */
+    }
+
+}
+
