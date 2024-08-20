@@ -23,6 +23,8 @@ import SendIcon from '@mui/icons-material/Send';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import './QuestionListStudent.css';
+import '../../../styles/vars.css';
+import {usePrompt} from './usePrompt'; // Import the custom hook
 
 const label = {inputProps: {'aria-label': 'Checkbox demo'}};
 
@@ -95,6 +97,9 @@ const QuestionListStudent = () => {
         }
     };
 
+    // Use the custom hook to block navigation and prompt the user
+    usePrompt('Bạn sẽ mất tiến trình nếu rời khỏi trang này!', true);
+
     if (status === 'loading' || initialTime === null) {
         return <Box display="flex" justifyContent="center" alignItems="center" height="100vh"><CircularProgress/></Box>;
     }
@@ -115,15 +120,15 @@ const QuestionListStudent = () => {
     };
 
     return (
-        <Container>
-            <Box display="flex" justifyContent="space-between" alignItems="flex-start" minHeight="100vh">
-                <Box className='question-container' flex="1">
-                    <Timer initialTime={initialTime} onTimeUp={handleSubmit}/>
+        <Container className='shadow'>
+            <Timer initialTime={initialTime} onTimeUp={handleSubmit}/>
+            <Box display="flex" justifyContent="center" alignItems="center" sx={{marginBottom: '1rem'}}>
+                <Box className='question-container' flex="1" sx={{marginRight: '1rem'}}>
                     <Typography variant="h4" className='text-center' gutterBottom>
                         Câu hỏi của Quiz {quizId}
                     </Typography>
                     {currentQuestion ? (
-                        <Card sx={{width: '70%', margin: '0 auto'}}>
+                        <Card sx={{width: '100%', margin: '0 auto'}}>
                             <CardContent>
                                 <Typography variant="h6">{currentQuestion.questionText}</Typography>
                                 {currentQuestion.typeName === 'MANY' ? (
@@ -168,15 +173,16 @@ const QuestionListStudent = () => {
                         <Typography variant="body1">Không có câu hỏi nào cho quiz này.</Typography>
                     )}
                     <Box mt={5} display="flex" justifyContent="center">
-                        <Button variant="contained" onClick={handleSubmit} className='btn-submit' endIcon={<SendIcon/>}>
+                        <Button variant="contained" onClick={handleSubmit} className='btn-submit mb-5'
+                                endIcon={<SendIcon/>}>
                             Nộp bài thi
                         </Button>
                     </Box>
                 </Box>
-                <Box className='paginating-container' flex="0 0 300px" display="flex" flexDirection="column"
+                <Box className='paginating-container' flex="0 0 200px" display="flex" flexDirection="column"
                      justifyContent="center" alignItems="center" height="100%">
                     <Box className='shadow p-3 d-flex align-items-center justify-content-center' display="flex"
-                         flexWrap="wrap" gap={1} sx={{marginTop: 'calc(50vh - 200px)'}}>
+                         flexWrap="wrap" gap={1}>
                         {questions.map((_, index) => (
                             <Button
                                 key={index}
@@ -187,7 +193,7 @@ const QuestionListStudent = () => {
                                     backgroundColor: index === currentQuestionIndex ? 'var(--color-primary)' : (isQuestionAnswered(index) ? 'green' : 'inherit'),
                                     color: index === currentQuestionIndex ? '#fff' : (isQuestionAnswered(index) ? '#fff' : 'inherit'),
                                     '&:hover': {
-                                        backgroundColor: index === currentQuestionIndex ? 'var(--color-primary)' : (isQuestionAnswered(index) ? 'darkgreen' : 'rgba(0, 0, 0, 0.04)'),
+                                        backgroundColor: index === currentQuestionIndex ? 'var(--color-primary)' : (isQuestionAnswered(index) ? 'var(--color-secondary)' : 'rgba(0, 0, 0, 0.04)'),
                                     }
                                 }}
                             >
