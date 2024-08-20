@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
-import {Breadcrumb, Button} from "antd";
+import {Breadcrumb} from "antd";
 import CategoryService from "../../../services/category.service";
 import Swal from "sweetalert2";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPen, faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
 import Page from "../../pages/Page";
-import {PlusOne} from "@mui/icons-material"; // Import the pagination component
+import {PlusOne} from "@mui/icons-material";
+import {Button} from "@mui/material"; // Import the pagination component
 
 const Categories = () => {
     const [loading, setLoading] = useState(true);
@@ -92,7 +93,14 @@ const Categories = () => {
                 </div>
                 <div className="col-md-6 text-end">
                     <Link to="/admin/add-category">
-                        <Button className="text-bg-success" type="primary"><FontAwesomeIcon icon={faPlus} /> Thêm danh mục</Button>
+                        <Button sx={{
+                            backgroundColor: 'var(--color-primary)',
+                            color: 'var(--color-bg)',
+                            borderRadius: '5px',
+                            '&:hover': {
+                                backgroundColor: 'var(--color-dark)',
+                            }
+                        }}><FontAwesomeIcon icon={faPlus} /> Thêm danh mục</Button>
                     </Link>
                 </div>
             </div>
@@ -111,11 +119,25 @@ const Categories = () => {
                 <td>{category.description}</td>
                 <td className="text-center">
                     <Link to={"/admin/edit/" + category.id}>
-                        <Button title="Sửa" type="primary" className="mx-2">
+                        <Button title="Sửa" sx={{
+                            backgroundColor: 'var(--color-primary)',
+                            color: 'var(--color-bg)',
+                            borderRadius: '5px',
+                            '&:hover': {
+                                backgroundColor: 'var(--color-dark)',
+                            }
+                        }} className="mx-2">
                             <FontAwesomeIcon icon={faPen}/>
                         </Button>
                     </Link>
-                    <Button title="Xóa" type="primary" onClick={() => deleteCategory(category.id)} danger>
+                    <Button title="Xóa" sx={{
+                        backgroundColor: 'var(--color-primary)',
+                        color: 'var(--color-bg)',
+                        borderRadius: '5px',
+                        '&:hover': {
+                            backgroundColor: 'var(--color-dark)',
+                        }
+                    }} onClick={() => deleteCategory(category.id)} danger>
                         <FontAwesomeIcon icon={faTrash}/>
                     </Button>
                 </td>
