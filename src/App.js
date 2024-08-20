@@ -103,7 +103,7 @@ function App() {
                     <Route path="student-list" element={<StudentList/>}/>
                 </Route>
                 <Route path="/teacher/*" element={
-                    <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_TEACHER']}>
+                    <ProtectedRoute allowedRoles={['ROLE_TEACHER']}>
                         <TeacherHome/>
                     </ProtectedRoute>
                 }>
@@ -122,7 +122,7 @@ function App() {
                            element={<QuizTeacherHistory/>}/> {/*TODO: xem lich su thi cua hoc sinh*/}
                 </Route>
                 <Route path="/student/*" element={
-                    <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
+                    <ProtectedRoute allowedRoles={['ROLE_STUDENT']}>
                         <StudentHome/>
                     </ProtectedRoute>
                 }>
