@@ -1,50 +1,84 @@
-import React, {useEffect} from 'react';
-import {Button, Form, Input} from 'antd';
-import {Link, useNavigate} from "react-router-dom";
+import React from 'react';
+import {useNavigate} from "react-router-dom";
 import CategoryService from "../../../services/category.service";
 import Swal from "sweetalert2";
+import {useFormik} from "formik";
+import {Button, TextField} from "@mui/material";
+import './EditCategory.css'
 
 const AddCategory = () => {
+
     const navigate = useNavigate();
-    const onFinish = (values) => {
-        CategoryService.addCategory(values).then(res => {
-            Swal.fire({
-                name: "Thành công", text: "Danh mục mới đã được tạo", icon: "success"
+
+    const formAddCategory = useFormik({
+        initialValues: {
+            name: '',
+            description: ''
+        },
+        onSubmit: (values) => {
+            CategoryService.addCategory(values).then(res => {
+                Swal.fire('Success', 'Category added successfully', 'success');
+                navigate("/admin/categories");
+            }).catch(err => {
+                Swal.fire('Error', err.message, 'error');
             });
-            navigate("/admin/categories")
-        }).catch(err => {
-            console.log("that bai")
-            Swal.fire({
-                name: "Lỗi", text: "Đã xảy ra lỗi khi tạo danh mục", icon: "error"
-            });
-        })
-    }
+        }
+    });
 
-    useEffect(() => {
-        document.title = 'Tạo danh mục câu hỏi';
-    }, []);
+    return (
+        <div className='container d-flex justify-content-center'>
+            <div className="card my-5 p-5" style={{width: '50%'}}>
+                <h1 className='text-center'>Thêm danh mục mới</h1>
+                <form onSubmit={formAddCategory.handleSubmit} className="text-center py-4">
+                    <TextField
+                        id="outlined-basic"
+                        label="Tiêu đề"
+                        variant="outlined"
+                        name="name"
+                        className="form-control my-5"
+                        onChange={formAddCategory.handleChange}
+                        value={formAddCategory.values.name}
+                    />
 
-    return (<div>
-        <h1>Tạo danh mục</h1>
-        <Form name="wrap" labelCol={{flex: '110px'}} labelAlign="left" labelWrap wrapperCol={{flex: 1}}
-              colon={false} style={{maxWidth: 600}} onFinish={onFinish}>
-            <Form.Item label="Tiêu đề" name="name" rules={[{required: true}]}>
-                <Input/>
-            </Form.Item>
+                    <TextField
+                        id="outlined-basic"
+                        label="Mô tả"
+                        variant="outlined"
+                        name="description"
+                        className="form-control"
+                        onChange={formAddCategory.handleChange}
+                        value={formAddCategory.values.description}
+                    />
+                    <div className="py-3 d-flex justify-content-md-around">
+                        <Button sx={{
+                                backgroundColor: 'var(--color-primary)',
+                                color: 'var(--color-bg)',
+                                width: '40%',
+                                borderRadius: '5px',
+                                '&:hover': {
+                                    backgroundColor: 'var(--color-dark)',}}} type="submit">
+                            Save
+                        </Button>
 
-            <Form.Item label="Mô tả" name="description" rules={[{required: true}]}>
-                <Input/>
-            </Form.Item>
-
-            <Form.Item label=" ">
-                <Button type="primary" htmlType="submit" style={{marginRight: "8px"}}>
-                    Xác nhận
-                </Button>
-                <Link to={"/admin/categories"}><Button type="primary" htmlType="submit" danger>
-                    Hủy
-                </Button></Link>
-            </Form.Item>
-        </Form>
-    </div>)
+                        <Button
+                            sx={{
+                                backgroundColor: 'var(--color-secondary)',
+                                color: 'var(--color-bg)',
+                                width: '40%',
+                                borderRadius: '5px',
+                                '&:hover': {
+                                    backgroundColor: 'var(--color-dark)',
+                                }
+                            }}
+                            onClick={() => navigate("/admin/categories")}
+                        >
+                            Cancel
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
 }
-export default AddCategory
+
+export default AddCategory;
