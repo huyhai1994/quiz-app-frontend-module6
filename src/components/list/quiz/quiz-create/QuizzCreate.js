@@ -368,7 +368,7 @@ const QuizCreate = () => {
                         Chọn câu hỏi
                     </Typography>
                     <List className='my-4'>
-                        {quizCategories.map((category) => (
+                        {categories.map((category) => (
                             <React.Fragment key={category.id}>
                                 <Typography variant="h5" className='my-2'>{category.name}</Typography>
                                 <MultiSelect
