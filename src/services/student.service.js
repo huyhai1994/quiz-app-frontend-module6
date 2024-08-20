@@ -10,14 +10,16 @@ class StudentService {
         return await axios.get(API_USER_URL + '/search-student?email=' + email + '&name=' + name);
     }
 
-    static async getStudentUpgradeStatus() {
-        return await axios.get(API_USER_URL + '/upgrade');
-    }
-
     static async upgradeStudent() {
         const userId = localStorage.getItem('userId');
         const payload = {user_id: userId};
         return await axios.post(API_USER_URL + '/request-teacher-role', payload);
+    }
+
+    static async getTeacherApprovalStatus() {
+        const userId = localStorage.getItem('userId');
+        const payload = {user_id: userId};
+        return await axios.post(`${API_USER_URL}/get-pending-status`, payload);
     }
 }
 
