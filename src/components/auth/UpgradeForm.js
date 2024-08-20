@@ -2,7 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {Box, Button, Card, Typography} from '@mui/material';
 import StudentService from '../../services/student.service';
 import {message} from "antd";
-import WaitingPana from '../../asset/Waiting-pana.svg'; // Make sure the path to the SVG file is correct
+import '../../styles/vars.css';
+import WaitingPana from '../../asset/Waiting-pana.svg';
+import UpgradePana from '../../asset/Upgrade-pana.svg'; // Ensure the path is correct
 
 const TeacherApprovalStatus = () => {
     const [approvalStatus, setApprovalStatus] = useState(null);
@@ -14,18 +16,18 @@ const TeacherApprovalStatus = () => {
                 const response = await StudentService.getTeacherApprovalStatus();
                 setApprovalStatus(response.data);
             } catch (error) {
-                message.error('Failed to fetch teacher approval status');
+                message.success('bạn có thể nâng hạng lên giáo viên');
             }
         };
 
         fetchApprovalStatus();
-    }, []);
+    }, [loading]);
 
     const handleUpgrade = async () => {
         setLoading(true);
         try {
             await StudentService.upgradeStudent();
-            message.success('Upgrade request sent successfully!');
+            message.success('Yêu cầu nâng hạng đã được gửi đi!');
             const response = await StudentService.getTeacherApprovalStatus();
             setApprovalStatus(response.data);
         } catch (error) {
@@ -38,7 +40,7 @@ const TeacherApprovalStatus = () => {
     return (
         <Box display="flex" justifyContent="center" alignItems="center" sx={{mt: 5}}>
             <Card sx={{p: 3, maxWidth: 500, width: '100%', boxShadow: 3}}>
-                <Typography variant="h5" component="div" gutterBottom>
+                <Typography variant="h5" component="div" gutterBottom className='text-center fw-bold'>
                     Trạng thái nâng hạng người dùng
                 </Typography>
                 {approvalStatus ? (
@@ -47,7 +49,7 @@ const TeacherApprovalStatus = () => {
                             <Box>
                                 <img src={WaitingPana} alt="Waiting"
                                      style={{width: '100%', maxHeight: '200px', marginBottom: '20px'}}/>
-                                <Typography variant="body1" color="textSecondary">
+                                <Typography variant="h6" color="textSecondary">
                                     đang chờ duyệt
                                 </Typography>
                             </Box>
@@ -56,16 +58,17 @@ const TeacherApprovalStatus = () => {
                                 Yêu cầu của bạn {approvalStatus.status}
                             </Typography>
                         )}
-                        <Button variant="contained" color="primary" disabled>
+                        <Button variant="contained" disabled
+                        >
                             Nâng hạng lên giáo viên
                         </Button>
                     </Box>
                 ) : (
                     <Box textAlign="center">
-                        <Typography>Bạn đang là học sinh</Typography>
+                        <img src={UpgradePana} alt="Upgrade"
+                             style={{width: '100%', maxHeight: '200px', marginBottom: '20px'}}/>
                         <Button
                             variant="contained"
-                            color="primary"
                             onClick={handleUpgrade}
                             disabled={loading}
                         >
