@@ -6,6 +6,7 @@ import {
     API_UPDATE_CATEGORY_URL
 } from "../configs/backend.configs";
 
+
 class CategoryService {
     static async getAllCategories() {
         return await axios.get(API_CATEGORIES_URL)
