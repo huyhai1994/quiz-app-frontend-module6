@@ -39,6 +39,7 @@ import ResultStudentList from "./components/ListStudent/StudentResultList/Result
 import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
 import QuizTeacherHistory from "./components/ListTeacher/HistoryTeacherQuiz/QuizTeacherHistory";
 import UserProfileLayout from "./components/layout/UserProfileLayout";
+import UpgradeForm from "./components/auth/UpgradeForm";
 
 
 function App() {
@@ -128,6 +129,7 @@ function App() {
                 }>
                     <Route path="home" element={<TopQuizzes/>}/>
                     <Route path="" element={<StudentMain/>}/>
+                    <Route path="upgrade" element={<UpgradeForm/>}/>
                     <Route path="profile" element={<UserProfile/>}/>
                     <Route path="change-password" element={<ChangePasswordForm/>}/>
                     <Route path="quiz" element={<QuizList/>}/>
