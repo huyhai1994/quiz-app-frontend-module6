@@ -83,7 +83,7 @@ const QuizCreate = () => {
         initialValues: {
             title: '',
             description: '',
-            quizTime: 5, // Set default value to 5 minutes
+            quizTime: 1, // Set default value to 1 minutes
             quantity: '',
             passingScore: '',
             difficulty: '',
@@ -213,12 +213,12 @@ const QuizCreate = () => {
                         <InputLabel id="quizTime-label"><AccessAlarmIcon/> Thời gian làm bài (phút)</InputLabel>
                         <Slider
                             aria-label="Custom marks"
-                            defaultValue={5} // Set default value to 5 minutes
+                            defaultValue={1} // Set default value to 5 minutes
                             getAriaValueText={valuetext}
                             step={null}
                             color='var(--color-primary)'
                             className='mt-5'
-                            min={5}
+                            min={1}
                             max={60}
                             marks={marks}
                             id="quizTime"
