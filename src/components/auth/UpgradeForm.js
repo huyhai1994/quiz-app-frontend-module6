@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Card, Col, message, Row} from 'antd';
+import {Box, Button, Card, Typography} from '@mui/material';
 import StudentService from '../../services/student.service';
+import {message} from "antd";
+import WaitingPana from '../../asset/Waiting-pana.svg'; // Make sure the path to the SVG file is correct
 
 const TeacherApprovalStatus = () => {
     const [approvalStatus, setApprovalStatus] = useState(null);
@@ -24,7 +26,6 @@ const TeacherApprovalStatus = () => {
         try {
             await StudentService.upgradeStudent();
             message.success('Upgrade request sent successfully!');
-            // Optionally, re-fetch the approval status after upgrading
             const response = await StudentService.getTeacherApprovalStatus();
             setApprovalStatus(response.data);
         } catch (error) {
@@ -34,25 +35,47 @@ const TeacherApprovalStatus = () => {
         }
     };
 
-    return (<Row justify="center" style={{marginTop: '50px'}}>
-        <Col xs={24} sm={16} md={12} lg={12}>
-            <Card className='shadow fw-bold' title="Trạng thái nâng hạng người dùng" bordered={false}>
-                {approvalStatus ? (<div>
-                    <p>ID: {approvalStatus.id}</p>
-                    <p>Status: {approvalStatus.status}</p>
-                    {/* Render other possible fields here */}
-                    {approvalStatus.status === 'PENDING' ? (<Button type="primary" disabled>
-                        Đang duyệt
-                    </Button>) : (<p>Yêu cầu của bạn {approvalStatus.status}?"đang chờ"</p>)}
-                </div>) : (<div>
-                    <p>Bạn đang là học sinh</p>
-                    <Button type="primary" onClick={handleUpgrade} disabled={loading}>
-                        Nâng hạng lên giáo viên
-                    </Button>
-                </div>)}
+    return (
+        <Box display="flex" justifyContent="center" alignItems="center" sx={{mt: 5}}>
+            <Card sx={{p: 3, maxWidth: 500, width: '100%', boxShadow: 3}}>
+                <Typography variant="h5" component="div" gutterBottom>
+                    Trạng thái nâng hạng người dùng
+                </Typography>
+                {approvalStatus ? (
+                    <Box textAlign="center">
+                        {approvalStatus.status === 'PENDING' ? (
+                            <Box>
+                                <img src={WaitingPana} alt="Waiting"
+                                     style={{width: '100%', maxHeight: '200px', marginBottom: '20px'}}/>
+                                <Typography variant="body1" color="textSecondary">
+                                    đang chờ duyệt
+                                </Typography>
+                            </Box>
+                        ) : (
+                            <Typography>
+                                Yêu cầu của bạn {approvalStatus.status}
+                            </Typography>
+                        )}
+                        <Button variant="contained" color="primary" disabled>
+                            Nâng hạng lên giáo viên
+                        </Button>
+                    </Box>
+                ) : (
+                    <Box textAlign="center">
+                        <Typography>Bạn đang là học sinh</Typography>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleUpgrade}
+                            disabled={loading}
+                        >
+                            Nâng hạng lên giáo viên
+                        </Button>
+                    </Box>
+                )}
             </Card>
-        </Col>
-    </Row>);
+        </Box>
+    );
 };
 
 export default TeacherApprovalStatus;
