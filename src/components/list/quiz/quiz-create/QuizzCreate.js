@@ -6,6 +6,7 @@ import {
     Box,
     Button,
     FormControl,
+    FormHelperText,
     IconButton,
     InputLabel,
     List,
@@ -82,7 +83,7 @@ const QuizCreate = () => {
         initialValues: {
             title: '',
             description: '',
-            quizTime: 1,
+            quizTime: 5, // Set default value to 5 minutes
             quantity: '',
             passingScore: '',
             difficulty: '',
@@ -212,12 +213,12 @@ const QuizCreate = () => {
                         <InputLabel id="quizTime-label"><AccessAlarmIcon/> Thời gian làm bài (phút)</InputLabel>
                         <Slider
                             aria-label="Custom marks"
-                            defaultValue={1}
+                            defaultValue={5} // Set default value to 5 minutes
                             getAriaValueText={valuetext}
                             step={null}
                             color='var(--color-primary)'
                             className='mt-5'
-                            min={1}
+                            min={5}
                             max={60}
                             marks={marks}
                             id="quizTime"
@@ -226,6 +227,7 @@ const QuizCreate = () => {
                             onChange={(event, value) => formik.setFieldValue('quizTime', value)}
                             error={formik.touched.quizTime && Boolean(formik.errors.quizTime)}
                         />
+                        <FormHelperText>Thời gian mặc định là 5 phút</FormHelperText>
                     </FormControl>
                     <FormControl fullWidth margin="normal">
                         <InputLabel id="difficulty-label">Độ khó</InputLabel>
@@ -361,7 +363,7 @@ const QuizCreate = () => {
                                 <Typography variant="h5" className='my-2'>{category.name}</Typography>
                                 <MultiSelect
                                     options={questions.filter(question => question.categoryName.trim() === category.name.trim()).map(question => ({
-                                        label: question.questionText,
+                                        label: `${question.questionText} (${question.questionId})`,
                                         value: question.questionId
                                     }))}
                                     value={selectedQuestions.filter(sq => questions.find(
