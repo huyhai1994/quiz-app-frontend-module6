@@ -15,6 +15,8 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    TextField,
+    Tooltip,
     Typography
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
@@ -32,9 +34,9 @@ import {DeleteQuestion, ListTeacherQuestion} from "../../../store/questionStore/
 import {TailSpin} from "react-loader-spinner";
 import Swal from "sweetalert2";
 import Page from "../../pages/Page";
-import {format} from "date-fns"; // Import axios for API call
+import {format} from "date-fns";
 
-// Existing imports...
+import './QuestionTeacherList.css'; // Import custom CSS
 
 const ListTeacherQuestions = () => {
     const dispatch = useDispatch();
@@ -44,8 +46,12 @@ const ListTeacherQuestions = () => {
     const userId = localStorage.getItem('userId');
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedQuestionId, setSelectedQuestionId] = useState(null);
-    const [questionDetail, setQuestionDetail] = useState(null); // State to store question details
-    const [openModal, setOpenModal] = useState(false); // State to manage modal visibility
+    const [questionDetail, setQuestionDetail] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+
+    // Add state variables for search criteria
+    const [searchCategory, setSearchCategory] = useState('');
+    const [searchQuizName, setSearchQuizName] = useState('');
 
     useEffect(() => {
         dispatch(ListTeacherQuestion(userId));
@@ -116,6 +122,25 @@ const ListTeacherQuestions = () => {
         }
     };
 
+    const mapDifficulty = (difficulty) => {
+        switch (difficulty) {
+            case "HARD":
+                return {label: "Khó", color: "red"};
+            case "MEDIUM":
+                return {label: "Trung Bình", color: "orange"};
+            case "EASY":
+                return {label: "Dễ", color: "green"};
+            default:
+                return {label: difficulty, color: "grey"};
+        }
+    };
+
+    // Filter questions based on search criteria
+    const filteredQuestions = questions.filter(question =>
+        question.categoryName.toLowerCase().includes(searchCategory.toLowerCase()) &&
+        question.questionText.toLowerCase().includes(searchQuizName.toLowerCase())
+    );
+
     const currentData = getCurrentPageData();
 
     return (
@@ -123,6 +148,27 @@ const ListTeacherQuestions = () => {
             <Grid item xs={12}>
                 <h2 className='fw-bold text-center'>Danh sách câu hỏi của giáo viên</h2>
             </Grid>
+
+            {/* Search Fields */}
+            <Grid item xs={12} md={6}>
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Tìm theo danh mục"
+                    value={searchCategory}
+                    onChange={(e) => setSearchCategory(e.target.value)}
+                />
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Tìm theo tên bài thi"
+                    value={searchQuizName}
+                    onChange={(e) => setSearchQuizName(e.target.value)}
+                />
+            </Grid>
+
             <Grid item xs={12}>
                 <TableContainer component={Paper}>
                     <Table aria-label="simple table">
@@ -137,41 +183,53 @@ const ListTeacherQuestions = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {currentData.length > 0 ? (
-                                currentData.map((question, index) => (
-                                    <TableRow
-                                        key={question.questionId}
-                                        className="question-row"
-                                        onClick={() => handleRowClick(question.questionId)} // Handle row click
-                                    >
-                                        <TableCell>{(currentPage - 1) * pageSize + index + 1}</TableCell>
-                                        <TableCell>{question.questionText}</TableCell>
-                                        <TableCell>{question.categoryName}</TableCell>
-                                        <TableCell>{mapTypeName(question.typeName)}</TableCell>
-                                        <TableCell>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</TableCell>
-                                        <TableCell>
-                                            <div className="action-icons">
-                                                <Button
-                                                    variant="standard"
-                                                    startIcon={<DeleteIcon/>}
-                                                    style={{color: 'red'}}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); // Prevent triggering row click
-                                                        handleDelete(question.questionId)
-                                                    }}
-                                                    className="icon-button"
-                                                />
-                                                <Button
-                                                    variant="standard"
-                                                    startIcon={<EditIcon/>}
-                                                    component={Link}
-                                                    to={`/teacher/question/edit/${question.questionId}`}
-                                                    onClick={(e) => e.stopPropagation()} // Prevent triggering row click
-                                                    className="icon-button"
-                                                />
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
+                            {filteredQuestions.length > 0 ? (
+                                filteredQuestions.map((question, index) => (
+                                    <Tooltip title="ấn vào để xem chi tiết câu hỏi này" arrow key={question.questionId}>
+                                        <TableRow
+                                            key={question.questionId}
+                                            className="question-row" // Add a class for hover effect
+                                            onClick={() => handleRowClick(question.questionId)} // Handle row click
+                                        >
+                                            <TableCell>{(currentPage - 1) * pageSize + index + 1}</TableCell>
+                                            <TableCell>{question.questionText}</TableCell>
+                                            <TableCell>{question.categoryName}</TableCell>
+                                            <TableCell>
+                                                <Box display="flex" alignItems="center">
+                                                    <Box
+                                                        width={16}
+                                                        height={16}
+                                                        bgcolor={mapDifficulty(question.difficulty).color}
+                                                        mr={1}
+                                                    />
+                                                    <Typography>{mapDifficulty(question.difficulty).label}</Typography>
+                                                </Box>
+                                            </TableCell>
+                                            <TableCell>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</TableCell>
+                                            <TableCell>
+                                                <div className="action-icons">
+                                                    <Button
+                                                        variant="standard"
+                                                        startIcon={<DeleteIcon/>}
+                                                        style={{color: 'red'}}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation(); // Prevent triggering row click
+                                                            handleDelete(question.questionId);
+                                                        }}
+                                                        className="icon-button"
+                                                    />
+                                                    <Button
+                                                        variant="standard"
+                                                        startIcon={<EditIcon/>}
+                                                        component={Link}
+                                                        to={`/teacher/question/edit/${question.questionId}`}
+                                                        onClick={(e) => e.stopPropagation()} // Prevent triggering row click
+                                                        className="icon-button"
+                                                    />
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    </Tooltip>
                                 ))
                             ) : (
                                 <TableRow>
@@ -197,17 +255,27 @@ const ListTeacherQuestions = () => {
                 maxWidth="sm"
                 fullWidth
             >
-                <DialogTitle className='h4' style={{fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'center'}}>Chi
-                    tiết câu
-                    hỏi</DialogTitle>
-
-                <Typography style={{textAlign: 'center'}} variant="h5"
-                            gutterBottom>{questionDetail.questionText}</Typography>
+                <DialogTitle className='h4' style={{fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'center'}}>
+                    Chi tiết câu hỏi
+                </DialogTitle>
+                {questionDetail && <Typography style={{textAlign: 'center'}} variant="h5"
+                                               gutterBottom>{questionDetail.questionText}</Typography>}
                 <DialogContent dividers style={{padding: '30px', textAlign: 'center'}}>
                     {questionDetail ? (
                         <>
                             <Typography variant="h6" gutterBottom>Danh mục: {questionDetail.category}</Typography>
-                            <Typography variant="h6" gutterBottom>Độ khó: {questionDetail.difficulty}</Typography>
+                            <Typography variant="h6" gutterBottom>
+                                Độ khó:
+                                <Box display="flex" alignItems="center" justifyContent="center" mt={1}>
+                                    <Box
+                                        width={16}
+                                        height={16}
+                                        bgcolor={mapDifficulty(questionDetail.difficulty).color}
+                                        mr={1}
+                                    />
+                                    <Typography>{mapDifficulty(questionDetail.difficulty).label}</Typography>
+                                </Box>
+                            </Typography>
                             <Typography variant="h6"
                                         gutterBottom>Loại: {mapTypeName(questionDetail.typeName)}</Typography>
                             <Typography variant="h6" gutterBottom>Các lựa chọn:</Typography>
