@@ -50,7 +50,7 @@ function App() {
         <ConfigProvider theme={{
             algorithm: [theme.defaultAlgorithm], cssVar: true, token: {
                 // Seed Token
-                colorPrimary: '#00b96b',
+                colorPrimary: 'var(--color-secondary)',
                 borderRadius: 5,
                 // Alias Token
                 colorBgContainer: 'var(--color-bg)',
@@ -125,10 +125,11 @@ function App() {
                     <Route path="option/create" element={<OptionCreate/>}/>
                     <Route path="quiz/create" element={<QuizCreate/>}/>
                     <Route path="teacher-quizzes" element={<QuizTeacherList/>}/>
-                    <Route path="quiz/:quizId/room" element={<QuizRoom/>} />
-                    <Route path="quiz/:quizId/active" element={<QuizActive/>} />
-                    <Route path="quiz/:quizId/results" element={<QuizResults/>} />
-                    <Route path="quizzes/:id/user-history" element={<QuizTeacherHistory/>}/> {/*TODO: xem lich su thi cua hoc sinh*/}
+                    <Route path="quiz/:quizId/room" element={<QuizRoom/>}/>
+                    <Route path="quiz/:quizId/active" element={<QuizActive/>}/>
+                    <Route path="quiz/:quizId/results" element={<QuizResults/>}/>
+                    <Route path="quizzes/:id/user-history"
+                           element={<QuizTeacherHistory/>}/> {/*TODO: xem lich su thi cua hoc sinh*/}
                 </Route>
 
                 <Route path="/student/*" element={
