@@ -1,3 +1,4 @@
+import React, {useEffect, useState} from 'react';
 import {
     Autocomplete,
     Box,
@@ -9,7 +10,6 @@ import {
     DialogTitle,
     Grid,
     IconButton,
-    Paper,
     Table,
     TableBody,
     TableCell,
@@ -30,12 +30,12 @@ import {Link} from 'react-router-dom';
 
 import axios from 'axios';
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
-import {DeleteQuestion, ListTeacherQuestion} from "../../../store/questionStore/QuestionAxios";
-import {TailSpin} from "react-loader-spinner";
 import Swal from "sweetalert2";
-import Page from "../../pages/Page";
+import {TailSpin} from "react-loader-spinner";
 import {format} from "date-fns";
+import NoDataImage from '../../../asset/No data-amico.svg'; // Adjust the path as necessary
+import {DeleteQuestion, ListTeacherQuestion} from "../../../store/questionStore/QuestionAxios";
+import Page from "../../pages/Page";
 
 import './QuestionTeacherList.css'; // Import custom CSS
 
@@ -198,7 +198,7 @@ const ListTeacherQuestions = () => {
             </Grid>
 
             <Grid item xs={12}>
-                <TableContainer component={Paper} style={{maxHeight: '500px'}}>
+                <TableContainer style={{maxHeight: '100vh'}}>
                     <Table stickyHeader aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -257,7 +257,12 @@ const ListTeacherQuestions = () => {
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan="6">Không có dữ liệu</TableCell>
+                                    <TableCell colSpan="6">
+                                        <Box display="flex" justifyContent="center" alignItems="center">
+                                            <img src={NoDataImage} alt="No Data"
+                                                 style={{maxWidth: '50%', height: 'auto'}}/>
+                                        </Box>
+                                    </TableCell>
                                 </TableRow>
                             )}
                         </TableBody>
