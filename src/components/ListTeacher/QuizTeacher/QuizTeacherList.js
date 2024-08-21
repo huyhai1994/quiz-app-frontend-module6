@@ -5,7 +5,6 @@ import {ListTeacherQuizzes} from "../../../store/quizStore/QuizAxios";
 import {format} from "date-fns";
 import Swal from "sweetalert2";
 import {useNavigate} from "react-router-dom";
-import Page from "../../pages/Page";
 import {
     Box,
     Button,
@@ -20,6 +19,7 @@ import {
 } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility'; // Import the eye icon
 import './QuizTeacherList.css';
+import Page from "../../pages/Page";
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
@@ -51,6 +51,19 @@ const ListTeacherQuizzesComponent = () => {
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
         return quizzes.slice(startIndex, endIndex);
+    };
+
+    const translateDifficulty = (difficulty) => {
+        switch (difficulty) {
+            case 'HARD':
+                return 'KHÓ';
+            case 'MEDIUM':
+                return 'TRUNG BÌNH';
+            case 'EASY':
+                return 'DỄ';
+            default:
+                return difficulty;
+        }
     };
 
     const getDifficultyBoxColor = (difficulty) => {
@@ -86,19 +99,28 @@ const ListTeacherQuizzesComponent = () => {
                 <h2 className='fw-bold text-center'>Danh sách bài kiểm tra của giáo viên</h2>
             </Grid>
             <Grid item xs={12}>
-                <TableContainer component={Paper}>
-                    <Table aria-label="quiz table">
+                <TableContainer component={Paper} style={{maxHeight: '500px'}}>
+                    <Table stickyHeader aria-label="quiz table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>STT</TableCell>
-                                <TableCell>Tiêu đề</TableCell>
-                                <TableCell>Mô tả</TableCell>
-                                <TableCell>Thời gian tạo</TableCell>
-                                <TableCell>Thời gian làm bài (phút)</TableCell>
-                                <TableCell>Số lượng</TableCell>
-                                <TableCell>Điểm đạt</TableCell>
-                                <TableCell>Độ khó</TableCell>
-                                <TableCell>Hành động</TableCell>
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>STT</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Tiêu
+                                    đề</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Mô
+                                    tả</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Thời gian
+                                    tạo</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Thời gian
+                                    làm bài (phút)</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Số
+                                    lượng</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Điểm
+                                    đạt</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Độ
+                                    khó</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Hành
+                                    động</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -126,7 +148,7 @@ const ListTeacherQuizzesComponent = () => {
                                                         bgcolor={getDifficultyBoxColor(quiz.difficulty)}
                                                         mr={1}
                                                     />
-                                                    <span>{quiz.difficulty}</span>
+                                                    <span>{translateDifficulty(quiz.difficulty)}</span>
                                                 </Box>
                                             </TableCell>
                                             <TableCell>
