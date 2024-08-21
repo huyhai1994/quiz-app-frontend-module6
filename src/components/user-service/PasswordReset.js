@@ -1,6 +1,7 @@
 import {Button, Form, Input, message, Steps} from 'antd'
 import axiosInstance from '../../utils/axiosConfig'
 import {useState} from "react";
+import {Box, Container, Paper} from "@mui/material";
 
 const {Step} = Steps
 
@@ -135,14 +136,24 @@ const PasswordReset = () => {
     ]
 
     return (
-        <div>
-            <Steps current={currentStep}>
-                {steps.map(item => (
-                    <Step key={item.title} title={item.title}/>
-                ))}
-            </Steps>
-            <div className="steps-content">{steps[currentStep].content}</div>
-        </div>
+        <Container component="main" sx={{ maxWidth: '100%', padding: 0 }}>
+            <Paper elevation={3} sx={{ mt: 8, p: 4, width: '100%', maxWidth: '500px', margin: 'auto' }}>
+                <Box sx={{ maxWidth: '100%', margin: 'auto', mt: 4, }}>
+                    <Box  sx={{ justifyContent:'center' }}>
+                        <h2>Đặt lại mật khẩu</h2>
+                    </Box>
+                    <Box mt={3}><Steps current={currentStep}>
+                        {steps.map(item => (
+                            <Step key={item.title} title={item.title}/>
+                        ))}
+                    </Steps>
+                    </Box>
+                    <Box mt={3}>
+                        <div className="steps-content">{steps[currentStep].content}</div>
+                    </Box>
+                </Box>
+            </Paper>
+        </Container>
     )
 }
 

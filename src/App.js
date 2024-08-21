@@ -88,6 +88,7 @@ function App() {
                     <Route path="change-password" element={<ChangePasswordForm/>}/>
                     <Route path="reset-password" element={<PasswordReset/>}/>
                 </Route>
+                <Route path="reset-password" element={<PasswordReset/>}/>
 
                 <Route path="/admin/*" element={
                     <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
@@ -109,7 +110,7 @@ function App() {
                 </Route>
 
                 <Route path="/teacher/*" element={
-                    <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_TEACHER']}>
+                    <ProtectedRoute allowedRoles={['ROLE_TEACHER']}>
                         <TeacherHome/>
                     </ProtectedRoute>
                 }>
@@ -131,7 +132,7 @@ function App() {
                 </Route>
 
                 <Route path="/student/*" element={
-                    <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
+                    <ProtectedRoute allowedRoles={['ROLE_STUDENT']}>
                         <StudentHome/>
                     </ProtectedRoute>
                 }>
