@@ -1,8 +1,3 @@
-import {format} from "date-fns";
-import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect, useState} from "react";
-import Page from "../../pages/Page";
-import {DeleteQuestion, ListTeacherQuestion} from "../../../store/questionStore/QuestionAxios";
 import {
     Button,
     Dialog,
@@ -17,14 +12,23 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TableRow
+    TableRow,
+    Typography
 } from "@mui/material";
-import {TailSpin} from "react-loader-spinner";
-import Swal from "sweetalert2";
-import {Link} from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import './QuestionTeacherList.css'; // Import the custom CSS file
+import {Link} from 'react-router-dom';
+
+import axios from 'axios';
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import {DeleteQuestion, ListTeacherQuestion} from "../../../store/questionStore/QuestionAxios";
+import {TailSpin} from "react-loader-spinner";
+import Swal from "sweetalert2";
+import Page from "../../pages/Page";
+import {format} from "date-fns"; // Import axios for API call
+
+// Existing imports...
 
 const ListTeacherQuestions = () => {
     const dispatch = useDispatch();
@@ -34,10 +38,26 @@ const ListTeacherQuestions = () => {
     const userId = localStorage.getItem('userId');
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedQuestionId, setSelectedQuestionId] = useState(null);
+    const [questionDetail, setQuestionDetail] = useState(null); // State to store question details
+    const [openModal, setOpenModal] = useState(false); // State to manage modal visibility
 
     useEffect(() => {
         dispatch(ListTeacherQuestion(userId));
     }, [dispatch]);
+
+    const handleRowClick = (id) => {
+        getQuestionDetail(id);
+        setOpenModal(true);
+    };
+
+    const getQuestionDetail = async (id) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/question/specific-question/${id}`);
+            setQuestionDetail(response.data);
+        } catch (error) {
+            Swal.fire('Lỗi', 'Không thể tải chi tiết câu hỏi', 'error');
+        }
+    };
 
     const handleDelete = (id) => {
         setSelectedQuestionId(id);
@@ -49,11 +69,6 @@ const ListTeacherQuestions = () => {
             setOpenDialog(false);
             setSelectedQuestionId(null);
         });
-    };
-
-    const getQuestionDetail = (id) => {
-        // Implement the function to get question details by ID
-        console.log(`Fetching details for question ID: ${id}`);
     };
 
     useEffect(() => {
@@ -120,9 +135,8 @@ const ListTeacherQuestions = () => {
                                 currentData.map((question, index) => (
                                     <TableRow
                                         key={question.questionId}
-                                        className="question-row" // Add a class for hover effect
-                                        onMouseEnter={() => setSelectedQuestionId(question.questionId)}
-                                        onMouseLeave={() => setSelectedQuestionId(null)}
+                                        className="question-row"
+                                        onClick={() => handleRowClick(question.questionId)} // Handle row click
                                     >
                                         <TableCell>{(currentPage - 1) * pageSize + index + 1}</TableCell>
                                         <TableCell>{question.questionText}</TableCell>
@@ -135,7 +149,10 @@ const ListTeacherQuestions = () => {
                                                     variant="standard"
                                                     startIcon={<DeleteIcon/>}
                                                     style={{color: 'red'}}
-                                                    onClick={() => handleDelete(question.questionId)}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // Prevent triggering row click
+                                                        handleDelete(question.questionId)
+                                                    }}
                                                     className="icon-button"
                                                 />
                                                 <Button
@@ -143,6 +160,7 @@ const ListTeacherQuestions = () => {
                                                     startIcon={<EditIcon/>}
                                                     component={Link}
                                                     to={`/teacher/question/edit/${question.questionId}`}
+                                                    onClick={(e) => e.stopPropagation()} // Prevent triggering row click
                                                     className="icon-button"
                                                 />
                                             </div>
@@ -165,6 +183,53 @@ const ListTeacherQuestions = () => {
                     onPageChange={handlePageChange}
                 />
             </Grid>
+
+            {/* Modal to show question details */}
+            <Dialog
+                open={openModal}
+                onClose={() => setOpenModal(false)}
+                maxWidth="sm"
+                fullWidth
+            >
+                <DialogTitle style={{fontWeight: 'bold', fontSize: '1.5rem'}}>Chi tiết câu hỏi</DialogTitle>
+                <DialogContent dividers style={{padding: '20px'}}>
+                    {questionDetail ? (
+                        <>
+                            <Typography variant="h6" gutterBottom>{questionDetail.questionText}</Typography>
+                            <Typography variant="subtitle1" gutterBottom>Danh
+                                mục: {questionDetail.category}</Typography>
+                            <Typography variant="subtitle1" gutterBottom>Độ
+                                khó: {questionDetail.difficulty}</Typography>
+                            <Typography variant="subtitle1"
+                                        gutterBottom>Loại: {mapTypeName(questionDetail.typeName)}</Typography>
+                            <Typography variant="subtitle1" gutterBottom>Người
+                                tạo: {questionDetail.createdBy}</Typography>
+                            <Typography variant="subtitle1" gutterBottom>
+                                Thời gian tạo: {format(new Date(questionDetail.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}
+                            </Typography>
+                            <Typography variant="subtitle1" gutterBottom>Các lựa chọn:</Typography>
+                            <ul>
+                                {questionDetail.options.map(option => (
+                                    <li key={option.id}>{option.optionText}</li>
+                                ))}
+                            </ul>
+                        </>
+                    ) : (
+                        <Typography>Đang tải...</Typography>
+                    )}
+                </DialogContent>
+                <DialogActions style={{padding: '10px 20px'}}>
+                    <Button
+                        onClick={() => setOpenModal(false)}
+                        color="primary"
+                        variant="contained"
+                        style={{fontWeight: 'bold'}}
+                    >
+                        ĐÓNG
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
             <Dialog
                 open={openDialog}
                 onClose={() => setOpenDialog(false)}
