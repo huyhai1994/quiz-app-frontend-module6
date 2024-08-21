@@ -25,6 +25,7 @@
     "date-fns": "^3.6.0",
     "firebase": "^10.12.5",
     "formik": "^2.4.6",
+    "framer-motion": "^11.3.28",
     "install": "^0.13.0",
     "json2mq": "^0.2.0",
     "nodemailer": "^6.9.14",
