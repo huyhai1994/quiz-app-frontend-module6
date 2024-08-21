@@ -178,6 +178,7 @@ const QuizCreate = () => {
         {value: 15, label: '15'},
         {value: 20, label: '20 '},
         {value: 30, label: '30 '},
+        {value: 40, label: '45 '},
         {value: 60, label: '60 '},
     ];
     const valuetext = (value) => {
