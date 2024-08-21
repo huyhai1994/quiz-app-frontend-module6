@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Dialog,
     DialogActions,
@@ -6,6 +7,7 @@ import {
     DialogContentText,
     DialogTitle,
     Grid,
+    IconButton,
     Paper,
     Table,
     TableBody,
@@ -15,6 +17,10 @@ import {
     TableRow,
     Typography
 } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+import HistoryIcon from '@mui/icons-material/History';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {Link} from 'react-router-dom';
@@ -191,42 +197,51 @@ const ListTeacherQuestions = () => {
                 maxWidth="sm"
                 fullWidth
             >
-                <DialogTitle style={{fontWeight: 'bold', fontSize: '1.5rem'}}>Chi tiết câu hỏi</DialogTitle>
-                <DialogContent dividers style={{padding: '20px'}}>
+                <DialogTitle className='h4' style={{fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'center'}}>Chi
+                    tiết câu
+                    hỏi</DialogTitle>
+
+                <Typography style={{textAlign: 'center'}} variant="h5"
+                            gutterBottom>{questionDetail.questionText}</Typography>
+                <DialogContent dividers style={{padding: '30px', textAlign: 'center'}}>
                     {questionDetail ? (
                         <>
-                            <Typography variant="h6" gutterBottom>{questionDetail.questionText}</Typography>
-                            <Typography variant="subtitle1" gutterBottom>Danh
-                                mục: {questionDetail.category}</Typography>
-                            <Typography variant="subtitle1" gutterBottom>Độ
-                                khó: {questionDetail.difficulty}</Typography>
-                            <Typography variant="subtitle1"
+                            <Typography variant="h6" gutterBottom>Danh mục: {questionDetail.category}</Typography>
+                            <Typography variant="h6" gutterBottom>Độ khó: {questionDetail.difficulty}</Typography>
+                            <Typography variant="h6"
                                         gutterBottom>Loại: {mapTypeName(questionDetail.typeName)}</Typography>
-                            <Typography variant="subtitle1" gutterBottom>Người
-                                tạo: {questionDetail.createdBy}</Typography>
-                            <Typography variant="subtitle1" gutterBottom>
-                                Thời gian tạo: {format(new Date(questionDetail.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}
-                            </Typography>
-                            <Typography variant="subtitle1" gutterBottom>Các lựa chọn:</Typography>
-                            <ul>
+                            <Typography variant="h6" gutterBottom>Các lựa chọn:</Typography>
+                            <ul style={{listStyleType: 'none', paddingLeft: 0, fontSize: '1.2rem'}}>
                                 {questionDetail.options.map(option => (
-                                    <li key={option.id}>{option.optionText}</li>
+                                    <li key={option.id}
+                                        style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                        <CheckCircleIcon style={{marginRight: '8px', color: 'green'}}/>
+                                        {option.optionText}
+                                    </li>
                                 ))}
                             </ul>
+                            <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" mt={3}>
+                                <Typography variant="subtitle1" display="flex" alignItems="center">
+                                    <AccountCircleIcon style={{marginRight: '5px'}}/>
+                                    Người tạo: {questionDetail.createdBy}
+                                </Typography>
+                                <Typography variant="body2">
+                                    <HistoryIcon/> Tạo
+                                    lúc {format(new Date(questionDetail.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}
+                                </Typography>
+                            </Box>
                         </>
                     ) : (
                         <Typography>Đang tải...</Typography>
                     )}
                 </DialogContent>
-                <DialogActions style={{padding: '10px 20px'}}>
-                    <Button
+                <DialogActions style={{justifyContent: 'center'}}>
+                    <IconButton
                         onClick={() => setOpenModal(false)}
-                        color="primary"
-                        variant="contained"
-                        style={{fontWeight: 'bold'}}
+                        style={{color: 'red'}}
                     >
-                        ĐÓNG
-                    </Button>
+                        <CloseIcon/>
+                    </IconButton>
                 </DialogActions>
             </Dialog>
 
