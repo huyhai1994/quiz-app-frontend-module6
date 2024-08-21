@@ -5,6 +5,7 @@ import {format} from "date-fns";
 import Page from "../../pages/Page";
 import {TailSpin} from 'react-loader-spinner';
 import Swal from 'sweetalert2';
+import {Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
 const QuestionList = () => {
     const dispatch = useDispatch();
@@ -63,58 +64,65 @@ const QuestionList = () => {
     }
 
     return (
-        <div className="container mt-5">
-            <h2>Danh sách câu hỏi</h2>
-            <div className="mb-3 d-flex">
-                <div className="flex-grow-1">
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Tìm kiếm theo danh mục hoặc câu hỏi"
-                        className="form-control"
-                    />
-                </div>
-                <button className="btn btn-primary ms-2" onClick={handleSearch}>
-                    Tìm kiếm
-                </button>
-            </div>
-            <table className="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Câu hỏi</th>
-                    <th>Danh mục</th>
-                    <th>Loại</th>
-                    <th>Thời gian tạo</th>
-                    <th>Thao tác</th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentData.length > 0 ? (
-                    currentData.map((question, index) => (
-                        <tr key={question.questionId}>
-                            <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                            <td>{question.questionText}</td>
-                            <td>{question.categoryName}</td>
-                            <td>{question.typeName}</td>
-                            <td>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
-                        </tr>
-                    ))
-                ) : (
-                    <tr>
-                        <td colSpan="5">Không có dữ liệu</td>
-                    </tr>
-                )}
-                </tbody>
-            </table>
-            <Page
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
-        </div>
+        <Grid container spacing={2} className="p-3">
+            <Grid item xs={12}>
+                <h2 className='fw-bold text-center'>Danh sách câu hỏi</h2>
+            </Grid>
+
+                <Grid className="mb-3 d-flex">
+                    <div className="flex-grow-1">
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            placeholder="Tìm kiếm theo danh mục hoặc câu hỏi"
+                            className="form-control"/>
+                    </div>
+                    <button className="btn btn-primary ms-2" onClick={handleSearch}>
+                        Tìm kiếm
+                    </button>
+                </Grid>
+            <TableContainer component={Paper}>
+                <Table className="table table-bordered table-striped">
+                    <TableHead>
+                    <TableRow>
+                        <TableCell>STT</TableCell>
+                        <TableCell>Câu hỏi</TableCell>
+                        <TableCell>Danh mục</TableCell>
+                        <TableCell>Loại câu hỏi</TableCell>
+                        <TableCell>Thời gian tạo</TableCell>
+                        <TableCell>Hành động</TableCell>
+                    </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {currentData.length > 0 ? (
+                        currentData.map((question, index) => (
+                            <TableRow key={question.questionId}>
+                                <TableCell>{(currentPage - 1) * pageSize + index + 1}</TableCell>
+                                <TableCell>{question.questionText}</TableCell>
+                                <TableCell>{question.categoryName}</TableCell>
+                                <TableCell>{question.typeName}</TableCell>
+                                <TableCell>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan="5">Không có dữ liệu</TableCell>
+                        </TableRow>
+                    )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <Grid item xs={12} className='d-flex align-items-center justify-content-center'>
+                <Page
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}/>
+                </Grid>
+        </Grid>
+
     );
 };
 

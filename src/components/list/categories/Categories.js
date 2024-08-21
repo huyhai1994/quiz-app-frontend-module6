@@ -7,7 +7,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPen, faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
 import Page from "../../pages/Page";
 import {PlusOne} from "@mui/icons-material";
-import {Button} from "@mui/material";
+import {Button, Grid} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit"; // Import the pagination component
 
@@ -79,7 +79,7 @@ const Categories = () => {
 
     const currentCategories = getCurrentPageData();
 
-    return (<div>
+    return (<Grid>
         <Breadcrumb
             style={{
                 margin: '16px 0',
@@ -143,7 +143,7 @@ const Categories = () => {
                 />
             </div>
         )}
-    </div>);
+    </Grid>);
 };
 
 export default Categories;
