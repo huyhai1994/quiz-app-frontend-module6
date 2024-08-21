@@ -180,16 +180,22 @@ const ListTeacherQuestions = () => {
             </Grid>
 
             <Grid item xs={12}>
-                <TableContainer component={Paper}>
-                    <Table aria-label="simple table">
+                <TableContainer component={Paper} style={{maxHeight: '500px'}}>
+                    <Table stickyHeader aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>STT</TableCell>
-                                <TableCell>Câu hỏi</TableCell>
-                                <TableCell>Danh mục</TableCell>
-                                <TableCell>Loại câu hỏi</TableCell>
-                                <TableCell>Thời gian tạo</TableCell>
-                                <TableCell>Hành động</TableCell>
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.2rem', color: 'black'}}>STT</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.2rem', color: 'black'}}>Câu
+                                    hỏi</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.2rem', color: 'black'}}>Danh
+                                    mục</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.2rem', color: 'black'}}>Loại câu
+                                    hỏi</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.2rem', color: 'black'}}>Thời gian
+                                    tạo</TableCell>
+                                <TableCell style={{fontWeight: 'bold', fontSize: '1.2rem', color: 'black'}}>Hành
+                                    động</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
