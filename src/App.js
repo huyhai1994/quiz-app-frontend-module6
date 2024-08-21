@@ -42,13 +42,16 @@ import QuizRoom from "./components/quiz-room/QuizRoom";
 import QuizActive from "./components/quiz-room/QuizActive";
 import QuizResults from "./components/quiz-room/QuizResults";
 import FindQuizRoom from "./components/quiz-room/FindQuizRoom";
+import UserProfileLayout from "./components/layout/UserProfileLayout";
+import UpgradeForm from "./components/auth/UpgradeForm";
+
 
 function App() {
     return (
         <ConfigProvider theme={{
             algorithm: [theme.defaultAlgorithm], cssVar: true, token: {
                 // Seed Token
-                colorPrimary: '#00b96b',
+                colorPrimary: 'var(--color-secondary)',
                 borderRadius: 5,
                 // Alias Token
                 colorBgContainer: 'var(--color-bg)',
@@ -81,6 +84,12 @@ function App() {
                 <Route path="/top/quizzes" element={<TopQuizzes/>}/>
                 <Route path="/login" element={<AuthLayout title="Login"><LoginForm/></AuthLayout>}/>
                 <Route path="/register" element={<AuthLayout title="Register"><RegisterForm/></AuthLayout>}/>
+                <Route path="/profile" element={<UserProfileLayout/>}>
+                    <Route index element={<UserProfile/>}/>
+                    <Route path="change-password" element={<ChangePasswordForm/>}/>
+                    <Route path="reset-password" element={<PasswordReset/>}/>
+                </Route>
+                <Route path="reset-password" element={<PasswordReset/>}/>
                 <Route path="/quiz/:quizId/room" element={<QuizRoom/>} />
                 <Route path="/quiz/:quizId/active" element={<QuizActive/>} />
                 <Route path="/quiz/:quizId/results" element={<QuizResults/>} />
@@ -130,6 +139,7 @@ function App() {
                 }>
                     <Route path="home" element={<TopQuizzes/>}/>
                     <Route path="" element={<StudentMain/>}/>
+                    <Route path="upgrade" element={<UpgradeForm/>}/>
                     <Route path="profile" element={<UserProfile/>}/>
                     <Route path="change-password" element={<ChangePasswordForm/>}/>
                     <Route path="quiz" element={<QuizList/>}/>

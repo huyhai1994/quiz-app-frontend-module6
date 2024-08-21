@@ -5,10 +5,21 @@ import {ListTeacherQuizzes} from "../../../store/quizStore/QuizAxios";
 import {format} from "date-fns";
 import Swal from "sweetalert2";
 import {useNavigate} from "react-router-dom";
-import Page from "../../pages/Page";
-import {Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {
+    Box,
+    Button,
+    Grid,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow
+} from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility'; // Import the eye icon
 import './QuizTeacherList.css';
+import Page from "../../pages/Page";
 
 const ListTeacherQuizzesComponent = () => {
     const dispatch = useDispatch();
@@ -42,18 +53,29 @@ const ListTeacherQuizzesComponent = () => {
         return quizzes.slice(startIndex, endIndex);
     };
 
-    const getDifficultyLabel = (difficulty) => {
+    const translateDifficulty = (difficulty) => {
         switch (difficulty) {
             case 'HARD':
-                return <span className="difficulty-label"
-                             style={{backgroundColor: 'red', color: 'var(--color-dark)'}}>Khó</span>;
+                return 'KHÓ';
             case 'MEDIUM':
-                return <span className="difficulty-label" style={{backgroundColor: 'yellow', color: 'var(--color-bg)'}}>Trung bình</span>;
+                return 'TRUNG BÌNH';
             case 'EASY':
-                return <span className="difficulty-label"
-                             style={{backgroundColor: 'green', color: 'var(--color-bg)'}}>Dễ</span>;
+                return 'DỄ';
             default:
                 return difficulty;
+        }
+    };
+
+    const getDifficultyBoxColor = (difficulty) => {
+        switch (difficulty) {
+            case 'HARD':
+                return 'red';
+            case 'MEDIUM':
+                return 'yellow';
+            case 'EASY':
+                return 'green';
+            default:
+                return 'grey';
         }
     };
 
@@ -74,50 +96,85 @@ const ListTeacherQuizzesComponent = () => {
     return (
         <Grid container spacing={2} className='p-5 shadow'>
             <Grid item xs={12}>
-                <h2 className='fw-bold text-center'>Danh sách bài kiểm tra của giáo viên</h2>
+                <h2 className='fw-bold text-center' style={{color: 'var(--color-primary)'}}>Danh sách bài kiểm tra của
+                    giáo viên</h2>
             </Grid>
-        <Grid item xs={12}>
-            <TableContainer component={Paper}>
-                <Table aria-label="quiz table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>STT</TableCell>
-                            <TableCell>Tiêu đề</TableCell>
-                            <TableCell>Mô tả</TableCell>
-                            <TableCell>Thời gian tạo</TableCell>
-                            <TableCell>Thời gian làm bài (phút)</TableCell>
-                            <TableCell>Số lượng</TableCell>
-                            <TableCell>Điểm đạt</TableCell>
-                            <TableCell>Độ khó</TableCell>
-                            <TableCell>Hành động</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {currentData.length > 0 ? (currentData.map((quiz, index) => {
-                                const timeCreate = new Date(quiz.quizzesTimeCreate);
-                                const formattedDate = isNaN(timeCreate.getTime()) ? 'N/A' : format(timeCreate, 'dd-MM-yyyy - HH:mm:ss');
-                                return (<TableRow
-                                        key={quiz.quizzesId}
-                                        className="quiz-row" // Add class for hover effect
-                                    >
-                                        <TableCell>{(currentPage - 1) * pageSize + index + 1}</TableCell>
-                                        <TableCell>{quiz.quizzesTitle}</TableCell>
-                                        <TableCell>{quiz.quizzesDescription}</TableCell>
-                                        <TableCell>{formattedDate}</TableCell>
-                                        <TableCell>{quiz.quizTime}</TableCell>
-                                        <TableCell>{quiz.quantity}</TableCell>
-                                        <TableCell>{quiz.passingScore}</TableCell>
-                                        <TableCell>{getDifficultyLabel(quiz.difficulty)}</TableCell>
-                                        <TableCell>
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                startIcon={<VisibilityIcon/>}
-                                                onClick={() => handleViewHistory(quiz.quizzesId)}
-                                            >
-                                                Xem lịch sử
-                                            </Button>
+            <Grid item xs={12}>
+                <TableContainer component={Paper} style={{maxHeight: '500px'}}>
+                    <Table stickyHeader aria-label="quiz table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell
+                                    style={{
+                                        fontWeight: 'bold',
+                                        fontSize: '1.1rem',
+                                        color: 'var(--color-primary)'
+                                    }}>STT</TableCell>
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Tiêu
+                                    đề</TableCell>
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Mô
+                                    tả</TableCell>
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Thời
+                                    gian
+                                    tạo</TableCell>
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Thời
+                                    gian
+                                    làm bài (phút)</TableCell>
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Số
+                                    lượng</TableCell>
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Điểm
+                                    đạt</TableCell>
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Độ
+                                    khó</TableCell>
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Hành
+                                    động</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {currentData.length > 0 ? (
+                                currentData.map((quiz, index) => {
+                                    const timeCreate = new Date(quiz.quizzesTimeCreate);
+                                    const formattedDate = isNaN(timeCreate.getTime()) ? 'N/A' : format(timeCreate, 'dd-MM-yyyy - HH:mm:ss');
+                                    return (
+                                        <TableRow
+                                            key={quiz.quizzesId}
+                                            className="quiz-row" // Add class for hover effect
+                                        >
+                                            <TableCell>{(currentPage - 1) * pageSize + index + 1}</TableCell>
+                                            <TableCell>{quiz.quizzesTitle}</TableCell>
+                                            <TableCell>{quiz.quizzesDescription}</TableCell>
+                                            <TableCell>{formattedDate}</TableCell>
+                                            <TableCell>{quiz.quizTime}</TableCell>
+                                            <TableCell>{quiz.quantity}</TableCell>
+                                            <TableCell>{quiz.passingScore}</TableCell>
                                             <TableCell>
+                                                <Box display="flex" alignItems="center">
+                                                    <Box
+                                                        width={16}
+                                                        height={16}
+                                                        bgcolor={getDifficultyBoxColor(quiz.difficulty)}
+                                                        mr={1}
+                                                    />
+                                                    <span>{translateDifficulty(quiz.difficulty)}</span>
+                                                </Box>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    startIcon={<VisibilityIcon/>}
+                                                    onClick={() => handleViewHistory(quiz.quizzesId)}
+                                                >
+                                                    Lịch sử
+                                                </Button>
                                                 <Button
                                                     className="btn btn-primary ml-2"
                                                     onClick={() => handlePlayQuiz(quiz.quizzesId)}
@@ -125,24 +182,27 @@ const ListTeacherQuizzesComponent = () => {
                                                     Thi Online
                                                 </Button>
                                             </TableCell>
-
-                                        </TableCell>
-                                </TableRow>);
-                        })) : (<TableRow>
-                            <TableCell colSpan="9">Không có dữ liệu</TableCell>
-                        </TableRow>)}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                                        </TableRow>
+                                    );
+                                })
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan="9">Không có dữ liệu</TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Grid>
+            <Grid item xs={12} className='d-flex align-items-center justify-content-center'>
+                <Page
+                    currentPage={currentPage}
+                    totalPages={Math.ceil(quizzes.length / pageSize)}
+                    onPageChange={handlePageChange}
+                />
+            </Grid>
         </Grid>
-        <Grid item xs={12} className='d-flex align-items-center justify-content-center'>
-            <Page
-                currentPage={currentPage}
-                totalPages={Math.ceil(quizzes.length / pageSize)}
-                onPageChange={handlePageChange}
-            />
-        </Grid>
-    </Grid>);
+    );
 };
 
 export default ListTeacherQuizzesComponent;

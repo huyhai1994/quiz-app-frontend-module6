@@ -5,6 +5,7 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Import the logout icon
+import UpgradeIcon from '@mui/icons-material/Upgrade'; // Import the upgrade icon
 import '../../../styles/vars.css';
 import OnlineQuizIcon from '@mui/icons-material/Quiz'
 
@@ -29,6 +30,7 @@ const items = [
             getItem('Thông tin cá nhân', '3', null, null, '/student/profile'),
             getItem('Thay đổi mật khẩu', '4', null, null, '/student/change-password'),
         ]),
+    getItem('Nâng Hạng', '7', <UpgradeIcon/>, null, '/student/upgrade'), // Add the upgrade item
     getItem('Đăng xuất', '5', <ExitToAppIcon/>, null, ''), // Add the logout item
 ];
 
@@ -82,8 +84,7 @@ const StudentHome = () => {
             <Layout>
                 <Content
                     style={{
-                        background: 'var(--color-bg)',
-                        borderRadius: borderRadiusLG,
+                        background: 'var(--color-bg)', borderRadius: borderRadiusLG,
                     }}
                 >
                     <div>
