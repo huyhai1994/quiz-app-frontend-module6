@@ -7,7 +7,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPen, faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
 import Page from "../../pages/Page";
 import {PlusOne} from "@mui/icons-material";
-import {Button} from "@mui/material"; // Import the pagination component
+import {Button} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit"; // Import the pagination component
 
 const Categories = () => {
     const [loading, setLoading] = useState(true);
@@ -118,28 +120,16 @@ const Categories = () => {
                 <td>{category.name}</td>
                 <td>{category.description}</td>
                 <td className="text-center">
-                    <Link to={"/admin/edit/" + category.id}>
-                        <Button title="Sửa" sx={{
-                            backgroundColor: 'var(--color-primary)',
-                            color: 'var(--color-bg)',
-                            borderRadius: '5px',
-                            '&:hover': {
-                                backgroundColor: 'var(--color-dark)',
-                            }
-                        }} className="mx-2">
-                            <FontAwesomeIcon icon={faPen}/>
+                    <div><Link to={"/admin/edit/" + category.id}>
+                        <Button title="Sửa"  variant="standard"
+                                startIcon={<EditIcon/>} className="mx-2">
                         </Button>
                     </Link>
-                    <Button title="Xóa" sx={{
-                        backgroundColor: 'var(--color-primary)',
-                        color: 'var(--color-bg)',
-                        borderRadius: '5px',
-                        '&:hover': {
-                            backgroundColor: 'var(--color-dark)',
-                        }
-                    }} onClick={() => deleteCategory(category.id)} danger>
-                        <FontAwesomeIcon icon={faTrash}/>
-                    </Button>
+                        <Button title="Xóa"  variant="standard"
+                                startIcon={<DeleteIcon/>}
+                                style={{color: 'red'}} onClick={() => deleteCategory(category.id)}>
+                        </Button></div>
+
                 </td>
             </tr>))}
             </tbody>
