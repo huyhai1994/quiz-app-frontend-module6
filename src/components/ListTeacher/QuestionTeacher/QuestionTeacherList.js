@@ -6,9 +6,13 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    FormControl,
     Grid,
     IconButton,
+    InputLabel,
+    MenuItem,
     Paper,
+    Select,
     Table,
     TableBody,
     TableCell,
@@ -49,7 +53,7 @@ const ListTeacherQuestions = () => {
     const [questionDetail, setQuestionDetail] = useState(null);
     const [openModal, setOpenModal] = useState(false);
 
-    // Add state variables for search criteria
+    // State variables for search criteria
     const [searchCategory, setSearchCategory] = useState('');
     const [searchQuizName, setSearchQuizName] = useState('');
 
@@ -135,13 +139,14 @@ const ListTeacherQuestions = () => {
         }
     };
 
+    // Extract unique categories for dropdown
+    const categoryOptions = Array.from(new Set(questions.map(question => question.categoryName)));
+
     // Filter questions based on search criteria
     const filteredQuestions = questions.filter(question =>
-        question.categoryName.toLowerCase().includes(searchCategory.toLowerCase()) &&
+        (searchCategory === '' || question.categoryName.toLowerCase().includes(searchCategory.toLowerCase())) &&
         question.questionText.toLowerCase().includes(searchQuizName.toLowerCase())
     );
-
-    const currentData = getCurrentPageData();
 
     return (
         <Grid container spacing={2} className='p-3'>
@@ -151,13 +156,25 @@ const ListTeacherQuestions = () => {
 
             {/* Search Fields */}
             <Grid item xs={12} md={6}>
-                <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="Tìm theo danh mục"
-                    value={searchCategory}
-                    onChange={(e) => setSearchCategory(e.target.value)}
-                />
+                <FormControl fullWidth variant="outlined">
+                    <InputLabel id="category-select-label">Tìm theo danh mục</InputLabel>
+                    <Select
+                        labelId="category-select-label"
+                        id="category-select"
+                        value={searchCategory}
+                        onChange={(e) => setSearchCategory(e.target.value)}
+                        label="Tìm theo danh mục"
+                    >
+                        <MenuItem value="">
+                            <em>Tất cả danh mục</em>
+                        </MenuItem>
+                        {categoryOptions.map((category, index) => (
+                            <MenuItem key={index} value={category}>
+                                {category}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
                 <TextField
@@ -184,7 +201,7 @@ const ListTeacherQuestions = () => {
                         </TableHead>
                         <TableBody>
                             {filteredQuestions.length > 0 ? (
-                                filteredQuestions.map((question, index) => (
+                                filteredQuestions.slice((currentPage - 1) * pageSize, currentPage * pageSize).map((question, index) => (
                                     <Tooltip title="ấn vào để xem chi tiết câu hỏi này" arrow key={question.questionId}>
                                         <TableRow
                                             key={question.questionId}
@@ -194,17 +211,7 @@ const ListTeacherQuestions = () => {
                                             <TableCell>{(currentPage - 1) * pageSize + index + 1}</TableCell>
                                             <TableCell>{question.questionText}</TableCell>
                                             <TableCell>{question.categoryName}</TableCell>
-                                            <TableCell>
-                                                <Box display="flex" alignItems="center">
-                                                    <Box
-                                                        width={16}
-                                                        height={16}
-                                                        bgcolor={mapDifficulty(question.difficulty).color}
-                                                        mr={1}
-                                                    />
-                                                    <Typography>{mapDifficulty(question.difficulty).label}</Typography>
-                                                </Box>
-                                            </TableCell>
+                                            <TableCell>{mapTypeName(question.typeName)}</TableCell>
                                             <TableCell>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</TableCell>
                                             <TableCell>
                                                 <div className="action-icons">
@@ -258,51 +265,47 @@ const ListTeacherQuestions = () => {
                 <DialogTitle className='h4' style={{fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'center'}}>
                     Chi tiết câu hỏi
                 </DialogTitle>
-                {questionDetail && <Typography style={{textAlign: 'center'}} variant="h5"
-                                               gutterBottom>{questionDetail.questionText}</Typography>}
-                <DialogContent dividers style={{padding: '30px', textAlign: 'center'}}>
-                    {questionDetail ? (
-                        <>
-                            <Typography variant="h6" gutterBottom>Danh mục: {questionDetail.category}</Typography>
-                            <Typography variant="h6" gutterBottom>
-                                Độ khó:
-                                <Box display="flex" alignItems="center" justifyContent="center" mt={1}>
-                                    <Box
-                                        width={16}
-                                        height={16}
-                                        bgcolor={mapDifficulty(questionDetail.difficulty).color}
-                                        mr={1}
-                                    />
-                                    <Typography>{mapDifficulty(questionDetail.difficulty).label}</Typography>
-                                </Box>
-                            </Typography>
-                            <Typography variant="h6"
-                                        gutterBottom>Loại: {mapTypeName(questionDetail.typeName)}</Typography>
-                            <Typography variant="h6" gutterBottom>Các lựa chọn:</Typography>
-                            <ul style={{listStyleType: 'none', paddingLeft: 0, fontSize: '1.2rem'}}>
-                                {questionDetail.options.map(option => (
-                                    <li key={option.id}
-                                        style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                        <CheckCircleIcon style={{marginRight: '8px', color: 'green'}}/>
-                                        {option.optionText}
-                                    </li>
-                                ))}
-                            </ul>
-                            <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" mt={3}>
-                                <Typography variant="subtitle1" display="flex" alignItems="center">
-                                    <AccountCircleIcon style={{marginRight: '5px'}}/>
-                                    Người tạo: {questionDetail.createdBy}
-                                </Typography>
-                                <Typography variant="body2">
-                                    <HistoryIcon/> Tạo
-                                    lúc {format(new Date(questionDetail.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}
-                                </Typography>
+                {questionDetail && (
+                    <DialogContent dividers style={{padding: '30px', textAlign: 'center'}}>
+                        <Typography style={{textAlign: 'center'}} variant="h5" gutterBottom>
+                            {questionDetail.questionText}
+                        </Typography>
+                        <Typography variant="h6" gutterBottom>Danh mục: {questionDetail.categoryName}</Typography>
+                        <Typography variant="h6" gutterBottom>
+                            Độ khó:
+                            <Box display="flex" alignItems="center" justifyContent="center" mt={1}>
+                                <Box
+                                    width={16}
+                                    height={16}
+                                    bgcolor={mapDifficulty(questionDetail.difficulty).color}
+                                    mr={1}
+                                />
+                                <Typography>{mapDifficulty(questionDetail.difficulty).label}</Typography>
                             </Box>
-                        </>
-                    ) : (
-                        <Typography>Đang tải...</Typography>
-                    )}
-                </DialogContent>
+                        </Typography>
+                        <Typography variant="h6" gutterBottom>Loại: {mapTypeName(questionDetail.typeName)}</Typography>
+                        <Typography variant="h6" gutterBottom>Các lựa chọn:</Typography>
+                        <ul style={{listStyleType: 'none', paddingLeft: 0, fontSize: '1.2rem'}}>
+                            {questionDetail.options.map(option => (
+                                <li key={option.id}
+                                    style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                    <CheckCircleIcon style={{marginRight: '8px', color: 'green'}}/>
+                                    {option.optionText}
+                                </li>
+                            ))}
+                        </ul>
+                        <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" mt={3}>
+                            <Typography variant="subtitle1" display="flex" alignItems="center">
+                                <AccountCircleIcon style={{marginRight: '5px'}}/>
+                                Người tạo: {questionDetail.createdBy}
+                            </Typography>
+                            <Typography variant="body2">
+                                <HistoryIcon/> Tạo
+                                lúc {format(new Date(questionDetail.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}
+                            </Typography>
+                        </Box>
+                    </DialogContent>
+                )}
                 <DialogActions style={{justifyContent: 'center'}}>
                     <IconButton
                         onClick={() => setOpenModal(false)}
@@ -313,6 +316,7 @@ const ListTeacherQuestions = () => {
                 </DialogActions>
             </Dialog>
 
+            {/* Delete Confirmation Dialog */}
             <Dialog
                 open={openDialog}
                 onClose={() => setOpenDialog(false)}
