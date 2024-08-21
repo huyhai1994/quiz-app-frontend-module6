@@ -96,7 +96,8 @@ const ListTeacherQuizzesComponent = () => {
     return (
         <Grid container spacing={2} className='p-5 shadow'>
             <Grid item xs={12}>
-                <h2 className='fw-bold text-center'>Danh sách bài kiểm tra của giáo viên</h2>
+                <h2 className='fw-bold text-center' style={{color: 'var(--color-primary)'}}>Danh sách bài kiểm tra của
+                    giáo viên</h2>
             </Grid>
             <Grid item xs={12}>
                 <TableContainer component={Paper} style={{maxHeight: '500px'}}>
@@ -104,22 +105,36 @@ const ListTeacherQuizzesComponent = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell
-                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>STT</TableCell>
-                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Tiêu
+                                    style={{
+                                        fontWeight: 'bold',
+                                        fontSize: '1.1rem',
+                                        color: 'var(--color-primary)'
+                                    }}>STT</TableCell>
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Tiêu
                                     đề</TableCell>
-                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Mô
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Mô
                                     tả</TableCell>
-                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Thời gian
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Thời
+                                    gian
                                     tạo</TableCell>
-                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Thời gian
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Thời
+                                    gian
                                     làm bài (phút)</TableCell>
-                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Số
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Số
                                     lượng</TableCell>
-                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Điểm
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Điểm
                                     đạt</TableCell>
-                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Độ
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Độ
                                     khó</TableCell>
-                                <TableCell style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'black'}}>Hành
+                                <TableCell
+                                    style={{fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)'}}>Hành
                                     động</TableCell>
                             </TableRow>
                         </TableHead>
