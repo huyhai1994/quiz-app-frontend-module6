@@ -50,7 +50,7 @@ export const fetchTopQuizzes = createAsyncThunk('fetchTopQuizzes', async () => {
 });
 
 export const fetchHistoryUserByQuizId = createAsyncThunk(
-    'quiz/fetchQuizHistoryByTeacher',
+    'quiz-room/fetchQuizHistoryByTeacher',
     async (id) => {
         try {
             const response = await axios.get(`${ApiURL}/${id}/user-info`);

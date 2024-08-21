@@ -90,7 +90,7 @@ const ListTeacherQuizzesComponent = () => {
     }
 
     const handlePlayQuiz = (quizId) => {
-        navigate(`/teacher/quiz/${quizId}/room`);
+        navigate(`/quiz/${quizId}/room`);
     }
 
     return (
@@ -179,7 +179,7 @@ const ListTeacherQuizzesComponent = () => {
                                                     className="btn btn-primary ml-2"
                                                     onClick={() => handlePlayQuiz(quiz.quizzesId)}
                                                 >
-                                                    Chơi
+                                                    Thi Online
                                                 </Button>
                                             </TableCell>
                                         </TableRow>

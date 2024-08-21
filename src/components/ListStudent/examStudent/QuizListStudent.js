@@ -36,7 +36,7 @@ const QuizListStudent = () => {
                 }
             })
             .catch((err) => {
-                console.error('Failed to start quiz:', err.message);
+                console.error('Failed to start quiz-room:', err.message);
             });
     };
 
@@ -47,12 +47,10 @@ const QuizListStudent = () => {
     if (error) {
         return <Alert message="Error" description={error} type="error" showIcon/>;
     }
-
     // Get current quizzes
     const indexOfLastQuiz = currentPage * quizzesPerPage;
     const indexOfFirstQuiz = indexOfLastQuiz - quizzesPerPage;
     const currentQuizzes = quizzes.slice(indexOfFirstQuiz, indexOfLastQuiz);
-
     // Change page
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 

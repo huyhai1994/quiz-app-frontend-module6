@@ -23,9 +23,9 @@ const QuizResults = () => {
     const handleRestartQuiz = async () => {
         try {
             await fetch(`http://localhost:8080/api/quiz-rooms/${quizId}/restart`, { method: 'POST' });
-            navigate(`/teacher/quiz/${quizId}/room`);
+            navigate(`/quiz/${quizId}/room`);
         } catch (error) {
-            console.error('Error restarting quiz:', error);
+            console.error('Error restarting quiz-room:', error);
         }
     };
 

@@ -49,7 +49,7 @@ const QuestionListStudent = () => {
         dispatch(getQuestionsByQuizId(quizId));
         axios.get(`http://localhost:8080/quiz/${quizId}/time`)
             .then(response => setInitialTime(response.data.quizTime * 60))
-            .catch(error => console.error('Error fetching quiz time:', error));
+            .catch(error => console.error('Error fetching quiz-room time:', error));
     }, [dispatch, quizId, location.search]);
     const handleOptionChange = useCallback((questionId, optionId, isMultiple) => {
         setSelectedOptions(prev => {

@@ -17,10 +17,10 @@ import AuthLayout from "./components/layout/AuthLayout";
 import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
 import {ConfigProvider, theme} from "antd";
-import ChangePasswordForm from "./components/user-service/ChangePasswordForm";
-import PasswordReset from "./components/user-service/PasswordReset";
+import ChangePasswordForm from "./components/auth-service/ChangePasswordForm";
+import PasswordReset from "./components/auth-service/PasswordReset";
 import TeacherHome from "./pages/teacher/teacher-home/TeacherHome";
-import UserProfile from "./components/user-service/UserProfile";
+import UserProfile from "./components/auth-service/UserProfile";
 import StudentHome from "./pages/student/student-home/StudentHome";
 import StudentMain from "./pages/student/student-home/main/StudentMain";
 import QuizComponent from "./components/list/quiz-component/QuizComponent";
@@ -38,10 +38,11 @@ import QuestionListStudent from "./components/ListStudent/examStudent/QuestionLi
 import ResultStudentList from "./components/ListStudent/StudentResultList/ResultStudentList";
 import TopQuizzes from "./components/ListStudent/QuizTop/TopQuizzes";
 import QuizTeacherHistory from "./components/ListTeacher/HistoryTeacherQuiz/QuizTeacherHistory";
+import QuizRoom from "./components/quiz-room/QuizRoom";
+import QuizActive from "./components/quiz-room/QuizActive";
+import QuizResults from "./components/quiz-room/QuizResults";
+import FindQuizRoom from "./components/quiz-room/FindQuizRoom";
 import UserProfileLayout from "./components/layout/UserProfileLayout";
-import QuizRoom from "./components/quiz/QuizRoom";
-import QuizActive from "./components/quiz/QuizActive";
-import QuizResults from "./components/quiz/QuizResults";
 import UpgradeForm from "./components/auth/UpgradeForm";
 
 
@@ -89,6 +90,9 @@ function App() {
                     <Route path="reset-password" element={<PasswordReset/>}/>
                 </Route>
                 <Route path="reset-password" element={<PasswordReset/>}/>
+                <Route path="/quiz/:quizId/room" element={<QuizRoom/>} />
+                <Route path="/quiz/:quizId/active" element={<QuizActive/>} />
+                <Route path="/quiz/:quizId/results" element={<QuizResults/>} />
 
                 <Route path="/admin/*" element={
                     <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
@@ -110,7 +114,7 @@ function App() {
                 </Route>
 
                 <Route path="/teacher/*" element={
-                    <ProtectedRoute allowedRoles={['ROLE_TEACHER']}>
+                    <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_TEACHER']}>
                         <TeacherHome/>
                     </ProtectedRoute>
                 }>
@@ -125,15 +129,11 @@ function App() {
                     <Route path="option/create" element={<OptionCreate/>}/>
                     <Route path="quiz/create" element={<QuizCreate/>}/>
                     <Route path="teacher-quizzes" element={<QuizTeacherList/>}/>
-                    <Route path="quiz/:quizId/room" element={<QuizRoom/>}/>
-                    <Route path="quiz/:quizId/active" element={<QuizActive/>}/>
-                    <Route path="quiz/:quizId/results" element={<QuizResults/>}/>
-                    <Route path="quizzes/:id/user-history"
-                           element={<QuizTeacherHistory/>}/> {/*TODO: xem lich su thi cua hoc sinh*/}
+                    <Route path="quizzes/:id/user-history" element={<QuizTeacherHistory/>}/> {/*TODO: xem lich su thi cua hoc sinh*/}
                 </Route>
 
                 <Route path="/student/*" element={
-                    <ProtectedRoute allowedRoles={['ROLE_STUDENT']}>
+                    <ProtectedRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STUDENT']}>
                         <StudentHome/>
                     </ProtectedRoute>
                 }>
@@ -146,6 +146,7 @@ function App() {
                     <Route path="question" element={<QuizComponent/>}/>
                     <Route path="quizzes" element={<QuizListStudent/>}/>
                     <Route path="quizzes/:quizId/start" element={<QuestionListStudent/>}/>
+                    <Route path="find-quiz-room" element={<FindQuizRoom />} />
                     <Route path="result/new/:resultId" element={<ResultStudentList/>}/>
                     <Route path="result/history" element={<QuizHistoryList/>}/> {/*TODO: xem lich su ca nhan thi*/}
                 </Route>
