@@ -6,6 +6,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Import the logout icon
 import '../../../styles/vars.css';
+import OnlineQuizIcon from '@mui/icons-material/Quiz'
 
 const {Content, Footer, Sider} = Layout;
 
@@ -17,11 +18,17 @@ function getItem(label, key, icon, children, link) {
 
 const items = [
     getItem('Trang chủ', '1', <HomeIcon/>, null, '/student/home'),
-    getItem('Danh Sách', 'sub1',
-        <ViewListIcon/>, [
-            getItem('Bài kiểm tra', '2', null, null, '/student/quizzes'),]), getItem('Cài đặt', 'sub2',
+    getItem('Danh Sách', 'sub1', <ViewListIcon/>, [
+            getItem('Bài kiểm tra', '2', null, null, '/student/quizzes'),
+    ]),
+    getItem('Thi online', 'sub3', <OnlineQuizIcon/>, [
+        getItem('Tìm kiếm', '6', null, null, '/student/find-quiz-room'),
+    ]),
+    getItem('Cài đặt', 'sub2',
         <SettingsIcon/>, [
-            getItem('Thông tin cá nhân', '3', null, null, '/student/profile'), getItem('Thay đổi mật khẩu', '4', null, null, '/student/change-password'),],),
+            getItem('Thông tin cá nhân', '3', null, null, '/student/profile'),
+            getItem('Thay đổi mật khẩu', '4', null, null, '/student/change-password'),
+        ]),
     getItem('Đăng xuất', '5', <ExitToAppIcon/>, null, ''), // Add the logout item
 ];
 

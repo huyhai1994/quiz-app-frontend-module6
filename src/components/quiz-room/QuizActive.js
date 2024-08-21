@@ -33,7 +33,7 @@ const QuizActive = () => {
     const handleEndQuiz = () => {
         if (stompClient) {
             stompClient.send(`/app/quiz.endQuiz`, {}, JSON.stringify({ quizId }));
-            navigate(`/teacher/quiz/${quizId}/results`);
+            navigate(`/quiz/${quizId}/results`);
         }
     }
 

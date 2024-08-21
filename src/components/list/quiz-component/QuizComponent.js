@@ -11,7 +11,7 @@ const QuizComponent = () => {
 
     useEffect(() => {
         if (timeLeft <= 0) {
-            // Handle what happens when the timer reaches 0, like auto-submitting the quiz
+            // Handle what happens when the timer reaches 0, like auto-submitting the quiz-room
             return;
         }
 

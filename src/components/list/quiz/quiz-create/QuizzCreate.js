@@ -46,7 +46,7 @@ const QuizCreate = () => {
                 const response = await axios.get('http://localhost:8080/quiz-categories');
                 setQuizCategories(response.data);
             } catch (error) {
-                console.error('Error fetching quiz categories:', error);
+                console.error('Error fetching quiz-room categories:', error);
             }
         };
         const fetchCategories = async () => {
@@ -70,7 +70,7 @@ const QuizCreate = () => {
                 const response = await axios.get(`${API_QUIZ_URL}/titles`);
                 setExistingQuizTitles(response.data.map(quiz => quiz.title));
             } catch (error) {
-                console.error('Error fetching quiz titles:', error);
+                console.error('Error fetching quiz-room titles:', error);
             }
         };
         fetchQuizCategories();
@@ -120,7 +120,7 @@ const QuizCreate = () => {
                     });
                 })
                 .catch(error => {
-                    console.error('Error submitting quiz:', error);
+                    console.error('Error submitting quiz-room:', error);
                 });
         },
     });
