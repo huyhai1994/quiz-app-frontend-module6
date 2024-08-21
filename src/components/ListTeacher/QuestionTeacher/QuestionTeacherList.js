@@ -1,4 +1,5 @@
 import {
+    Autocomplete,
     Box,
     Button,
     Dialog,
@@ -6,13 +7,9 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    FormControl,
     Grid,
     IconButton,
-    InputLabel,
-    MenuItem,
     Paper,
-    Select,
     Table,
     TableBody,
     TableCell,
@@ -156,25 +153,21 @@ const ListTeacherQuestions = () => {
 
             {/* Search Fields */}
             <Grid item xs={12} md={6}>
-                <FormControl fullWidth variant="outlined">
-                    <InputLabel id="category-select-label">Tìm theo danh mục</InputLabel>
-                    <Select
-                        labelId="category-select-label"
-                        id="category-select"
-                        value={searchCategory}
-                        onChange={(e) => setSearchCategory(e.target.value)}
-                        label="Tìm theo danh mục"
-                    >
-                        <MenuItem value="">
-                            <em>Tất cả danh mục</em>
-                        </MenuItem>
-                        {categoryOptions.map((category, index) => (
-                            <MenuItem key={index} value={category}>
-                                {category}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                <Autocomplete
+                    options={categoryOptions}
+                    getOptionLabel={(option) => option}
+                    value={searchCategory}
+                    onChange={(event, newValue) => setSearchCategory(newValue || '')}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            variant="outlined"
+                            label="Tìm theo danh mục"
+                            placeholder="Search"
+                        />
+                    )}
+                    fullWidth
+                />
             </Grid>
             <Grid item xs={12} md={6}>
                 <TextField
