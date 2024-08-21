@@ -37,12 +37,12 @@ export const HistoryResultsByUserId = createAsyncThunk('result/fetchQuizHistoryB
     return response.data;
 });
 
-export const fetchQuiz = createAsyncThunk('quiz/fetchQuiz', async (quizId, {rejectWithValue}) => {
+export const fetchQuiz = createAsyncThunk('quiz-room/fetchQuiz', async (quizId, {rejectWithValue}) => {
     try {
         const response = await axios.get(`${ApiURL}/quizzes/${quizId}`);
         return response.data;
     } catch (error) {
-        console.error('Error fetching quiz:', error);
+        console.error('Error fetching quiz-room:', error);
         return rejectWithValue(error.response.data);
     }
 });

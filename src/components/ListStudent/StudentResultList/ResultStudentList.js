@@ -25,7 +25,7 @@ const ResultStudentList = () => {
                     setResults([response.data]);
                 } catch (error) {
                     setError(error.message);
-                    console.error('Error fetching quiz results:', error);
+                    console.error('Error fetching quiz-room results:', error);
                 } finally {
                     setLoading(false);
                 }

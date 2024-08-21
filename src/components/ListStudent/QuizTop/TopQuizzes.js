@@ -61,7 +61,7 @@ const TopQuizzes = () => {
                 }
             })
             .catch((err) => {
-                console.error('Failed to start quiz:', err.message);
+                console.error('Failed to start quiz-room:', err.message);
             });
     };
 

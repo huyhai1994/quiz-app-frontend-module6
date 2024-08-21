@@ -64,7 +64,7 @@ const QuizUpdateForm = ({quiz, onClose, onUpdate}) => {
                 quizzesId: quiz.quizzesId,
                 questionIds: selectedQuestions.map(q => q.questionId),
             };
-            // axios.put(`http://localhost:8080/quiz/update/${quiz.quizzesId}`, updatedQuiz)
+            // axios.put(`http://localhost:8080/quiz/update/${quiz-room.quizzesId}`, updatedQuiz)
             dispatch(UpdateQuiz({id: quiz.quizzesId, quiz: updatedQuiz}))
                 .unwrap()
                 .then((response) => {
@@ -77,7 +77,7 @@ const QuizUpdateForm = ({quiz, onClose, onUpdate}) => {
                     onClose();
                 })
                 .catch(error => {
-                    console.error('Error updating quiz:', error);
+                    console.error('Error updating quiz-room:', error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Lỗi',
