@@ -15,21 +15,34 @@ const QuizHistoryDetail = React.memo(() => {
         }
     }, [dispatch, selectedQuizId]);
 
-    if (status === 'loading') return (
-        <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
-            <TailSpin color="#00BFFF" height={80} width={80}/>
-        </div>
-    );
+    const formatDate = (dateString) => {
+        let date = new Date(dateString);
+        if (!(date instanceof Date) || isNaN(date.getTime())) {
+            date = new Date(); // Fallback to current date if the dateString is invalid
+        }
+        return format(date, 'dd-MM-yyyy - HH:mm:ss');
+    };
 
-    if (status === 'failed') return <p>Error: {error}</p>;
+    if (status === 'loading') {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+                <TailSpin color="#00BFFF" height={80} width={80}/>
+            </div>
+        );
+    }
 
-    if (!quiz) return <p>Loading details...</p>;
+    if (status === 'failed') {
+        return <p>Error: {error}</p>;
+    }
+
+    if (!quiz) {
+        return <p>Loading details...</p>;
+    }
 
     return (
         <div>
             <p><strong>Tên quiz:</strong> {quiz.quizName}</p>
-            <p><strong>Thời gian hoàn
-                thành:</strong> {quiz.submitTime ? format(new Date(quiz.submitTime), 'dd-MM-yyyy - HH:mm:ss') : ''}</p>
+            <p><strong>Thời gian hoàn thành:</strong> {quiz.submitTime ? formatDate(quiz.submitTime) : ''}</p>
             <p><strong>Điểm số:</strong> {quiz.score}</p>
             <p><strong>Tổng số câu đúng:</strong> {quiz.correctAnswers}</p>
             <p><strong>Tổng số câu sai:</strong> {quiz.incorrectAnswers}</p>
