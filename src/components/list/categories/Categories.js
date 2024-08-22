@@ -4,9 +4,10 @@ import {Breadcrumb} from "antd";
 import CategoryService from "../../../services/category.service";
 import Swal from "sweetalert2";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
 import Page from "../../pages/Page";
-import {Button} from "@mui/material";
+import {PlusOne} from "@mui/icons-material";
+import {Button, Grid} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit"; // Import the pagination component
 
@@ -78,7 +79,7 @@ const Categories = () => {
 
     const currentCategories = getCurrentPageData();
 
-    return (<div>
+    return (<Grid>
         <Breadcrumb
             style={{
                 margin: '16px 0',
@@ -101,7 +102,7 @@ const Categories = () => {
                             '&:hover': {
                                 backgroundColor: 'var(--color-dark)',
                             }
-                        }}><FontAwesomeIcon icon={faPlus}/> Thêm danh mục</Button>
+                        }}><FontAwesomeIcon icon={faPlus} /> Thêm danh mục</Button>
                     </Link>
                 </div>
             </div>
@@ -120,11 +121,11 @@ const Categories = () => {
                 <td>{category.description}</td>
                 <td className="text-center">
                     <div><Link to={"/admin/edit/" + category.id}>
-                        <Button title="Sửa" variant="standard"
+                        <Button title="Sửa"  variant="standard"
                                 startIcon={<EditIcon/>} className="mx-2">
                         </Button>
                     </Link>
-                        <Button title="Xóa" variant="standard"
+                        <Button title="Xóa"  variant="standard"
                                 startIcon={<DeleteIcon/>}
                                 style={{color: 'red'}} onClick={() => deleteCategory(category.id)}>
                         </Button></div>
@@ -142,7 +143,7 @@ const Categories = () => {
                 />
             </div>
         )}
-    </div>);
+    </Grid>);
 };
 
 export default Categories;

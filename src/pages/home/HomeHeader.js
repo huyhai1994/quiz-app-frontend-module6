@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/authSlice';
 import { UserOutlined } from "@ant-design/icons";
 import { Dropdown, Menu, Modal } from 'antd';
-import React from 'react';
-import {Link} from "react-router-dom";
 import './HomeHeader.css'; // Import a CSS file for custom styles
 
 const HomeHeader = () => {
@@ -65,7 +63,7 @@ const HomeHeader = () => {
                                 {user?.avatar ? (
                                     <img src={user.avatar} alt="User Avatar" className="user-avatar" />
                                 ) : (
-                                    <UserOutlined className="user-avatar" />
+                                    <UserOutlined className="user-avatar"  style={{width:"5rem"}}/>
                                 )}
                                 <div className="user-name">{user?.name}</div>
                             </div>
