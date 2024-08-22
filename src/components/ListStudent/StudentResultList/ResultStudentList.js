@@ -51,6 +51,14 @@ const ResultStudentList = () => {
         }
     }, [results]);
 
+    const formatDate = (dateString) => {
+        let date = new Date(dateString);
+        if (!(date instanceof Date) || isNaN(date.getTime())) {
+            date = new Date(); // Fallback to current date if the dateString is invalid
+        }
+        return format(date, 'dd-MM-yyyy - HH:mm:ss');
+    };
+
     if (loading) {
         return (
             <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
@@ -58,7 +66,9 @@ const ResultStudentList = () => {
             </div>
         );
     }
+
     const COLORS = ['var(--color-primary)', 'var(--color-secondary)'];
+
     return (
         <Box display="flex" justifyContent="center" minHeight="100vh" className='mt-5'>
             <Box width="80%">
@@ -77,7 +87,7 @@ const ResultStudentList = () => {
                                         </Typography>
                                         <Typography variant="body1" color="text.secondary">
                                             Thời gian hoàn
-                                            thành: {result.finishTime ? format(new Date(result.finishTime), 'dd-MM-yyyy - HH:mm:ss') : 'N/A'}
+                                            thành: {result.finishTime ? formatDate(result.finishTime) : 'N/A'}
                                         </Typography>
                                         <Typography variant="body1" color="text.secondary">
                                             Điểm số: {result.score}
