@@ -23,13 +23,18 @@ const QuizHistoryList = () => {
     useEffect(() => {
         if (error) {
             Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Đã có lỗi xảy ra!',
-                footer: `<p>${error}</p>`
+                icon: 'error', title: 'Oops...', text: 'Đã có lỗi xảy ra!', footer: `<p>${error}</p>`
             });
         }
     }, [error]);
+
+    const formatDate = (dateString) => {
+        let date = new Date(dateString);
+        if (!(date instanceof Date) || isNaN(date.getTime())) {
+            date = new Date();
+        }
+        return format(date, 'dd-MM-yyyy - HH:mm:ss');
+    };
 
     const totalPages = useMemo(() => Math.ceil(history.length / pageSize), [history.length, pageSize]);
 
@@ -60,16 +65,13 @@ const QuizHistoryList = () => {
 
     const currentData = getCurrentPageData();
 
-    return (
-        <div className="container mt-5">
+    return (<div className="container mt-5">
             <h2>Lịch sử Quiz đã làm</h2>
 
             {status === 'loading' ? (
                 <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
                     <TailSpin color="#00BFFF" height={80} width={80}/>
-                </div>
-            ) : (
-                <>
+                </div>) : (<>
                     <Table striped bordered hover>
                         <thead>
                         <tr>
@@ -83,12 +85,10 @@ const QuizHistoryList = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {currentData.length > 0 ? (
-                            currentData.map((entry, index) => (
-                                <tr key={entry.id}>
+                        {currentData.length > 0 ? (currentData.map((entry, index) => (<tr key={entry.id}>
                                     <td>{(currentPage - 1) * pageSize + index + 1}</td>
                                     <td>{entry.quizName}</td>
-                                    <td>{format(new Date(entry.finishTime), 'dd-MM-yyyy - HH:mm:ss')}</td>
+                                    <td>{formatDate(entry.finishTime)}</td>
                                     <td>{entry.durationMinutes}</td>
                                     <td>{entry.score}</td>
                                     <td>{entry.attemptNumber}</td>
@@ -97,17 +97,13 @@ const QuizHistoryList = () => {
                                             Chi tiết
                                         </Button>
                                     </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
+                                </tr>))) : (<tr>
                                 <td colSpan="7">
                                     <Alert variant="info">
                                         Không có dữ liệu để hiển thị.
                                     </Alert>
                                 </td>
-                            </tr>
-                        )}
+                            </tr>)}
                         </tbody>
                     </Table>
                     <Page
@@ -115,14 +111,11 @@ const QuizHistoryList = () => {
                         totalPages={totalPages}
                         onPageChange={handlePageChange}
                     />
-                </>
-            )}
+                </>)}
 
-            {status === 'failed' && (
-                <Alert variant="danger" className="mt-3">
+            {status === 'failed' && (<Alert variant="danger" className="mt-3">
                     Lỗi: {error}
-                </Alert>
-            )}
+                </Alert>)}
 
             <Modal show={!!selectedQuizId} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
@@ -137,8 +130,7 @@ const QuizHistoryList = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div>
-    );
+        </div>);
 };
 
 export default QuizHistoryList;
