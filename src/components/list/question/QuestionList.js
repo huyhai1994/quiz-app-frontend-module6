@@ -6,7 +6,7 @@ import Page from "../../pages/Page";
 import {
     Box,
     Button,
-    CircularProgress,
+    CircularProgress, Container,
     Paper,
     Table,
     TableBody,
@@ -148,11 +148,11 @@ const QuestionList = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Page
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
+                <Page
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
         </Box>
     );
 };
