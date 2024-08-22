@@ -1,50 +1,52 @@
-import {Button, Form, Input, message, Steps} from 'antd'
-import axiosInstance from '../../utils/axiosConfig'
-import {useState} from "react";
-import {Box, Container, Paper} from "@mui/material";
+import React, {useState} from 'react';
+import {Button, Form, Input, message, Steps} from 'antd';
+import axiosInstance from '../../utils/axiosConfig';
+import {Box, Container, IconButton, Paper} from "@mui/material";
+import {ArrowBack} from '@mui/icons-material';
+import {Link} from "react-router-dom";
 
-const {Step} = Steps
+const {Step} = Steps;
 
 const PasswordReset = () => {
     const [currentStep, setCurrentStep] = useState(0);
-    const [email, setEmail] = useState('')
-    const [resetCode, setResetCode] = useState('')
-    const [newPassword, setNewPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
+    const [email, setEmail] = useState('');
+    const [resetCode, setResetCode] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleRequestReset = async () => {
         try {
-            await axiosInstance.post('/api/password-reset/request', {email})
-            message.success('Mã xác thực đã được gửi đến email của bạn')
-            setCurrentStep(1)
+            await axiosInstance.post('/api/password-reset/request', {email});
+            message.success('Mã xác thực đã được gửi đến email của bạn');
+            setCurrentStep(1);
         } catch (error) {
-            message.error(error.response?.data || 'Đã xảy ra lỗi')
+            message.error(error.response?.data || 'Đã xảy ra lỗi');
         }
-    }
+    };
 
     const handleVerifyCode = async () => {
         try {
-            await axiosInstance.post('/api/password-reset/verify', {email, resetCode})
-            message.success('Mã xác thực hợp lệ')
-            setCurrentStep(2)
+            await axiosInstance.post('/api/password-reset/verify', {email, resetCode});
+            message.success('Mã xác thực hợp lệ');
+            setCurrentStep(2);
         } catch (error) {
-            message.error(error.response?.data || 'Mã xác thực không hợp lệ')
+            message.error(error.response?.data || 'Mã xác thực không hợp lệ');
         }
-    }
+    };
 
     const handleResetPassword = async () => {
         if (newPassword !== confirmPassword) {
-            message.error('Mật khẩu không khớp')
-            return
+            message.error('Mật khẩu không khớp');
+            return;
         }
         try {
-            await axiosInstance.post('/api/password-reset/reset', {email, newPassword, confirmPassword})
-            message.success('Đặt lại mật khẩu thành công')
-            setCurrentStep(0)
+            await axiosInstance.post('/api/password-reset/reset', {email, newPassword, confirmPassword});
+            message.success('Đặt lại mật khẩu thành công');
+            setCurrentStep(0);
         } catch (error) {
-            message.error(error.response?.data || 'Đã xảy ra lỗi')
+            message.error(error.response?.data || 'Đã xảy ra lỗi');
         }
-    }
+    };
 
     const steps = [
         {
@@ -62,7 +64,8 @@ const PasswordReset = () => {
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit"
+                                style={{backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)'}}>
                             Gửi mã xác thực
                         </Button>
                     </Form.Item>
@@ -84,7 +87,8 @@ const PasswordReset = () => {
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit"
+                                style={{backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)'}}>
                             Xác thực
                         </Button>
                     </Form.Item>
@@ -112,9 +116,9 @@ const PasswordReset = () => {
                             ({getFieldValue}) => ({
                                 validator(_, value) {
                                     if (!value || getFieldValue('newPassword') === value) {
-                                        return Promise.resolve()
+                                        return Promise.resolve();
                                     }
-                                    return Promise.reject(new Error('Mật khẩu không khớp'))
+                                    return Promise.reject(new Error('Mật khẩu không khớp'));
                                 }
                             })
                         ]}
@@ -126,27 +130,32 @@ const PasswordReset = () => {
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit"
+                                style={{backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)'}}>
                             Đặt lại mật khẩu
                         </Button>
                     </Form.Item>
                 </Form>
             )
         }
-    ]
+    ];
 
     return (
-        <Container component="main" sx={{ maxWidth: '100%', padding: 0 }}>
-            <Paper elevation={3} sx={{ mt: 8, p: 4, width: '100%', maxWidth: '500px', margin: 'auto' }}>
-                <Box sx={{ maxWidth: '100%', margin: 'auto', mt: 4, }}>
-                    <Box  sx={{ justifyContent:'center' }}>
-                        <h2>Đặt lại mật khẩu</h2>
-                    </Box>
-                    <Box mt={3}><Steps current={currentStep}>
-                        {steps.map(item => (
-                            <Step key={item.title} title={item.title}/>
-                        ))}
-                    </Steps>
+        <Container component="main" sx={{maxWidth: '100%', padding: 0, marginTop: '10%'}}>
+            <Paper elevation={3} sx={{mt: 8, p: 4, width: '100%', maxWidth: '40rem', margin: 'auto'}}>
+                <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <IconButton component={Link} to="/" aria-label="back to home">
+                        <ArrowBack/>
+                    </IconButton>
+                    <h2 style={{textAlign: 'center', flex: 1}}>Đặt lại mật khẩu</h2>
+                </Box>
+                <Box sx={{maxWidth: '100%', margin: 'auto', mt: 4}}>
+                    <Box mt={3}>
+                        <Steps current={currentStep}>
+                            {steps.map(item => (
+                                <Step key={item.title} title={item.title}/>
+                            ))}
+                        </Steps>
                     </Box>
                     <Box mt={3}>
                         <div className="steps-content">{steps[currentStep].content}</div>
@@ -157,4 +166,4 @@ const PasswordReset = () => {
     )
 }
 
-export default PasswordReset
+export default PasswordReset;

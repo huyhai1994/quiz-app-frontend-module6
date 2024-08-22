@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/authSlice';
 import { UserOutlined } from "@ant-design/icons";
 import { Dropdown, Menu, Modal } from 'antd';
+import React from 'react';
+import {Link} from "react-router-dom";
+import './HomeHeader.css'; // Import a CSS file for custom styles
 
 const HomeHeader = () => {
     const { isAuthenticated, user } = useSelector(state => state.auth);

@@ -50,7 +50,7 @@ function App() {
         <ConfigProvider theme={{
             algorithm: [theme.defaultAlgorithm], cssVar: true, token: {
                 // Seed Token
-                colorPrimary: 'var(--color-secondary)',
+                colorPrimary: 'var(--color-primary)',
                 borderRadius: 5,
                 // Alias Token
                 colorBgContainer: 'var(--color-bg)',
@@ -89,9 +89,9 @@ function App() {
                     <Route path="reset-password" element={<PasswordReset/>}/>
                 </Route>
                 <Route path="reset-password" element={<PasswordReset/>}/>
-                <Route path="/quiz/:quizId/room" element={<QuizRoom/>} />
-                <Route path="/quiz/:quizId/active" element={<QuizActive/>} />
-                <Route path="/quiz/:quizId/results" element={<QuizResults/>} />
+                <Route path="/quiz/:quizId/room" element={<QuizRoom/>}/>
+                <Route path="/quiz/:quizId/active" element={<QuizActive/>}/>
+                <Route path="/quiz/:quizId/results" element={<QuizResults/>}/>
 
                 <Route path="/admin/*" element={
                     <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
@@ -128,7 +128,8 @@ function App() {
                     <Route path="option/create" element={<OptionCreate/>}/>
                     <Route path="quiz/create" element={<QuizCreate/>}/>
                     <Route path="teacher-quizzes" element={<QuizTeacherList/>}/>
-                    <Route path="quizzes/:id/user-history" element={<QuizTeacherHistory/>}/> {/*TODO: xem lich su thi cua hoc sinh*/}
+                    <Route path="quizzes/:id/user-history"
+                           element={<QuizTeacherHistory/>}/> {/*TODO: xem lich su thi cua hoc sinh*/}
                 </Route>
 
                 <Route path="/student/*" element={
@@ -145,7 +146,7 @@ function App() {
                     <Route path="question" element={<QuizComponent/>}/>
                     <Route path="quizzes" element={<QuizListStudent/>}/>
                     <Route path="quizzes/:quizId/start" element={<QuestionListStudent/>}/>
-                    <Route path="find-quiz-room" element={<FindQuizRoom />} />
+                    <Route path="find-quiz-room" element={<FindQuizRoom/>}/>
                     <Route path="result/new/:resultId" element={<ResultStudentList/>}/>
                     <Route path="result/history" element={<QuizHistoryList/>}/> {/*TODO: xem lich su ca nhan thi*/}
                 </Route>
