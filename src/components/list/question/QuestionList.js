@@ -3,7 +3,20 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ListQuestion, SearchQuestions} from "../../../store/questionStore/QuestionAxios";
 import {format} from "date-fns";
 import Page from "../../pages/Page";
-import {TailSpin} from 'react-loader-spinner';
+import {
+    Box,
+    Button,
+    CircularProgress,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField,
+    Typography
+} from '@mui/material';
 import Swal from 'sweetalert2';
 
 const QuestionList = () => {
@@ -73,67 +86,74 @@ const QuestionList = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
-                <TailSpin color="#00BFFF" height={80} width={80}/>
-            </div>
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress/>
+            </Box>
         );
     }
 
     return (
-        <div className=" mt-5">
-            <h2 className="text-center">Danh sách câu hỏi</h2>
-            <div className="mb-3">
-                <div className="">
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Tìm kiếm theo danh mục hoặc câu hỏi"
-                        className="form-control"
-                    />
-                </div>
-                <button className="btn btn-primary ms-2 mt-2 mt-md-0" onClick={handleSearch}>
+        <Box mt={5}>
+            <Typography variant="h4" align="center" gutterBottom>Danh sách câu hỏi</Typography>
+            <Box mb={3} display="flex" flexDirection={{xs: 'column', md: 'row'}} gap={2}>
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Tìm kiếm theo danh mục hoặc câu hỏi"
+                />
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSearch}
+                >
                     Tìm kiếm
-                </button>
-            </div>
-            <div className="table-responsive">
-                <table className="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Câu hỏi</th>
-                        <th>Danh mục</th>
-                        <th>Loại</th>
-                        <th>Thời gian tạo</th>
-                        <th>Thao tác</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {currentData.length > 0 ? (
-                        currentData.map((question, index) => (
-                            <tr key={question.questionId}>
-                                <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                                <td>{question.questionText}</td>
-                                <td>{question.categoryName}</td>
-                                <td>{question.typeName}</td>
-                                <td>{formatDate(question.timeCreate)}</td>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="6">Không có dữ liệu</td>
-                        </tr>
-                    )}
-                    </tbody>
-                </table>
-            </div>
+                </Button>
+            </Box>
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>STT</TableCell>
+                            <TableCell>Câu hỏi</TableCell>
+                            <TableCell>Danh mục</TableCell>
+                            <TableCell>Loại</TableCell>
+                            <TableCell>Thời gian tạo</TableCell>
+                            <TableCell>Thao tác</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {currentData.length > 0 ? (
+                            currentData.map((question, index) => (
+                                <TableRow key={question.questionId}>
+                                    <TableCell>{(currentPage - 1) * pageSize + index + 1}</TableCell>
+                                    <TableCell>{question.questionText}</TableCell>
+                                    <TableCell>{question.categoryName}</TableCell>
+                                    <TableCell>{question.typeName}</TableCell>
+                                    <TableCell>{formatDate(question.timeCreate)}</TableCell>
+                                    <TableCell>
+                                        {/* Add your action buttons here */}
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={6} align="center">
+                                    Không có dữ liệu
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
             <Page
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-        </div>
+        </Box>
     );
 };
 
