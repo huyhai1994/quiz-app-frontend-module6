@@ -80,10 +80,10 @@ const QuestionList = () => {
     }
 
     return (
-        <div className="container mt-5">
+        <div className=" mt-5">
             <h2 className="text-center">Danh sách câu hỏi</h2>
-            <div className="mb-3 d-flex flex-wrap">
-                <div className="flex-grow-1">
+            <div className="mb-3">
+                <div className="">
                     <input
                         type="text"
                         value={searchTerm}
