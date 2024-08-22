@@ -4,9 +4,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/authSlice';
 import { UserOutlined } from "@ant-design/icons";
 import { Dropdown, Menu, Modal } from 'antd';
-import React from 'react';
-import {Link} from "react-router-dom";
 import './HomeHeader.css'; // Import a CSS file for custom styles
+
+const avatarStyle = {
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%',
+    marginRight: '8px',
+    objectFit: 'cover',
+};
+
+const userProfileStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer',
+};
 
 const HomeHeader = () => {
     const { isAuthenticated, user } = useSelector(state => state.auth);
@@ -61,18 +73,24 @@ const HomeHeader = () => {
                             onVisibleChange={handleDropdownVisibilityChange}
                             visible={isDropdownVisible}
                         >
-                            <div className="user-profile">
+                            <div style={userProfileStyle}>
                                 {user?.avatar ? (
-                                    <img src={user.avatar} alt="User Avatar" className="user-avatar" />
+                                    <img src={user.avatar} alt="User Avatar" style={avatarStyle}/>
                                 ) : (
-                                    <UserOutlined className="user-avatar" />
+                                    <UserOutlined style={{
+                                        ...avatarStyle,
+                                        fontSize: '24px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}/>
                                 )}
                                 <div className="user-name">{user?.name}</div>
                             </div>
                         </Dropdown>
                     ) : (
                         <button className="sign-in">
-                            <Link to="/login" style={{ color: 'inherit', textDecoration: 'none' }}>
+                            <Link to="/login" style={{color: 'inherit', textDecoration: 'none'}}>
                                 Đăng nhập
                             </Link>
                         </button>

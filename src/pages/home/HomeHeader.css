@@ -32,3 +32,30 @@
 .sign-in:hover {
     background-color: var(--color-secondary); /* Change color on hover */
 }
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 40px;  /* Increase from default size */
+    height: 40px; /* Increase from default size */
+    border-radius: 50%;
+    margin-right: 8px;
+    object-fit: cover;
+}
+
+.ant-avatar.ant-avatar-icon {
+    width: 140px;  /* Increase from default size */
+    height: 140px; /* Increase from default size */
+    font-size: 124px; /* Increase icon size if using UserOutlined */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-name {
+    margin-left: 8px;
+}
