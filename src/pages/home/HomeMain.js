@@ -33,13 +33,13 @@ const Main = () => {
                 </Grid>)}
 
                 <Grid item xs={12} sm={6} className="hero-text text-center">
-                    <Typography variant="h3" component="h2">
+                    <Typography variant="h2" component="h2" style={{fontWeight:'bold',marginBottom:'2rem'}}>
                         Con người biết nhiều hơn những gì mình hiểu.
                     </Typography>
-                    <Typography variant="body1">
+                    <Typography variant="h5" style={{marginBottom:'0.5rem'}}>
                         Man knows much more than he understands.
                     </Typography>
-                    <Typography variant="body2" gutterBottom>
+                    <Typography variant="h5" gutterBottom >
                         -Alfred Adler-
                     </Typography>
                     <div className="hero-buttons">

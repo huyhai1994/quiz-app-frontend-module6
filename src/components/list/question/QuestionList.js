@@ -95,7 +95,10 @@ const QuestionList = () => {
             </thead>
             <tbody>
             {currentData.length > 0 ? (currentData.map((question, index) => {
-                const date = new Date(question.timeCreate);
+                let date = new Date(question.timeCreate);
+                if (date === null) {
+                    date = new Date();
+                }
                 const formattedDate = isNaN(date) || !question.timeCreate ? 'Invalid date' : format(date, 'dd-MM-yyyy - HH:mm:ss');
                 return (<tr key={question.questionId}>
                     <td>{(currentPage - 1) * pageSize + index + 1}</td>
