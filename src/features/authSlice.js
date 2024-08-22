@@ -95,10 +95,12 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.token = action.payload.token;
                 state.isAuthenticated = true;
-                state.role = action.payload.role
+                state.role = action.payload.role;
+                state.lastLogin = action.payload.lastLogin;
                 localStorage.setItem('token', action.payload.token);
-                localStorage.setItem('role', action.payload.role)
+                localStorage.setItem('role', action.payload.role);
                 localStorage.setItem('userId', action.payload.userId);
+                localStorage.setItem('lastLogin', action.payload.lastLogin);
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;

@@ -13,7 +13,6 @@ const FindQuizRoom = () => {
             console.log('Received quizRoom:', quizRoom);
             if (quizRoom.roomStatus === 'WAITING') {
                 navigate(`/quiz/${quizRoom.quizzesId}/room`, { state: { roomCode: values.roomCode } });
-                // navigate(`/quiz/${quizRoom.quizTitle}/room`, { state: { roomCode: values.roomCode } });
             } else {
                 message.error(`Phòng thi này có trạng thái là ${quizRoom.roomStatus}, không thể gia nhập.`);
             }
