@@ -3,6 +3,7 @@ import {useFormik} from "formik";
 import {Breadcrumb} from "antd";
 import TeacherService from '../../../services/teacher.service';
 import Page from "../../pages/Page";
+import moment from 'moment';
 import {FaExclamationTriangle, FaSearch, FaTrash} from "react-icons/fa"; // Import the delete icon from react-icons
 import './TeacherList.css';
 
@@ -12,6 +13,7 @@ const TeacherList = () => {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [isDataFetched, setIsDataFetched] = useState(false); // State to track if data has been fetched
     const totalPages = Math.ceil(teachers.length / itemsPerPage);
+
 
     const formik = useFormik({
         initialValues: {
@@ -56,6 +58,11 @@ const TeacherList = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         return teachers.slice(startIndex, endIndex);
+    };
+
+    const formatLastLogin = (lastLogin) => {
+        if (!lastLogin) return 'Chưa đăng nhập lần nào';
+        return `Lần đăng nhập gần nhất: ${moment(lastLogin).format('DD/MM/YYYY HH:mm:ss')}`;
     };
 
     const handleDelete = async (teacherId) => {
@@ -119,7 +126,7 @@ const TeacherList = () => {
                         <td>{teacher.name}</td>
                         <td>{teacher.email}</td>
                         <td>{teacher.registeredAt}</td>
-                        <td>{teacher.lastLogin}</td>
+                        <td>{formatLastLogin(teacher.lastLogin)}</td>
                         <td className='text-center'>
                             <button className="btn btn-danger" onClick={() => handleDelete(teacher.id)}>
                                 <FaTrash/>

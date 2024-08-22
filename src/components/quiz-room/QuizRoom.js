@@ -75,12 +75,15 @@ const QuizRoom = () => {
     };
 
     const handleStartQuiz = () => {
-        if (stompClient) {
-            fetch(`http://localhost:8080/api/quiz-rooms/${roomCode}/start`, { method: 'POST' })
-                .then(() => {
-                    navigate(`/quiz/${quizId}/active`);
-                });
-        }
+        fetch(`http://localhost:8080/api/quiz-rooms/${roomCode}/start`, {
+            method: 'POST',
+        })
+            .then(() => {
+                navigate(`/quiz/${quizId}/active`);
+            })
+            .catch((error) => {
+                console.error('Error starting quiz:', error);
+            });
     };
 
     const handleLeaveRoom = () => {
