@@ -78,14 +78,6 @@ const RegisterForm = () => {
                             error={touched.password && Boolean(errors.password)}
                             helperText={touched.password && errors.password}
                         />
-                        <input
-                            accept="image/*"
-                            type="file"
-                            onChange={(event) => {
-                                setFieldValue("avatar", event.currentTarget.files[0]);
-                            }}
-                        />
-                        {errors.avatar && <Typography color="error">{errors.avatar}</Typography>}
                         <Button
                             type="submit"
                             variant="contained"
