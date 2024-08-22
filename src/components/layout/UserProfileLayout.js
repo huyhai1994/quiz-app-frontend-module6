@@ -18,19 +18,19 @@ const {Sider, Content, Footer} = Layout
 
 const UserProfileLayout = () => {
     const [collapsed, setCollapsed] = useState(false)
-    const [logoutModalVisible, setLogoutModalVisible] = useState(false)
+    const [logoutModalOpen, setLogoutModalOpen] = useState(false)
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const showLogoutModal = () => {
-        setLogoutModalVisible(true)
+        setLogoutModalOpen(true)
     }
 
     const handleLogout = async () => {
         try {
             await dispatch(logout()).unwrap();
-            setLogoutModalVisible(false)
+            setLogoutModalOpen(false)
             navigate('/');
         } catch (error) {
             console.log('Logout failed: ', error)
@@ -128,9 +128,9 @@ const UserProfileLayout = () => {
             </Layout>
             <Modal
                 title="Logout Confirmation"
-                visible={logoutModalVisible}
+                open={logoutModalOpen}
                 onOk={handleLogout}
-                onCancel={() => setLogoutModalVisible(false)}
+                onCancel={() => setLogoutModalOpen(false)}
                 okText="Yes"
                 cancelText="No"
             >
