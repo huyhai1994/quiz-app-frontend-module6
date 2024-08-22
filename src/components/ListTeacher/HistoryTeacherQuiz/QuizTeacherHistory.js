@@ -1,13 +1,25 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import axios from 'axios';
-import { TailSpin } from 'react-loader-spinner';
-import { Button, Modal, Table } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import {
+    Box,
+    Button,
+    CircularProgress,
+    Modal,
+    Pagination,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography
+} from '@mui/material';
+import {useParams} from 'react-router-dom';
 import StudentExamList from "./StudentExamHistory";
-import Page from "../../pages/Page";
+import NoDataImage from '../../../asset/No data-amico.svg'; // Adjust the path as necessary
 
 const QuizTeacherHistory = () => {
-    const { id } = useParams();
+    const {id} = useParams();
     const [quizTeacherHistory, setQuizTeacherHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -34,14 +46,13 @@ const QuizTeacherHistory = () => {
         }
     }, [id]);
 
-    const handlePageChange = useCallback((pageNumber) => {
+    const handlePageChange = useCallback((event, pageNumber) => {
         setCurrentPage(pageNumber);
     }, []);
 
     const getCurrentPageData = useCallback(() => {
         const startIndex = (currentPage - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        return quizTeacherHistory.slice(startIndex, endIndex);
+        return quizTeacherHistory.slice(startIndex, startIndex + pageSize);
     }, [currentPage, quizTeacherHistory]);
 
     const handleViewDetail = useCallback((userId) => {
@@ -60,71 +71,94 @@ const QuizTeacherHistory = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <TailSpin color="#00BFFF" height={80} width={80} />
-            </div>
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress/>
+            </Box>
         );
     }
 
     if (error) {
-        return <div className="alert alert-danger" role="alert">Lỗi: {error}</div>;
+        return <Typography color="error">Lỗi: {error}</Typography>;
     }
 
     return (
-        <div className="container mt-5">
-            <h2>Lịch sử thi của học sinh</h2>
-            <Table striped bordered hover>
-                <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên Người Dùng</th>
-                    <th>Email Người Dùng</th>
-                    <th>Số Lần Thử</th>
-                    <th>Chi Tiết</th>
-                </tr>
-                </thead>
-                <tbody>
-                {currentData.length > 0 ? (
-                    currentData.map((entry, index) => (
-                        <tr key={entry.id}> {/* Đảm bảo rằng `key` là duy nhất */}
-                            <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                            <td>{entry.userName}</td>
-                            <td>{entry.userEmail}</td>
-                            <td>{entry.attemptCount}</td>
-                            <td>
-                                <Button variant="primary" onClick={() => handleViewDetail(entry.id)}>
-                                    Xem Chi Tiết
-                                </Button>
-                            </td>
-                        </tr>
-                    ))
-                ) : (
-                    <tr>
-                        <td colSpan="5">Không có dữ liệu</td>
-                    </tr>
-                )}
-                </tbody>
-            </Table>
-            <Page
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
+        <Box p={3}>
+            <Typography variant="h4" gutterBottom>Lịch sử thi của học sinh</Typography>
+            <TableContainer>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell><Typography fontWeight="bold">STT</Typography></TableCell>
+                            <TableCell><Typography fontWeight="bold">Tên Người Dùng</Typography></TableCell>
+                            <TableCell><Typography fontWeight="bold">Email Người Dùng</Typography></TableCell>
+                            <TableCell><Typography fontWeight="bold">Số Lần Thử</Typography></TableCell>
+                            <TableCell><Typography fontWeight="bold">Chi Tiết</Typography></TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {currentData.length > 0 ? (
+                            currentData.map((entry, index) => (
+                                <TableRow key={entry.id}>
+                                    <TableCell>{(currentPage - 1) * pageSize + index + 1}</TableCell>
+                                    <TableCell>{entry.userName}</TableCell>
+                                    <TableCell>{entry.userEmail}</TableCell>
+                                    <TableCell>{entry.attemptCount}</TableCell>
+                                    <TableCell>
+                                        <Button variant="contained" color="primary"
+                                                onClick={() => handleViewDetail(entry.id)}>
+                                            Xem Chi Tiết
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={5}>
+                                    <Box display="flex" justifyContent="center" alignItems="center">
+                                        <img src={NoDataImage} alt="No Data"
+                                             style={{maxWidth: '50%', height: 'auto'}}/>
+                                    </Box>
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Box display="flex" justifyContent="center" mt={2}>
+                <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    color="primary"
+                />
+            </Box>
 
-            <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Danh Sách Kết Quả</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {selectedUserId && <StudentExamList userId={selectedUserId} />}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
-                        Close
-                    </Button>
-                </Modal.Footer>
+            <Modal open={showModal} onClose={handleCloseModal}>
+                <Box
+                    position="absolute"
+                    top="20%"
+                    left="50%"
+                    transform="translate(-50%, -50%)"
+                    width="50%"
+                    maxHeight="50vh"
+                    overflow="auto"
+                    bgcolor="background.paper"
+                    borderRadius={3}
+                    boxShadow={24}
+                    p={4}
+                >
+                    <Typography variant="h6" component="h2" gutterBottom>
+                        Danh Sách Kết Quả
+                    </Typography>
+                    {selectedUserId && <StudentExamList userId={selectedUserId}/>}
+                    <Box mt={2} display="flex" justifyContent="flex-end">
+                        <Button variant="contained" onClick={handleCloseModal}>
+                            Close
+                        </Button>
+                    </Box>
+                </Box>
             </Modal>
-        </div>
+        </Box>
     );
 };
 
