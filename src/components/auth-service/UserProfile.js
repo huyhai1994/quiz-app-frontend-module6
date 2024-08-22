@@ -4,6 +4,7 @@ import {PhotoCamera} from '@mui/icons-material';
 import axiosInstance from '../../utils/axiosConfig';
 import '../../styles/vars.css';
 import {toast} from "react-toastify";
+import moment from 'moment';
 
 const UserProfile = () => {
     const [user, setUser] = useState(null);
@@ -87,6 +88,11 @@ const UserProfile = () => {
         }
     };
 
+    const formatLastLogin = (lastLogin) => {
+        if (!lastLogin) return 'Chưa đăng nhập lần nào';
+        return `Lần đăng nhập gần nhất: ${moment(lastLogin).format('DD/MM/YYYY HH:mm:ss')}`;
+    };
+
     const getRoleName = (role) => {
         switch (role) {
             case "ROLE_STUDENT":
@@ -166,6 +172,14 @@ const UserProfile = () => {
                 fullWidth
                 margin="normal"
                 value={formatDate(user.registeredAt)}
+                InputProps={{readOnly: true}}
+                disabled
+            />
+            <TextField
+                label="Thời gian đăng nhập gần nhất"
+                fullWidth
+                margin="normal"
+                value={formatLastLogin(user.lastLogin)}
                 InputProps={{readOnly: true}}
                 disabled
             />

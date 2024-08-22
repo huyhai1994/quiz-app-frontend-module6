@@ -45,7 +45,6 @@ import FindQuizRoom from "./components/quiz-room/FindQuizRoom";
 import UserProfileLayout from "./components/layout/UserProfileLayout";
 import UpgradeForm from "./components/auth/UpgradeForm";
 
-
 function App() {
     return (
         <ConfigProvider theme={{
@@ -61,13 +60,13 @@ function App() {
             }, components: {
                 Layout: {
                     lightTriggerBg: 'var(--color-bg)',
-                    lightTriggerColor: 'var(--color-primary)',
                     lightSiderBg: 'var(--color-bg)',
                 }, Menu: {
                     itemBg: 'var(--color-bg)',
                     itemColor: 'var(--color-primary)',
                     itemHoverColor: 'var(--color-primary)',
                     itemSelectedBg: 'var(--color-secondary)',
+                    lightTriggerColor: 'var(--color-primary)',
                     itemActiveBg: 'var(--color-bg)',
                     itemSelectedColor: 'var(--color-dark)',
                 }, Dropdown: {

@@ -5,6 +5,7 @@ import {FaExclamationTriangle, FaSearch, FaTrash} from 'react-icons/fa'; // Impo
 import StudentService from '../../../services/student.service'; // Assuming you have a StudentService similar to TeacherService
 import Page from "../../pages/Page"; // Import the pagination component
 import './StudentList.css';
+import moment from "moment/moment";
 
 const StudentList = () => {
     const [students, setStudents] = useState([]);
@@ -57,6 +58,11 @@ const StudentList = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         return students.slice(startIndex, endIndex);
+    };
+
+    const formatLastLogin = (lastLogin) => {
+        if (!lastLogin) return 'Chưa đăng nhập lần nào';
+        return `Lần đăng nhập gần nhất: ${moment(lastLogin).format('DD/MM/YYYY HH:mm:ss')}`;
     };
 
     const handleDelete = async (studentId) => {
@@ -128,7 +134,7 @@ const StudentList = () => {
                                 <td>{student.name}</td>
                                 <td>{student.email}</td>
                                 <td>{student.registeredAt}</td>
-                                <td>{student.lastLogin}</td>
+                                <td>{formatLastLogin(student.lastLogin)}</td>
                                 <td className='text-center'>
                                     <button className="btn btn-danger" onClick={() => handleDelete(student.id)}>
                                         <FaTrash/>

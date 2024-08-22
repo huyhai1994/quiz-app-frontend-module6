@@ -3,7 +3,6 @@ import {Link, Outlet, useNavigate} from 'react-router-dom';
 import {Layout, Menu, Modal, theme} from 'antd';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import SettingsIcon from '@mui/icons-material/Settings';
-import NavigationIcon from '@mui/icons-material/Navigation';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import KeyOutlinedIcon from '@mui/icons-material/KeyOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
