@@ -51,12 +51,14 @@ const AddCategory = () => {
                     />
                     <div className="py-3 d-flex justify-content-md-around">
                         <Button sx={{
-                                backgroundColor: 'var(--color-primary)',
-                                color: 'var(--color-bg)',
-                                width: '40%',
-                                borderRadius: '5px',
-                                '&:hover': {
-                                    backgroundColor: 'var(--color-dark)',}}} type="submit">
+                            backgroundColor: 'var(--color-primary)',
+                            color: 'var(--color-bg)',
+                            width: '40%',
+                            borderRadius: '5px',
+                            '&:hover': {
+                                backgroundColor: 'var(--color-dark)',
+                            }
+                        }} type="submit">
                             Save
                         </Button>
 

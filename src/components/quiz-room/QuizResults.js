@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Typography, Box, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import {Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography} from '@mui/material';
 
 const QuizResults = () => {
-    const { quizId } = useParams();
+    const {quizId} = useParams();
     const navigate = useNavigate();
     const [results, setResults] = useState([]);
 
@@ -22,7 +22,7 @@ const QuizResults = () => {
 
     const handleRestartQuiz = async () => {
         try {
-            await fetch(`http://localhost:8080/api/quiz-rooms/${quizId}/restart`, { method: 'POST' });
+            await fetch(`http://localhost:8080/api/quiz-rooms/${quizId}/restart`, {method: 'POST'});
             navigate(`/quiz/${quizId}/room`);
         } catch (error) {
             console.error('Error restarting quiz-room:', error);

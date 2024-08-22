@@ -1,9 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 import {
     endQuizForUser,
     fetchQuiz,
-    fetchQuizResultsByUserId, fetchResultsByUserId,
-    HistoryResultsByUserId, ResultDetailHistory,
+    fetchQuizResultsByUserId,
+    fetchResultsByUserId,
+    HistoryResultsByUserId,
+    ResultDetailHistory,
     startQuizForUser
 } from "./ResultAxios";
 

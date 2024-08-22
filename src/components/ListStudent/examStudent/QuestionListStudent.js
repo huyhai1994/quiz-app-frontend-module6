@@ -98,7 +98,8 @@ const QuestionListStudent = () => {
     }
 
     if (status === 'failed') {
-        return <Box display="flex" justifyContent="center" alignItems="center" height="100vh"><Typography variant="h6" color="error">Error: {error}</Typography></Box>;
+        return <Box display="flex" justifyContent="center" alignItems="center" height="100vh"><Typography variant="h6"
+                                                                                                          color="error">Error: {error}</Typography></Box>;
     }
 
     const currentQuestion = questions[currentQuestionIndex];

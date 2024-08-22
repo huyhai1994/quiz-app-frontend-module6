@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Input, Button, message } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
+import {Button, Input, message} from 'antd';
+import {useNavigate} from 'react-router-dom';
 
 const SearchQuizRoom = () => {
     const [roomCode, setRoomCode] = useState('');
@@ -14,7 +14,7 @@ const SearchQuizRoom = () => {
             }
             const data = await response.json();
             if (data.status === 'WAITING') {
-                navigate(`/quiz/${data.quizId}/room`, { state: { isHost: false, roomCode } })
+                navigate(`/quiz/${data.quizId}/room`, {state: {isHost: false, roomCode}})
             } else {
                 message.error('Rất tiếc, phòng thi này đã/đang được bắt đầu rồi')
             }
