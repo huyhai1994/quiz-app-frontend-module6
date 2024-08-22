@@ -108,6 +108,14 @@ const ListTeacherQuestions = () => {
         }
     }, [error]);
 
+    const formatDate = (dateString) => {
+        let date = new Date(dateString);
+        if (!(date instanceof Date) || isNaN(date.getTime())) {
+            date = new Date(); // Fallback to current date if the dateString is invalid
+        }
+        return format(date, 'dd-MM-yyyy - HH:mm:ss');
+    };
+
     if (loading) {
         return (
             <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
@@ -229,7 +237,7 @@ const ListTeacherQuestions = () => {
                                             <TableCell>{question.questionText}</TableCell>
                                             <TableCell>{question.categoryName}</TableCell>
                                             <TableCell>{mapTypeName(question.typeName)}</TableCell>
-                                            <TableCell>{format(new Date(question.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}</TableCell>
+                                            <TableCell>{formatDate(question.timeCreate)}</TableCell>
                                             <TableCell>
                                                 <div className="action-icons">
                                                     <Button
@@ -323,7 +331,7 @@ const ListTeacherQuestions = () => {
                             </Typography>
                             <Typography variant="body2">
                                 <HistoryIcon/> Tạo
-                                lúc {format(new Date(questionDetail.timeCreate), 'dd-MM-yyyy - HH:mm:ss')}
+                                lúc {formatDate(questionDetail.timeCreate)}
                             </Typography>
                         </Box>
                     </DialogContent>
