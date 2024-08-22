@@ -20,7 +20,10 @@ const QuestionList = () => {
     useEffect(() => {
         if (error) {
             Swal.fire({
-                icon: 'error', title: 'Oops...', text: 'Đã có lỗi xảy ra!', footer: `<p>${error}</p>`
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Đã có lỗi xảy ra!',
+                footer: `<p>${error}</p>`
             });
         }
     }, [error]);
@@ -36,14 +39,16 @@ const QuestionList = () => {
         }
     };
 
-    // Simulate the error by adding an invalid date to the questions array
-    const simulatedQuestions = [...questions, {
-        questionId: 'invalid-date',
-        questionText: 'This is a question with an invalid date',
-        categoryName: 'Category',
-        typeName: 'Type',
-        timeCreate: 'invalid-date-string' // Invalid date string
-    }];
+    const simulatedQuestions = [
+        ...questions,
+        {
+            questionId: 'invalid-date',
+            questionText: 'This is a question with an invalid date',
+            categoryName: 'Category',
+            typeName: 'Type',
+            timeCreate: 'invalid-date-string'
+        }
+    ];
 
     const totalPages = Math.ceil(simulatedQuestions.length / pageSize);
 
@@ -53,71 +58,83 @@ const QuestionList = () => {
 
     const getCurrentPageData = () => {
         const startIndex = (currentPage - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        return simulatedQuestions.slice(startIndex, endIndex);
+        return simulatedQuestions.slice(startIndex, startIndex + pageSize);
     };
 
     const currentData = getCurrentPageData();
 
+    const formatDate = (dateString) => {
+        let date = new Date(dateString);
+        if (!(date instanceof Date) || isNaN(date.getTime())) {
+            date = new Date();
+        }
+        return format(date, 'dd-MM-yyyy - HH:mm:ss');
+    };
+
     if (loading) {
-        return (<div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
-            <TailSpin color="#00BFFF" height={80} width={80}/>
-        </div>);
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+                <TailSpin color="#00BFFF" height={80} width={80}/>
+            </div>
+        );
     }
 
-    return (<div className="container mt-5">
-        <h2>Danh sách câu hỏi</h2>
-        <div className="mb-3 d-flex">
-            <div className="flex-grow-1">
-                <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Tìm kiếm theo danh mục hoặc câu hỏi"
-                    className="form-control"
-                />
+    return (
+        <div className="container mt-5">
+            <h2 className="text-center">Danh sách câu hỏi</h2>
+            <div className="mb-3 d-flex flex-wrap">
+                <div className="flex-grow-1">
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Tìm kiếm theo danh mục hoặc câu hỏi"
+                        className="form-control"
+                    />
+                </div>
+                <button className="btn btn-primary ms-2 mt-2 mt-md-0" onClick={handleSearch}>
+                    Tìm kiếm
+                </button>
             </div>
-            <button className="btn btn-primary ms-2" onClick={handleSearch}>
-                Tìm kiếm
-            </button>
+            <div className="table-responsive">
+                <table className="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Câu hỏi</th>
+                        <th>Danh mục</th>
+                        <th>Loại</th>
+                        <th>Thời gian tạo</th>
+                        <th>Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {currentData.length > 0 ? (
+                        currentData.map((question, index) => (
+                            <tr key={question.questionId}>
+                                <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                                <td>{question.questionText}</td>
+                                <td>{question.categoryName}</td>
+                                <td>{question.typeName}</td>
+                                <td>{formatDate(question.timeCreate)}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="6">Không có dữ liệu</td>
+                        </tr>
+                    )}
+                    </tbody>
+                </table>
+            </div>
+            <Page
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </div>
-        <table className="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th>STT</th>
-                <th>Câu hỏi</th>
-                <th>Danh mục</th>
-                <th>Loại</th>
-                <th>Thời gian tạo</th>
-                <th>Thao tác</th>
-            </tr>
-            </thead>
-            <tbody>
-            {currentData.length > 0 ? (currentData.map((question, index) => {
-                let date = new Date(question.timeCreate);
-                if (date === null) {
-                    date = new Date();
-                }
-                const formattedDate = isNaN(date) || !question.timeCreate ? 'Invalid date' : format(date, 'dd-MM-yyyy - HH:mm:ss');
-                return (<tr key={question.questionId}>
-                    <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                    <td>{question.questionText}</td>
-                    <td>{question.categoryName}</td>
-                    <td>{question.typeName}</td>
-                    <td>{formattedDate}</td>
-                </tr>);
-            })) : (<tr>
-                <td colSpan="6">Không có dữ liệu</td>
-            </tr>)}
-            </tbody>
-        </table>
-        <Page
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-        />
-    </div>);
+    );
 };
 
 export default QuestionList;
