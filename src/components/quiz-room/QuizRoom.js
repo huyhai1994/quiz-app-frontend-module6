@@ -1,4 +1,4 @@
-import {Button, Typography, Box} from '@mui/material';
+import {Box, Button, Typography} from '@mui/material';
 import SockJS from 'sockjs-client'
 import {Stomp} from "@stomp/stompjs";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 import {message} from "antd";
 
 const QuizRoom = () => {
-    const { quizId } = useParams();
+    const {quizId} = useParams();
     const navigate = useNavigate();
     const location = useLocation();
     const [roomCode, setRoomCode] = useState('');
@@ -49,7 +49,7 @@ const QuizRoom = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ quizId, userId: localStorage.getItem('userId'), maxParticipants: 10 }),
+                body: JSON.stringify({quizId, userId: localStorage.getItem('userId'), maxParticipants: 10}),
             });
             const data = await response.json();
             setRoomCode(data.roomCode);

@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../features/authSlice';
-import { UserOutlined } from "@ant-design/icons";
-import { Dropdown, Menu, Modal } from 'antd';
+import React, {useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {logout} from '../../features/authSlice';
+import {UserOutlined} from "@ant-design/icons";
+import {Dropdown, Menu, Modal} from 'antd';
 import './HomeHeader.css'; // Import a CSS file for custom styles
 
 const HomeHeader = () => {
-    const { isAuthenticated, user } = useSelector(state => state.auth);
+    const {isAuthenticated, user} = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -61,16 +61,16 @@ const HomeHeader = () => {
                         >
                             <div className="user-profile">
                                 {user?.avatar ? (
-                                    <img src={user.avatar} alt="User Avatar" className="user-avatar" />
+                                    <img src={user.avatar} alt="User Avatar" className="user-avatar"/>
                                 ) : (
-                                    <UserOutlined className="user-avatar"  style={{width:"5rem"}}/>
+                                    <UserOutlined className="user-avatar" style={{width: "5rem"}}/>
                                 )}
                                 <div className="user-name">{user?.name}</div>
                             </div>
                         </Dropdown>
                     ) : (
                         <button className="sign-in">
-                            <Link to="/login" style={{ color: 'inherit', textDecoration: 'none' }}>
+                            <Link to="/login" style={{color: 'inherit', textDecoration: 'none'}}>
                                 Đăng nhập
                             </Link>
                         </button>

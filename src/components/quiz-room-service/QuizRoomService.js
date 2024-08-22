@@ -11,6 +11,7 @@ class QuizRoomService {
             throw error;
         }
     }
+
     async startQuiz(roomCode) {
         try {
             const response = await axios.post(`http://localhost:8080/api/quiz-rooms/${roomCode}/start`);

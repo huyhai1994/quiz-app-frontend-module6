@@ -1,6 +1,6 @@
 import React from 'react';
-import { Form, Input, Button, message } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import {Button, Form, Input, message} from 'antd';
+import {useNavigate} from 'react-router-dom';
 import QuizRoomService from "../quiz-room-service/QuizRoomService";
 
 const FindQuizRoom = () => {
@@ -12,7 +12,7 @@ const FindQuizRoom = () => {
             const quizRoom = await QuizRoomService.joinQuizRoom(values.roomCode, localStorage.getItem('userId'));
             console.log('Received quizRoom:', quizRoom);
             if (quizRoom.roomStatus === 'WAITING') {
-                navigate(`/quiz/${quizRoom.quizzesId}/room`, { state: { roomCode: values.roomCode } });
+                navigate(`/quiz/${quizRoom.quizzesId}/room`, {state: {roomCode: values.roomCode}});
             } else {
                 message.error(`Phòng thi này có trạng thái là ${quizRoom.roomStatus}, không thể gia nhập.`);
             }
@@ -26,9 +26,9 @@ const FindQuizRoom = () => {
         <Form form={form} name="findQuizRoom" onFinish={onFinish}>
             <Form.Item
                 name="roomCode"
-                rules={[{ required: true, message: 'Vui lòng nhập mã phòng thi!' }]}
+                rules={[{required: true, message: 'Vui lòng nhập mã phòng thi!'}]}
             >
-                <Input placeholder="Nhập mã phòng thi" />
+                <Input placeholder="Nhập mã phòng thi"/>
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">

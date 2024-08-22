@@ -24,11 +24,11 @@ function getItem(label, key, icon, children, link) {
 const items = [
     getItem('Trang chủ', '1', <HomeIcon/>, null, '/teacher/'),
     getItem('Tạo mới', '2', <AddBoxIcon/>, [
-            getItem('Câu hỏi', '3', <QuestionMarkIcon/>, null, '/teacher/question/create'),
-            getItem('Bài kiểm tra', '4', <QuizIcon/>, null, '/teacher/quiz/create'),
-        ]),
+        getItem('Câu hỏi', '3', <QuestionMarkIcon/>, null, '/teacher/question/create'),
+        getItem('Bài kiểm tra', '4', <QuizIcon/>, null, '/teacher/quiz/create'),
+    ]),
     getItem('Danh Sách', '5',
-    <ViewListIcon/>,
+        <ViewListIcon/>,
         [
             getItem('Câu Hỏi', '6', <QuestionMarkIcon/>, null, '/teacher/question'),
             getItem('Bài kiểm tra', '7', <QuizIcon/>, null, '/teacher/teacher-quizzes'),]),

@@ -27,6 +27,14 @@ const QuizList = () => {
         }
     }, [error]);
 
+    const formatDate = (dateString) => {
+        let date = new Date(dateString);
+        if (!(date instanceof Date) || isNaN(date.getTime())) {
+            date = new Date(); // Fallback to current date if the dateString is invalid
+        }
+        return format(date, 'dd-MM-yyyy - HH:mm:ss');
+    };
+
     if (loading) {
         return (
             <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
@@ -72,7 +80,7 @@ const QuizList = () => {
                             <td>{quiz.quizzesDescription}</td>
                             <td>{quiz.usersName}</td>
                             <td>{quiz.userEmail}</td>
-                            <td>{format(new Date(quiz.quizzesTimeCreate), 'dd-MM-yyyy - HH:mm:ss')}</td>
+                            <td>{formatDate(quiz.quizzesTimeCreate)}</td>
                         </tr>
                     ))
                 ) : (
