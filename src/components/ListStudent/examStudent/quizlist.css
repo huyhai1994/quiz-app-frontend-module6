@@ -3,6 +3,7 @@
     min-width: 43px;
     min-height: 43px;
 }
+
 .custom-right-arrow {
     position: absolute !important;
     right: 30px;
@@ -15,9 +16,11 @@
     cursor: pointer;
     transform: rotate(-45deg);
 }
+
 .custom-right-arrow:hover {
     opacity: 1;
 }
+
 .custom-left-arrow {
     position: absolute !important;
     left: 30px;
@@ -30,6 +33,7 @@
     cursor: pointer;
     transform: rotate(135deg);
 }
+
 .custom-left-arrow {
     opacity: 1;
 }

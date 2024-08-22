@@ -93,12 +93,13 @@ const QuestionListStudent = () => {
     // Use the custom hook to block navigation and prompt the user
     usePrompt('Bạn sẽ mất tiến trình nếu rời khỏi trang này!', true);
 
-if (status === 'loading' || initialTime === null) {
+    if (status === 'loading' || initialTime === null) {
         return <Box display="flex" justifyContent="center" alignItems="center" height="100vh"><CircularProgress/></Box>;
     }
 
     if (status === 'failed') {
-        return <Box display="flex" justifyContent="center" alignItems="center" height="100vh"><Typography variant="h6" color="error">Error: {error}</Typography></Box>;
+        return <Box display="flex" justifyContent="center" alignItems="center" height="100vh"><Typography variant="h6"
+                                                                                                          color="error">Error: {error}</Typography></Box>;
     }
 
     const currentQuestion = questions[currentQuestionIndex];

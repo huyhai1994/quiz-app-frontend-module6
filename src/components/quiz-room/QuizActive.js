@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Typography, Box } from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import {Box, Button, Typography} from '@mui/material';
 import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
+import {Stomp} from '@stomp/stompjs';
 
 const QuizActive = () => {
-    const { quizId } = useParams();
+    const {quizId} = useParams();
     const navigate = useNavigate();
     const [stompClient, setStompClient] = useState(null);
     const [participants, setParticipants] = useState([]);
@@ -32,7 +32,7 @@ const QuizActive = () => {
 
     const handleEndQuiz = () => {
         if (stompClient) {
-            stompClient.send(`/app/quiz.endQuiz`, {}, JSON.stringify({ quizId }));
+            stompClient.send(`/app/quiz.endQuiz`, {}, JSON.stringify({quizId}));
             navigate(`/quiz/${quizId}/results`);
         }
     }

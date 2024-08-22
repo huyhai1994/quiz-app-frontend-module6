@@ -4,7 +4,7 @@ import axios from "axios";
 import {TailSpin} from "react-loader-spinner";
 
 const QuizTeacherHistory = () => {
-    const { id } = useParams();
+    const {id} = useParams();
     const [quizTeacherHistory, setQuizTeacherHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -30,7 +30,7 @@ const QuizTeacherHistory = () => {
     if (loading) {
         return (
             <div className="d-flex justify-content-center">
-                <TailSpin type="ThreeDots" color="#00BFFF" height={80} width={80} />
+                <TailSpin type="ThreeDots" color="#00BFFF" height={80} width={80}/>
             </div>
         );
     }

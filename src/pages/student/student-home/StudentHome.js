@@ -20,7 +20,7 @@ function getItem(label, key, icon, children, link) {
 const items = [
     getItem('Trang chủ', '1', <HomeIcon/>, null, '/student/home'),
     getItem('Danh Sách', 'sub1', <ViewListIcon/>, [
-            getItem('Bài kiểm tra', '2', null, null, '/student/quizzes'),
+        getItem('Bài kiểm tra', '2', null, null, '/student/quizzes'),
     ]),
     getItem('Thi online', 'sub3', <OnlineQuizIcon/>, [
         getItem('Tìm kiếm', '6', null, null, '/student/find-quiz-room'),
